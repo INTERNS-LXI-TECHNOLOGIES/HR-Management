@@ -12,9 +12,11 @@ import javax.persistence.Table;
 public class Employee
 {
 	@Id
-    public int id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	 @Column 
+	public int id;
  
-    @Column
+    @Column 
     public String firstName;
  
     @Column
@@ -22,30 +24,39 @@ public class Employee
  
     @Column
     public String lastName;
-	
-	
-	private int getId() {
+
+	public int getId() {
 		return id;
 	}
-	private void setId(int id) {
+
+	public void setId(int id) {
 		this.id = id;
 	}
-	private String getFirstName() {
+
+	public String getFirstName() {
 		return firstName;
 	}
-	private void setFirstName(String firstName) {
+
+	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	private String getLastName() {
-		return lastName;
-	}
-	private void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	private String getEmailID() {
+
+	public String getEmailID() {
 		return emailID;
 	}
-	private void setEmailID(String emailID) {
+
+	public void setEmailID(String emailID) {
 		this.emailID = emailID;
 	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
+	
+	
 }

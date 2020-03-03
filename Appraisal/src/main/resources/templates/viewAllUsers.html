@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>UsersList</title>
+</head>
+<body>
+<a th:href="@{/addUser}">Add User</a>
+<table>
+sdfgh
+<tr th:each="employee: ${employees}">
+    <td th:text="${employee.getId()}" />
+    
+</tr>
+</table>
+</body>
+</html>
