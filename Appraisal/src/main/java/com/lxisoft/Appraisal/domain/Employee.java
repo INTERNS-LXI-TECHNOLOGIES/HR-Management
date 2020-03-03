@@ -24,6 +24,9 @@ public class Employee
  
     @Column
     public String lastName;
+    @Column
+    public String company;
+
 
 	public int getId() {
 		return id;
@@ -57,6 +60,11 @@ public class Employee
 		this.lastName = lastName;
 	}
 	
-	
-	
+	public String getCompany() {
+		return company;
+	}
+    public void setCompany(String company) {
+		this.company = company;
+	}
+
 }

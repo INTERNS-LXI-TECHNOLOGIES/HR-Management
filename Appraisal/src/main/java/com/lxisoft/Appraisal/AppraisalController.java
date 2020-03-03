@@ -54,5 +54,23 @@ public class AppraisalController {
 		
 		return "viewAllUsers";
 	}
+
+	@RequestMapping("/login")
+	public String loginPage()
+	{
+		return  "login.html";
+	}
+	@RequestMapping("/logout-success")
+	public String logoutPage()
+	{
+		return  "logout.html";
+
+	}
+	@RequestMapping("/userDetail")
+	public String userDetail()
+	{
+		return "userDetail.html"; 
+
+	}
 }
 
