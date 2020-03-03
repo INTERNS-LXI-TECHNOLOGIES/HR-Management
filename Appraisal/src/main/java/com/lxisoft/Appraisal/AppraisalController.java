@@ -11,6 +11,7 @@ public class AppraisalController {
 	{
 		return  "adminLogin.html";
 	}
+
 	@RequestMapping("/login")
 	public String loginPage()
 	{
@@ -20,6 +21,13 @@ public class AppraisalController {
 	public String logoutPage()
 	{
 		return  "logout.html";
+
+	}
+	@RequestMapping("/userDetail")
+	public String userDetail()
+	{
+		return "userDetail.html"; 
+
 	}
 }
 
