@@ -2,8 +2,6 @@ package com.lxisoft.Appraisal.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
@@ -23,29 +21,38 @@ public class Employee
     @Column
     public String lastName;
 	
+    @Column
+    public String company;
 	
-	private int getId() {
+	
+    public int getId() {
 		return id;
 	}
-	private void setId(int id) {
+    public void setId(int id) {
 		this.id = id;
 	}
-	private String getFirstName() {
+    public String getFirstName() {
 		return firstName;
 	}
-	private void setFirstName(String firstName) {
+    public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-	private String getLastName() {
+    public String getLastName() {
 		return lastName;
 	}
-	private void setLastName(String lastName) {
+    public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	private String getEmailID() {
+    public String getEmailID() {
 		return emailID;
 	}
-	private void setEmailID(String emailID) {
+    public void setEmailID(String emailID) {
 		this.emailID = emailID;
+	}
+    public String getCompany() {
+		return company;
+	}
+    public void setCompany(String company) {
+		this.company = company;
 	}
 }

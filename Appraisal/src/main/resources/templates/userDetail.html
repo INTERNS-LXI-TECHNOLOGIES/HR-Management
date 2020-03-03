@@ -1,29 +1,33 @@
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml" 
-   xmlns:th = "http://www.thymeleaf.org" ">
+   xmlns:th = "http://www.thymeleaf.org" >
    
    <head>
       <title>User Info</title>
    </head>
    <body>
       <h1>NAME :</h1>
-      <p>Click<a th:href = "@{/index}">here</a>  to LogOut</p>
-      
+            
       <table>
        <tr>
-       <th>Name:</th>
-      </tr>
-      <tr>
-      	<td>  </td>
+	       <th><b>FirstName</b></th>
+	      	<td> <input type="text" id="firstname" name="firstname" /> </td>
       </tr>  
        <tr>
-       <th>Email ID</th>
-      </tr>
+	       <th><b>LirstName</b></th>
+	      	<td> <input type="text" id="lastname" name="lastname" /> </td>
+      </tr>  
       <tr>
-      	<td>  </td>
-      </tr>    
-      </table>
-      
+	       <th><b>Email ID </b></th>    
+	      	<td> <input type="text" id="email" name="email" /> </td>
+      </tr>  
+      <tr>
+	       <th><b>Company </b></th>    
+	      	<td> <input type="text" id="company" name="company" /> </td>
+      </tr>     
+      </table> 
+   
+    <p><a th:href = "@{index}">LogOut</a></p>   
    </body>
    
 </html>

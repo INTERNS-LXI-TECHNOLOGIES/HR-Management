@@ -11,5 +11,11 @@ public class AppraisalController {
 	{
 		return  "adminLogin.html";
 	}
+	
+	@RequestMapping("/userDetail")
+	public String userDetail()
+	{
+		return "userDetail.html"; 
+	}
 }
 
