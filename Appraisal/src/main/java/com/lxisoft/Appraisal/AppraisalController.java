@@ -9,7 +9,7 @@ public class AppraisalController {
 	@RequestMapping("/")
 	public String home()
 	{
-		return  "index.html";
+		return  "adminLogin.html";
 	}
 }
 
