@@ -10,21 +10,20 @@ import javax.persistence.Table;
 public class Employee
 {
 	@Id
-    public int id;
+	private int id;
  
     @Column
-    public String firstName;
+    private String firstName;
  
     @Column
-    public String emailID;
+    private String emailID;
  
     @Column
-    public String lastName;
+    private String lastName;
 	
     @Column
     public String company;
-	
-	
+		
     public int getId() {
 		return id;
 	}
