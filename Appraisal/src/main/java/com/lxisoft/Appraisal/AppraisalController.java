@@ -30,7 +30,9 @@ public class AppraisalController {
 		ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
 		ModelAndView mv= new ModelAndView("viewAllUsers");
 		mv.addObject("list", employees);
-		System.out.println(employees);
+		System.out.println(employees.get(0).getFirstName());
+		System.out.println(employees.get(1).getFirstName());
+		System.out.println(employees.get(2).getFirstName());
 
 		return mv;
 	}
@@ -41,18 +43,19 @@ public class AppraisalController {
 		return "addUser";
 	}
 	@RequestMapping("/addU")
-	public String addUser(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response)
 	{
 		
 		Employee employee= new Employee();
 		employee.setFirstName(request.getParameter("firstname"));
 		employee.setLastName(request.getParameter("lastname"));
 		employee.setEmailID(request.getParameter("email"));
+		employee.setCompany(request.getParameter("company"));
 		service.addUser(employee);
 		
+		ModelAndView mv=viewUsers();
 		
-		
-		return "viewAllUsers";
+		return mv;
 	}
 
 	@RequestMapping("/login")
@@ -66,10 +69,10 @@ public class AppraisalController {
 		return  "logout.html";
 
 	}
-	@RequestMapping("/userDetail")
+	@RequestMapping("/userDetails")
 	public String userDetail()
 	{
-		return "userDetail.html"; 
+		return "userDetail"; 
 
 	}
 }

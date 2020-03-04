@@ -6,12 +6,17 @@
 </head>
 <body>
 <a th:href="@{/addUser}">Add User</a>
-<table>
-sdfgh
-<tr th:each="employee: ${employees}">
-    <td th:text="${employee.getId()}" />
-    
+<div align="center">
+<table border="1" >
+<tr><th>EMPLOYEE  NAME </th><th> COMPANY NAME</th><tr>
+<tr th:each="employee: ${list}">
+   <td><a th:href="@{/userDetails_${employee}_}"> <span th:text="${employee.getFirstName()} "></span> </a></td>
+    <td th:text="${employee.getCompany()}" />
+   
+ 
 </tr>
+
 </table>
+</div>
 </body>
 </html>
