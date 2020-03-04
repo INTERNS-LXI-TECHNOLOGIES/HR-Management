@@ -1,4 +1,4 @@
-package com.lxisoft.Appraisal;
+package com.lxisoft.Appraisal.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +25,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter
 		provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
 		return provider;
 	}
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
