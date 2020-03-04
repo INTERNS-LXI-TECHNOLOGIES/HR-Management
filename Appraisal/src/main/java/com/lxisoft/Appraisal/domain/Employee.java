@@ -13,22 +13,24 @@ public class Employee
 {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	 @Column 
+	@Column 
 	public int id;
- 
     @Column 
     public String firstName;
- 
     @Column
-    public String emailID;
- 
+    private String emailID;
     @Column
-    public String lastName;
+    private String lastName1;	
     @Column
     public String company;
+    @Column
+    public String lastName;
+
 
 
 	public int getId() {
+		
+	
 		return id;
 	}
 
@@ -53,11 +55,11 @@ public class Employee
 	}
 
 	public String getLastName() {
-		return lastName;
+		return lastName1;
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName1 = lastName;
 	}
 	
 	public String getCompany() {

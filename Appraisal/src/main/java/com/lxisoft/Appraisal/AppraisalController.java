@@ -7,8 +7,10 @@ import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,6 +37,7 @@ public class AppraisalController {
 		ModelAndView mv= new ModelAndView("viewAllUsers");
 		mv.addObject("list", employees);
 		
+
 		return mv;
 	}
 	@RequestMapping("/addUser")
@@ -71,9 +74,21 @@ public class AppraisalController {
 
 	}
 	@RequestMapping("/userDetails")
-	public String userDetail()
+	public ModelAndView userDetail(@RequestParam int id,ModelAndView model)
 	{
-		return "userDetail"; 
+		ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
+		ModelAndView mv= new ModelAndView("userDetail");
+		mv.addObject("id",id);
+		
+		for(int i=0;i<employees.size();i++)
+		{
+			if(employees.get(i).id==id)
+			{
+				
+				mv.addObject("employee",employees.get(i));	
+			}
+		}
+		return mv ; 
 
 	}
 }
