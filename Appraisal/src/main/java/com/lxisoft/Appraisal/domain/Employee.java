@@ -12,39 +12,25 @@ import javax.persistence.Table;
 public class Employee
 {
 	@Id
-<<<<<<< HEAD
-	private int id;
- 
-    @Column
-    private String firstName;
-=======
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	 @Column 
+	@Column 
 	public int id;
- 
     @Column 
     public String firstName;
->>>>>>> 14ce7a9adaa4de003eeffb634ac43e29cb6a8e6b
- 
     @Column
     private String emailID;
- 
     @Column
-<<<<<<< HEAD
-    private String lastName;
-	
+    private String lastName1;	
     @Column
     public String company;
-		
-    public int getId() {
-=======
+    @Column
     public String lastName;
-    @Column
-    public String company;
+
 
 
 	public int getId() {
->>>>>>> 14ce7a9adaa4de003eeffb634ac43e29cb6a8e6b
+		
+	
 		return id;
 	}
 
@@ -69,11 +55,11 @@ public class Employee
 	}
 
 	public String getLastName() {
-		return lastName;
+		return lastName1;
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName1 = lastName;
 	}
 	
 	public String getCompany() {
