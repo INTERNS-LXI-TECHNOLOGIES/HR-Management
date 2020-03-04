@@ -1,6 +1,8 @@
 package com.lxisoft.Appraisal;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +24,8 @@ public class AppraisalController {
 	@RequestMapping("/")
 	public String home()
 	{
+		String timeStand =new SimpleDateFormat ("yyyy_MM_dd_HH_mm_ss").format( Calendar.getInstance().getTime());
+		System.out.println(timeStand);
 		return  "adminLogin";
 	}
 	@RequestMapping("/viewUsers")
@@ -30,10 +34,7 @@ public class AppraisalController {
 		ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
 		ModelAndView mv= new ModelAndView("viewAllUsers");
 		mv.addObject("list", employees);
-		System.out.println(employees.get(0).getFirstName());
-		System.out.println(employees.get(1).getFirstName());
-		System.out.println(employees.get(2).getFirstName());
-
+		
 		return mv;
 	}
 	@RequestMapping("/addUser")
