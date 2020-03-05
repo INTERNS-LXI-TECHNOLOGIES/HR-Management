@@ -49,7 +49,7 @@ public class AppraisalController {
 	public String user()
 	{
 		System.out.println("timeStand");
-		return "addUser.html";
+		return "UserLogin";
 	}
 	@RequestMapping("/viewUsers")
 	public ModelAndView viewUsers()
