@@ -1,12 +1,54 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>UsersList</title>
-</head>
-<body>
-<a th:href="@{/addUser}">Add User</a>
-<div align="center">
+  <head>
+     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+	<style type="text/css">
+		nav { position:sticky !important;}
+	</style>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+    <title>View All User</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+         
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li th:classappend="${module == 'home' ? 'active' : ''}">
+              <a href="#" th:href="@{/}">Home</a>
+            </li>
+           
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          <li th:classappend="${module == 'addUser' ? 'active' : ''}">
+              <a href="/addUser" th:href="@{/addUser}">Add User
+              </a>
+              </li>
+            <li th:classappend="${module == 'addUser' ? 'active' : ''}">
+            
+              <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout
+              </a>
+              </li>
+             <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout-success}"></form>
+            </li>
+          </ul>
+          
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+    <div align="center">
 <table border="1" >
 <tr><th>EMPLOYEE  NAME </th><th> COMPANY NAME</th><tr>
 <tr th:each="employee: ${list}">
@@ -18,5 +60,7 @@
 
 </table>
 </div>
-</body>
+</div>
+    
+  </body>
 </html>
