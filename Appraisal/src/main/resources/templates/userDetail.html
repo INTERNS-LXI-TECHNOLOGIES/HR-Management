@@ -7,23 +7,23 @@
    </head>
    <body align="center">
       <img th:src="@{/img/user.jpg}" style="width:80px;height:80px;"/>
-       <h1>NAME:  <a th:text="${employee.FirstName()}" ></h1>   
+       <h1>NAME:  <a th:text="${employee.getFirstName()}" ></h1>   
      <table align="center" >
        <tr>
 	       <th><b>FirstName</b></th>
-	      	<td><a th:text="${employee.FirstName()}" ></td>
+	      	<td><a th:text="${employee.getFirstName()}" ></td>
       </tr>  
        <tr>
 	       <th><b>LastName</b></th>
-	       <td> <a th:text="${employee.LastName()}" > </td>
+	       <td> <a th:text="${employee.getLastName()}" > </td>
       </tr>  
       <tr>
 	       <th><b>Email ID </b></th>    
-	      	<td> <a th:text="${employee.EmailID()}" > </td>
+	      	<td> <a th:text="${employee.getEmailID()}" > </td>
       </tr>  
       <tr>
 	       <th><b>Company </b></th>    
-	      	<td> <a th:text="${employee.Company()}" >  </td>
+	      	<td> <a th:text="${employee.getCompany()}" >  </td>
       </tr>     
       </table> 
     <p><a th:href = "@{/logout-success}">LogOut</a></p>   
