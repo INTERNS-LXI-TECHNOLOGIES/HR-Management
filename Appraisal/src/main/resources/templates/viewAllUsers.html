@@ -10,7 +10,7 @@
 <table border="1" >
 <tr><th>EMPLOYEE  NAME </th><th> COMPANY NAME</th><tr>
 <tr th:each="employee: ${list}">
-   <td><a th:href="@{/userDetails_${employee}_}"> <span th:text="${employee.getFirstName()} "></span> </a></td>
+   <td><a th:href="@{${'/userDetails?id='+employee.id}}"> <span th:text="${employee.getFirstName()} "></span> </a></td>
     <td th:text="${employee.getCompany()}" />
    
  
