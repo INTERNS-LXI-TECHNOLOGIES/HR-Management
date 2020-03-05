@@ -1,10 +1,11 @@
-package com.lxisoft.Appraisal;
+package com.lxisoft.Appraisal.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,11 +26,18 @@ public class AppSecurity extends WebSecurityConfigurerAdapter
 		provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
 		return provider;
 	}
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.csrf().disable()
-			.authorizeRequests().antMatchers("/login").permitAll()
+			.authorizeRequests().antMatchers("/login",
+					"/js/**",
+	                "/css/**",
+	                "/img/**",
+	                "/webjars/**").permitAll()
+			.antMatchers("/viewUsers").access("hasRole('ROLE_ADMIN')")
+			.antMatchers("/addUser").access("hasRole('ROLE_ADMIN')")
 			.anyRequest().authenticated()
 			.and()
 			.formLogin()
@@ -40,6 +48,5 @@ public class AppSecurity extends WebSecurityConfigurerAdapter
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 			.logoutSuccessUrl("/logout-succes").permitAll();
 	}
-	
 
 }
