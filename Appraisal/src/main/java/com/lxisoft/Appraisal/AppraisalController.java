@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.lxisoft.Appraisal.domain.Employee;
 import com.lxisoft.Appraisal.service.JPAService;
 
+import io.micrometer.core.ipc.http.HttpSender.Request;
+
 @Controller
 public class AppraisalController {
 
@@ -68,23 +70,26 @@ public class AppraisalController {
 		return  "logout.html";
 
 	}
+	/*
+	 * @RequestMapping("/userDetails") public ModelAndView userDetail(@RequestParam
+	 * int id,ModelAndView model) { ArrayList<Employee>
+	 * employees=(ArrayList<Employee>) service.getAllUsers(); ModelAndView mv= new
+	 * ModelAndView("userDetail"); mv.addObject("id",id); for(int
+	 * i=0;i<employees.size();i++) { if(employees.get(i).id==id) {
+	 * mv.addObject("employee",employees.get(i)); } } return mv ; }
+	 */
+	
 	@RequestMapping("/userDetails")
-	public ModelAndView userDetail(@RequestParam int id,ModelAndView model)
+	public ModelAndView userDetail(HttpServletRequest request,HttpServletResponse response)
 	{
-		ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
+		//ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
+		Employee employee =(Employee) request.getAttribute("employee");		
 		ModelAndView mv= new ModelAndView("userDetail");
-		mv.addObject("id",id);
-		
-		for(int i=0;i<employees.size();i++)
-		{
-			if(employees.get(i).id==id)
-			{
-				
-				mv.addObject("employee",employees.get(i));	
-			}
-		}
+		mv.addObject("employee",employee);		
+		System.out.print(employee.firstName);
 		return mv ; 
-
 	}
+
 }
+
 
