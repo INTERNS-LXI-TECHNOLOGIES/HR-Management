@@ -42,7 +42,7 @@ public class AppraisalController {
 	public String addUser()
 	{
 	
-		return "addUser.html";
+		return "addUser";
 	}
 	@RequestMapping("/addU")
 	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response)
@@ -63,12 +63,12 @@ public class AppraisalController {
 	@RequestMapping("/login")
 	public String loginPage()
 	{
-		return  "login.html";
+		return  "login";
 	}
 	@RequestMapping("/logout-success")
 	public String logoutPage()
 	{
-		return  "logout.html";
+		return  "logout";
 
 	}
 	@RequestMapping("/userDetails")
