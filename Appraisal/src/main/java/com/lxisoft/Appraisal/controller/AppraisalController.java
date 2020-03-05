@@ -63,7 +63,7 @@ public class AppraisalController {
 	public String addUser()
 	{
 	
-		return "addUser.html";
+		return "addUser";
 	}
 	@RequestMapping("/addU")
 	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response)
@@ -95,6 +95,7 @@ public class AppraisalController {
         }  
          return "redirect:/";  
      }  
+
 	@RequestMapping("/userDetails")
 	public ModelAndView userDetail(@RequestParam int id,ModelAndView model)
 	{
