@@ -1,4 +1,4 @@
-package com.lxisoft.Appraisal;
+package com.lxisoft.Appraisal.controller;
 
 import java.util.ArrayList;
 
@@ -30,9 +30,6 @@ public class AppraisalController {
 		ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
 		ModelAndView mv= new ModelAndView("viewAllUsers");
 		mv.addObject("list", employees);
-		System.out.println(employees.get(0).getFirstName());
-		System.out.println(employees.get(1).getFirstName());
-		System.out.println(employees.get(2).getFirstName());
 
 		return mv;
 	}
@@ -40,7 +37,7 @@ public class AppraisalController {
 	public String addUser()
 	{
 	
-		return "addUser";
+		return "addUser.html";
 	}
 	@RequestMapping("/addU")
 	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response)

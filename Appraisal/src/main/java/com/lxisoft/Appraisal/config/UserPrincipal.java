@@ -1,11 +1,17 @@
-package com.lxisoft.Appraisal;
+package com.lxisoft.Appraisal.config;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.lxisoft.Appraisal.model.Role;
+import com.lxisoft.Appraisal.model.User;
 
 public class UserPrincipal implements UserDetails {
 
@@ -16,11 +22,18 @@ public class UserPrincipal implements UserDetails {
 		super();
 		this.user = user;
 	}
+	
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-		return Collections.singleton(new SimpleGrantedAuthority("USER"));
+	
+//		return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
+//	}
+	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+    for (Role role :user.getRoles()) {
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
+    }
+    return authorities;
 	}
 
 	@Override
