@@ -35,9 +35,9 @@ public class AppraisalController {
 	public ModelAndView home()
 	{
 		ModelAndView mv=new ModelAndView(); 
-		String timeStand =new SimpleDateFormat ("yyyy_MM_dd_HH_mm_ss").format( Calendar.getInstance().getTime());
-		System.out.println(timeStand);
+		String timeStand =new SimpleDateFormat ("yyyy/MM/dd").format( Calendar.getInstance().getTime());
 		
+		mv.addObject("date",timeStand);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		boolean hasUserRole = authentication.getAuthorities().stream()
@@ -52,7 +52,7 @@ public class AppraisalController {
 	@RequestMapping("/userPage")
 	public String user()
 	{
-		System.out.println("timeStand");
+		
 		return "UserLogin";
 	}
 
@@ -79,9 +79,7 @@ public class AppraisalController {
 		employee.setEmailID(request.getParameter("email"));
 		employee.setCompany(request.getParameter("company"));
 		service.addUser(employee);
-
-		ModelAndView mv = viewUsers();
-
+		ModelAndView mv=viewUsers();
 		return mv;
 	}
 
@@ -107,20 +105,13 @@ public class AppraisalController {
 	
 
  @RequestMapping("/userDetails") 
- public ModelAndView userDetail(@RequestParam int id,ModelAndView model) 
+ public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
  {
-	 
-	 ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
 	 ModelAndView mv= new ModelAndView("userDetail"); 
-	 mv.addObject("id",id); 
-	 
-	 Optional employee = service.findByid(id);
-		/*
-		 * for(int i=0;i<employees.size();i++) { if(employees.get(i).id==id) {
-		 * mv.addObject("employee",employees.get(i)); } }
-		 */
-	 mv.addObject("employee",employee); 
-	 	return mv ; 
+		// mv.addObject("id",id); 	 
+	  Optional <Employee> optional = service.findByid(id);	  	 
+		 mv.addObject("employee",optional.get());     
+	 	return mv ;  
 	 
  }
  
