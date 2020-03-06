@@ -24,3 +24,4 @@ hs_err_pid*
 
 #remove target folder
 target/
+/.metadata/

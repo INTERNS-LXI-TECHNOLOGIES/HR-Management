@@ -2,11 +2,14 @@ package com.lxisoft.Appraisal.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.lxisoft.Appraisal.domain.Employee;
+import com.lxisoft.Appraisal.model.User;
 import com.lxisoft.Appraisal.repository.MysqlRepo;
 
 @Service
@@ -23,5 +26,10 @@ public class JPAService {
 		public List<Employee> getAllUsers() {
 			 List<Employee> list=repo.getAllUsers();
 			return list;
+		}
+
+		public Optional findByid(@RequestParam int id)
+		{
+			return (Optional) repo.findById( id);
 		}
 }

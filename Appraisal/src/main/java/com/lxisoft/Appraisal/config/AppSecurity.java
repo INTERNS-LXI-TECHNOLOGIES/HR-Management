@@ -20,6 +20,10 @@ public class AppSecurity extends WebSecurityConfigurerAdapter
 	@Autowired
 	private UserDetailsService userDetailsService;
 	@Bean
+	public UserDetailsService userDetailsService() {
+	    return super.userDetailsService();
+	}
+	@Bean
 	public AuthenticationProvider authProvider() {
 		DaoAuthenticationProvider provider =new DaoAuthenticationProvider();
 		provider.setUserDetailsService(userDetailsService);

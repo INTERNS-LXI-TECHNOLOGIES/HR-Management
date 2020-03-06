@@ -3,12 +3,17 @@ package com.lxisoft.Appraisal.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,10 +31,29 @@ public class AppraisalController {
 	private JPAService service;
 
 	@RequestMapping("/")
-	public String home() {
-		String timeStand = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(Calendar.getInstance().getTime());
+
+	public ModelAndView home()
+	{
+		ModelAndView mv=new ModelAndView(); 
+		String timeStand =new SimpleDateFormat ("yyyy_MM_dd_HH_mm_ss").format( Calendar.getInstance().getTime());
 		System.out.println(timeStand);
-		return "adminLogin";
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		boolean hasUserRole = authentication.getAuthorities().stream()
+		          .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+		if(hasUserRole)
+			mv.setViewName("adminLogin");
+		else mv.setViewName("redirect:/userPage");
+		
+		
+		return  mv;
+	}
+	@RequestMapping("/userPage")
+	public String user()
+	{
+		System.out.println("timeStand");
+		return "UserLogin";
 	}
 
 	@RequestMapping("/viewUsers")
@@ -62,29 +86,41 @@ public class AppraisalController {
 	}
 
 	@RequestMapping("/login")
+
 	public String loginPage() {
 		return "login";
+
+		
+
 	}
 
 	@RequestMapping("/logout-success")
-	public String logoutPage() {
-		return "logout";
 
-	}
+	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {  
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();  
+        if (auth != null){      
+           new SecurityContextLogoutHandler().logout(request, response, auth);  
+        }  
+         return "redirect:/";  
+     }  
+
+	
 
  @RequestMapping("/userDetails") 
  public ModelAndView userDetail(@RequestParam int id,ModelAndView model) 
- { ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
- ModelAndView mv= new ModelAndView("userDetail"); 
- mv.addObject("id",id); 
- 
- for(int i=0;i<employees.size();i++)
- { 
-	 if(employees.get(i).id==id)
-	 {
-		 mv.addObject("employee",employees.get(i));
-	 }	 
-  } return mv ; 
+ {
+	 
+	 ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
+	 ModelAndView mv= new ModelAndView("userDetail"); 
+	 mv.addObject("id",id); 
+	 
+	 Optional employee = service.findByid(id);
+		/*
+		 * for(int i=0;i<employees.size();i++) { if(employees.get(i).id==id) {
+		 * mv.addObject("employee",employees.get(i)); } }
+		 */
+	 mv.addObject("employee",employee); 
+	 	return mv ; 
 	 
  }
  
