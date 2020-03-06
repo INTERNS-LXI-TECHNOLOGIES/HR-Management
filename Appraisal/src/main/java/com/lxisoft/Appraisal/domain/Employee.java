@@ -14,27 +14,31 @@ public class Employee
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column 
-	public int id;
-    @Column 
+	public Long id;
+	
+	public Employee()
+	{
+		
+	}
+    
     public String firstName;
+   
+    private String lastName;	
     @Column
     private String emailID;
     @Column
-    private String lastName1;	
-    @Column
     public String company;
-    @Column
-    public String lastName;
+    
 
 
 
-	public int getId() {
+	public Long getId() {
 		
 	
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -55,11 +59,11 @@ public class Employee
 	}
 
 	public String getLastName() {
-		return lastName1;
+		return lastName;
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName1 = lastName;
+		this.lastName = lastName;
 	}
 	
 	public String getCompany() {

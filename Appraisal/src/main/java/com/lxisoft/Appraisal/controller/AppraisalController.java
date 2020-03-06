@@ -31,9 +31,9 @@ public class AppraisalController {
 	public ModelAndView home()
 	{
 		ModelAndView mv=new ModelAndView(); 
-		String timeStand =new SimpleDateFormat ("yyyy_MM_dd_HH_mm_ss").format( Calendar.getInstance().getTime());
-		System.out.println(timeStand);
+		String timeStand =new SimpleDateFormat ("yyyy/MM/dd").format( Calendar.getInstance().getTime());
 		
+		mv.addObject("date",timeStand);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		boolean hasUserRole = authentication.getAuthorities().stream()
@@ -48,7 +48,7 @@ public class AppraisalController {
 	@RequestMapping("/userPage")
 	public String user()
 	{
-		System.out.println("timeStand");
+		
 		return "UserLogin";
 	}
 	@RequestMapping("/viewUsers")
@@ -74,7 +74,7 @@ public class AppraisalController {
 		employee.setLastName(request.getParameter("lastname"));
 		employee.setEmailID(request.getParameter("email"));
 		employee.setCompany(request.getParameter("company"));
-		service.addUser(employee);
+	service.addUser(employee);
 		
 		ModelAndView mv=viewUsers();
 		

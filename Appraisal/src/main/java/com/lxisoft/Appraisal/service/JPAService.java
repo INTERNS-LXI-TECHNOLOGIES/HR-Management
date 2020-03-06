@@ -17,11 +17,11 @@ public class JPAService {
 	
 		public void addUser(Employee employee) 
 		{
-			repo.addUser(employee);
+			repo.save(employee);
 		}
 
 		public List<Employee> getAllUsers() {
-			 List<Employee> list=repo.getAllUsers();
+			 List<Employee> list=repo.findAll();
 			return list;
 		}
 }
