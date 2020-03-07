@@ -3,17 +3,24 @@ package com.lxisoft.Appraisal.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import com.lxisoft.Appraisal.model.Role;
-import java.util.Collection;
-@Entity
 
+import com.lxisoft.Appraisal.model.Role;
+import com.lxisoft.Appraisal.model.LateArrival;
+import java.util.Collection;
+import java.util.List;
+@Entity
+@Table(name = "user")
 public class User {
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String firstName;
 	private String lastName;
@@ -22,7 +29,6 @@ public class User {
 	private String username;
 	private String password;
 	
-	
 	 @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	    @JoinTable(
 	        name = "users_roles",
@@ -30,38 +36,13 @@ public class User {
 	            name = "user_id", referencedColumnName = "id"),
 	        inverseJoinColumns = @JoinColumn(
 	            name = "role_id", referencedColumnName = "id"))
-	    private Collection < Role > roles;
+	 private Collection < Role > roles;
+
 	 
+	 @OneToMany
+	 private List<LateArrival> lateArrival;
 	
-	public User() {
-	}
-
-	public User(Long id, String firstName, String lastName, String emailID, String company, String username,
-			String password) 
-	{
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.emailID = emailID;
-		this.company = company;
-		this.username = username;
-		this.password = password;
-	}
 	
-	public User(Long id, String firstName, String lastName, String emailID, String company, String username,
-			String password, Collection<Role> roles) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.emailID = emailID;
-		this.company = company;
-		this.username = username;
-		this.password = password;
-		this.roles = roles;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -119,10 +100,14 @@ public class User {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", password=" + password + ", roles=" + roles + "]";
+	
+	public List<LateArrival> getLateArrival() {
+		return lateArrival;
 	}
+	public void setLateArrival(List<LateArrival> lateArrival) {
+		this.lateArrival = lateArrival;
+	}
+	
 	
 
 }

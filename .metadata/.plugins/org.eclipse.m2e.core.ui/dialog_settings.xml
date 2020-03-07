@@ -65,6 +65,8 @@
 	</section>
 	<section name="MavenProjectImportWizardPage">
 		<list key="rootDirectory">
+			<item value="D:\GIT-appraisal\HR-Management\Appraisal"/>
+			<item value="D:\GIT-appraisal\HR-Management"/>
 			<item value="D:\spring security TEST"/>
 		</list>
 		<list key="projectNameTemplate">

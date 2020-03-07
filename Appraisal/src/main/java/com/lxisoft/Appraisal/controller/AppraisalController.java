@@ -3,6 +3,7 @@ package com.lxisoft.Appraisal.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,13 +27,14 @@ public class AppraisalController {
 	@Autowired
 	private UserService service;
 	
+
 	@RequestMapping("/")
 	public ModelAndView home()
 	{
 		ModelAndView mv=new ModelAndView(); 
-		String timeStand =new SimpleDateFormat ("yyyy_MM_dd_HH_mm_ss").format( Calendar.getInstance().getTime());
-		System.out.println(timeStand);
+		String timeStand =new SimpleDateFormat ("yyyy/MM/dd").format( Calendar.getInstance().getTime());
 		
+		mv.addObject("date",timeStand);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		boolean hasUserRole = authentication.getAuthorities().stream()
@@ -45,12 +46,7 @@ public class AppraisalController {
 		
 		return  mv;
 	}
-	@RequestMapping("/userPage")
-	public String user()
-	{
-		System.out.println("timeStand");
-		return "UserLogin";
-	}
+
 	@RequestMapping("/viewUsers")
 	public ModelAndView viewUsers()
 	{
@@ -59,12 +55,7 @@ public class AppraisalController {
 		mv.addObject("list", user);
 		return mv;
 	}
-	@RequestMapping("/addUser")
-	public String addUser()
-	{
-	
-		return "addUser";
-	}
+
 	@RequestMapping("/addU")
 	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -75,19 +66,12 @@ public class AppraisalController {
 		user.setEmailID(request.getParameter("email"));
 		user.setCompany(request.getParameter("company"));
 		service.addUser(user);
-		
 		ModelAndView mv=viewUsers();
-		
 		return mv;
 	}
 
-	@RequestMapping("/login")
-	public String loginPage()
-	{
-		
-		return  "login.html";
-	}
 	@RequestMapping("/logout-success")
+
 	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {  
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();  
         if (auth != null){      
@@ -96,23 +80,14 @@ public class AppraisalController {
          return "redirect:/";  
      }  
 
-	@RequestMapping("/userDetails")
-	public ModelAndView userDetail(@RequestParam int id,ModelAndView model)
-	{
-		ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
-		ModelAndView mv= new ModelAndView("userDetail");
-		mv.addObject("id",id);
-		
-		for(int i=0;i<employees.size();i++)
-		{
-			if(employees.get(i).id==id)
-			{
-				
-				mv.addObject("employee",employees.get(i));	
-			}
-		}
-		return mv ; 
-
-	}
+	@RequestMapping("/userDetails") 
+	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
+	 {
+		 ModelAndView mv= new ModelAndView("userDetail"); 
+		 Optional <User> optional = service.findByid(id);	  	 
+		 mv.addObject("employee",optional.get());     
+		 	return mv ;  
+		 
+	 }
+ 
 }
-
