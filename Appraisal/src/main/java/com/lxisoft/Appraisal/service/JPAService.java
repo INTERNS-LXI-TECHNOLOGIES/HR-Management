@@ -24,4 +24,5 @@ public class JPAService {
 			 List<Employee> list=repo.getAllUsers();
 			return list;
 		}
+		
 }

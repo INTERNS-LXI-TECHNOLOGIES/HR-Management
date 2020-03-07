@@ -18,14 +18,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lxisoft.Appraisal.domain.Employee;
-import com.lxisoft.Appraisal.service.JPAService;
+import com.lxisoft.Appraisal.model.User;
+import com.lxisoft.Appraisal.service.UserService;
 
 @Controller
 public class AppraisalController {
 
 	@Autowired
-	private JPAService service;
+	private UserService service;
 	
 	@RequestMapping("/")
 	public ModelAndView home()
@@ -54,9 +54,9 @@ public class AppraisalController {
 	@RequestMapping("/viewUsers")
 	public ModelAndView viewUsers()
 	{
-		ArrayList<Employee> employees=(ArrayList<Employee>) service.getAllUsers();
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		ModelAndView mv= new ModelAndView("viewAllUsers");
-		mv.addObject("list", employees);
+		mv.addObject("list", user);
 		return mv;
 	}
 	@RequestMapping("/addUser")
@@ -69,12 +69,12 @@ public class AppraisalController {
 	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response)
 	{
 		
-		Employee employee= new Employee();
-		employee.setFirstName(request.getParameter("firstname"));
-		employee.setLastName(request.getParameter("lastname"));
-		employee.setEmailID(request.getParameter("email"));
-		employee.setCompany(request.getParameter("company"));
-		service.addUser(employee);
+		User user=new User();
+		user.setFirstName(request.getParameter("firstname"));
+		user.setLastName(request.getParameter("lastname"));
+		user.setEmailID(request.getParameter("email"));
+		user.setCompany(request.getParameter("company"));
+		service.addUser(user);
 		
 		ModelAndView mv=viewUsers();
 		

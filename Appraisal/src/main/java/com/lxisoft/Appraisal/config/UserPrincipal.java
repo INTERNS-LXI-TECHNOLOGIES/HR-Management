@@ -22,13 +22,8 @@ public class UserPrincipal implements UserDetails {
 		super();
 		this.user = user;
 	}
-	
-
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-	
-//		return Collections.singleton(new SimpleGrantedAuthority("ROLE_USER"));
-//	}
 	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
     for (Role role :user.getRoles()) {
         authorities.add(new SimpleGrantedAuthority(role.getName()));
