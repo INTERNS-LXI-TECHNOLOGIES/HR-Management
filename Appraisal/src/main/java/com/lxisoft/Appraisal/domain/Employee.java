@@ -19,22 +19,17 @@ public class Employee
 	public Employee()
 	{
 		
-	}
-    
-    public String firstName;
-   
+	}    
+    public String firstName;   
     private String lastName;	
     @Column
     private String emailID;
     @Column
     public String company;
     
-
-
-
-	public Long getId() {
-		
-	
+	public Long getId()
+	{
+			
 		return id;
 	}
 

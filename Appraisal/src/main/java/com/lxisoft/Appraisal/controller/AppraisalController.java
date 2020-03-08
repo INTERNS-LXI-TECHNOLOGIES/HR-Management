@@ -107,8 +107,7 @@ public class AppraisalController {
  @RequestMapping("/userDetails") 
  public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
  {
-	 ModelAndView mv= new ModelAndView("userDetail"); 
-		// mv.addObject("id",id); 	 
+	 ModelAndView mv= new ModelAndView("userDetail"); 	 
 	  Optional <Employee> optional = service.findByid(id);	  	 
 		 mv.addObject("employee",optional.get());     
 	 	return mv ;  
