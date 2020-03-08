@@ -15,23 +15,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lxisoft.Appraisal.domain.Employee;
-import com.lxisoft.Appraisal.service.JPAService;
-
-import io.micrometer.core.ipc.http.HttpSender.Request;
+import com.lxisoft.Appraisal.model.User;
+import com.lxisoft.Appraisal.service.UserService;
 
 @Controller
 public class AppraisalController {
 
 	@Autowired
-	private JPAService service;
+	private UserService service;
+	
 
 	@RequestMapping("/")
-
 	public ModelAndView home()
 	{
 		ModelAndView mv=new ModelAndView(); 
@@ -49,47 +46,28 @@ public class AppraisalController {
 		
 		return  mv;
 	}
-	@RequestMapping("/userPage")
-	public String user()
-	{
-		
-		return "UserLogin";
-	}
 
 	@RequestMapping("/viewUsers")
-	public ModelAndView viewUsers() {
-		ArrayList<Employee> employees = (ArrayList<Employee>) service.getAllUsers();
-		ModelAndView mv = new ModelAndView("viewAllUsers");
-		mv.addObject("list", employees);
+	public ModelAndView viewUsers()
+	{
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		ModelAndView mv= new ModelAndView("viewAllUsers");
+		mv.addObject("list", user);
 		return mv;
-	}
-
-	@RequestMapping("/addUser")
-	public String addUser() {
-
-		return "addUser";
 	}
 
 	@RequestMapping("/addU")
-	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response) {
-
-		Employee employee = new Employee();
-		employee.setFirstName(request.getParameter("firstname"));
-		employee.setLastName(request.getParameter("lastname"));
-		employee.setEmailID(request.getParameter("email"));
-		employee.setCompany(request.getParameter("company"));
-		service.addUser(employee);
+	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response)
+	{
+		
+		User user=new User();
+		user.setFirstName(request.getParameter("firstname"));
+		user.setLastName(request.getParameter("lastname"));
+		user.setEmailID(request.getParameter("email"));
+		user.setCompany(request.getParameter("company"));
+		service.addUser(user);
 		ModelAndView mv=viewUsers();
 		return mv;
-	}
-
-	@RequestMapping("/login")
-
-	public String loginPage() {
-		return "login";
-
-		
-
 	}
 
 	@RequestMapping("/logout-success")
@@ -102,16 +80,15 @@ public class AppraisalController {
          return "redirect:/";  
      }  
 
-	
 
- @RequestMapping("/userDetails") 
- public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
- {
-	 ModelAndView mv= new ModelAndView("userDetail"); 	 
-	  Optional <Employee> optional = service.findByid(id);	  	 
+	@RequestMapping("/userDetails") 
+	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
+	 {
+		 ModelAndView mv= new ModelAndView("userDetail"); 
+		 Optional <User> optional = service.findByid(id);	  	 
 		 mv.addObject("employee",optional.get());     
-	 	return mv ;  
-	 
- }
+		 	return mv ;  
+		 
+	 }
  
 }

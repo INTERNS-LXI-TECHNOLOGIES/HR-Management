@@ -1,6 +1,8 @@
 package com.lxisoft.Appraisal.service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,8 @@ public class UserService implements UserDetailsService {
 	private UserRepository repo;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
+	{
 		
 		User user=repo.findByUsername(username);
 		if(user==null)
@@ -32,14 +35,28 @@ public class UserService implements UserDetailsService {
 		return new UserPrincipal(user);
 	}
 	
-	private Collection < ? extends GrantedAuthority > mapRolesToAuthorities(Collection < Role > roles) {
+	private Collection < ? extends GrantedAuthority > mapRolesToAuthorities(Collection < Role > roles) 
+	{
         return roles.stream()
             .map(role -> new SimpleGrantedAuthority(role.getName()))
             .collect(Collectors.toList());
     }
+	
+	public void addUser(User user) 
+	{
+		repo.save(user);
+	}
 
+	public List<User> getAllUsers() {
+		 List<User> list=repo.findAll();
+		return list;
+	}
 
-		
+	public  Optional <User> findByid(Long id)
+	{
+		 Optional <User> em=repo.findById(id);
+		 return em;
+	}	
 	
 
 }

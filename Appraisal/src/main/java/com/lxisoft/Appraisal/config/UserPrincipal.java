@@ -22,8 +22,6 @@ public class UserPrincipal implements UserDetails {
 		super();
 		this.user = user;
 	}
-	
-
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 	List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
