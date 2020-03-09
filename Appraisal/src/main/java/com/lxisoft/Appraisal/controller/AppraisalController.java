@@ -1,8 +1,10 @@
 package com.lxisoft.Appraisal.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lxisoft.Appraisal.model.User;
+import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
 
 @Controller
@@ -65,6 +68,8 @@ public class AppraisalController {
 		user.setLastName(request.getParameter("lastname"));
 		user.setEmailID(request.getParameter("email"));
 		user.setCompany(request.getParameter("company"));
+		user.setEmailID(request.getParameter("username"));
+		user.setCompany(request.getParameter("password"));
 		service.addUser(user);
 		ModelAndView mv=viewUsers();
 		return mv;
@@ -90,5 +95,28 @@ public class AppraisalController {
 		 	return mv ;  
 		 
 	 }
+	@RequestMapping("/sta")
+	public void status(HttpServletRequest request, HttpServletResponse response)
+	{
+		String n=request.getParameter("name");
+		
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		for(int i=0;i<user.size();i++)
+		{
+			
+			String m=user.get(i).getFirstName();
+			if(n.contains(m))
+			{
+				String t="Authorized";
+				User u=user.get(i);
+				Long e=(long) 1;
+				String date = "2016-08-16";
+				LocalDate localDate = LocalDate.parse(date);
+				service.setLeave(new Leave(localDate,t,u));
+				
+			}
+		}
+		
+	}
  
 }
