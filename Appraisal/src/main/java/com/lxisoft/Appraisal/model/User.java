@@ -38,8 +38,12 @@ public class User {
 	            name = "role_id", referencedColumnName = "id"))
 	 private Collection < Role > roles;
 
+	 @OneToMany(cascade = CascadeType.ALL)
+	    @JoinColumn(name = "user_id")
+	 private List<Leave> leave;
 	 
-	 @OneToMany
+	 @OneToMany(cascade = CascadeType.ALL)
+	    @JoinColumn(name = "user_id")
 	 private List<LateArrival> lateArrival;
 	
 	
@@ -101,6 +105,12 @@ public class User {
 		this.roles = roles;
 	}
 	
+	public List<Leave> getLeave() {
+		return leave;
+	}
+	public void setLeave(List<Leave> leave) {
+		this.leave = leave;
+	}
 	public List<LateArrival> getLateArrival() {
 		return lateArrival;
 	}

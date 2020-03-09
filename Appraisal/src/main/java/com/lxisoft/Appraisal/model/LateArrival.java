@@ -18,9 +18,6 @@ public class LateArrival {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Instant reachedTime;
-	@ManyToOne
-	private User user;
-	
 	public Long getId() {
 		return id;
 	}
@@ -33,11 +30,6 @@ public class LateArrival {
 	public void setReachedTime(Instant reachedTime) {
 		this.reachedTime = reachedTime;
 	}
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
+	
 
 }
