@@ -13,16 +13,20 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import  com.lxisoft.Appraisal.repository.UserRepository;
+import  com.lxisoft.Appraisal.repository.LeaveRepository;
 import com.lxisoft.Appraisal.config.UserPrincipal;
 
 
 import com.lxisoft.Appraisal.model.User;
 import com.lxisoft.Appraisal.model.Role;
+import com.lxisoft.Appraisal.model.Leave;
 @Service
 public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private UserRepository repo;
+	@Autowired
+	private LeaveRepository repos;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
@@ -57,6 +61,15 @@ public class UserService implements UserDetailsService {
 		 Optional <User> em=repo.findById(id);
 		 return em;
 	}	
+	public void setLeave(Leave leave)
+	{
+		repos.save(leave);
+	}
 	
-
+	public  Optional<Leave> findDate(Long id)
+	{
+		Optional<Leave> em=repos.findById(id);
+		 System.out.println("ANy Leaves there:::::::::::::"+em.isPresent());
+		 return em;
+	}	
 }

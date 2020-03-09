@@ -30,5 +30,12 @@ public class MainController {
 	public String loginPage() {
 		return "login";
 	}
+	
+	@RequestMapping("/status")
+	public String status()
+	{
+		
+		return "status";
+	}
 
 }

@@ -64,7 +64,8 @@
      <table align="center">
        <tr>
 	       <th><b>FirstName</b></th>
-	      	<td><span th:text="${employee.getFirstName()}"></td>
+	      	<td th:text="${employee.getFirstName()}"></td>
+	      	
       </tr>  
        <tr>
 	       <th><b>LastName</b></th>
@@ -80,20 +81,17 @@
       </tr>  
          
       </table>  
-      <script>
-      List <Leave> leave = new List<Leave>();
-      leave = employee.getLeave();
-      </script>
+      
         
       <table align="center" >
       <h1>PERFOMANCE</h1>
        <tr>
 	       <th><b>Leaves</b></th>
-	      	<td> <span th:text="${employee.getLeave()}" > </td>
+	      	<td> <span th:text="${leave?.date}" > </td>
       </tr>  
        <tr>
 	       <th><b>Late Arrivals</b></th>
-	       <td>  <span th:text="${employee.getCompany()}" >  </td>
+	       <td>  <span th:text="${employee.company}" >  </td>
       </tr>        
       </table> 
      
