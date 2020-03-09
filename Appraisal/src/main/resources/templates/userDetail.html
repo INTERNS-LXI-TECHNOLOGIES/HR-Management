@@ -79,12 +79,17 @@
 	      	<td> <span th:text="${employee.getCompany()}" >  </td>
       </tr>  
          
-      </table>      
+      </table>  
+      <script>
+      List <Leave> leave = new List<Leave>();
+      leave = employee.getLeave();
+      </script>
+        
       <table align="center" >
       <h1>PERFOMANCE</h1>
        <tr>
 	       <th><b>Leaves</b></th>
-	      	<td> <span th:text="${employee.getCompany()}" > </td>
+	      	<td> <span th:text="${employee.getLeave()}" > </td>
       </tr>  
        <tr>
 	       <th><b>Late Arrivals</b></th>

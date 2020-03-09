@@ -85,8 +85,9 @@ public class AppraisalController {
 	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
-		 Optional <User> optional = service.findByid(id);	  	 
-		 mv.addObject("employee",optional.get());     
+		 Optional <User> optional = service.findByid(id);			 
+		 mv.addObject("employee",optional.get()); 
+				
 		 	return mv ;  
 		 
 	 }
