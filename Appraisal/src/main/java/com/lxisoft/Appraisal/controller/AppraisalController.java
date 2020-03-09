@@ -64,9 +64,9 @@ public class AppraisalController {
 		user.setFirstName(request.getParameter("firstname"));
 		user.setLastName(request.getParameter("lastname"));
 		user.setEmailID(request.getParameter("email"));
-		user.setCompany(request.getParameter("company"));
+		user.setCompany(request.getParameter("company"));		
 		service.addUser(user);
-		ModelAndView mv=viewUsers();
+		ModelAndView mv=new ModelAndView("redirect:/viewUsers");
 		return mv;
 	}
 
