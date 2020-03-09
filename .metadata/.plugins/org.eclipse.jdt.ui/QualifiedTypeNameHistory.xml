@@ -2,4 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
 <fullyQualifiedTypeName name="org.springframework.web.servlet.ModelAndView"/>
+<fullyQualifiedTypeName name="com.lxisoft.Appraisal.repository.UserRepository"/>
+<fullyQualifiedTypeName name="com.lxisoft.Appraisal.domain.Employee"/>
 </qualifiedTypeNameHistroy>

@@ -1,9 +1,12 @@
 package com.lxisoft.Appraisal.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+
 import java.util.HashSet;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -24,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
+import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
 
 @Controller
@@ -72,6 +76,7 @@ public class AppraisalController {
 	public ModelAndView addUser(@ModelAttribute(value="newUser")User user,HttpServletRequest request, HttpServletResponse response)
 	{
 		
+
 		Role role=new Role(request.getParameter("name"));
 		Set < Role > roles=new HashSet < Role >();
 		roles.add(role);
@@ -96,10 +101,38 @@ public class AppraisalController {
 	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
-		 Optional <User> optional = service.findByid(id);	  	 
-		 mv.addObject("employee",optional.get());     
+		 Optional <User> user = service.findByid(id);
+		 Optional<Leave> leave = service.findDate(id);
+		 mv.addObject("employee",user.get());
+		 if(leave.isPresent())
+		 {
+		 mv.addObject("leave",leave.get());
+		 }
 		 	return mv ;  
 		 
 	 }
+	@RequestMapping("/sta")
+	public void status(HttpServletRequest request, HttpServletResponse response)
+	{
+		String n=request.getParameter("name");
+		
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		for(int i=0;i<user.size();i++)
+		{
+			
+			String m=user.get(i).getFirstName();
+			if(n.contains(m))
+			{
+				String t="Authorized";
+				User u=user.get(i);
+				Long e=(long) 1;
+				String date = "2016-08-16";
+				LocalDate localDate = LocalDate.parse(date);
+				service.setLeave(new Leave(localDate,t,u));
+				
+			}
+		}
+		
+	}
  
 }

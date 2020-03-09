@@ -57,40 +57,41 @@
 	{	width: 2px;
 		border:2px solid black;
 	}		
-	b,a:hover{ 
-            text-decoration: none; 
-        } 
+	
 </style>
       <img th:src="@{/img/user.jpg}" style="width:80px;height:80px;"/>
-       <h1>NAME:  <a th:text="${employee.getFirstName()}" ></h1>   
+       <h1>NAME:  <span th:text="${employee.getFirstName()}" ></span></h1>   
      <table align="center">
        <tr>
 	       <th><b>FirstName</b></th>
-	      	<td><a th:text="${employee.getFirstName()}"></td>
+	      	<td th:text="${employee.getFirstName()}"></td>
+	      	
       </tr>  
        <tr>
 	       <th><b>LastName</b></th>
-	       <td> <a th:text="${employee.getLastName()}" > </td>
+	       <td> <span th:text="${employee.getLastName()}" > </td>
       </tr>  
       <tr>
 	       <th><b>Email ID </b></th>    
-	      	<td> <a th:text="${employee.getEmailID()}" > </td>
+	      	<td> <span th:text="${employee.getEmailID()}" > </td>
       </tr>  
       <tr>
 	       <th><b>Company </b></th>    
-	      	<td> <a th:text="${employee.getCompany()}" >  </td>
+	      	<td> <span th:text="${employee.getCompany()}" >  </td>
       </tr>  
          
-      </table>      
+      </table>  
+      
+        
       <table align="center" >
       <h1>PERFOMANCE</h1>
        <tr>
 	       <th><b>Leaves</b></th>
-	      	<td>   5 days    </td>
+	      	<td> <span th:text="${leave?.date}" > </td>
       </tr>  
        <tr>
 	       <th><b>Late Arrivals</b></th>
-	       <td>     28 hr </td>
+	       <td>  <span th:text="${employee.company}" >  </td>
       </tr>        
       </table> 
      

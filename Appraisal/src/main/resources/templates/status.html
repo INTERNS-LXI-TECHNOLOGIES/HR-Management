@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
 
-    <title>Add User</title>
+    <title>status page</title>
 </head>
 
 <body>
@@ -37,23 +37,14 @@
                     <div class="alert alert-info">User successfully added!</div>
                 </div>
 
-                <h1>User Info</h1>
-
-                <form th:action="@{/addU}" th:object="${newUser}">
-                    <label for="firstname" class="control-label">First name</label> <input type="text" th:field="*{firstName}" class="form-control"  />
-                    <label for="lastname" class="control-label">Last name</label> <input  type="text" th:field="*{lastName}" class="form-control"/>
-                    <label for="email" class="control-label">E-mail</label> <input type="text" th:field="*{emailID}" class="form-control"/>
-                    <label for="company" class="control-label">company</label> <input type="text" th:field="*{company}" class="form-control"/>
-                    <label for="user" class="control-label">User Name</label> <input type="text" th:field="*{username}" class="form-control"/>
-                    <label for="password" class="control-label">Password</label> <input type="text" th:field="*{password}" class="form-control"/><br>
-                   Role Type: <select name="name">
-   						 <option th:value="ROLE_USER" th:text="user"></option>
-   						 <option th:value="ROLE_ADMIN" th:text="Admin"></option>
-
-                    </select><br>
+                <h1>Today's Status</h1>
+                <form th:action="sta">
+                    Leave-Authorized
+                    <label for="name" class="control-label">Authorized</label> 
+                    <input type="text" name="name" class="form-control"  />
                    
-               		<br> <button type="submit" class="btn btn-success">Save</button>
-
+                   
+               		 <button type="submit" class="btn btn-success">Save</button>
                 </form>
             </div>
         </div>

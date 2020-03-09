@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.LateArrival;
@@ -25,11 +27,17 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	private String firstName;
+	
 	private String lastName;
+
 	private String emailID;
+	
 	private String company;
+	
 	private String username;
+	
 	private String password;
 	
 	 @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})

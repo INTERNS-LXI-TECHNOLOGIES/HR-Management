@@ -32,16 +32,11 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
           <li th:classappend="${module == 'addUser' ? 'active' : ''}">
-              <a href="/addUser" th:href="@{/addUser}">Add User
-              </a>
-              </li>
-            <li th:classappend="${module == 'addUser' ? 'active' : ''}">
-            
-              <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout
-              </a>
-              </li>
+              <a href="/addUser" th:href="@{/addUser}">Add User</a></li>
+           <li th:classappend="${module == 'logout' ? 'active' : ''}">
+              <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout</a></li>
              <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout-success}"></form>
-            </li>
+           </li>
           </ul>
           
         </div>
