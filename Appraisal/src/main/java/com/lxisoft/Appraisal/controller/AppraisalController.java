@@ -3,7 +3,10 @@ package com.lxisoft.Appraisal.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +18,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
 import com.lxisoft.Appraisal.service.UserService;
 
@@ -55,18 +60,24 @@ public class AppraisalController {
 		mv.addObject("list", user);
 		return mv;
 	}
-
+	@RequestMapping("/addUser")
+	public String addUser(Model model) {
+		model.addAttribute("newUser",new User());
+		
+		
+		return "addUser";
+	}
+	
 	@RequestMapping("/addU")
-	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addUser(@ModelAttribute(value="newUser")User user,HttpServletRequest request, HttpServletResponse response)
 	{
 		
-		User user=new User();
-		user.setFirstName(request.getParameter("firstname"));
-		user.setLastName(request.getParameter("lastname"));
-		user.setEmailID(request.getParameter("email"));
-		user.setCompany(request.getParameter("company"));
+		Role role=new Role(request.getParameter("name"));
+		Set < Role > roles=new HashSet < Role >();
+		roles.add(role);
+		user.setRoles(roles);
 		service.addUser(user);
-		ModelAndView mv=viewUsers();
+		ModelAndView mv=new ModelAndView("redirect:/viewUsers");
 		return mv;
 	}
 
