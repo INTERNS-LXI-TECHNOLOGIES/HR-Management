@@ -4,14 +4,69 @@
    
    <head>
       <title>User Info</title>
+		<meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+	<style>
+		 nav { position:sticky !important;} 
+	</style>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+     <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+      <div class="container">
+        <div class="navbar-header" >
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+             <li th:classappend="${module == 'home' ? 'active' : ''}">
+              <a href="#" th:href="@{/}">Home</a>
+            </li>
+           
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+          <li th:classappend="${module == 'addUser' ? 'active' : ''}">
+              <a href="/addUser" th:href="@{/viewUsers}">View All Users
+              </a>
+              </li>
+            <li th:classappend="${module == 'addUser' ? 'active' : ''}">
+            
+              <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout
+              </a>
+              </li>
+             <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout-success}"></form>
+            </li>
+          </ul>
+          
+        </div>
+      </div>
+    </nav>
+		
    </head>
    <body align="center">
+   
+ 
+  
+<style>	
+	table th,td 
+	{	width: 2px;
+		border:2px solid black;
+	}		
+	b,a:hover{ 
+            text-decoration: none; 
+        } 
+</style>
       <img th:src="@{/img/user.jpg}" style="width:80px;height:80px;"/>
        <h1>NAME:  <a th:text="${employee.getFirstName()}" ></h1>   
-     <table align="center" >
+     <table align="center">
        <tr>
 	       <th><b>FirstName</b></th>
-	      	<td><a th:text="${employee.getFirstName()}" ></td>
+	      	<td><a th:text="${employee.getFirstName()}"></td>
       </tr>  
        <tr>
 	       <th><b>LastName</b></th>
@@ -24,10 +79,20 @@
       <tr>
 	       <th><b>Company </b></th>    
 	      	<td> <a th:text="${employee.getCompany()}" >  </td>
-      </tr>     
+      </tr>  
+         
+      </table>      
+      <table align="center" >
+      <h1>PERFOMANCE</h1>
+       <tr>
+	       <th><b>Leaves</b></th>
+	      	<td>   5 days    </td>
+      </tr>  
+       <tr>
+	       <th><b>Late Arrivals</b></th>
+	       <td>     28 hr </td>
+      </tr>        
       </table> 
-    <p><a th:href = "@{/logout-success}">LogOut</a></p>   
-
-   </body>
-   
-</html>
+     
+    </body>
+    </html>   
