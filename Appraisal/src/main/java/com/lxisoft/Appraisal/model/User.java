@@ -30,20 +30,20 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@NotEmpty
+	@NotEmpty(message="must not empty")
 	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String firstName;
-	@NotEmpty
+	@NotEmpty(message="must not empty")
 	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String lastName;
-	@NotEmpty
-	@Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", message="Email address is invalid")
+	@NotEmpty(message="must not empty")
+	@Email (message="invalid e mail")
 	private String emailID;
-	
+	@NotEmpty(message="must not empty")
 	private String company;
-	
+	@NotEmpty(message="must not empty")
 	private String username;
-	
+	@NotEmpty(message="must not empty")
 	private String password;
 	
 	 @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})

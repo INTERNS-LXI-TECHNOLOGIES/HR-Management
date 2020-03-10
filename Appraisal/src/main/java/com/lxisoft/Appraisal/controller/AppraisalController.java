@@ -75,19 +75,21 @@ public class AppraisalController {
 	}
 	
 	@RequestMapping("/addU")
-	public ModelAndView addUser(@ModelAttribute(value="newUser") @Valid User user,BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addUser(@ModelAttribute @Valid User user,BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response)
 	{
 		ModelAndView mv;
 	
 		if (bindingResult.hasErrors()) {
-			mv=new ModelAndView("redirect:/addUser");}
+			mv=new ModelAndView("redirect:/addUser");
+			}
 		else {
-		Role role=new Role(request.getParameter("name"));
-		Set < Role > roles=new HashSet < Role >();
-		roles.add(role);
-		user.setRoles(roles);
-		service.addUser(user);
-		mv=new ModelAndView("redirect:/viewUsers");}
+			Role role=new Role(request.getParameter("name"));
+			Set < Role > roles=new HashSet < Role >();
+			roles.add(role);
+			user.setRoles(roles);
+			service.addUser(user);
+			mv=new ModelAndView("redirect:/viewUsers");
+			}
 		return mv;
 	}
 
