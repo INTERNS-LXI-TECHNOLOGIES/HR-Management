@@ -13,6 +13,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.LateArrival;
@@ -27,11 +30,14 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+	@NotEmpty
+	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String firstName;
-	
+	@NotEmpty
+	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String lastName;
-
+	@NotEmpty
+	@Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", message="Email address is invalid")
 	private String emailID;
 	
 	private String company;

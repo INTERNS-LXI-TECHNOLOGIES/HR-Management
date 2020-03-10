@@ -13,6 +13,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -73,16 +75,19 @@ public class AppraisalController {
 	}
 	
 	@RequestMapping("/addU")
-	public ModelAndView addUser(@ModelAttribute(value="newUser")User user,HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addUser(@ModelAttribute(value="newUser") @Valid User user,BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response)
 	{
-		
-
+		ModelAndView mv;
+	
+		if (bindingResult.hasErrors()) {
+			mv=new ModelAndView("redirect:/addUser");}
+		else {
 		Role role=new Role(request.getParameter("name"));
 		Set < Role > roles=new HashSet < Role >();
 		roles.add(role);
 		user.setRoles(roles);
 		service.addUser(user);
-		ModelAndView mv=new ModelAndView("redirect:/viewUsers");
+		mv=new ModelAndView("redirect:/viewUsers");}
 		return mv;
 	}
 
