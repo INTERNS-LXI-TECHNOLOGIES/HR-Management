@@ -22,6 +22,10 @@ public class Leave {
     @JoinColumn(name = "user_id")
     private User user;
 	
+	public Leave() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Leave(LocalDate date, String type, User user) {
 		super();
 		Date = date;

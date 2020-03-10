@@ -6,48 +6,57 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>status page</title>
 </head>
-
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-     <span class="sr-only">Toggle navigation</span> <span
-      class="icon-bar"></span> <span class="icon-bar"></span> <span
-      class="icon-bar"></span>
-    </button>
-              
-            </div>
-        </div>
-    </nav>
-
-    <br>
-    <br>
-
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+    <div class="navbar-header">
+     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+     <span class="sr-only">Toggle navigation</span> 
+     <span class="icon-bar"></span> <span class="icon-bar"></span> 
+     <span class="icon-bar"></span>
+</button>
+     </div>
+     </div>
+     </nav>
+<br>
+<br>
+    <div class="container">
+    <div class="row">
+    <div class="col-md-6 col-md-offset-3">
 
-                <div th:if="${param.success}">
-                    <div class="alert alert-info">User successfully added!</div>
-                </div>
+     <div th:if="${param.success}">
+         <div class="alert alert-info">Status successfully added</div>
+     </div>
 
-                <h1>Today's Status</h1>
-                <form th:action="sta">
-                    Leave-Authorized
-                    <label for="name" class="control-label">Authorized</label> 
-                    <input type="text" name="name" class="form-control"  />
-                   
-                   
-               		 <button type="submit" class="btn btn-success">Save</button>
-                </form>
-            </div>
-        </div>
+      <h1>Today's Status</h1>
+      <form th:action="sta">
+          Leave
+          <br><br>
+          <label for="leave">Authorized</label> 
+	      <select multiple class="form-control" id="leave">
+	      <tr th:each="employee: ${list}">
+    		<td><option><span th:text="${employee.getFirstName()} "></span></td></option>
+	      </select>
+          <label for="name1[]" class="control-label">Authorized</label> 
+          <input type="text" name="name1[]" class="form-control"  multiple/>
+           <label for="name" class="control-label">UnAuthorized</label> 
+          <input type="text" name="name" class="form-control"  />
+          Late Arrival
+          <br><br>
+           <label for="name" class="control-label">Authorized</label> 
+          <input type="text" name="name" class="form-control"  />
+           <label for="name" class="control-label">UnAuthorized</label> 
+          <input type="text" name="name" class="form-control"  />
+     		 <button type="submit" class="btn btn-success">Save</button>
+      </form>
+      </div>
+      </div>
     </div>
 
     <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>

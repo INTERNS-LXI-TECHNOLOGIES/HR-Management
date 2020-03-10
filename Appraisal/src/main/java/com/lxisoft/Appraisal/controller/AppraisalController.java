@@ -90,7 +90,20 @@ public class AppraisalController {
 	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
-		 Optional <User> optional = service.findByid(id);	  	 
+		 Optional <User> optional = service.findByid(id);
+		 List<Leave> l=service.getAllLeave();
+		 for(int j=0;j<l.size();j++)
+		 {
+			 User u=l.get(j).getUser();
+			 Long p=u.getId();
+			 if((p).equals(id))
+			 {
+				 Optional<Leave> opt=service.findLeaveById(p);
+				 mv.addObject("leave",opt.get());
+			 }
+		 }
+		 
+		 
 		 mv.addObject("employee",optional.get());     
 		 	return mv ;  
 		 
@@ -98,7 +111,7 @@ public class AppraisalController {
 	@RequestMapping("/sta")
 	public void status(HttpServletRequest request, HttpServletResponse response)
 	{
-		String n=request.getParameter("name");
+		String[] n=request.getParameter("name1");
 		
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
@@ -109,7 +122,6 @@ public class AppraisalController {
 			{
 				String t="Authorized";
 				User u=user.get(i);
-				Long e=(long) 1;
 				String date = "2016-08-16";
 				LocalDate localDate = LocalDate.parse(date);
 				service.setLeave(new Leave(localDate,t,u));

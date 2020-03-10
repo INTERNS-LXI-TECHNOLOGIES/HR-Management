@@ -65,5 +65,15 @@ public class UserService implements UserDetailsService {
 	{
 		repos.save(leave);
 	}
+	public Optional <Leave> findLeaveById(Long id)
+	{
+		Optional <Leave> l=repos.findById(id);
+		return l;
+	}
+	public List<Leave> getAllLeave()
+	{
+		List<Leave> l=repos.findAll();
+		return l;
+	}
 
 }
