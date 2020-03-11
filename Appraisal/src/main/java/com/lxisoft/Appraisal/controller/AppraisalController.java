@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lxisoft.Appraisal.model.User;
+import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
 
@@ -90,10 +91,15 @@ public class AppraisalController {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
 		 Optional<Leave> leave = service.findDate(id);
+		 Optional<LateArrival> late = service.findLate(id);
 		 mv.addObject("employee",user.get());
 		 if(leave.isPresent())
 		 {
 		 mv.addObject("leave",leave.get());
+		 }
+		 if(late.isPresent())
+		 {
+		 mv.addObject("late",late.get());
 		 }
 		 	return mv ;  
 		 

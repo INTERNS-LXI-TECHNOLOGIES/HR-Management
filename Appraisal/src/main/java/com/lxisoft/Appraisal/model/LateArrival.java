@@ -1,7 +1,6 @@
 package com.lxisoft.Appraisal.model;
 import java.time.Instant;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +17,9 @@ public class LateArrival {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Instant reachedTime;
+	@ManyToOne
+    @JoinColumn(name = "user_id")
+	 private User user;
 	public Long getId() {
 		return id;
 	}
