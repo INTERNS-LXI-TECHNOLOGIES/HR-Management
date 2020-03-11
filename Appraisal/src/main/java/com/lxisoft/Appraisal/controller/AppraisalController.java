@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,14 +49,22 @@ public class AppraisalController {
 		
 //		mv.addObject("date",timeStand);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		if (principal instanceof UserDetails) {
+		  String username = ((UserDetails)principal).getUsername();
+//		} 
 		boolean hasUserRole = authentication.getAuthorities().stream()
 		          .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		if(hasUserRole)
+		{
 			mv.setViewName("redirect:/viewUsers");
+			mv.addObject("username",username);
+		}
 		else 
 			{
-			mv.setViewName("redirect:/userPage");
+			User user=service.getUserByusername(username);
+			mv.addObject("id",user.getId());
+			mv.setViewName("redirect:/userDetails");
 			}
 		
 		
@@ -63,11 +72,12 @@ public class AppraisalController {
 	}
 
 	@RequestMapping("/viewUsers")
-	public ModelAndView viewUsers()
+	public ModelAndView viewUsers(HttpServletRequest request, HttpServletResponse response)
 	{
-		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		ArrayList<User> users=(ArrayList<User>) service.getAllUsers();
 		ModelAndView mv= new ModelAndView("viewAllUsers");
-		mv.addObject("list", user);
+		User user=service.getUserByusername(request.getParameter("username"));
+		mv.addObject("list", users);
 		return mv;
 	}
 	@RequestMapping("/addUser")

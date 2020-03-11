@@ -80,4 +80,9 @@ public class UserService implements UserDetailsService {
 		Optional<LateArrival> em= repol.findById(id);
 		return em;
 	}
+
+	public User getUserByusername(String username) {
+		
+		return repo.findByUsername(username);
+	}
 }
