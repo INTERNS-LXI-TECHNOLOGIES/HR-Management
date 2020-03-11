@@ -71,13 +71,13 @@ public class UserService implements UserDetailsService {
 	
 	public  Optional<Leave> findDate(Long id)
 	{
-		Optional<Leave> em=repos.findById(id);
+		Optional<Leave> em=repos.findByUserId(id);
 		 
 		 return em;
 	}	
 	public Optional<LateArrival> findLate(Long id)
 	{
-		Optional<LateArrival> em= repol.findById(id);
+		Optional<LateArrival> em= repol.findByUserId(id);
 		return em;
 	}
 }

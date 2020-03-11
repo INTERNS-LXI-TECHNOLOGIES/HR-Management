@@ -110,17 +110,7 @@ public class AppraisalController {
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
-		 Optional<Leave> leave = service.findDate(id);
-		 Optional<LateArrival> late = service.findLate(id);
-		 mv.addObject("employee",user.get());
-		 if(leave.isPresent())
-		 {
-		 mv.addObject("leave",leave.get());
-		 }
-		 if(late.isPresent())
-		 {
-		 mv.addObject("late",late.get());
-		 }
+		 mv.addObject("employee",user);
 		 	return mv ;  
 		 
 	 }
