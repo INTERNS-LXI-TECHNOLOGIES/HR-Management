@@ -31,6 +31,10 @@
            
           </ul>
           <ul class="nav navbar-nav navbar-right">
+          <li th:classappend="${module == 'report' ? 'active' : ''}">
+              <a href="/addUser" th:href="@{/status}">report</a></li>
+              <li th:classappend="${module == 'setting' ? 'active' : ''}">
+              <a href="/adminLogin" th:href="@{/adminLogin}">settings</a></li>
           <li th:classappend="${module == 'addUser' ? 'active' : ''}">
               <a href="/addUser" th:href="@{/addUser}">Add User</a></li>
            <li th:classappend="${module == 'logout' ? 'active' : ''}">

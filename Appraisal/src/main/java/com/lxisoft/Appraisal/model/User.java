@@ -13,38 +13,47 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.LateArrival;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 @Entity
 @Table(name = "user")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+	@NotEmpty(message="must not empty")
+	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String firstName;
-	
+	@NotEmpty(message="must not empty")
+	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String lastName;
-
+	@NotEmpty(message="must not empty")
+	@Email (message="invalid e mail")
 	private String emailID;
-	
+	@NotEmpty(message="must not empty")
 	private String company;
-	
+	@NotEmpty(message="must not empty")
 	private String username;
-	
+	@NotEmpty(message="must not empty")
 	private String password;
 	
-	 @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	 @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
 	    @JoinTable(
 	        name = "users_roles",
 	        joinColumns = @JoinColumn(
-	            name = "user_id", referencedColumnName = "id"),
+	            name = "user_id"),
 	        inverseJoinColumns = @JoinColumn(
-	            name = "role_id", referencedColumnName = "id"))
-	 private Collection < Role > roles;
+	            name = "role_id"))
+	 private Set < Role > roles;
 
 	 @OneToMany(cascade = CascadeType.ALL)
 	    @JoinColumn(name = "user_id")
@@ -105,12 +114,13 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Collection<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
+	public void setRoles(Set < Role > roles) {
+		
+		this.roles=roles;
 	}
 	
 	public List<Leave> getLeave() {

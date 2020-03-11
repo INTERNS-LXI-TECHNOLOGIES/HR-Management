@@ -4,11 +4,16 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import java.util.HashSet;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +22,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
@@ -38,13 +46,13 @@ public class AppraisalController {
 		ModelAndView mv=new ModelAndView(); 
 		String timeStand =new SimpleDateFormat ("yyyy/MM/dd").format( Calendar.getInstance().getTime());
 		
-		mv.addObject("date",timeStand);
+//		mv.addObject("date",timeStand);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		boolean hasUserRole = authentication.getAuthorities().stream()
 		          .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		if(hasUserRole)
-			mv.setViewName("adminLogin");
+			mv.setViewName("redirect:/viewUsers");
 		else mv.setViewName("redirect:/userPage");
 		
 		
@@ -59,18 +67,30 @@ public class AppraisalController {
 		mv.addObject("list", user);
 		return mv;
 	}
-
-	@RequestMapping("/addU")
-	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response)
-	{
+	@RequestMapping("/addUser")
+	public String addUser(Model model) {
+		model.addAttribute("newUser",new User());
 		
-		User user=new User();
-		user.setFirstName(request.getParameter("firstname"));
-		user.setLastName(request.getParameter("lastname"));
-		user.setEmailID(request.getParameter("email"));
-		user.setCompany(request.getParameter("company"));		
-		service.addUser(user);
-		ModelAndView mv=new ModelAndView("redirect:/viewUsers");
+		
+		return "addUser";
+	}
+	
+	@RequestMapping("/addU")
+	public ModelAndView addUser(@ModelAttribute @Valid User user,BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response)
+	{
+		ModelAndView mv;
+	
+		if (bindingResult.hasErrors()) {
+			mv=new ModelAndView("redirect:/addUser");
+			}
+		else {
+			Role role=new Role(request.getParameter("name"));
+			Set < Role > roles=new HashSet < Role >();
+			roles.add(role);
+			user.setRoles(roles);
+			service.addUser(user);
+			mv=new ModelAndView("redirect:/viewUsers");
+			}
 		return mv;
 	}
 

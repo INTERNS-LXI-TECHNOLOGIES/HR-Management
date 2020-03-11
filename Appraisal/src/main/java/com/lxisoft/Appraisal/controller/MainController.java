@@ -2,7 +2,10 @@ package com.lxisoft.Appraisal.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
 import com.lxisoft.Appraisal.service.UserService;
 
@@ -20,11 +23,6 @@ public class MainController {
 		return "UserLogin";
 	}
 	
-	@RequestMapping("/addUser")
-	public String addUser() {
-
-		return "addUser";
-	}
 	
 	@RequestMapping("/login")
 	public String loginPage() {
@@ -37,5 +35,9 @@ public class MainController {
 		
 		return "status";
 	}
-
+	@RequestMapping("/adminLogin")
+	public String adminLogin()
+	{
+		return "adminLogin";
+	}
 }
