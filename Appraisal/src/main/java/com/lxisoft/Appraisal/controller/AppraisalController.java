@@ -45,13 +45,13 @@ public class AppraisalController {
 		ModelAndView mv=new ModelAndView(); 
 		String timeStand =new SimpleDateFormat ("yyyy/MM/dd").format( Calendar.getInstance().getTime());
 		
-		mv.addObject("date",timeStand);
+//		mv.addObject("date",timeStand);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		boolean hasUserRole = authentication.getAuthorities().stream()
 		          .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		if(hasUserRole)
-			mv.setViewName("adminLogin");
+			mv.setViewName("redirect:/viewUsers");
 		else mv.setViewName("redirect:/userPage");
 		
 		
