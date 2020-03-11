@@ -53,7 +53,10 @@ public class AppraisalController {
 		          .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		if(hasUserRole)
 			mv.setViewName("redirect:/viewUsers");
-		else mv.setViewName("redirect:/userPage");
+		else 
+			{
+			mv.setViewName("redirect:/userPage");
+			}
 		
 		
 		return  mv;
