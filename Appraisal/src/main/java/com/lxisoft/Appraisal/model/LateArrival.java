@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "late_arrival")
 public class LateArrival {
@@ -18,6 +20,10 @@ public class LateArrival {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Instant reachedTime;
+	@ManyToOne
+    @JoinColumn(name = "user_id")
+	@JsonBackReference
+    private User user;
 	public Long getId() {
 		return id;
 	}
@@ -30,6 +36,13 @@ public class LateArrival {
 	public void setReachedTime(Instant reachedTime) {
 		this.reachedTime = reachedTime;
 	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	
 
 }

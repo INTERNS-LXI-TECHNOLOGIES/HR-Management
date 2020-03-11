@@ -4,11 +4,16 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import java.util.HashSet;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +22,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
@@ -58,20 +69,28 @@ public class AppraisalController {
 		mv.addObject("list", user);
 		return mv;
 	}
-
-	@RequestMapping("/addU")
-	public ModelAndView addUser(HttpServletRequest request, HttpServletResponse response)
-	{
+	@RequestMapping("/addUser")
+	public String addUser(Model model) {
+		model.addAttribute("newUser",new User());
 		
-		User user=new User();
-		user.setFirstName(request.getParameter("firstname"));
-		user.setLastName(request.getParameter("lastname"));
-		user.setEmailID(request.getParameter("email"));
-		user.setCompany(request.getParameter("company"));
-		user.setEmailID(request.getParameter("username"));
-		user.setCompany(request.getParameter("password"));
+		
+		return "addUser";
+	}
+	
+	@RequestMapping("/addU")
+	public ModelAndView addUser(@ModelAttribute(value="newUser") @Valid User user,BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response)
+	{
+		ModelAndView mv;
+	
+		if (bindingResult.hasErrors()) {
+			mv=new ModelAndView("redirect:/addUser");}
+		else {
+		Role role=new Role(request.getParameter("name"));
+		Set < Role > roles=new HashSet < Role >();
+		roles.add(role);
+		user.setRoles(roles);
 		service.addUser(user);
-		ModelAndView mv=viewUsers();
+		mv=new ModelAndView("redirect:/viewUsers");}
 		return mv;
 	}
 
@@ -90,28 +109,49 @@ public class AppraisalController {
 	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
-		 Optional <User> optional = service.findByid(id);
-		 List<Leave> l=service.getAllLeave();
-		 for(int j=0;j<l.size();j++)
+		 Optional <User> user = service.findByid(id);
+		 Optional<Leave> leave = service.findDate(id);
+		 mv.addObject("employee",user.get());
+		 if(leave.isPresent())
 		 {
-			 User u=l.get(j).getUser();
-			 Long p=u.getId();
-			 if((p).equals(id))
-			 {
-				 Optional<Leave> opt=service.findLeaveById(p);
-				 mv.addObject("leave",opt.get());
-			 }
+		 mv.addObject("leave",leave.get());
 		 }
-		 
-		 
-		 mv.addObject("employee",optional.get());     
 		 	return mv ;  
 		 
 	 }
-	@RequestMapping("/sta")
-	public void status(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/statusform",method = RequestMethod.GET)
+	public @ResponseBody
+	List<User> getName(@RequestParam("firstName") String firstName) {
+
+		return simulateSearchResult(firstName);
+
+	}
+
+	private List<User> simulateSearchResult(String firstName) {
+
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		ArrayList<User> result = new ArrayList<User>();
+		for (User u : user) {
+			if (u.getFirstName().contains(firstName)) {
+				result.add(u);
+			}
+		}
+
+		return result;
+	}
+	@RequestMapping("/setStatus")
+	public ModelAndView setStatus()
 	{
-		String[] n=request.getParameter("name1");
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		ModelAndView mv= new ModelAndView("status");
+		mv.addObject("list", user);
+		return mv;
+	}
+
+	@RequestMapping("/sta")
+	public String status(HttpServletRequest request, HttpServletResponse response)
+	{
+		String n=request.getParameter("leave");
 		
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
@@ -128,7 +168,8 @@ public class AppraisalController {
 				
 			}
 		}
+		 return "redirect:/viewUsers"; 
 		
 	}
- 
 }
+

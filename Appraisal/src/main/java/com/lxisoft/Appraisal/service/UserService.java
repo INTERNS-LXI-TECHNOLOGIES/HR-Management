@@ -46,6 +46,7 @@ public class UserService implements UserDetailsService {
             .collect(Collectors.toList());
     }
 	
+
 	public void addUser(User user) 
 	{
 		repo.save(user);
@@ -65,15 +66,10 @@ public class UserService implements UserDetailsService {
 	{
 		repos.save(leave);
 	}
-	public Optional <Leave> findLeaveById(Long id)
+	public  Optional<Leave> findDate(Long id)
 	{
-		Optional <Leave> l=repos.findById(id);
-		return l;
-	}
-	public List<Leave> getAllLeave()
-	{
-		List<Leave> l=repos.findAll();
-		return l;
-	}
-
+		Optional<Leave> em=repos.findById(id);
+		 System.out.println("ANy Leaves there:::::::::::::"+em.isPresent());
+		 return em;
+	}	
 }

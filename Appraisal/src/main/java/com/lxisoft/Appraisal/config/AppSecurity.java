@@ -44,7 +44,7 @@ public class AppSecurity extends WebSecurityConfigurerAdapter
 			.antMatchers("/addUser").access("hasRole('ROLE_ADMIN')")
 			.anyRequest().authenticated()
 			.and()
-			.formLogin()
+			.formLogin()		
 			.loginPage("/login").permitAll()
 			.and()
 			.logout().invalidateHttpSession(true)

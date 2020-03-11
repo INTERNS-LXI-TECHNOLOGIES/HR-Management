@@ -38,14 +38,36 @@
                 </div>
 
                 <h1>User Info</h1>
-                <form th:action="addU">
-                    <label for="firstname" class="control-label">First name</label> <input type="text" name="firstname" class="form-control"  />
-                    <label for="lastname" class="control-label">Last name</label> <input  type="text" name="lastname" class="form-control"/>
-                    <label for="email" class="control-label">E-mail</label> <input type="text" name="email" class="form-control"/>
-                    <label for="company" class="control-label">company</label> <input type="text" name="company" class="form-control"/>
-                    <label for="username" class="control-label">User name</label> <input type="text" name="username" class="form-control"/>
-                    <label for="password" class="control-label">password</label> <input type="text" name="password" class="form-control"/>
-               		 <button type="submit" class="btn btn-success">Save</button>
+
+                <form th:action="@{/addU}" th:object="${newUser}" >
+                    <label>First name</label> <input type="text" th:field="*{firstName}" class="form-control" />
+                     <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"  ></p>
+                     
+                    <label>Last name</label> <input  type="text" th:field="*{lastName}" class="form-control" /> 
+                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                    
+                    <label>E-mail</label> <input type="text" th:field="*{emailID}" class="form-control"/>
+                    <p th:if="${#fields.hasErrors('emailID')}" th:errors="*{emailID}"></p>
+                    
+                    <label >Company</label> 
+                    <select  th:field="*{company}" >
+   						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
+   						 <option th:value="Bytatech" th:text="Bytatech"></option>
+   						 <option th:value="Divixo" th:text="Divixo"></option>
+   						 <option th:value="Felixo" th:text="Felixo"></option>
+   						 <option th:value="Illude" th:text="Illude"></option>
+
+                    </select><br>
+                    <label for="user" class="control-label">User Name</label> <input type="text" th:field="*{username}" class="form-control"/>
+                    <label for="password" class="control-label">Password</label> <input type="text" th:field="*{password}" class="form-control"/><br>
+                   Role Type: <select name="name">
+   						 <option th:value="ROLE_USER" th:text="user"></option>
+   						 <option th:value="ROLE_ADMIN" th:text="Admin"></option>
+
+                    </select><br>
+                   
+               		<br> <button type="submit" class="btn btn-success">Save</button>
+
                 </form>
             </div>
         </div>

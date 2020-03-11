@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "Leaves")
 public class Leave {
@@ -20,11 +22,10 @@ public class Leave {
 	private String type;
 	@ManyToOne
     @JoinColumn(name = "user_id")
+	@JsonBackReference
     private User user;
-	
-	public Leave() {
-		super();
-		// TODO Auto-generated constructor stub
+	public Leave()
+	{
 	}
 	public Leave(LocalDate date, String type, User user) {
 		super();

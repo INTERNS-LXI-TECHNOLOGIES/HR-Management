@@ -13,22 +13,32 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import com.lxisoft.Appraisal.model.Role;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lxisoft.Appraisal.model.LateArrival;
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 @Entity
 @Table(name = "user")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+	@NotEmpty
+	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String firstName;
-	
+	@NotEmpty
+	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String lastName;
-
+	@NotEmpty
+	@Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", message="Email address is invalid")
 	private String emailID;
 	
 	private String company;
@@ -37,24 +47,37 @@ public class User {
 	
 	private String password;
 	
-	 @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	 @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
 	    @JoinTable(
 	        name = "users_roles",
 	        joinColumns = @JoinColumn(
-	            name = "user_id", referencedColumnName = "id"),
+	            name = "user_id"),
 	        inverseJoinColumns = @JoinColumn(
-	            name = "role_id", referencedColumnName = "id"))
-	 private Collection < Role > roles;
+	            name = "role_id"))
+	  @JsonManagedReference
+	 private Set < Role > roles;
 
 	 @OneToMany(cascade = CascadeType.ALL)
 	    @JoinColumn(name = "user_id")
+	  @JsonManagedReference
 	 private List<Leave> leave;
 	 
 	 @OneToMany(cascade = CascadeType.ALL)
-	    @JoinColumn(name = "user_id")
+	 @JoinColumn(name = "user_id")
+	  @JsonManagedReference
 	 private List<LateArrival> lateArrival;
 	
 	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public User(Long id,
+			@NotEmpty @Size(min = 2, max = 20, message = "First name must be min 2 char") String firstName) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -105,12 +128,13 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public Collection<Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Collection<Role> roles) {
-		this.roles = roles;
+	public void setRoles(Set < Role > roles) {
+		
+		this.roles=roles;
 	}
 	
 	public List<Leave> getLeave() {

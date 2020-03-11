@@ -8,9 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <!-- JQuery -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+  <!--Import Google Icon Font-->
+  	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>status page</title>
+    <!-- <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script> -->
+    
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -26,40 +35,51 @@
      </nav>
 <br>
 <br>
-    <div class="container">
-    <div class="row">
-    <div class="col-md-6 col-md-offset-3">
+<div class="container">
+<div class="col-md-4 mt-5">
+        <h1>Today's Status</h1>
+ 		<form th:action="sta">
+		 <div class="form-group">
+			<label for="leave">Authorized</label>
+			<input type="text"  id="leave" class="autocomplete">
+			<input type="text"  id="leave" class="autocomplete">
+		</div>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form>
+	</div>
+	</div>
 
-     <div th:if="${param.success}">
-         <div class="alert alert-info">Status successfully added</div>
-     </div>
 
-      <h1>Today's Status</h1>
-      <form th:action="sta">
-          Leave
-          <br><br>
-          <label for="leave">Authorized</label> 
-	      <select multiple class="form-control" id="leave">
-	      <tr th:each="employee: ${list}">
-    		<td><option><span th:text="${employee.getFirstName()} "></span></td></option>
-	      </select>
-          <label for="name1[]" class="control-label">Authorized</label> 
-          <input type="text" name="name1[]" class="form-control"  multiple/>
-           <label for="name" class="control-label">UnAuthorized</label> 
-          <input type="text" name="name" class="form-control"  />
-          Late Arrival
-          <br><br>
-           <label for="name" class="control-label">Authorized</label> 
-          <input type="text" name="name" class="form-control"  />
-           <label for="name" class="control-label">UnAuthorized</label> 
-          <input type="text" name="name" class="form-control"  />
-     		 <button type="submit" class="btn btn-success">Save</button>
-      </form>
-      </div>
-      </div>
-    </div>
+    <script>
+  
 
-    <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    $( function() {
+       
+    	  $( "#leave" ).autocomplete({
+        	  source: function(request, response ){
+        		  console.log("working");
+        		  $.ajax({
+        			    url: "/statusform",
+        			    dataType: "json",
+        			    data: {
+        			    	firstName: request.term
+        			    },
+        			    success: function (data) {
+        			    	console.log("Successss"+JSON.stringify(data));
+        			        response($.map(data, function (item) {
+        			        	console.log("Response"+JSON.stringify(item));
+        			            return {
+        			                label: item.firstName,
+        			                value: item.firstName
+        			            };
+        			        }));
+        			    }
+        			});
+        	  }
+        });
+        
+       
+      } );
+  </script>
 </body>
 </html>
