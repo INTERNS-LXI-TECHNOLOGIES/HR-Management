@@ -32,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
+import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
 
@@ -47,15 +48,16 @@ public class AppraisalController {
 	{
 		ModelAndView mv=new ModelAndView(); 
 		String timeStand =new SimpleDateFormat ("yyyy/MM/dd").format( Calendar.getInstance().getTime());
-		
-		mv.addObject("date",timeStand);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		boolean hasUserRole = authentication.getAuthorities().stream()
 		          .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		if(hasUserRole)
-			mv.setViewName("adminLogin");
-		else mv.setViewName("redirect:/userPage");
+			mv.setViewName("redirect:/viewUsers");
+		else 
+			{
+			mv.setViewName("redirect:/userPage");
+			}
 		
 		
 		return  mv;
@@ -78,19 +80,21 @@ public class AppraisalController {
 	}
 	
 	@RequestMapping("/addU")
-	public ModelAndView addUser(@ModelAttribute(value="newUser") @Valid User user,BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addUser(@ModelAttribute @Valid User user,BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response)
 	{
 		ModelAndView mv;
 	
 		if (bindingResult.hasErrors()) {
-			mv=new ModelAndView("redirect:/addUser");}
+			mv=new ModelAndView("redirect:/addUser");
+			}
 		else {
-		Role role=new Role(request.getParameter("name"));
-		Set < Role > roles=new HashSet < Role >();
-		roles.add(role);
-		user.setRoles(roles);
-		service.addUser(user);
-		mv=new ModelAndView("redirect:/viewUsers");}
+			Role role=new Role(request.getParameter("name"));
+			Set < Role > roles=new HashSet < Role >();
+			roles.add(role);
+			user.setRoles(roles);
+			service.addUser(user);
+			mv=new ModelAndView("redirect:/viewUsers");
+			}
 		return mv;
 	}
 
@@ -111,10 +115,15 @@ public class AppraisalController {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
 		 Optional<Leave> leave = service.findDate(id);
+		 Optional<LateArrival> late = service.findLate(id);
 		 mv.addObject("employee",user.get());
 		 if(leave.isPresent())
 		 {
 		 mv.addObject("leave",leave.get());
+		 }
+		 if(late.isPresent())
+		 {
+		 mv.addObject("late",late.get());
 		 }
 		 	return mv ;  
 		 
@@ -151,18 +160,26 @@ public class AppraisalController {
 	@RequestMapping("/sta")
 	public String status(HttpServletRequest request, HttpServletResponse response)
 	{
-		String n=request.getParameter("leave");
-		
+		String name1=request.getParameter("leaveAuth");
+		String name2=request.getParameter("leaveUnAuth");
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
 		{
 			
 			String m=user.get(i).getFirstName();
-			if(n.contains(m))
+			if(name1.contains(m))
 			{
 				String t="Authorized";
 				User u=user.get(i);
 				String date = "2016-08-16";
+				LocalDate localDate = LocalDate.parse(date);
+				service.setLeave(new Leave(localDate,t,u));	
+			}
+			if(name2.contains(m))
+			{
+				String t="UnAuthorized";
+				User u=user.get(i);
+				String date = "2020-08-16";
 				LocalDate localDate = LocalDate.parse(date);
 				service.setLeave(new Leave(localDate,t,u));
 				

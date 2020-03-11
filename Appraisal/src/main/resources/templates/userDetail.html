@@ -48,52 +48,43 @@
     </nav>
 		
    </head>
-   <body align="center">
-   
- 
-  
+   <body align="center">  
 <style>	
 	table th,td 
-	{	width: 2px;
-		border:2px solid black;
-	}		
-	
+	{	width: 1px;
+		border:.05px solid black;
+	}			
 </style>
       <img th:src="@{/img/user.jpg}" style="width:80px;height:80px;"/>
-       <h1>NAME:  <span th:text="${employee.getFirstName()}" ></span></h1>   
-     <table align="center">
+       <h1>NAME:  <span th:text="${employee.FirstName}"  ></span> <span th:text="${employee.LastName}"></span></h1> 
+      
+     <table align="center" BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">
        <tr>
-	       <th><b>FirstName</b></th>
-	      	<td th:text="${employee.getFirstName()}"></td>
-	      	
-      </tr>  
-       <tr>
-	       <th><b>LastName</b></th>
-	       <td> <span th:text="${employee.getLastName()}" > </td>
-      </tr>  
-      <tr>
 	       <th><b>Email ID </b></th>    
-	      	<td> <span th:text="${employee.getEmailID()}" > </td>
+	      	<td> <span th:text="${employee.EmailID}" ></span> </td>
       </tr>  
       <tr>
 	       <th><b>Company </b></th>    
-	      	<td> <span th:text="${employee.getCompany()}" >  </td>
-      </tr>  
-         
-      </table>  
-      
-        
-      <table align="center" >
-      <h1>PERFOMANCE</h1>
+	      	<td> <span th:text="${employee.Company}" > </span> </td>
+      </tr>               
+      </table>                
+      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300"> 
+       <h4>PERFOMANCE</h4>     
        <tr>
 	       <th><b>Leaves</b></th>
-	      	<td> <span th:text="${leave?.date}" > </td>
+	      	<td> <span th:text="${leave?.date}" ></span> </td>
       </tr>  
        <tr>
-	       <th><b>Late Arrivals</b></th>
-	       <td>  <span th:text="${employee.company}" >  </td>
+	       <th><b>type</b></th>
+	       <td>  <span th:text="${leave?.type}" > </span> </td>
       </tr>        
       </table> 
-     
+     <table align="center" BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300"  > 
+       <h4>   </h4>     
+       <tr>
+	       <th><b>LateArrival</b></th>
+	      	<td> <span th:text="${late?.ReachedTime}" ></span> </td>
+      </tr>       
+      </table>
     </body>
     </html>   

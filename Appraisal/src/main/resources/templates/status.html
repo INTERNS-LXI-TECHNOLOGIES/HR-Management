@@ -37,12 +37,15 @@
 <br>
 <div class="container">
 <div class="col-md-4 mt-5">
-        <h1>Today's Status</h1>
+        <h2>Today's Status</h2>
  		<form th:action="sta">
 		 <div class="form-group">
-			<label for="leave">Authorized</label>
-			<input type="text"  id="leave" class="autocomplete">
-			<input type="text"  id="leave" class="autocomplete">
+		 	<h1>Leave</h1>
+		 	<br><br>
+			<label for="leave">Authorized</label><br>
+			<input type="text"  id="leave" name="leaveAuth" class="autocomplete"><br>
+			UnAuthorized
+			<input type="text"  id="leave" name="leaveUnAuth" class="autocomplete">
 		</div>
             <button class="btn btn-primary" type="submit">Save</button>
         </form>
@@ -55,7 +58,7 @@
 
     $( function() {
        
-    	  $( "#leave" ).autocomplete({
+    	  $( ".autocomplete" ).autocomplete({
         	  source: function(request, response ){
         		  console.log("working");
         		  $.ajax({
