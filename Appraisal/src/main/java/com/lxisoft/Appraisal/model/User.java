@@ -55,11 +55,11 @@ public class User {
 	            name = "role_id"))
 	 private Set < Role > roles;
 
-	 @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	 @OneToMany(cascade = CascadeType.ALL)
 	    @JoinColumn(name = "user_id")
 	 private List<Leave> leave;
 	 
-	 @OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	 @OneToMany(cascade = CascadeType.ALL)
 	    @JoinColumn(name = "user_id")
 	 private List<LateArrival> lateArrival;
 	
