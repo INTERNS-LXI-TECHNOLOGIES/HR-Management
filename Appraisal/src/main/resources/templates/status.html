@@ -6,89 +6,51 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <!-- JQuery -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  
-  <!--Import Google Icon Font-->
-  	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <title>status page</title>
-    <!-- <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script> -->
-    
 </head>
+
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+     <span class="sr-only">Toggle navigation</span> <span
+      class="icon-bar"></span> <span class="icon-bar"></span> <span
+      class="icon-bar"></span>
+    </button>
+              
+            </div>
+        </div>
+    </nav>
+
+    <br>
+    <br>
+
     <div class="container">
-    <div class="navbar-header">
-     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-     <span class="sr-only">Toggle navigation</span> 
-     <span class="icon-bar"></span> <span class="icon-bar"></span> 
-     <span class="icon-bar"></span>
-</button>
-     </div>
-     </div>
-     </nav>
-<br>
-<br>
-<div class="container">
-<div class="col-md-4 mt-5">
-        <h1>Today's Status</h1>
- 		<form th:action="sta">
-		 <div class="form-group">
-		 	<h2>Leave</h2>
-		 	<br><br>
-			<label for="leave">Authorized</label><br>
-			<input type="text"  id="leave" name="name" class="autocomplete"><br>
-			<label for="leave">UnAuthorized</label><br>
-			<input type="text"  id="leave" name="name" class="autocomplete">
-			<h2>Late Arrival</h2>
-		 	<br><br>
-			<label for="leave">Authorized</label><br>
-			<input type="text"  id="leave" name="name" class="autocomplete"><br>
-			<label for="leave">UnAuthorized</label><br>
-			<input type="text"  id="leave" name="name" class="autocomplete">
-		</div>
-            <button class="btn btn-primary" type="submit">Save</button>
-        </form>
-	</div>
-	</div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
 
+                <div th:if="${param.success}">
+                    <div class="alert alert-info">User successfully added!</div>
+                </div>
 
-    <script>
-  
+                <h1>Today's Status</h1>
+                <form th:action="sta">
+                    Leave-Authorized
+                    <label for="name" class="control-label">Authorized</label> 
+                    <input type="text" name="name" class="form-control"  />
+                   
+                   
+               		 <button type="submit" class="btn btn-success">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
-    $( function() {
-       
-    	  $( ".autocomplete" ).autocomplete({
-        	  source: function(request, response ){
-        		  console.log("working");
-        		  $.ajax({
-        			    url: "/statusform",
-        			    dataType: "json",
-        			    data: {
-        			    	firstName: request.term
-        			    },
-        			    success: function (data) {
-        			    	console.log("Successss"+JSON.stringify(data));
-        			        response($.map(data, function (item) {
-        			        	console.log("Response"+JSON.stringify(item));
-        			            return {
-        			                label: item.firstName,
-        			                value: item.firstName
-        			            };
-        			        }));
-        			    }
-        			});
-        	  }
-        });
-        
-       
-      } );
-  </script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 </body>
 </html>
