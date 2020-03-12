@@ -158,31 +158,31 @@ public class AppraisalController {
 	}
 
 	@RequestMapping("/sta")
-	public String status(HttpServletRequest request, HttpServletResponse response)
+	public String status(@RequestParam String[] name, HttpServletResponse response)
 	{
-		String name1=request.getParameter("leaveAuth");
-		String name2=request.getParameter("leaveUnAuth");
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
 		{
-			
-			String m=user.get(i).getFirstName();
-			if(name1.contains(m))
+			for(int j=0;j<name.length;j++)
 			{
-				String t="Authorized";
-				User u=user.get(i);
-				String date = "2016-08-16";
-				LocalDate localDate = LocalDate.parse(date);
-				service.setLeave(new Leave(localDate,t,u));	
-			}
-			if(name2.contains(m))
-			{
-				String t="UnAuthorized";
-				User u=user.get(i);
-				String date = "2020-08-16";
-				LocalDate localDate = LocalDate.parse(date);
-				service.setLeave(new Leave(localDate,t,u));
-				
+				String m=user.get(i).getFirstName();
+				if(name[0].contains(m))
+				{
+					String t="Authorized";
+					User u=user.get(i);
+					String date = "2016-08-16";
+					LocalDate localDate = LocalDate.parse(date);
+					service.setLeave(new Leave(localDate,t,u));	
+				}
+				if(name[1].contains(m))
+				{
+					String t="UnAuthorized";
+					User u=user.get(i);
+					String date = "2020-08-16";
+					LocalDate localDate = LocalDate.parse(date);
+					service.setLeave(new Leave(localDate,t,u));
+					
+				}
 			}
 		}
 		 return "redirect:/viewUsers"; 

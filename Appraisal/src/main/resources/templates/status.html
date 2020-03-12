@@ -37,15 +37,21 @@
 <br>
 <div class="container">
 <div class="col-md-4 mt-5">
-        <h2>Today's Status</h2>
+        <h1>Today's Status</h1>
  		<form th:action="sta">
 		 <div class="form-group">
-		 	<h1>Leave</h1>
+		 	<h2>Leave</h2>
 		 	<br><br>
 			<label for="leave">Authorized</label><br>
-			<input type="text"  id="leave" name="leaveAuth" class="autocomplete"><br>
-			UnAuthorized
-			<input type="text"  id="leave" name="leaveUnAuth" class="autocomplete">
+			<input type="text"  id="leave" name="name" class="autocomplete"><br>
+			<label for="leave">UnAuthorized</label><br>
+			<input type="text"  id="leave" name="name" class="autocomplete">
+			<h2>Late Arrival</h2>
+		 	<br><br>
+			<label for="leave">Authorized</label><br>
+			<input type="text"  id="leave" name="name" class="autocomplete"><br>
+			<label for="leave">UnAuthorized</label><br>
+			<input type="text"  id="leave" name="name" class="autocomplete">
 		</div>
             <button class="btn btn-primary" type="submit">Save</button>
         </form>
