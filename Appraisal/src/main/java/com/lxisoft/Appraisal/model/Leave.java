@@ -27,6 +27,15 @@ public class Leave {
 	public Leave()
 	{
 	}
+	
+	public Leave(Long id, LocalDate date, String type, User user) {
+		super();
+		this.id = id;
+		Date = date;
+		this.type = type;
+		this.user = user;
+	}
+
 	public Leave(LocalDate date, String type, User user) {
 		super();
 		Date = date;

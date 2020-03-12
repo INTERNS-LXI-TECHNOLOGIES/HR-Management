@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,14 +50,22 @@ public class AppraisalController {
 		ModelAndView mv=new ModelAndView(); 
 		String timeStand =new SimpleDateFormat ("yyyy/MM/dd").format( Calendar.getInstance().getTime());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		if (principal instanceof UserDetails) {
+		  String username = ((UserDetails)principal).getUsername();
+//		} 
 		boolean hasUserRole = authentication.getAuthorities().stream()
 		          .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		if(hasUserRole)
+		{
 			mv.setViewName("redirect:/viewUsers");
+			mv.addObject("username",username);
+		}
 		else 
 			{
-			mv.setViewName("redirect:/userPage");
+			User user=service.getUserByusername(username);
+			mv.addObject("id",user.getId());
+			mv.setViewName("redirect:/userDetails");
 			}
 		
 		
@@ -64,11 +73,12 @@ public class AppraisalController {
 	}
 
 	@RequestMapping("/viewUsers")
-	public ModelAndView viewUsers()
+	public ModelAndView viewUsers(HttpServletRequest request, HttpServletResponse response)
 	{
-		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		ArrayList<User> users=(ArrayList<User>) service.getAllUsers();
 		ModelAndView mv= new ModelAndView("viewAllUsers");
-		mv.addObject("list", user);
+		User user=service.getUserByusername(request.getParameter("username"));
+		mv.addObject("list", users);
 		return mv;
 	}
 	@RequestMapping("/addUser")
@@ -114,18 +124,10 @@ public class AppraisalController {
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
-		 Optional<Leave> leave = service.findDate(id);
-		 Optional<LateArrival> late = service.findLate(id);
+		 List<Leave> leave = service.findLeave(id);
 		 mv.addObject("employee",user.get());
-		 if(leave.isPresent())
-		 {
-		 mv.addObject("leave",leave.get());
-		 }
-		 if(late.isPresent())
-		 {
-		 mv.addObject("late",late.get());
-		 }
-		 	return mv ;  
+		 mv.addObject("leave",leave);
+		 return mv ;  
 		 
 	 }
 	@RequestMapping(value = "/statusform",method = RequestMethod.GET)
@@ -163,27 +165,24 @@ public class AppraisalController {
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
 		{
-			for(int j=0;j<name.length;j++)
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+			if(name[0].contains(m))
 			{
-				String m=user.get(i).getFirstName();
-				if(name[0].contains(m))
-				{
-					String t="Authorized";
-					User u=user.get(i);
-					String date = "2016-08-16";
-					LocalDate localDate = LocalDate.parse(date);
-					service.setLeave(new Leave(localDate,t,u));	
-				}
-				if(name[1].contains(m))
-				{
-					String t="UnAuthorized";
-					User u=user.get(i);
-					String date = "2020-08-16";
-					LocalDate localDate = LocalDate.parse(date);
-					service.setLeave(new Leave(localDate,t,u));
-					
-				}
+				String t="Authorized";
+				String date = "2016-08-16";
+				LocalDate localDate = LocalDate.parse(date);
+				service.setLeave(new Leave(localDate,t,u));	
 			}
+			if(name[1].contains(m))
+			{
+				String t="UnAuthorized";
+				String date = "2020-08-16";
+				LocalDate localDate = LocalDate.parse(date);
+				service.setLeave(new Leave(localDate,t,u));
+				
+			}
+			
 		}
 		 return "redirect:/viewUsers"; 
 		

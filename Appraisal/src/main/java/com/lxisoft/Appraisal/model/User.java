@@ -31,19 +31,25 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	@NotEmpty(message="must not empty")
 	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String firstName;
+	
 	@NotEmpty(message="must not empty")
 	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String lastName;
+	
 	@NotEmpty(message="must not empty")
 	@Email (message="invalid e mail")
 	private String emailID;
+	
 	@NotEmpty(message="must not empty")
 	private String company;
+	
 	@NotEmpty(message="must not empty")
 	private String username;
+	
 	@NotEmpty(message="must not empty")
 	private String password;
 	
