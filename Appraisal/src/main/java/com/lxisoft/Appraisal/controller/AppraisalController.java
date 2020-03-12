@@ -1,7 +1,11 @@
 package com.lxisoft.Appraisal.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -84,13 +88,11 @@ public class AppraisalController {
 	@RequestMapping("/addUser")
 	public String addUser(Model model) {
 		model.addAttribute("newUser",new User());
-		
-		
 		return "addUser";
 	}
 	
 	@RequestMapping("/addU")
-	public ModelAndView addUser(@ModelAttribute @Valid User user,BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addUser(@ModelAttribute @Valid User user,BindingResult bindingResult, HttpServletRequest request)
 	{
 		ModelAndView mv;
 	
@@ -125,8 +127,10 @@ public class AppraisalController {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
 		 List<Leave> leave = service.findLeave(id);
+		 List<LateArrival>late = service.findLate(id);
 		 mv.addObject("employee",user.get());
 		 mv.addObject("leave",leave);
+		 mv.addObject("late",late);
 		 return mv ;  
 		 
 	 }
@@ -150,42 +154,67 @@ public class AppraisalController {
 
 		return result;
 	}
-	@RequestMapping("/setStatus")
-	public ModelAndView setStatus()
+	@RequestMapping("/leave")
+	public String Leave(Model model)
 	{
-		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
-		ModelAndView mv= new ModelAndView("status");
-		mv.addObject("list", user);
-		return mv;
+//		ModelAndView mv= new ModelAndView("leave"); 
+		model.addAttribute("newLeave",new Leave());
+//		String d="2020-03-12";
+//		LocalDate l = LocalDate.parse(d);
+//		List<Leave> leaves=service.findLeaveByDate(l);
+//		mv.addObject("listleave",leaves);
+		return "leave";
+		
 	}
-
-	@RequestMapping("/sta")
-	public String status(@RequestParam String[] name, HttpServletResponse response)
+	@RequestMapping("/lateArrival")
+	public String LateArrival(Model model)
+	{
+		model.addAttribute("newLate",new LateArrival());
+		return "lateArrival";
+		
+	}
+	@RequestMapping("/setLeave")
+	public String setLeave(Model model,@ModelAttribute Leave leave,@RequestParam String name,String subject)
 	{
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
-			if(name[0].contains(m))
+			LocalDate localDate = LocalDate.now();
+			if(name.contains(m))
 			{
-				String t="Authorized";
-				String date = "2016-08-16";
-				LocalDate localDate = LocalDate.parse(date);
-				service.setLeave(new Leave(localDate,t,u));	
+				leave.setDate(localDate);
+				leave.setUser(u);
+				leave.setType(subject);
+				service.setLeave(leave);
 			}
-			if(name[1].contains(m))
-			{
-				String t="UnAuthorized";
-				String date = "2020-08-16";
-				LocalDate localDate = LocalDate.parse(date);
-				service.setLeave(new Leave(localDate,t,u));
-				
-			}
-			
 		}
-		 return "redirect:/viewUsers"; 
+		model.addAttribute("newLeave",new Leave());
+		return "leave";
+		
+	}
+	@RequestMapping("/setLate")
+	public String setLate(Model model,@ModelAttribute LateArrival late,@RequestParam String name,String subject,String ltime)
+	{
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+			LocalDate localDate = LocalDate.now();
+			LocalTime localtime = LocalTime.parse(ltime);
+			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
+			if(name.contains(m))
+			{
+				late.setUser(u);
+				late.setType(subject);
+				late.setReachedTime(instant);
+				service.setLate(late);
+			}
+		}
+		model.addAttribute("newLate",new LateArrival());
+		return "lateArrival";
 		
 	}
 }
-

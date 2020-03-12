@@ -94,10 +94,10 @@
 	       <th>Type</th>
 	      	
       </tr>  
-      <tr th:each="leave,iterationStatus  : ${leave}"> 
+      <tr th:each="late,iterationStatus  : ${late}"> 
 	       <td th:text="${iterationStatus.count}" ></td>
-	       <td th:text="${leave.date}"></td>
-	       <td th:text="${leave.type}"></td>
+	       <td th:text="${late.reachedTime}"></td>
+	       <td th:text="${late.type}"></td>
       </tr>
       </table> 
       

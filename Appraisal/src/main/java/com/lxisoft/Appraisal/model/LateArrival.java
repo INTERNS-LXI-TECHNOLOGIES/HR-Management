@@ -19,10 +19,26 @@ public class LateArrival {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Instant reachedTime;
+	private String Type;
 	@ManyToOne
     @JoinColumn(name = "user_id")
 	@JsonBackReference
     private User user;
+	
+	
+	public LateArrival() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	public LateArrival(Instant reachedTime, String type, User user) {
+		super();
+		this.reachedTime = reachedTime;
+		Type = type;
+		this.user = user;
+	}
+
+
 	public Long getId() {
 		return id;
 	}
@@ -35,6 +51,15 @@ public class LateArrival {
 	public void setReachedTime(Instant reachedTime) {
 		this.reachedTime = reachedTime;
 	}
+	
+	public String getType() {
+		return Type;
+	}
+
+	public void setType(String type) {
+		Type = type;
+	}
+
 	public User getUser() {
 		return user;
 	}

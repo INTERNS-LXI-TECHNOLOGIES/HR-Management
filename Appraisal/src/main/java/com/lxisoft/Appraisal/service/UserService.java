@@ -1,5 +1,6 @@
 package com.lxisoft.Appraisal.service;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -69,6 +70,10 @@ public class UserService implements UserDetailsService {
 	{
 		repos.save(leave);
 	}
+	public void setLate(LateArrival late)
+	{
+		repol.save(late);
+	}
 	public  List<Leave> findLeave(Long id)
 	{
 		List<Leave> em=repos.findByUserId(id);
@@ -81,6 +86,11 @@ public class UserService implements UserDetailsService {
 		 
 		 return em;
 	}
+//	public List<Leave> findLeaveByDate(LocalDate l)
+//	{
+//		List<Leave> lea=repos.findByDate(l);
+//		return lea;
+//	}
 	public User getUserByusername(String username) {
 		
 		return repo.findByUsername(username);
