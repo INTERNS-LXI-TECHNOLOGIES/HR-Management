@@ -1,7 +1,11 @@
 package com.lxisoft.Appraisal.service;
 
+
 import java.time.LocalDate;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -94,5 +98,16 @@ public class UserService implements UserDetailsService {
 	public User getUserByusername(String username) {
 		
 		return repo.findByUsername(username);
+	}
+
+	public ArrayList<User> findByCompany(String company) {
+		ArrayList<User> users=(ArrayList<User>) getAllUsers();
+		for(Iterator<User> u = users.iterator(); u.hasNext();)
+		{
+			User use= u.next();
+			if(!use.getCompany().equalsIgnoreCase(company))
+				u.remove(	);
+		}
+		return users;
 	}
 }
