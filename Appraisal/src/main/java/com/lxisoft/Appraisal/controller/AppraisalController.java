@@ -92,7 +92,7 @@ public class AppraisalController {
 	}
 	@RequestMapping("/addUser")
 	public String addUser(Model model) {
-		model.addAttribute("newUser",new User());
+		model.addAttribute("user",new User());
 		return "addUser";
 	}
 	
@@ -110,7 +110,7 @@ public class AppraisalController {
 			roles.add(role);
 			user.setRoles(roles);
 			service.addUser(user);
-			mv=new ModelAndView("redirect:/viewUsers");
+			mv=new ModelAndView("redirect:/");
 			}
 		return mv;
 	}

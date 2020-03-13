@@ -33,7 +33,7 @@
           <ul class="nav navbar-nav navbar-right">
           
           <li th:classappend="${module == 'addUser' ? 'active' : ''}">
-              <a href="/addUser" th:href="@{/viewUsers}">
+              <a href="/addUser" th:href="@{/}">
               <div sec:authorize="hasRole('ROLE_ADMIN')">View All Users  </div>
               </a>
               </li>
