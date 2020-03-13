@@ -31,20 +31,20 @@ public class Leave {
 	public Leave(Long id, LocalDate date, String type, User user) {
 		super();
 		this.id = id;
-		date = date;
+		this.date = date;
 		this.type = type;
 		this.user = user;
 	}
 
 	public Leave(LocalDate date, String type, User user) {
 		super();
-		date = date;
+		this.date = date;
 		this.type = type;
 		this.user = user;
 	}
 	public Leave(LocalDate date, String type) {
 		super();
-		date = date;
+		this.date = date;
 		this.type = type;
 	}
 	public Long getId() {
@@ -57,7 +57,7 @@ public class Leave {
 		return date;
 	}
 	public void setDate(LocalDate date) {
-		date = date;
+		this.date = date;
 	}
 	public String getType() {
 		return type;

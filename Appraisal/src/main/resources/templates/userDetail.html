@@ -24,7 +24,7 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-             <li th:classappend="${module == 'home' ? 'active' : ''}">
+             <li class=active th:classappend="${module == 'home' ? 'active' : ''}">
               <a href="#" th:href="@{/}">Home</a>
             </li>
            </ul>
@@ -32,13 +32,13 @@
     
           <ul class="nav navbar-nav navbar-right">
           
-          <li th:classappend="${module == 'addUser' ? 'active' : ''}">
-              <a href="/addUser" th:href="@{/viewUsers}">
+          <li class=active th:classappend="${module == 'addUser' ? 'active' : ''}">
+              <a href="/addUser" th:href="@{/}">
               <div sec:authorize="hasRole('ROLE_ADMIN')">View All Users  </div>
               </a>
               </li>
        
-            <li th:classappend="${module == 'addUser' ? 'active' : ''}">
+            <li class=active th:classappend="${module == 'addUser' ? 'active' : ''}">
               <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout
               </a>
               </li>
@@ -72,9 +72,10 @@
       </tr>               
       </table>
       <h4>PERFOMANCE</h4>                 
-      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">     
+      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">   
+      <b>Leaves</b>	   
+       <thead class="thead-dark">
        <tr>
-		   <b>Leaves</b>	      
 	       <th>id</th>
 	       <th>date</th>
 	       <th>type</th>

@@ -22,9 +22,15 @@
       class="icon-bar"></span> <span class="icon-bar"></span> <span
       class="icon-bar"></span>
     </button>
-              
-            </div>
-        </div>
+              <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class=active th:classappend="${module == 'home' ? 'active' : ''}">
+              <a href="#" th:href="@{/}">Home</a>
+            </li>
+          </ul>
+     </div>
+     </div>
+     </div>
     </nav>
 
     <br>
@@ -39,13 +45,11 @@
                 </div>
 
                 <h1>User Info</h1>
-
-                <form th:action="@{/addU}" th:object="${newUser}" >
-               
-                    <label>First name</label> 
-                    <input type="text" th:field="*{firstName}" class="form-control" />
-                     <span class="red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
-               
+                <form th:action="@{/addU}" th:object="${user}" >
+                    <label>First name</label> <input type="text" th:field="*{firstName}" class="form-control" />
+                     <span class="red" th:if="${#fields.hasErrors('firstName')}"
+                    th:errors="*{firstName}"></span>
+                  
                     <label>Last name</label> <input  type="text" th:field="*{lastName}" class="form-control" /> 
                     <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
                
