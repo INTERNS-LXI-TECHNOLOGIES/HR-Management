@@ -53,7 +53,9 @@
 <tr><th>EMPLOYEE  NAME </th><th> COMPANY NAME</th><tr>
 <tr th:each="employee: ${list}">
    <td><a th:href="@{${'/userDetails?id='+employee.id}}">  <span th:text="${employee.getFirstName()} "></span> </a></td>
-    <td th:text="${employee.getCompany()}" />
+    <td th:text="${employee.getCompany()}" ></td>
+    <td><a th:href="@{${'/editUser?id='+employee.id}}">&nbsp  edit &nbsp  </a></td>
+    <td><a th:href="@{${'/deleteUser?id='+employee.id}}">&nbsp delete &nbsp</a></td>
 </tr>
 
 </table>

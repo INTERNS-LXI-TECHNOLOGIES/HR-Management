@@ -222,4 +222,30 @@ public class AppraisalController {
 		return "lateArrival";
 		
 	}
+	@RequestMapping("/deleteUser")
+	public String deleteUser(@RequestParam (name="id") Long id)
+	{
+		service.deleteUser(id);
+		 return "redirect:/";  
+	}
+	@RequestMapping("/editUser")
+	public ModelAndView editUser(@RequestParam (name="id") Long id)
+	{
+		ModelAndView mv=new ModelAndView("editUserPage");
+		Optional<User> user=service.findByid(id);
+		mv.addObject("user",user);		
+		return mv;
+	}
+	@RequestMapping("/edit")
+	public String edit(@ModelAttribute @Valid User user,BindingResult bindingResult)
+	{
+		
+		if (bindingResult.hasErrors()) {
+			return "editUserPage";
+			}
+		
+		service.updateUser(user);
+		
+		return "redirect:/"; 
+	}
 }

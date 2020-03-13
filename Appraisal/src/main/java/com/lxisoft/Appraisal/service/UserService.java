@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -109,5 +111,18 @@ public class UserService implements UserDetailsService {
 				u.remove(	);
 		}
 		return users;
+	}
+
+	public void deleteUser(Long id) {
+		repo.deleteById(id);
+		
+	}
+
+	public void updateUser(@Valid User user) {
+	long id=user.getId();
+	
+	repo.save(user);
+	
+		
 	}
 }
