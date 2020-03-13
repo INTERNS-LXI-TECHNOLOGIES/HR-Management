@@ -18,7 +18,7 @@ public class Leave {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private LocalDate Date;
+	private LocalDate date;
 	private String type;
 	@ManyToOne
     @JoinColumn(name = "user_id")
@@ -31,20 +31,20 @@ public class Leave {
 	public Leave(Long id, LocalDate date, String type, User user) {
 		super();
 		this.id = id;
-		Date = date;
+		date = date;
 		this.type = type;
 		this.user = user;
 	}
 
 	public Leave(LocalDate date, String type, User user) {
 		super();
-		Date = date;
+		date = date;
 		this.type = type;
 		this.user = user;
 	}
 	public Leave(LocalDate date, String type) {
 		super();
-		Date = date;
+		date = date;
 		this.type = type;
 	}
 	public Long getId() {
@@ -54,10 +54,10 @@ public class Leave {
 		this.id = id;
 	}
 	public LocalDate getDate() {
-		return Date;
+		return date;
 	}
 	public void setDate(LocalDate date) {
-		Date = date;
+		date = date;
 	}
 	public String getType() {
 		return type;

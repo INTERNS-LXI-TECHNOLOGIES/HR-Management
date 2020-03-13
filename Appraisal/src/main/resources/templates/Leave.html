@@ -35,9 +35,12 @@
 <div class="container">
 <div class="row">
             <div class="col-md-6 col-md-offset-3">
-<form th:action="@{/setLeave}" th:object="${newLeave}" >
+<form th:action="@{/setLeave}" th:object="${newLeave}">
 		 <div class="form-group">
 		 	<h2>Leave</h2>
+		 	<tr th:each="list: ${leaveauth}">
+			   <td><a th:href="@{${'/userDetails?id='+list.id}}">  <span th:text="${list.getFirstName()} "></span> </a></td>
+			</tr>
 		 	<br><br>
 			<label for="leave">Name</label><br>
 			<input type="text"  id="leave" name="name" class="autocomplete"><br><br>

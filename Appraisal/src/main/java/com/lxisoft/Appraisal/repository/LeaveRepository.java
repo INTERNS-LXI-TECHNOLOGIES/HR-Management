@@ -10,6 +10,6 @@ import com.lxisoft.Appraisal.model.Leave;
 public interface LeaveRepository extends JpaRepository<Leave, Long>
 {
 	public	List<Leave> findByUserId(Long user);
-//	public List<Leave> findByDate(LocalDate Date);
+	//public List<Leave> findByDate(LocalDate date);
 
 }
