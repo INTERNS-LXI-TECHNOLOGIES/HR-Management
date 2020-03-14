@@ -40,20 +40,24 @@
         </div>
       </div>
     </nav>
-    <font>welcome <span th:text="${fName}"></span></font>
+    
     <div class="container">
     <div align="center">
+
 <table class="table table-striped">
  <thead class="thead-dark">
  <tr>
       <th scope="col">EMPLOYEE  NAME</th>
-      <th scope="col">COMPANY NAME</th>
+      <th scope="col">COMPANY NAME</th>   
 </tr>
 </thead>
 <tbody>
 <tr class="table-info" th:each="employee: ${list}">
    <td  class="table-info" ><a th:href="@{${'/userDetails?id='+employee.id}}"><span th:text="${employee.getFirstName()}"></span> <span th:text="${employee.getLastName()}"></span> </a></td>
-    <td  class="table-info" ><span th:text="${employee.getCompany()}"></span>
+    <td  class="table-info" ><span th:text="${employee.getCompany()}"></span></td>
+    <td><a th:href="@{${'/editUser?id='+employee.id}}">&nbsp  edit &nbsp  </a></td>
+    <td><a th:href="@{${'/deleteUser?id='+employee.id}}">&nbsp delete &nbsp</a></td>
+    
 </tr>
 </tbody>
 </table>

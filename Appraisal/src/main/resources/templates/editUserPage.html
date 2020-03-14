@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml" 
+   xmlns:th = "http://www.thymeleaf.org" >
+   
+   <head>
+      <title>User Info</title>
+		<meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+	<style>
+		 nav { position:sticky !important;} 
+	</style>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+     <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+      <div class="container">
+        <div class="navbar-header" >
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+             <li th:classappend="${module == 'home' ? 'active' : ''}">
+              <a href="#" th:href="@{/}">Home</a>
+            </li>
+           </ul>
+          
+    
+          <ul class="nav navbar-nav navbar-right">
+          
+          <li th:classappend="${module == 'addUser' ? 'active' : ''}">
+              <a href="/addUser" th:href="@{/}">
+              <div sec:authorize="hasRole('ROLE_ADMIN')">View All Users  </div>
+              </a>
+              </li>
+       
+            <li th:classappend="${module == 'addUser' ? 'active' : ''}">
+              <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout
+              </a>
+              </li>
+             <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout-success}"></form>
+            </li>
+          </ul>
+          
+        </div>
+      </div>
+    </nav>
+		
+   </head>
+   <body align="center">  
+<style>	
+	table th,td 
+	{	width: 1px;
+		border:.05px solid black;
+	}			
+</style>
+      <img th:src="@{/img/user.jpg}" style="width:80px;height:80px;"/>
+     <form th:action="@{/edit}" th:object="${user}" >
+					
+                    <input type="hidden"  name="id" th:field="*{id}" /><br>
+                         				
+                    <label>First name</label> <input type="text" name="firstname" th:field="*{firstName}" />
+                    <span class="red" th:if="${#fields.hasErrors('firstName')}"
+                    th:errors="*{firstName}"></span><br>
+                                       
+                    <label>Last name</label> <input  type="text" name="lastname" th:field="*{lastName}" /> <br>
+                    
+                    
+                    <label>E-mail</label> <input type="text" name="emailID" th:field="*{emailID}" /><br>
+      
+                    
+                    <label >Company</label> 
+                    <select  th:field="*{company}" name="company" >
+   						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
+   						 <option th:value="Bytatech" th:text="Bytatech"></option>
+   						 <option th:value="Divixo" th:text="Divixo"></option>
+   						 <option th:value="Felixo" th:text="Felixo"></option>
+   						 <option th:value="Illude" th:text="Illude"></option>
+
+                    </select><br>
+                    <label>User Name</label> <input type="text" name="username"   th:field="*{username}" /><br>
+                    <label >Password</label> <input type="text" name="password" th:field="*{password}"/><br>
+                  
+                    
+                    <br>
+                   Role Type: <select name="name" >
+   						 <option th:value="ROLE_USER" th:text="user"></option>
+   						 <option th:value="ROLE_ADMIN" th:text="Admin"></option>
+
+                    </select><br>
+                   
+               		<br> <button type="submit" class="btn btn-success">Save</button>
+
+                </form>
+
+<div sec:authorize="hasRole('ROLE_USER')">
+  
+</div>
+<!-- Roles: <span sec:authentication="principal.authorities"></span> -->
+    </body>
+    </html>   

@@ -30,18 +30,22 @@
 </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
+
             <li class=active th:classappend="${module == 'home' ? 'active' : ''}">
               <a href="#" th:href="@{/}">Home</a>
             </li>
+
           </ul>
      </div>
      </div>
      </nav>
+
 <br>
 <br>
 <div><span th:text="${date}"></span></div>
 <br><br>
 <center><button  type="button" class="btn btn-danger btn-lg" onclick="window.location.href='/'" >View All Users</button></center><br><br>
-<center><button  type="button" class="btn btn-danger btn-lg" onclick="window.location.href=''" >Add Company</button></center><br><br>
+<center><button  type="button" class="btn btn-danger btn-lg" onclick="window.location.href='/'" >Add Company</button></center><br><br>
+
 </body>
 </html>
