@@ -24,20 +24,14 @@
          
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li th:classappend="${module == 'home' ? 'active' : ''}">
-              <a href="#" th:href="@{/}">Home</a>
-            </li>
-           
-          </ul>
           <ul class="nav navbar-nav navbar-right">
-          <li th:classappend="${module == 'report' ? 'active' : ''}">
+          <li class=active th:classappend="${module == 'report' ? 'active' : ''}">
               <a href="/status" th:href="@{/status}">Set Status</a></li>
-              <li th:classappend="${module == 'setting' ? 'active' : ''}">
-              <a href="/adminLogin" th:href="@{/adminLogin}">settings</a></li>
-          <li th:classappend="${module == 'addUser' ? 'active' : ''}">
+          <li class=active th:classappend="${module == 'setting' ? 'active' : ''}">
+          		<a href="/adminLogin" th:href="@{/adminLogin}">settings</a></li>
+          <li class=active th:classappend="${module == 'addUser' ? 'active' : ''}">
               <a href="/addUser" th:href="@{/addUser}">Add User</a></li>
-           <li th:classappend="${module == 'logout' ? 'active' : ''}">
+           <li class=active th:classappend="${module == 'logout' ? 'active' : ''}">
               <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout</a></li>
              <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout-success}"></form>
            </li>
@@ -46,18 +40,26 @@
         </div>
       </div>
     </nav>
-    <font>welcome <span th:text="${fName}"></span></font>
+    
     <div class="container">
     <div align="center">
-<table border="1" >
-<tr><th>EMPLOYEE  NAME </th><th> COMPANY NAME</th><tr>
-<tr th:each="employee: ${list}">
-   <td><a th:href="@{${'/userDetails?id='+employee.id}}">  <span th:text="${employee.getFirstName()} "></span> </a></td>
-    <td th:text="${employee.getCompany()}" ></td>
+
+<table class="table table-striped">
+ <thead class="thead-dark">
+ <tr>
+      <th scope="col">EMPLOYEE  NAME</th>
+      <th scope="col">COMPANY NAME</th>   
+</tr>
+</thead>
+<tbody>
+<tr class="table-info" th:each="employee: ${list}">
+   <td  class="table-info" ><a th:href="@{${'/userDetails?id='+employee.id}}"><span th:text="${employee.getFirstName()}"></span> <span th:text="${employee.getLastName()}"></span> </a></td>
+    <td  class="table-info" ><span th:text="${employee.getCompany()}"></span></td>
     <td><a th:href="@{${'/editUser?id='+employee.id}}">&nbsp  edit &nbsp  </a></td>
     <td><a th:href="@{${'/deleteUser?id='+employee.id}}">&nbsp delete &nbsp</a></td>
+    
 </tr>
-
+</tbody>
 </table>
 </div>
 </div>

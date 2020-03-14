@@ -55,9 +55,8 @@ public class AppraisalController {
 		String timeStand =new SimpleDateFormat ("yyyy/MM/dd").format( Calendar.getInstance().getTime());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		if (principal instanceof UserDetails) {
+
 		  String username = ((UserDetails)principal).getUsername();
-//		} 
 		boolean hasUserRole = authentication.getAuthorities().stream()
 		          .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		if(hasUserRole)
@@ -162,12 +161,7 @@ public class AppraisalController {
 	@RequestMapping("/leave")
 	public String Leave(Model model)
 	{
-//		ModelAndView mv= new ModelAndView("leave"); 
 		model.addAttribute("newLeave",new Leave());
-//		String d="2020-03-12";
-//		LocalDate l = LocalDate.parse(d);
-//		List<Leave> leaves=service.findLeaveByDate(l);
-//		mv.addObject("listleave",leaves);
 		return "leave";
 		
 	}
@@ -187,6 +181,7 @@ public class AppraisalController {
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
 			LocalDate localDate = LocalDate.now();
+			System.out.println("today is:::::::::"+localDate);
 			if(name.contains(m))
 			{
 				leave.setDate(localDate);
@@ -196,8 +191,7 @@ public class AppraisalController {
 			}
 		}
 		model.addAttribute("newLeave",new Leave());
-		return "leave";
-		
+		return "Leave";
 	}
 	@RequestMapping("/setLate")
 	public String setLate(Model model,@ModelAttribute LateArrival late,@RequestParam String name,String subject,String ltime)
@@ -208,8 +202,10 @@ public class AppraisalController {
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
 			LocalDate localDate = LocalDate.now();
+			System.out.println("today is:::::::::"+localDate);
 			LocalTime localtime = LocalTime.parse(ltime);
 			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
+			System.out.println("today :::::::"+instant);
 			if(name.contains(m))
 			{
 				late.setUser(u);

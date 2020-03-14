@@ -1,16 +1,44 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<title>status</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
 
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <!-- JQuery -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
+  <!--Import Google Icon Font-->
+  	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>status page</title>
+    
+</head>
 <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+    <div class="navbar-header">
+     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+     <span class="sr-only">Toggle navigation</span> 
+     <span class="icon-bar"></span> <span class="icon-bar"></span> 
+     <span class="icon-bar"></span>
+</button>
+</div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class=active th:classappend="${module == 'home' ? 'active' : ''}">
+              <a href="#" th:href="@{/}">Home</a>
+            </li>
+          </ul>
+     </div>
+     </div>
+     </nav>
+<br>
+<br>
 <center><h1>Today's Status</h1></center><br><br>
 <center><button  type="button" class="btn btn-danger btn-lg" onclick="window.location.href='leave'" >Leave</button></center><br><br>
 <center><button  class="btn btn-primary btn-lg" onclick="window.location.href='lateArrival'" >Late Arrival</button></center>
