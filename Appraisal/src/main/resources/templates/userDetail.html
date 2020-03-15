@@ -37,6 +37,11 @@
               <div sec:authorize="hasRole('ROLE_ADMIN')">View All Users  </div>
               </a>
               </li>
+               <li class=active th:classappend="${module == 'editUserPage' ? 'active' : ''}">
+              <a href="/editUser" th:href="@{/editUser}">
+              <div sec:authorize="hasRole('ROLE_ADMIN')">Edit</div>
+              </a>
+              </li>
        
             <li class=active th:classappend="${module == 'addUser' ? 'active' : ''}">
               <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout
@@ -94,7 +99,7 @@
          <label >TO :</label> 
                     <select  th:field="*{leave}" >
    					  <option th:value="date" th:text="date"></option>   						
-                    </select><br>
+                    </select><br><br>
        <tr>
 	       <th>id</th>
 	       <th>date</th>
@@ -107,7 +112,7 @@
 	       <td th:text="${leave.type}"></td>
       </tr>
       </table> 
-      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">     
+      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300"><br> 
        <tr>
 		   <b>Late Arrival</b>	      
 	       <th>Id</th>
