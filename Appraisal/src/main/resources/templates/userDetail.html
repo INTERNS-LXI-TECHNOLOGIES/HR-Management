@@ -64,7 +64,7 @@
      <table align="center" BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">
        <tr>
 	       <th><b>Email ID </b></th>    
-	      	<td> <span th:text="${employee.EmailID}" ></span> </td>
+	      	<td> <span th:text="${employee.emailID}" ></span> </td>
       </tr>  
       <tr>
 	       <th><b>Company </b></th>    
@@ -72,21 +72,29 @@
       </tr>      
       <tr>
 	       <th><b>Position </b></th>    
-	      	<td> <span th:text="${employee.Company}" > </span> </td>
+	      	<td> <span th:text="${employee.position}" > </span> </td>
       </tr>       
           <tr>
 	       <th><b>D.O.B </b></th>    
-	      	<td> <span th:text="${employee.Company}" > </span> </td>
+	      	<td> <span th:text="${employee.dob}" > </span> </td>
       </tr>  
       <tr>
 	       <th><b>Joining Date </b></th>    
-	      	<td> <span th:text="${employee.Company}" > </span> </td>
+	      	<td> <span th:text="${employee.joiningDate}" > </span> </td>
       </tr>              
-      </table>
+      </table> <br>
       <h4>PERFOMANCE</h4>                 
       <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">   
-      <b>Leaves</b>	   
+      <b>Exceeded Leaves</b> <br>	   
        <thead class="thead-dark">
+        <label >From :</label> 
+             <select  th:field="*{leave}" >
+  			 <option th:value="date" th:text="date"></option>   						
+                </select>
+         <label >TO :</label> 
+                    <select  th:field="*{leave}" >
+   					  <option th:value="date" th:text="date"></option>   						
+                    </select><br>
        <tr>
 	       <th>id</th>
 	       <th>date</th>
