@@ -13,8 +13,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Appraisal</name>
 	<description>Demo project for Spring Boot</description>
-
-	<properties>
+	
+	
+	 <properties>
 		<java.version>1.8</java.version>
 		 <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
 	</properties>
@@ -34,12 +35,11 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-security</artifactId>
-   
-</dependency>
-
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-security</artifactId>
+		   
+		</dependency>
 <dependency>
         <groupId>javax.xml.bind</groupId>
         <artifactId>jaxb-api</artifactId>
@@ -56,8 +56,11 @@
     <groupId>mysql</groupId>
     <artifactId>mysql-connector-java</artifactId>
  </dependency>
+  <dependency>
+        <groupId>org.thymeleaf.extras</groupId>
+        <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+    </dependency>
  
-
 <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>

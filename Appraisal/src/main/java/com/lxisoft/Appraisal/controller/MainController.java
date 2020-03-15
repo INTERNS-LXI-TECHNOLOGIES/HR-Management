@@ -23,7 +23,6 @@ public class MainController {
 		return "UserLogin";
 	}
 	
-	
 	@RequestMapping("/login")
 	public String loginPage() {
 		return "login";

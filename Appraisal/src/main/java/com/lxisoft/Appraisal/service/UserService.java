@@ -1,9 +1,16 @@
 package com.lxisoft.Appraisal.service;
 
+
+import java.time.LocalDate;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -49,6 +56,7 @@ public class UserService implements UserDetailsService {
             .collect(Collectors.toList());
     }
 	
+
 	public void addUser(User user) 
 	{
 		repo.save(user);
@@ -68,16 +76,54 @@ public class UserService implements UserDetailsService {
 	{
 		repos.save(leave);
 	}
-	
-	public  Optional<Leave> findDate(Long id)
+	public void setLate(LateArrival late)
 	{
-		Optional<Leave> em=repos.findByUserId(id);
-		 
+
+		repol.save(late);
+	}
+	public  List<Leave> findLeave(Long id)
+	{
+		List<Leave> em=repos.findByUserId(id);
+
 		 return em;
 	}	
-	public Optional<LateArrival> findLate(Long id)
+	public  List<LateArrival> findLate(Long id)
 	{
-		Optional<LateArrival> em= repol.findByUserId(id);
-		return em;
+
+		List<LateArrival> em=repol.findByUserId(id);
+		 
+		 return em;
+	}
+//	public List<Leave> findLeaveByDate(LocalDate l)
+//	{
+//		List<Leave> lea=repos.findByDate(l);
+//		return lea;
+//	}
+	public User getUserByusername(String username) {
+		
+		return repo.findByUsername(username);
+	}
+
+	public ArrayList<User> findByCompany(String company) {
+		ArrayList<User> users=(ArrayList<User>) getAllUsers();
+		for(Iterator<User> u = users.iterator(); u.hasNext();)
+		{
+			User use= u.next();
+			if(!use.getCompany().equalsIgnoreCase(company))
+				u.remove(	);
+		}
+		return users;
+	}
+
+	public void deleteUser(Long id) {
+		repo.deleteById(id);
+		
+	}
+
+	public void updateUser(@Valid User user) {
+	long id=user.getId();
+	
+	repo.save(user);
+	
 	}
 }

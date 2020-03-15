@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import com.lxisoft.Appraisal.model.Role;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lxisoft.Appraisal.model.LateArrival;
 
 import java.util.ArrayList;
@@ -25,24 +27,30 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 @Entity
-@Table(name = "user")
+@Table(name = "user",uniqueConstraints={@UniqueConstraint(columnNames={"username"})})
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	@NotEmpty(message="must not empty")
 	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String firstName;
+	
 	@NotEmpty(message="must not empty")
 	@Size(min=2,max=20, message="First name must be min 2 char")
 	private String lastName;
+	
 	@NotEmpty(message="must not empty")
 	@Email (message="invalid e mail")
 	private String emailID;
+	
 	@NotEmpty(message="must not empty")
 	private String company;
+	
 	@NotEmpty(message="must not empty")
 	private String username;
+	
 	@NotEmpty(message="must not empty")
 	private String password;
 	
@@ -53,17 +61,30 @@ public class User {
 	            name = "user_id"),
 	        inverseJoinColumns = @JoinColumn(
 	            name = "role_id"))
+	  @JsonManagedReference
 	 private Set < Role > roles;
 
 	 @OneToMany(cascade = CascadeType.ALL)
 	    @JoinColumn(name = "user_id")
+	  @JsonManagedReference
 	 private List<Leave> leave;
 	 
 	 @OneToMany(cascade = CascadeType.ALL)
-	    @JoinColumn(name = "user_id")
+	 @JoinColumn(name = "user_id")
+	  @JsonManagedReference
 	 private List<LateArrival> lateArrival;
 	
 	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public User(Long id,
+			@NotEmpty @Size(min = 2, max = 20, message = "First name must be min 2 char") String firstName) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+	}
 	public Long getId() {
 		return id;
 	}

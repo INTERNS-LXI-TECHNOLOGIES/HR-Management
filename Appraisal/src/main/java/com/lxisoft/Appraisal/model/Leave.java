@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "Leaves")
 public class Leave {
@@ -16,24 +18,33 @@ public class Leave {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private LocalDate Date;
+	private LocalDate date;
 	private String type;
 	@ManyToOne
     @JoinColumn(name = "user_id")
+	@JsonBackReference
     private User user;
 	public Leave()
 	{
-		
 	}
+	
+	public Leave(Long id, LocalDate date, String type, User user) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.type = type;
+		this.user = user;
+	}
+
 	public Leave(LocalDate date, String type, User user) {
 		super();
-		Date = date;
+		this.date = date;
 		this.type = type;
 		this.user = user;
 	}
 	public Leave(LocalDate date, String type) {
 		super();
-		Date = date;
+		this.date = date;
 		this.type = type;
 	}
 	public Long getId() {
@@ -43,10 +54,10 @@ public class Leave {
 		this.id = id;
 	}
 	public LocalDate getDate() {
-		return Date;
+		return date;
 	}
 	public void setDate(LocalDate date) {
-		Date = date;
+		this.date = date;
 	}
 	public String getType() {
 		return type;

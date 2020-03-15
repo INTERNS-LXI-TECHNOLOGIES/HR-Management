@@ -24,18 +24,21 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-             <li th:classappend="${module == 'home' ? 'active' : ''}">
+             <li class=active th:classappend="${module == 'home' ? 'active' : ''}">
               <a href="#" th:href="@{/}">Home</a>
             </li>
-           
-          </ul>
+           </ul>
+          
+    
           <ul class="nav navbar-nav navbar-right">
-          <li th:classappend="${module == 'addUser' ? 'active' : ''}">
-              <a href="/addUser" th:href="@{/viewUsers}">View All Users
+          
+          <li class=active th:classappend="${module == 'addUser' ? 'active' : ''}">
+              <a href="/addUser" th:href="@{/}">
+              <div sec:authorize="hasRole('ROLE_ADMIN')">View All Users  </div>
               </a>
               </li>
-            <li th:classappend="${module == 'addUser' ? 'active' : ''}">
-            
+       
+            <li class=active th:classappend="${module == 'addUser' ? 'active' : ''}">
               <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout
               </a>
               </li>
@@ -56,7 +59,7 @@
 	}			
 </style>
       <img th:src="@{/img/user.jpg}" style="width:80px;height:80px;"/>
-       <h1>NAME:  <span th:text="${employee.FirstName}"  ></span> <span th:text="${employee.LastName}"></span></h1> 
+       <h1><span th:text="${employee.FirstName}"  ></span> <span th:text="${employee.LastName}"></span></h1> 
       
      <table align="center" BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">
        <tr>
@@ -66,25 +69,53 @@
       <tr>
 	       <th><b>Company </b></th>    
 	      	<td> <span th:text="${employee.Company}" > </span> </td>
-      </tr>               
-      </table>                
-      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300"> 
-       <h4>PERFOMANCE</h4>     
-       <tr>
-	       <th><b>Leaves</b></th>
-	      	<td> <span th:text="${leave?.date}" ></span> </td>
-      </tr>  
-       <tr>
-	       <th><b>type</b></th>
-	       <td>  <span th:text="${leave?.type}" > </span> </td>
-      </tr>        
-      </table> 
-     <table align="center" BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300"  > 
-       <h4>   </h4>     
-       <tr>
-	       <th><b>LateArrival</b></th>
-	      	<td> <span th:text="${late?.ReachedTime}" ></span> </td>
+      </tr>      
+      <tr>
+	       <th><b>Position </b></th>    
+	      	<td> <span th:text="${employee.Company}" > </span> </td>
       </tr>       
+          <tr>
+	       <th><b>D.O.B </b></th>    
+	      	<td> <span th:text="${employee.Company}" > </span> </td>
+      </tr>  
+      <tr>
+	       <th><b>Joining Date </b></th>    
+	      	<td> <span th:text="${employee.Company}" > </span> </td>
+      </tr>              
       </table>
+      <h4>PERFOMANCE</h4>                 
+      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">   
+      <b>Leaves</b>	   
+       <thead class="thead-dark">
+       <tr>
+	       <th>id</th>
+	       <th>date</th>
+	       <th>type</th>
+	      	
+      </tr>  
+      <tr th:each="leave,iterationStatus  : ${leave}"> 
+	       <td th:text="${iterationStatus.count}" ></td>
+	       <td th:text="${leave.date}"></td>
+	       <td th:text="${leave.type}"></td>
+      </tr>
+      </table> 
+      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">     
+       <tr>
+		   <b>Late Arrival</b>	      
+	       <th>Id</th>
+	       <th>Reached Time</th>
+	       <th>Type</th>	      	
+      </tr>  
+      <tr th:each="late,iterationStatus  : ${late}"> 
+	       <td th:text="${iterationStatus.count}" ></td>
+	       <td th:text="${late.reachedTime}"></td>
+	       <td th:text="${late.type}"></td>
+      </tr>
+      </table> 
+      
+<div sec:authorize="hasRole('ROLE_USER')">
+  
+</div>
+<!-- Roles: <span sec:authentication="principal.authorities"></span> -->
     </body>
     </html>   

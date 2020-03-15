@@ -1,7 +1,11 @@
 package com.lxisoft.Appraisal.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -20,11 +24,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.lxisoft.Appraisal.model.Role;
@@ -45,17 +53,22 @@ public class AppraisalController {
 	{
 		ModelAndView mv=new ModelAndView(); 
 		String timeStand =new SimpleDateFormat ("yyyy/MM/dd").format( Calendar.getInstance().getTime());
-		
-//		mv.addObject("date",timeStand);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
+		  String username = ((UserDetails)principal).getUsername();
 		boolean hasUserRole = authentication.getAuthorities().stream()
 		          .anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		if(hasUserRole)
+		{
 			mv.setViewName("redirect:/viewUsers");
+			mv.addObject("username",username);
+		}
 		else 
 			{
-			mv.setViewName("redirect:/userPage");
+			User user=service.getUserByusername(username);
+			mv.addObject("id",user.getId());
+			mv.setViewName("redirect:/userDetails");
 			}
 		
 		
@@ -63,23 +76,27 @@ public class AppraisalController {
 	}
 
 	@RequestMapping("/viewUsers")
-	public ModelAndView viewUsers()
+	public ModelAndView viewUsers(HttpServletRequest request, HttpServletResponse response)
 	{
-		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		ArrayList<User> users;
 		ModelAndView mv= new ModelAndView("viewAllUsers");
-		mv.addObject("list", user);
+		User user=service.getUserByusername(request.getParameter("username"));
+		if(user.getCompany().equalsIgnoreCase("Lxisoft"))
+		users=(ArrayList<User>) service.getAllUsers();
+		else	users=service.findByCompany(user.getCompany());
+		
+		mv.addObject("fName",user.getFirstName());
+		mv.addObject("list", users);
 		return mv;
 	}
 	@RequestMapping("/addUser")
 	public String addUser(Model model) {
-		model.addAttribute("newUser",new User());
-		
-		
+		model.addAttribute("user",new User());
 		return "addUser";
 	}
 	
 	@RequestMapping("/addU")
-	public ModelAndView addUser(@ModelAttribute @Valid User user,BindingResult bindingResult, HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView addUser(@ModelAttribute @Valid User user,BindingResult bindingResult, HttpServletRequest request)
 	{
 		ModelAndView mv;
 	
@@ -92,7 +109,7 @@ public class AppraisalController {
 			roles.add(role);
 			user.setRoles(roles);
 			service.addUser(user);
-			mv=new ModelAndView("redirect:/viewUsers");
+			mv=new ModelAndView("redirect:/");
 			}
 		return mv;
 	}
@@ -113,43 +130,119 @@ public class AppraisalController {
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
+
+		 List<Leave> leave = service.findLeave(id);
+		 List<LateArrival>late = service.findLate(id);
 		 mv.addObject("employee",user.get());
-		 Optional<Leave> leave = service.findDate(id);
-		 Optional<LateArrival> late = service.findLate(id);		
-		 if(leave.isPresent())
-			 
-		 {
-		 mv.addObject("leave",leave.get());
-		 }
-		 if(late.isPresent())
-		 {
-		 mv.addObject("late",late.get());
-		 }
-		 	return mv ;  
-		 
+		 mv.addObject("leave",leave);
+		 mv.addObject("late",late);
+		 return mv ;  
+
 	 }
-	@RequestMapping("/sta")
-	public void status(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping(value = "/statusform",method = RequestMethod.GET)
+	public @ResponseBody
+	List<User> getName(@RequestParam("firstName") String firstName) {
+
+		return simulateSearchResult(firstName);
+
+	}
+
+	private List<User> simulateSearchResult(String firstName) {
+
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		ArrayList<User> result = new ArrayList<User>();
+		for (User u : user) {
+			if (u.getFirstName().contains(firstName)) {
+				result.add(u);
+			}
+		}
+
+		return result;
+	}
+	@RequestMapping("/leave")
+	public String Leave(Model model)
 	{
-		String n=request.getParameter("name");
+		model.addAttribute("newLeave",new Leave());
+		return "leave";
 		
+	}
+	@RequestMapping("/lateArrival")
+	public String LateArrival(Model model)
+	{
+		model.addAttribute("newLate",new LateArrival());
+		return "lateArrival";
+		
+	}
+	@RequestMapping("/setLeave")
+	public String setLeave(Model model,@ModelAttribute Leave leave,@RequestParam String name,String subject)
+	{
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
 		{
-			
 			String m=user.get(i).getFirstName();
-			if(n.contains(m))
+			User u=user.get(i);
+			LocalDate localDate = LocalDate.now();
+			System.out.println("today is:::::::::"+localDate);
+			if(name.contains(m))
 			{
-				String t="Authorized";
-				User u=user.get(i);
-				Long e=(long) 1;
-				String date = "2016-08-16";
-				LocalDate localDate = LocalDate.parse(date);
-				service.setLeave(new Leave(localDate,t,u));
-				
+				leave.setDate(localDate);
+				leave.setUser(u);
+				leave.setType(subject);
+				service.setLeave(leave);
 			}
 		}
+		model.addAttribute("newLeave",new Leave());
+		return "Leave";
+	}
+	@RequestMapping("/setLate")
+	public String setLate(Model model,@ModelAttribute LateArrival late,@RequestParam String name,String subject,String ltime)
+	{
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+			LocalDate localDate = LocalDate.now();
+			System.out.println("today is:::::::::"+localDate);
+			LocalTime localtime = LocalTime.parse(ltime);
+			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
+			System.out.println("today :::::::"+instant);
+			if(name.contains(m))
+			{
+				late.setUser(u);
+				late.setType(subject);
+				late.setReachedTime(instant);
+				service.setLate(late);
+			}
+		}
+		model.addAttribute("newLate",new LateArrival());
+		return "lateArrival";
 		
 	}
- 
+	@RequestMapping("/deleteUser")
+	public String deleteUser(@RequestParam (name="id") Long id)
+	{
+		service.deleteUser(id);
+		 return "redirect:/";  
+	}
+	@RequestMapping("/editUser")
+	public ModelAndView editUser(@RequestParam (name="id") Long id)
+	{
+		ModelAndView mv=new ModelAndView("editUserPage");
+		Optional<User> user=service.findByid(id);
+		mv.addObject("user",user);		
+		return mv;
+	}
+	@RequestMapping("/edit")
+	public String edit(@ModelAttribute @Valid User user,BindingResult bindingResult)
+	{
+		
+		if (bindingResult.hasErrors()) {
+			return "editUserPage";
+			}
+		
+		service.updateUser(user);
+		
+		return "redirect:/"; 
+	}
 }
