@@ -40,10 +40,26 @@
         </div>
       </div>
     </nav>
-    
+  
     <div class="container">
     <div align="center">
-
+<form>
+	<select name="company">
+	<option type="text" name="Lxisoft" >Lxisoft</option>
+	<option type="text" name="Bytatech">Bytatech </option>
+	<option type="text" name="Divixo" >Divixo </option>
+	<option type="text" name="Felixo" >Felixo </option>
+	<option type="text" name="Illude" >Illude</option>
+	</select>
+	<select name="position">
+	<option type="text" >intern</option>
+	<option type="text" >employee </option>
+	<option type="text" >co-founder </option>
+	<option type="text" >admin </select>
+	</select>
+	<input type="submit" value="filter">
+</form>
+   
 <table class="table table-striped">
  <thead class="thead-dark">
  <tr>
@@ -53,16 +69,21 @@
 </thead>
 <tbody>
 <tr class="table-info" th:each="employee: ${list}">
+<div class="card">
+  <div class="card-body">
+ 
    <td  class="table-info" ><a th:href="@{${'/userDetails?id='+employee.id}}"><span th:text="${employee.getFirstName()}"></span> <span th:text="${employee.getLastName()}"></span> </a></td>
     <td  class="table-info" ><span th:text="${employee.getCompany()}"></span></td>
     <td><a th:href="@{${'/editUser?id='+employee.id}}">&nbsp  edit &nbsp  </a></td>
     <td><a th:href="@{${'/deleteUser?id='+employee.id}}">&nbsp delete &nbsp</a></td>
-    
+    </div>
+</div> 
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+
     
   </body>
 </html>

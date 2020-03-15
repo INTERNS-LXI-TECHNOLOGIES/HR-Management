@@ -233,13 +233,17 @@ public class AppraisalController {
 		return mv;
 	}
 	@RequestMapping("/edit")
-	public String edit(@ModelAttribute @Valid User user,BindingResult bindingResult)
+	public String edit(@ModelAttribute @Valid User user,BindingResult bindingResult,@RequestParam (name="name") String roleName)
 	{
 		
 		if (bindingResult.hasErrors()) {
 			return "editUserPage";
 			}
 		
+		Role role=new Role(roleName);
+		Set < Role > roles=new HashSet < Role >();
+		roles.add(role);
+		user.setRoles(roles);
 		service.updateUser(user);
 		
 		return "redirect:/"; 
