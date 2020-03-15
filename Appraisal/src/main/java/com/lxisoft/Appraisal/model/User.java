@@ -56,6 +56,9 @@ public class User {
 	private LocalDate dob;
 	
 	@NotEmpty(message="must not empty")
+	private String position;
+	
+	@NotEmpty(message="must not empty")
 	private String username;
 	
 	@NotEmpty(message="must not empty")
@@ -140,6 +143,13 @@ public class User {
 	}
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
+	}
+	
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
 	}
 	public String getUsername() {
 		return username;
