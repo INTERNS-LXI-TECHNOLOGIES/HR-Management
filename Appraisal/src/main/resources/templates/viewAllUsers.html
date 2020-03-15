@@ -7,6 +7,10 @@
   
 	<style type="text/css">
 		nav { position:sticky !important;}
+		.card-horizontal {
+		    display: flex;
+		    flex: 1 1 auto;
+		}
 	</style>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
 
@@ -40,26 +44,28 @@
         </div>
       </div>
     </nav>
-    
-    <div class="container">
-    <div align="center">
-
-<table class="table table-striped">
- <thead class="thead-dark">
- <tr>
-      <th scope="col">EMPLOYEE  NAME</th>
-      <th scope="col">COMPANY NAME</th>   
+  <table class="table">
+  <tr th:each="employee: ${list}">
+    <td><div class="container-fluid">
+    <div class="row">
+        <div class="col-12 mt-3">
+            <div class="card">
+                <div class="card-horizontal">
+                    <div class="img-square-wrapper">
+                        <img class="" src="http://via.placeholder.com/300x180" alt="Card image cap">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"><span th:text="${employee.getFirstName()}"></span> <span th:text="${employee.getLastName()}"></span> </a></h4>
+                        <p class="card-text"><span th:text="${employee.getCompany()}"></span></p>
+                        <a th:href="@{${'/userDetails?id='+employee.id}}" ><button  type="button" class="btn btn-danger btn-lg">View Profile</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</td>
 </tr>
-</thead>
-<tbody>
-<tr class="table-info" th:each="employee: ${list}">
-   <td  class="table-info" ><a th:href="@{${'/userDetails?id='+employee.id}}"><span th:text="${employee.getFirstName()}"></span> <span th:text="${employee.getLastName()}"></span> </a></td>
-    <td  class="table-info" ><span th:text="${employee.getCompany()}"></span></td>
-    <td><a th:href="@{${'/editUser?id='+employee.id}}">&nbsp  edit &nbsp  </a></td>
-    <td><a th:href="@{${'/deleteUser?id='+employee.id}}">&nbsp delete &nbsp</a></td>
-    
-</tr>
-</tbody>
 </table>
 </div>
 </div>

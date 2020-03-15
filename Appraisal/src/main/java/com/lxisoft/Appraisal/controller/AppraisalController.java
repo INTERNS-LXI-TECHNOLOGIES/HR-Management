@@ -132,10 +132,19 @@ public class AppraisalController {
 		 Optional <User> user = service.findByid(id);
 
 		 List<Leave> leave = service.findLeave(id);
-		 List<LateArrival>late = service.findLate(id);
+		 List<LateArrival> late = service.findLate(id);
+		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 Instant in=late.get(i).getReachedTime();
+//			 LocalDateTime time=Instant.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
+			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
+			 time.add(t);
+		 }
 		 mv.addObject("employee",user.get());
 		 mv.addObject("leave",leave);
 		 mv.addObject("late",late);
+		 mv.addObject("time",time);
 		 return mv ;  
 
 	 }
