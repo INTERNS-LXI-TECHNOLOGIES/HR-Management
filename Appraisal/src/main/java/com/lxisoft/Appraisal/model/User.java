@@ -22,6 +22,7 @@ import com.lxisoft.Appraisal.model.Role;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lxisoft.Appraisal.model.LateArrival;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -47,6 +48,15 @@ public class User {
 	
 	@NotEmpty(message="must not empty")
 	private String company;
+	
+	
+	private LocalDate joiningDate;
+	
+	
+	private LocalDate dob;
+	
+	@NotEmpty(message="must not empty")
+	private String position;
 	
 	@NotEmpty(message="must not empty")
 	private String username;
@@ -122,7 +132,25 @@ public class User {
 	public void setCompany(String company) {
 		this.company = company;
 	}
-
+	public LocalDate getJoiningDate() {
+		return joiningDate;
+	}
+	public void setJoiningDate(LocalDate joiningDate) {
+		this.joiningDate = joiningDate;
+	}
+	public LocalDate getDob() {
+		return dob;
+	}
+	public void setDob(LocalDate dob) {
+		this.dob = dob;
+	}
+	
+	public String getPosition() {
+		return position;
+	}
+	public void setPosition(String position) {
+		this.position = position;
+	}
 	public String getUsername() {
 		return username;
 	}

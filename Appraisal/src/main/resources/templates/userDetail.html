@@ -96,9 +96,12 @@
 	      	
       </tr>  
       <tr th:each="late,iterationStatus  : ${late}"> 
+     
 	       <td th:text="${iterationStatus.count}" ></td>
-	       <td th:text="${late.reachedTime}"></td>
 	       <td th:text="${late.type}"></td>
+	        <p th:each="time: ${time}"> 
+	        <td th:text="${time}"></td>
+	       </p>
       </tr>
       </table> 
       
