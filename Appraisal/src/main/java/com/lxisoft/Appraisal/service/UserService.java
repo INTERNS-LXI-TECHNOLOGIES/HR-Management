@@ -78,16 +78,18 @@ public class UserService implements UserDetailsService {
 	}
 	public void setLate(LateArrival late)
 	{
+
 		repol.save(late);
 	}
 	public  List<Leave> findLeave(Long id)
 	{
 		List<Leave> em=repos.findByUserId(id);
-		 
+
 		 return em;
 	}	
 	public  List<LateArrival> findLate(Long id)
 	{
+
 		List<LateArrival> em=repol.findByUserId(id);
 		 
 		 return em;
@@ -123,6 +125,5 @@ public class UserService implements UserDetailsService {
 	
 	repo.save(user);
 	
-		
 	}
 }

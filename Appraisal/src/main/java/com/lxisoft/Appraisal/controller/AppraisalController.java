@@ -132,6 +132,7 @@ public class AppraisalController {
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
+
 		 List<Leave> leave = service.findLeave(id);
 		 List<LateArrival> late = service.findLate(id);
 		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
@@ -147,7 +148,7 @@ public class AppraisalController {
 		 mv.addObject("late",late);
 		 mv.addObject("time",time);
 		 return mv ;  
-		 
+
 	 }
 	@RequestMapping(value = "/statusform",method = RequestMethod.GET)
 	public @ResponseBody

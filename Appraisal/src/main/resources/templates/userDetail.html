@@ -37,6 +37,11 @@
               <div sec:authorize="hasRole('ROLE_ADMIN')">View All Users  </div>
               </a>
               </li>
+               <li class=active th:classappend="${module == 'editUserPage' ? 'active' : ''}">
+              <a href="/editUser" th:href="@{/editUser}">
+              <div sec:authorize="hasRole('ROLE_ADMIN')">Edit</div>
+              </a>
+              </li>
        
             <li class=active th:classappend="${module == 'addUser' ? 'active' : ''}">
               <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout
@@ -64,17 +69,37 @@
      <table align="center" BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">
        <tr>
 	       <th><b>Email ID </b></th>    
-	      	<td> <span th:text="${employee.EmailID}" ></span> </td>
+	      	<td> <span th:text="${employee.emailID}" ></span> </td>
       </tr>  
       <tr>
 	       <th><b>Company </b></th>    
 	      	<td> <span th:text="${employee.Company}" > </span> </td>
-      </tr>               
-      </table>
+      </tr>      
+      <tr>
+	       <th><b>Position </b></th>    
+	      	<td> <span th:text="${employee.position}" > </span> </td>
+      </tr>       
+          <tr>
+	       <th><b>D.O.B </b></th>    
+	      	<td> <span th:text="${employee.dob}" > </span> </td>
+      </tr>  
+      <tr>
+	       <th><b>Joining Date </b></th>    
+	      	<td> <span th:text="${employee.joiningDate}" > </span> </td>
+      </tr>              
+      </table> <br>
       <h4>PERFOMANCE</h4>                 
       <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">   
-      <b>Leaves</b>	   
+      <b>Exceeded Leaves</b> <br>	   
        <thead class="thead-dark">
+        <label >From :</label> 
+             <select  th:field="*{leave}" >
+  			 <option th:value="date" th:text="date"></option>   						
+                </select>
+         <label >TO :</label> 
+                    <select  th:field="*{leave}" >
+   					  <option th:value="date" th:text="date"></option>   						
+                    </select><br><br>
        <tr>
 	       <th>id</th>
 	       <th>date</th>
@@ -87,13 +112,12 @@
 	       <td th:text="${leave.type}"></td>
       </tr>
       </table> 
-      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">     
+      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300"><br> 
        <tr>
 		   <b>Late Arrival</b>	      
 	       <th>Id</th>
 	       <th>Reached Time</th>
-	       <th>Type</th>
-	      	
+	       <th>Type</th>	      	
       </tr>  
       <tr th:each="late,iterationStatus  : ${late}"> 
      
