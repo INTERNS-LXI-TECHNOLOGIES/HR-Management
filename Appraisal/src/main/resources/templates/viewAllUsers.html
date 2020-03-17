@@ -47,8 +47,9 @@
   
     <div class="container">
     <div align="center">
-<form>
+<form th:action="@{filter}">
 	<select name="company">
+	<option type="text" name="select" >--select--</option>
 	<option type="text" name="Lxisoft" >Lxisoft</option>
 	<option type="text" name="Bytatech">Bytatech </option>
 	<option type="text" name="Divixo" >Divixo </option>
@@ -56,6 +57,7 @@
 	<option type="text" name="Illude" >Illude</option>
 	</select>
 	<select name="position">
+	<option type="text" name="select" >--select--</option>
 	<option type="text" >intern</option>
 	<option type="text" >employee </option>
 	<option type="text" >co-founder </option>

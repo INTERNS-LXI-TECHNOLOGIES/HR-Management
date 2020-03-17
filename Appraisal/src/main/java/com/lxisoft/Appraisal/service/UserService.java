@@ -126,4 +126,14 @@ public class UserService implements UserDetailsService {
 	repo.save(user);
 	
 	}
+
+	public ArrayList<User> findByPosition(ArrayList<User> users, String position) {
+		for(Iterator<User> u = users.iterator(); u.hasNext();)
+		{
+			User use= u.next();
+			if(!use.getPosition().equalsIgnoreCase(position))
+				u.remove(	);
+		}
+		return users;
+	}
 }

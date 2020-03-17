@@ -242,11 +242,17 @@ public class AppraisalController {
 	{
 		ModelAndView mv=new ModelAndView("editUserPage");
 		Optional<User> user=service.findByid(id);
-		mv.addObject("user",user);		
+		mv.addObject("user",user);
+		String date=user.get().getDob().toString();
+		String join=user.get().getJoiningDate().toString();
+		mv.addObject("date",date);
+		mv.addObject("join",join);
+		
 		return mv;
 	}
 	@RequestMapping("/edit")
-	public String edit(@ModelAttribute @Valid User user,BindingResult bindingResult,@RequestParam (name="name") String roleName)
+	public String edit(@ModelAttribute @Valid User user,BindingResult bindingResult,@RequestParam (name="name") String roleName,
+			@RequestParam (name="date") String date , @RequestParam (name="join") String join)
 	{
 		
 		if (bindingResult.hasErrors()) {
@@ -257,8 +263,30 @@ public class AppraisalController {
 		Set < Role > roles=new HashSet < Role >();
 		roles.add(role);
 		user.setRoles(roles);
+		user.setDob(LocalDate.parse(date));
+		user.setJoiningDate(LocalDate.parse(join));
+		
 		service.updateUser(user);
 		
 		return "redirect:/"; 
+	}
+	
+	@RequestMapping("/filter")
+	public String filter(@RequestParam (name="company")String company,@RequestParam (name="position")String position, Model model)
+	{
+		ArrayList<User> users;
+		if(!company.equalsIgnoreCase("--select--"))
+			{
+				users=service.findByCompany(company);
+			}
+		else users=(ArrayList<User>) service.getAllUsers();
+		if(!position.equalsIgnoreCase("--select--"))
+		{
+			users=service.findByPosition(users,position);
+		}
+		
+		model.addAttribute("list",users);
+		return "viewAllUsers";
+		
 	}
 }

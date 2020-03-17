@@ -67,12 +67,20 @@
                     <span class="red" th:if="${#fields.hasErrors('firstName')}"
                     th:errors="*{firstName}"></span><br>
                                        
-                    <label>Last name</label> <input  type="text" name="lastname" th:field="*{lastName}" /> <br>
+                    <label>Last name</label> <input  type="text" name="lastname" th:field="*{lastName}" />
+                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                     <br>
                     
-                    
-                    <label>E-mail</label> <input type="text" name="emailID" th:field="*{emailID}" /><br>
+                     <label>E-mail</label> <input type="text" name="emailID" th:field="*{emailID}" />
+                      <p th:if="${#fields.hasErrors('emailID')}" th:errors="*{emailID}"></p>
+                      <br>
+                      
+                      DOB:  <input type="date" th:value="${date}"  name="date"/>
+                    <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></p>
       
-                    
+                    Joined Date:<input type="date"  th:value="${join}" name="join" />
+                    <p th:if="${#fields.hasErrors('joiningDate')}" th:errors="*{joiningDate}"></p><br>
+                  
                     <label >Company</label> 
                     <select  th:field="*{company}" name="company" >
    						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
@@ -82,6 +90,16 @@
    						 <option th:value="Illude" th:text="Illude"></option>
 
                     </select><br>
+                    
+                    <label>Position:</label>
+                    <select th:field="*{position}">
+						<option th:value="intern" th:text="intern"></option>
+						<option th:value="employee" th:text="employee "></option>
+						<option th:value="co-founder" th:text="co-founder"> </option>
+						<option th:value="admin" th:text="admin"> </select>
+					</select><br>
+					<p th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></p>
+					
                     <label>User Name</label> <input type="text" name="username"   th:field="*{username}" /><br>
                     <label >Password</label> <input type="text" name="password" th:field="*{password}"/><br>
                   
