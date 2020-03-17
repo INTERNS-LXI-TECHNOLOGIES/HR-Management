@@ -99,7 +99,8 @@ public class AppraisalController {
 	public ModelAndView addUser(@Valid @ModelAttribute  User user,BindingResult bindingResult, HttpServletRequest request)
 	{
 		ModelAndView mv;
-	
+		System.out.println(request.getParameter("do"));
+		System.out.println(request.getParameter("joinDate"));
 		if (bindingResult.hasErrors()) {
 			mv=new ModelAndView("addUser");
 			}
@@ -108,8 +109,8 @@ public class AppraisalController {
 			Set < Role > roles=new HashSet < Role >();
 			roles.add(role);
 			user.setRoles(roles);
-			System.out.println(request.getParameter("dob"));
-			System.out.println(request.getParameter("joinDate"));
+			user.setJoiningDate(LocalDate.parse(request.getParameter("joinDate")));
+			user.setDob(LocalDate.parse(request.getParameter("do")));
 			service.addUser(user);
 			mv=new ModelAndView("redirect:/");
 			}

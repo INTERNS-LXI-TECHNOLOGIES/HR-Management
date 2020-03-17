@@ -55,8 +55,11 @@
                
                     <label>E-mail</label> <input type="text" th:field="*{emailID}" class="form-control"/>
                     <p th:if="${#fields.hasErrors('emailID')}" th:errors="*{emailID}"></p>
-                    DOB:  <input type="date" data-date-format="YYYY MM DD"  name="dob" /> 
-                    Joined Date:<input type="date" data-date-format="YYYY MM DD" name="joinDate"/><br>
+                    DOB:  <input type ="date" name="do"  />
+                    <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></p>
+                    Joined Date:<input type="date" name="joinDate"  />
+                    <p th:if="${#fields.hasErrors('joiningDate')}" th:errors="*{joinDate}"></p><br>
+                  
                     <label >Company:</label> 
                     <select  th:field="*{company}" >
    						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
