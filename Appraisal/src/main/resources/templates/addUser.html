@@ -45,7 +45,7 @@
                 </div>
 
                 <h1>User Info</h1>
-                <form th:action="@{/addU}" th:object="${user}" >
+                <form th:action="@{/addU}" th:object="${user}" enctype="multipart/form-data">
                     <label>First name</label> <input type="text" th:field="*{firstName}" class="form-control" />
                      <span class="red" th:if="${#fields.hasErrors('firstName')}"
                     th:errors="*{firstName}"></span>
@@ -55,11 +55,12 @@
                
                     <label>E-mail</label> <input type="text" th:field="*{emailID}" class="form-control"/>
                     <p th:if="${#fields.hasErrors('emailID')}" th:errors="*{emailID}"></p>
-                    DOB:  <input type ="date" name="do"  />
+                    <label>DOB: </label> <input type ="date" name="do"  />
                     <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></p>
-                    Joined Date:<input type="date" name="joinDate"  />
+                    <label>Joined Date:</label><input type="date" name="joinDate"  />
                     <p th:if="${#fields.hasErrors('joiningDate')}" th:errors="*{joinDate}"></p><br>
-                  
+                  	<label>pick a profile picture</label>
+                  	<input type="file" th:field="*{picture}" />
                     <label >Company:</label> 
                     <select  th:field="*{company}" >
    						 <option th:value="Lxisoft" th:text="Lxisoft"></option>

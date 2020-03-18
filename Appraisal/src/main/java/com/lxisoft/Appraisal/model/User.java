@@ -18,6 +18,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.lxisoft.Appraisal.model.Role;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lxisoft.Appraisal.model.LateArrival;
@@ -55,6 +57,7 @@ public class User {
 	
 	private LocalDate dob;
 	
+	private MultipartFile picture;
 	@NotEmpty(message="must not empty")
 	private String position;
 	

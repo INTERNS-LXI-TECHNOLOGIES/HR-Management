@@ -78,15 +78,22 @@ public class AppraisalController {
 	@RequestMapping("/viewUsers")
 	public ModelAndView viewUsers(HttpServletRequest request, HttpServletResponse response)
 	{
-		ArrayList<User> users;
 		ModelAndView mv= new ModelAndView("viewAllUsers");
-		User user=service.getUserByusername(request.getParameter("username"));
-		if(user.getCompany().equalsIgnoreCase("Lxisoft"))
-		users=(ArrayList<User>) service.getAllUsers();
-		else	users=service.findByCompany(user.getCompany());
-		
-		mv.addObject("fName",user.getFirstName());
-		mv.addObject("list", users);
+		try {
+			ArrayList<User> users;
+			
+			User user=service.getUserByusername(request.getParameter("username"));
+			if(user.getCompany().equalsIgnoreCase("Lxisoft"))
+			users=(ArrayList<User>) service.getAllUsers();
+			else	users=service.findByCompany(user.getCompany());
+			
+			mv.addObject("fName",user.getFirstName());
+			mv.addObject("list", users);
+		}
+		catch (Exception e)
+		{
+			mv.setViewName("redirect:/logout-success");
+		}
 		return mv;
 	}
 	@RequestMapping("/addUser")

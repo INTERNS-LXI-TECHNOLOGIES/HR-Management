@@ -38,7 +38,7 @@
               </a>
               </li>
                <li class=active th:classappend="${module == 'editUserPage' ? 'active' : ''}">
-              <a href="/editUser" th:href="@{/editUser}">
+              <a href="/editUser" th:href="@{${'/editUser?id='+employee.id}}">
               <div sec:authorize="hasRole('ROLE_ADMIN')">Edit</div>
               </a>
               </li>
