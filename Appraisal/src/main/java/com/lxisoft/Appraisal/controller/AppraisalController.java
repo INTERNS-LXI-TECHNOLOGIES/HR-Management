@@ -37,6 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
+import com.lxisoft.Appraisal.model.reportStatus;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
@@ -185,8 +186,15 @@ public class AppraisalController {
 		return "lateArrival";
 		
 	}
-	@RequestMapping("/setLeave")
-	public String setLeave(Model model,@ModelAttribute Leave leave,@RequestParam String name,String subject)
+
+	@RequestMapping("/reportStatus")
+	public String statusPage(Model model) 
+	{
+		model.addAttribute("newReportStatus",new reportStatus());
+		return "reportStatus";
+	}
+	@RequestMapping("/setReport")
+	public String setReport(Model model,@ModelAttribute reportStatus status,@RequestParam String name,String subject)
 	{
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
@@ -194,17 +202,16 @@ public class AppraisalController {
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
 			LocalDate localDate = LocalDate.now();
-			System.out.println("today is:::::::::"+localDate);
 			if(name.contains(m))
 			{
-				leave.setDate(localDate);
-				leave.setUser(u);
-				leave.setType(subject);
-				service.setLeave(leave);
+				status.setDate(localDate);
+				status.setUser(u);
+				status.setType(subject);
+				service.setReport(status);
 			}
 		}
-		model.addAttribute("newLeave",new Leave());
-		return "Leave";
+		model.addAttribute("newReportStatus",new reportStatus());
+		return "reportStatus";
 	}
 	@RequestMapping("/setLate")
 	public String setLate(Model model,@ModelAttribute LateArrival late,@RequestParam String name,String subject,String ltime)
@@ -230,6 +237,28 @@ public class AppraisalController {
 		model.addAttribute("newLate",new LateArrival());
 		return "lateArrival";
 		
+	}
+	
+	@RequestMapping("/setLeave")
+	public String setLeave(Model model,@ModelAttribute Leave leave,@RequestParam String name,String subject)
+	{
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+			LocalDate localDate = LocalDate.now();
+			System.out.println("today is:::::::::"+localDate);
+			if(name.contains(m))
+			{
+				leave.setDate(localDate);
+				leave.setUser(u);
+				leave.setType(subject);
+				service.setLeave(leave);
+			}
+		}
+		model.addAttribute("newLeave",new Leave());
+		return "Leave";
 	}
 	@RequestMapping("/deleteUser")
 	public String deleteUser(@RequestParam (name="id") Long id)

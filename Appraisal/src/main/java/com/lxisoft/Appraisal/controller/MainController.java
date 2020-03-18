@@ -34,6 +34,7 @@ public class MainController {
 		
 		return "status";
 	}
+	
 	@RequestMapping("/adminLogin")
 	public String adminLogin()
 	{

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import  com.lxisoft.Appraisal.repository.UserRepository;
 import com.lxisoft.Appraisal.repository.LateRepository;
 import  com.lxisoft.Appraisal.repository.LeaveRepository;
+import  com.lxisoft.Appraisal.repository.reportRepository;
 import com.lxisoft.Appraisal.config.UserPrincipal;
 
 
@@ -29,6 +30,7 @@ import com.lxisoft.Appraisal.model.User;
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
+import com.lxisoft.Appraisal.model.reportStatus;
 @Service
 public class UserService implements UserDetailsService {
 	
@@ -38,6 +40,8 @@ public class UserService implements UserDetailsService {
 	private LeaveRepository repos;
 	@Autowired
 	private LateRepository repol;
+	@Autowired
+	private reportRepository rep;
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
 	{
@@ -81,6 +85,10 @@ public class UserService implements UserDetailsService {
 
 		repol.save(late);
 	}
+	public void setReport(reportStatus status)
+	{
+		rep.save(status);
+	}
 	public  List<Leave> findLeave(Long id)
 	{
 		List<Leave> em=repos.findByUserId(id);
@@ -94,11 +102,7 @@ public class UserService implements UserDetailsService {
 		 
 		 return em;
 	}
-//	public List<Leave> findLeaveByDate(LocalDate l)
-//	{
-//		List<Leave> lea=repos.findByDate(l);
-//		return lea;
-//	}
+
 	public User getUserByusername(String username) {
 		
 		return repo.findByUsername(username);
