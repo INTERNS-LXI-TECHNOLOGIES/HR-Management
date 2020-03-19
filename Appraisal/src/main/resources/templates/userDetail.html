@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html xmlns = "http://www.w3.org/1999/xhtml" 
    xmlns:th = "http://www.thymeleaf.org" >
-   
    <head>
       <title>User Info</title>
-		<meta charset="utf-8" />
+      <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<style>
+ nav { position:sticky !important;} 
+    input.hidden {
+    position: absolute;
+    left: -9999px;
+}
+
+#profile-image1 {
+    cursor: pointer;
   
-	<style>
-		 nav { position:sticky !important;} 
-	</style>
-    <link rel="stylesheet" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
-     <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+     width: 100px;
+    height: 100px;
+	border:2px solid #03b1ce ;}
+	.tital{ font-size:16px; font-weight:500;}
+	 .bot-border{ border-bottom:1px #f8f8f8 solid;  margin:5px 0  5px 0}	
+</style>
+	  <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
       <div class="container">
         <div class="navbar-header" >
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
@@ -56,82 +69,124 @@
     </nav>
 		
    </head>
-   <body align="center">  
-<style>	
-	table th,td 
-	{	width: 1px;
-		border:.05px solid black;
-	}			
-</style>
-      <img th:src="@{/img/user.jpg}" style="width:80px;height:80px;"/>
-       <h1><span th:text="${employee.FirstName}"  ></span> <span th:text="${employee.LastName}"></span></h1> 
-      
-     <table align="center" BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">
-       <tr>
-	       <th><b>Email ID </b></th>    
-	      	<td> <span th:text="${employee.emailID}" ></span> </td>
-      </tr>  
-      <tr>
-	       <th><b>Company </b></th>    
-	      	<td> <span th:text="${employee.Company}" > </span> </td>
-      </tr>      
-      <tr>
-	       <th><b>Position </b></th>    
-	      	<td> <span th:text="${employee.position}" > </span> </td>
-      </tr>       
-          <tr>
-	       <th><b>D.O.B </b></th>    
-	      	<td> <span th:text="${employee.dob}" > </span> </td>
-      </tr>  
-      <tr>
-	       <th><b>Joining Date </b></th>    
-	      	<td> <span th:text="${employee.joiningDate}" > </span> </td>
-      </tr>              
-      </table> <br>
-      <h4>PERFOMANCE</h4>                 
-      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300">   
-      <b>Exceeded Leaves</b> <br>	   
-       <thead class="thead-dark">
-        <label >From :</label> 
-             <select  th:field="*{leave}" >
-  			 <option th:value="date" th:text="date"></option>   						
-                </select>
-         <label >TO :</label> 
-                    <select  th:field="*{leave}" >
-   					  <option th:value="date" th:text="date"></option>   						
-                    </select><br><br>
-       <tr>
-	       <th>id</th>
-	       <th>date</th>
-	       <th>type</th>
-	      	
-      </tr>  
-      <tr th:each="leave,iterationStatus  : ${leave}"> 
-	       <td th:text="${iterationStatus.count}" ></td>
-	       <td th:text="${leave.date}"></td>
-	       <td th:text="${leave.type}"></td>
-      </tr>
-      </table> 
-      <table align="center"  BORDER="2" CELLPADDING="2" CELLSPACING="2" WIDTH="300"><br> 
-       <tr>
-		   <b>Late Arrival</b>	      
-	       <th>Id</th>
-	       <th>Reached Time</th>
-	       <th>Type</th>	      	
-      </tr>  
-      <tr th:each="late,iterationStatus  : ${late}"> 
-     
-	       <td th:text="${iterationStatus.count}" ></td>
-	       <td th:text="${late.type}"></td>
-	        <p th:each="time: ${time}"> 
-	        <td th:text="${time}"></td>
-	       </p>
-      </tr>
-      </table> 
-      
-<div sec:authorize="hasRole('ROLE_USER')">
-  
+   <body>  
+
+<div class="container">
+	<div class="row">
+       <div class="col-md-7 ">
+
+<div class="panel panel-default">
+  <div class="panel-heading">  <h4 >User Profile</h4></div>
+   <div class="panel-body">
+       
+    <div class="box box-info">
+        
+            <div class="box-body">
+                     <div class="col-sm-6">
+                     <div  align="center"> <img alt="User Pic" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-responsive"> 
+                
+                <input id="profile-image-upload" class="hidden" type="file">
+<div style="color:#999;" >click here to change profile image</div>
+                <!--Upload Image Js And Css-->
+                     
+                     </div>
+              
+              <br>
+              <!-- /input-group -->
+            </div>
+            <div class="col-sm-6">
+            <h4 style="color:#00b1b1;">Name :<span th:text="${employee.FirstName}"  ></span> <span th:text="${employee.LastName}"></h4></span>
+               <span><p>Company :<span th:text="${employee.Company}" > </p></span> 
+              <span><p>Position :<span th:text="${employee.position}" ></p></span> 
+               <span><p>D.O.B :<span th:text="${employee.dob}" ></p></span> 
+                <span><p>Joining Date :<span th:text="${employee.joiningDate}" ></p></span>            
+            </div>
+ <div class="clearfix"></div><br>
+ <hr style="margin:5px 0 5px 0;">
+<div class="col-sm-5 col-xs-6 tital " >From
+<input type="date" id="start" name="trip-start">
 </div>
-<!-- Roles: <span sec:authentication="principal.authorities"></span> -->
+<div class="col-sm-7">To
+<input type="date" id="end" name="trip-end"></div>
+
+<div class="clearfix"></div>
+<hr style="margin:5px 0 5px 0;">
+<div class="col-sm-5 col-xs-6 tital " ><b>Leaves:</b></div>
+ 
+ <div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Authorized</div><div class="col-sm-7"> <span th:text="${auth.size()}" ></div>
+
+  <div class="clearfix"></div>
+<div class="bot-border"></div>
+<div class="col-sm-5 col-xs-6 tital " >Unauthorized</div><div class="col-sm-7"><span th:text="${unauth.size()}" ></div>
+ 
+  <div class="clearfix"></div>
+<div class="bot-border"></div>
+<div class="col-sm-5 col-xs-6 tital " ><b>Late Arrival</b></div>
+ 
+  <div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Authorized</div><div class="col-sm-7"><span th:text="${a.size()}" ></div>
+
+  <div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Unauthorized</div><div class="col-sm-7"><span th:text="${un.size()}" ></div>
+
+ <div class="clearfix"></div>
+<div class="bot-border"></div>
+<div class="col-sm-5 col-xs-6 tital " ><b>Work Status:</b></div>
+  
+  <div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Total working hours</div><div class="col-sm-7">56hr</div>
+
+ <div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Total worked hours</div><div class="col-sm-7">46hr</div>
+
+<div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Hackathon result</div><div class="col-sm-7">20/30</div>
+
+<div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >git</div><div class="col-sm-7">3/5</div>
+
+ <div class="clearfix"></div>
+<div class="bot-border"></div>
+<div class="col-sm-5 col-xs-6 tital " ><b>Attendance:</b></div>
+
+<div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Total working days</div><div class="col-sm-7">8</div>
+
+<div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Attendance</div><div class="col-sm-7">7</div>
+
+
+ <div class="clearfix"></div>
+<div class="bot-border"></div>
+<div class="col-sm-5 col-xs-6 tital " ><b>Reporting Status:</b></div>
+
+<div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Attendance</div><div class="col-sm-7">7</div>
+
+<div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Reported days</div><div class="col-sm-7">6</div>
+
+
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+       
+            
+    </div> 
+    </div>
+</div>  
+    <script>
+              $(function() {
+    $('#profile-image1').on('click', function() {
+        $('#profile-image-upload').click();
+    });
+});       
+   </script> 
+   </div>
+</div>
+  
     </body>
     </html>   

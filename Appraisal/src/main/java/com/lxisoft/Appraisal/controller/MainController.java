@@ -34,6 +34,12 @@ public class MainController {
 		
 		return "status";
 	}
+	@RequestMapping("/evaluation")
+	public String valuation()
+	{
+		
+		return "evaluation";
+	}
 	@RequestMapping("/adminLogin")
 	public String adminLogin()
 	{

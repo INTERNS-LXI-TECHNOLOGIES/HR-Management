@@ -1,6 +1,6 @@
 package com.lxisoft.Appraisal.model;
 
-import java.time.LocalDate;
+import java.time.Instant;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +19,7 @@ public class reportStatus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private LocalDate date;
+	private Instant reportingTime;
 	private String type;
 	@ManyToOne
     @JoinColumn(name = "user_id")
@@ -32,11 +32,11 @@ public class reportStatus {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public LocalDate getDate() {
-		return date;
+	public Instant getReportingTime() {
+		return reportingTime;
 	}
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public void setReportingTime(Instant reportingTime) {
+		this.reportingTime = reportingTime;
 	}
 	public String getType() {
 		return type;

@@ -7,15 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <!-- JQuery -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  
-  <!--Import Google Icon Font-->
-  	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>report status</title>
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <title>Evaluation</title>
     
 </head>
 <body>
@@ -48,20 +47,14 @@
             <div class="col-md-6 col-md-offset-3">
 <form th:action="@{/setReport}" th:object="${newReportStatus}">
 		 <div class="form-group">
-		 	<h2>Report Status</h2>
+		 	<h2>Evaluation</h2>
 		 	<tr th:each="list: ${leaveauth}">
 			   <td><a th:href="@{${'/userDetails?id='+list.id}}">  <span th:text="${list.getFirstName()} "></span> </a></td>
 			</tr>
 		 	<br><br>
-			<label for="report">Name</label><br>
-			<input type="text"  id="report" name="name" class="autocomplete"><br><br>
-		    <input type="date" id="start" name="trip-start" value="2018-07-22" ><br>
-			<label for="t">Reporting Time:</label><br>
-			<input type="time" id="t" name="ltime"><br><br>
-			<input value="Authorized"  name="subject" class="auth" type="checkbox">Authorized
-			<br><p><b>Jira and git commit before the exact time or with valid reason</b></p>
-   			<input value="NonAuthorized" name="subject" class="auth" type="checkbox">Non Authorized 
-   			<br><p><b>delay in commit without valid reason</b></p>
+			<label for="test">Name</label><br>
+			<input type="text"  id="test" name="name" class="autocomplete"><br><br>
+			
 		</div>
             <button class="btn btn-primary" type="submit">Update</button><br><br>
         </form>

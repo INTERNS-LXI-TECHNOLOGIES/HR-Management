@@ -44,6 +44,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
+import com.lxisoft.Appraisal.model.reportStatus;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
@@ -170,7 +171,6 @@ public class AppraisalController {
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
-
 		 List<Leave> leave = service.findLeave(id);
 		 List<LateArrival> late = service.findLate(id);
 		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
@@ -182,8 +182,36 @@ public class AppraisalController {
 			 time.add(t);
 		 }
 		 mv.addObject("employee",user.get());
-		 mv.addObject("leave",leave);
-		 mv.addObject("late",late);
+		 List<Leave> auth=new ArrayList<Leave>();
+		 List<Leave> unauth=new ArrayList<Leave>();
+		 for(int i=0;i<leave.size();i++)
+		 {
+			 if(leave.get(i).getType().equals("Authorized"))
+			 {
+				 auth.add(leave.get(i));
+			 }
+			 if(leave.get(i).getType().equals("NonAuthorized"))
+			 {
+				 unauth.add(leave.get(i));
+			 }
+		 }
+		 List<LateArrival> a=new ArrayList<LateArrival>();
+		 List<LateArrival> un=new ArrayList<LateArrival>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 if(late.get(i).getType().equals("Authorized"))
+			 {
+				 a.add(late.get(i));
+			 }
+			 if(late.get(i).getType().equals("NonAuthorized"))
+			 {
+				 un.add(late.get(i));
+			 }
+		 }
+		 mv.addObject("auth",auth);
+		 mv.addObject("unauth",unauth);
+		 mv.addObject("a",a);
+		 mv.addObject("un",un);
 		 mv.addObject("time",time);
 		 return mv ;  
 
@@ -222,6 +250,60 @@ public class AppraisalController {
 		return "lateArrival";
 		
 	}
+
+	@RequestMapping("/reportStatus")
+	public String statusPage(Model model) 
+	{
+		model.addAttribute("newReportStatus",new reportStatus());
+		return "reportStatus";
+	}
+	@RequestMapping("/setReport")
+	public String setReport(Model model,@ModelAttribute reportStatus status,@RequestParam String name,String subject,String t)
+	{
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+			LocalDate localDate = LocalDate.now();
+			LocalTime localtime = LocalTime.parse(t);
+			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
+			if(name.contains(m))
+			{
+				status.setReportingTime(instant);
+				status.setUser(u);
+				status.setType(subject);
+				service.setReport(status);
+			}
+		}
+		model.addAttribute("newReportStatus",new reportStatus());
+		return "reportStatus";
+	}
+	@RequestMapping("/setLate")
+	public String setLate(Model model,@ModelAttribute LateArrival late,@RequestParam String name,String subject,String ltime)
+	{
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+			LocalDate localDate = LocalDate.now();
+			LocalTime localtime = LocalTime.parse(ltime);
+			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
+			System.out.println("today :::::::"+instant);
+			if(name.contains(m))
+			{
+				late.setUser(u);
+				late.setType(subject);
+				late.setReachedTime(instant);
+				service.setLate(late);
+			}
+		}
+		model.addAttribute("newLate",new LateArrival());
+		return "lateArrival";
+		
+	}
+	
 	@RequestMapping("/setLeave")
 	public String setLeave(Model model,@ModelAttribute Leave leave,@RequestParam String name,String subject)
 	{
@@ -242,31 +324,6 @@ public class AppraisalController {
 		}
 		model.addAttribute("newLeave",new Leave());
 		return "Leave";
-	}
-	@RequestMapping("/setLate")
-	public String setLate(Model model,@ModelAttribute LateArrival late,@RequestParam String name,String subject,String ltime)
-	{
-		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
-		for(int i=0;i<user.size();i++)
-		{
-			String m=user.get(i).getFirstName();
-			User u=user.get(i);
-			LocalDate localDate = LocalDate.now();
-			System.out.println("today is:::::::::"+localDate);
-			LocalTime localtime = LocalTime.parse(ltime);
-			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
-			System.out.println("today :::::::"+instant);
-			if(name.contains(m))
-			{
-				late.setUser(u);
-				late.setType(subject);
-				late.setReachedTime(instant);
-				service.setLate(late);
-			}
-		}
-		model.addAttribute("newLate",new LateArrival());
-		return "lateArrival";
-		
 	}
 	@RequestMapping("/deleteUser")
 	public String deleteUser(@RequestParam (name="id") Long id)
