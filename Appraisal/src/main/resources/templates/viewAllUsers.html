@@ -47,6 +47,10 @@
   
     <div class="container">
     <div align="center">
+    
+    <div th:if="${message}">
+    	<h2 th:text="${message}"/>
+	</div>
 <form th:action="@{filter}">
 	<select name="company">
 	<option type="text" name="select" >--company--</option>
@@ -76,7 +80,8 @@
             <div class="card">
                 <div class="card-horizontal">
                     <div class="img-square-wrapper">
-                        <img class="" src="http://via.placeholder.com/300x180" alt="Card image cap">
+                    
+                        <img class="" th:src="@{/img/user.jpg}" alt="Card image cap" style="width:150px;height:100px">
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"><span th:text="${employee.getFirstName()}"></span> <span th:text="${employee.getLastName()}"></span> </a></h4>

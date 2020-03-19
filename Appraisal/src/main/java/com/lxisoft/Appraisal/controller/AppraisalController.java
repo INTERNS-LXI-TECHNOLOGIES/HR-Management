@@ -1,5 +1,10 @@
 package com.lxisoft.Appraisal.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -33,7 +38,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
@@ -47,7 +54,7 @@ public class AppraisalController {
 
 	@Autowired
 	private UserService service;
-	
+	 private static String folder="F:\\KP_ZONE\\java\\Apprisal\\HR-Management\\Appraisal\\src\\main\\resources\\static\\img\\";
 
 	@RequestMapping("/")
 	public ModelAndView home()
@@ -79,15 +86,22 @@ public class AppraisalController {
 	@RequestMapping("/viewUsers")
 	public ModelAndView viewUsers(HttpServletRequest request, HttpServletResponse response)
 	{
-		ArrayList<User> users;
 		ModelAndView mv= new ModelAndView("viewAllUsers");
-		User user=service.getUserByusername(request.getParameter("username"));
-		if(user.getCompany().equalsIgnoreCase("Lxisoft"))
-		users=(ArrayList<User>) service.getAllUsers();
-		else	users=service.findByCompany(user.getCompany());
-		
-		mv.addObject("fName",user.getFirstName());
-		mv.addObject("list", users);
+		try {
+			ArrayList<User> users;
+			
+			User user=service.getUserByusername(request.getParameter("username"));
+			if(user.getCompany().equalsIgnoreCase("Lxisoft"))
+			users=(ArrayList<User>) service.getAllUsers();
+			else	users=service.findByCompany(user.getCompany());
+			
+			mv.addObject("fName",user.getFirstName());
+			mv.addObject("list", users);
+		}
+		catch (Exception e)
+		{
+			mv.setViewName("redirect:/logout-success");
+		}
 		return mv;
 	}
 	@RequestMapping("/addUser")
@@ -96,16 +110,39 @@ public class AppraisalController {
 		return "addUser";
 	}
 	
-	@RequestMapping("/addU")
-	public ModelAndView addUser(@Valid @ModelAttribute  User user,BindingResult bindingResult, HttpServletRequest request)
+	@PostMapping("/addU")
+	public ModelAndView addUser(@Valid @ModelAttribute  User user,BindingResult bindingResult, HttpServletRequest request,
+			@RequestParam (name="picture") MultipartFile file, RedirectAttributes re)
 	{
 		ModelAndView mv;
 		System.out.println(request.getParameter("do"));
 		System.out.println(request.getParameter("joinDate"));
+		
+		
 		if (bindingResult.hasErrors()) {
 			mv=new ModelAndView("addUser");
+			
+			if(file.isEmpty())
+			{
+				re.addFlashAttribute("message","select a file to upload");
+				
 			}
+		}
 		else {
+			
+			
+				try
+				{
+					byte[] bytes=file.getBytes();
+					Path path=Paths.get(folder+file.getOriginalFilename());
+					Files.write(path, bytes);
+					user.setImage(bytes);
+					
+				}
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
 			Role role=new Role(request.getParameter("name"));
 			Set < Role > roles=new HashSet < Role >();
 			roles.add(role);
