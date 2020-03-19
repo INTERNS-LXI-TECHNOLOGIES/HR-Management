@@ -134,7 +134,6 @@ public class AppraisalController {
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
-
 		 List<Leave> leave = service.findLeave(id);
 		 List<LateArrival> late = service.findLate(id);
 		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
@@ -146,8 +145,36 @@ public class AppraisalController {
 			 time.add(t);
 		 }
 		 mv.addObject("employee",user.get());
-		 mv.addObject("leave",leave);
-		 mv.addObject("late",late);
+		 List<Leave> auth=new ArrayList<Leave>();
+		 List<Leave> unauth=new ArrayList<Leave>();
+		 for(int i=0;i<leave.size();i++)
+		 {
+			 if(leave.get(i).getType().equals("Authorized"))
+			 {
+				 auth.add(leave.get(i));
+			 }
+			 if(leave.get(i).getType().equals("NonAuthorized"))
+			 {
+				 unauth.add(leave.get(i));
+			 }
+		 }
+		 List<LateArrival> a=new ArrayList<LateArrival>();
+		 List<LateArrival> un=new ArrayList<LateArrival>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 if(late.get(i).getType().equals("Authorized"))
+			 {
+				 a.add(late.get(i));
+			 }
+			 if(late.get(i).getType().equals("NonAuthorized"))
+			 {
+				 un.add(late.get(i));
+			 }
+		 }
+		 mv.addObject("auth",auth);
+		 mv.addObject("unauth",unauth);
+		 mv.addObject("a",a);
+		 mv.addObject("un",un);
 		 mv.addObject("time",time);
 		 return mv ;  
 
