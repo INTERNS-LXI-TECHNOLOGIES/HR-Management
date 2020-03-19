@@ -221,7 +221,7 @@ public class AppraisalController {
 		return "reportStatus";
 	}
 	@RequestMapping("/setReport")
-	public String setReport(Model model,@ModelAttribute reportStatus status,@RequestParam String name,String subject)
+	public String setReport(Model model,@ModelAttribute reportStatus status,@RequestParam String name,String subject,String t)
 	{
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
@@ -229,9 +229,11 @@ public class AppraisalController {
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
 			LocalDate localDate = LocalDate.now();
+			LocalTime localtime = LocalTime.parse(t);
+			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
 			if(name.contains(m))
 			{
-				status.setDate(localDate);
+				status.setReportingTime(instant);
 				status.setUser(u);
 				status.setType(subject);
 				service.setReport(status);
@@ -249,7 +251,6 @@ public class AppraisalController {
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
 			LocalDate localDate = LocalDate.now();
-			System.out.println("today is:::::::::"+localDate);
 			LocalTime localtime = LocalTime.parse(ltime);
 			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
 			System.out.println("today :::::::"+instant);
