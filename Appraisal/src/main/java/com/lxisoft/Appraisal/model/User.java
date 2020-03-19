@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -54,10 +55,22 @@ public class User {
 	
 	private LocalDate joiningDate;
 	
-	
+	private String fileContentType;
+	public String getFileContentType() {
+		return fileContentType;
+	}
+	public void setFileContentType(String fileContentType) {
+		this.fileContentType = fileContentType;
+	}
 	private LocalDate dob;
-	
-	private MultipartFile picture;
+	@Lob
+	private byte[] image;
+	public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
 	@NotEmpty(message="must not empty")
 	private String position;
 	
