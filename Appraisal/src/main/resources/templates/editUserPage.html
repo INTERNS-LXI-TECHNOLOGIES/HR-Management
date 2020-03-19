@@ -76,7 +76,7 @@
                       <br>
                       
                       DOB:  <input type="date" th:value="${date}"  name="date"/>
-                    <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></p>
+                    <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></p><br>
       
                     Joined Date:<input type="date"  th:value="${join}" name="join" />
                     <p th:if="${#fields.hasErrors('joiningDate')}" th:errors="*{joiningDate}"></p><br>
