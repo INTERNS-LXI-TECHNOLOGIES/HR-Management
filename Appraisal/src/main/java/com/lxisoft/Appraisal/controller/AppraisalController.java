@@ -179,6 +179,7 @@ public class AppraisalController {
 		 LocalDate first=user.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
 		 long days= ChronoUnit.DAYS.between(first,second);
+		 long total=(days*7);
 		 List<Leave> auth=new ArrayList<Leave>();
 		 List<Leave> unauth=new ArrayList<Leave>();
 		 for(int i=0;i<leave.size();i++)
@@ -205,25 +206,21 @@ public class AppraisalController {
 				 un.add(late.get(i));
 			 }
 		 }
+		 int l=((auth.size())+(unauth.size()));
+		 long absence=l*7;
+		 long workedHour=(total-absence);
+		 System.out.println("w.."+workedHour);
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
 		 mv.addObject("a",a);
 		 mv.addObject("un",un);
 		 mv.addObject("day",days);
+		 mv.addObject("total",total);
+		 mv.addObject("workedHour",workedHour);
+		 mv.addObject("test",test);
 		 return mv ;  
-
 	 }
-//	@RequestMapping("/startDate") 
-//	public void report(@RequestParam String start,String end,String id)
-//	{
-//		LocalDate from =LocalDate.parse(start);
-//		LocalDate to = LocalDate.parse(end);
-//		long day= ChronoUnit.DAYS.between(from,to);
-//		Long ide=Long.valueOf(id);
-//		Optional <User> user = service.findByid(ide);
-//		List<Leave> l=service.findLeaveByDate(from,to);
 
-//	}
 	@RequestMapping(value = "/statusform",method = RequestMethod.GET)
 	public @ResponseBody
 	List<User> getName(@RequestParam("firstName") String firstName) {
