@@ -1,7 +1,10 @@
 package com.lxisoft.Appraisal.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,6 +16,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -21,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -56,7 +61,6 @@ public class AppraisalController {
 
 	@Autowired
 	private UserService service;
-	 private static String folder="F:\\KP_ZONE\\java\\Apprisal\\HR-Management\\Appraisal\\src\\main\\resources\\static\\img\\";
 
 	@RequestMapping("/")
 	public ModelAndView home()
@@ -97,6 +101,8 @@ public class AppraisalController {
 			users=(ArrayList<User>) service.getAllUsers();
 			else	users=service.findByCompany(user.getCompany());
 			
+			
+			
 			mv.addObject("fName",user.getFirstName());
 			mv.addObject("list", users);
 		}
@@ -134,9 +140,8 @@ public class AppraisalController {
 				try
 				{
 					byte[] bytes=file.getBytes();
-					Path path=Paths.get(folder+file.getOriginalFilename());
-					Files.write(path, bytes);
 					user.setImage(bytes);
+					user.setFileContentType(file.getContentType());
 					
 				}
 				catch (IOException e) 
@@ -206,6 +211,7 @@ public class AppraisalController {
 				 un.add(late.get(i));
 			 }
 		 }
+
 		 int l=((auth.size())+(unauth.size()));
 		 long absence=l*7;
 		 long workedHour=(total-absence);

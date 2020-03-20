@@ -98,14 +98,13 @@ body {
                     <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
                
                     <label>E-mail</label> <input type="text" th:field="*{emailID}" class="form-control"/>
-                    <p th:if="${#fields.hasErrors('emailID')}" th:errors="*{emailID}"></p>
-                    <label>DOB: </label> <input type ="date" name="do"  />
+                    <p th:if="${#fields.hasErrors('emailID')}" th:errors="*{emailID}"></p> <br>
+                    <label>DOB: </label> <input type ="date" name="do"  required />
                     <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></p>
-                    <label>Joined Date:</label><input type="date" name="joinDate"  />
+                    <label>Joined Date:</label><input type="date" name="joinDate" required />
                     <p th:if="${#fields.hasErrors('joiningDate')}" th:errors="*{joinDate}"></p><br>
                     
-                  	<label>pick a profile picture</label>
-                  	<input type="file" name="picture" />
+                  	<label>pick a profile picture</label> <input type="file" name="picture"  required/><br>
                     
                     <label >Company:</label> 
                     <select  th:field="*{company}" >
@@ -114,7 +113,7 @@ body {
    						 <option th:value="Divixo" th:text="Divixo"></option>
    						 <option th:value="Felixo" th:text="Felixo"></option>
    						 <option th:value="Illude" th:text="Illude"></option>
-                    </select><br>
+                    </select>
                     <p th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></p>
                     <label>Position:</label>
                     <select th:field="*{position}">
@@ -126,7 +125,7 @@ body {
 					<p th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></p>
                     <label for="user" class="control-label">User Name</label> <input type="text" th:field="*{username}" class="form-control"/>
                     <label for="password" class="control-label">Password</label> <input type="text" th:field="*{password}" class="form-control"/><br>
-                   Role Type: <select name="name">
+                   <label>Role Type: </label><select name="name">
    						 <option th:value="ROLE_USER" th:text="user"></option>
    						 <option th:value="ROLE_ADMIN" th:text="Admin"></option>
 
