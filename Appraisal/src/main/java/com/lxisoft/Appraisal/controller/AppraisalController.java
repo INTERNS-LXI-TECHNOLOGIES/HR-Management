@@ -11,9 +11,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import java.util.Date;
 import java.util.HashSet;
 
 import java.util.List;
@@ -44,6 +45,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
+import com.lxisoft.Appraisal.model.EvaluationTest;
 import com.lxisoft.Appraisal.model.reportStatus;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
@@ -129,8 +131,6 @@ public class AppraisalController {
 			}
 		}
 		else {
-			
-			
 				try
 				{
 					byte[] bytes=file.getBytes();
@@ -167,21 +167,18 @@ public class AppraisalController {
 
 
 	@RequestMapping("/userDetails") 
-	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
+	 public ModelAndView userDetail(@RequestParam Long id) 
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
 		 List<Leave> leave = service.findLeave(id);
 		 List<LateArrival> late = service.findLate(id);
-		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
-		 for(int i=0;i<late.size();i++)
-		 {
-			 Instant in=late.get(i).getReachedTime();
-//			 LocalDateTime time=Instant.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
-			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
-			 time.add(t);
-		 }
+		 List<EvaluationTest> test=service.findTest(id);
+		 List<reportStatus> status=service.findReport(id);
 		 mv.addObject("employee",user.get());
+		 LocalDate first=user.get().getJoiningDate();
+		 LocalDate second= LocalDate.now();
+		 long days= ChronoUnit.DAYS.between(first,second);
 		 List<Leave> auth=new ArrayList<Leave>();
 		 List<Leave> unauth=new ArrayList<Leave>();
 		 for(int i=0;i<leave.size();i++)
@@ -212,10 +209,21 @@ public class AppraisalController {
 		 mv.addObject("unauth",unauth);
 		 mv.addObject("a",a);
 		 mv.addObject("un",un);
-		 mv.addObject("time",time);
+		 mv.addObject("day",days);
 		 return mv ;  
 
 	 }
+//	@RequestMapping("/startDate") 
+//	public void report(@RequestParam String start,String end,String id)
+//	{
+//		LocalDate from =LocalDate.parse(start);
+//		LocalDate to = LocalDate.parse(end);
+//		long day= ChronoUnit.DAYS.between(from,to);
+//		Long ide=Long.valueOf(id);
+//		Optional <User> user = service.findByid(ide);
+//		List<Leave> l=service.findLeaveByDate(from,to);
+
+//	}
 	@RequestMapping(value = "/statusform",method = RequestMethod.GET)
 	public @ResponseBody
 	List<User> getName(@RequestParam("firstName") String firstName) {
@@ -239,14 +247,14 @@ public class AppraisalController {
 	@RequestMapping("/leave")
 	public String Leave(Model model)
 	{
-		model.addAttribute("newLeave",new Leave());
+		model.addAttribute("Leave",new Leave());
 		return "leave";
 		
 	}
 	@RequestMapping("/lateArrival")
 	public String LateArrival(Model model)
 	{
-		model.addAttribute("newLate",new LateArrival());
+		model.addAttribute("Late",new LateArrival());
 		return "lateArrival";
 		
 	}
@@ -254,8 +262,37 @@ public class AppraisalController {
 	@RequestMapping("/reportStatus")
 	public String statusPage(Model model) 
 	{
-		model.addAttribute("newReportStatus",new reportStatus());
+		model.addAttribute("ReportStatus",new reportStatus());
 		return "reportStatus";
+	}
+	@RequestMapping("/evaluation")
+	public String evaluation(Model model)
+	{
+		model.addAttribute("test",new EvaluationTest());
+		return "evaluation";
+		
+	}
+	@RequestMapping("/setTest")
+	public String setTest(Model model,@ModelAttribute EvaluationTest test,@RequestParam String name,Long hack,Long num)
+	{
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+			LocalDate local=LocalDate.now();
+			if(name.contains(m))
+			{
+				test.setUser(u);
+				test.setDate(local);
+				test.setGitMark(num);
+				test.setHackathon(hack);
+				service.setTest(test);
+			}
+		}
+		model.addAttribute("newtest",new EvaluationTest());
+		return "evaluation";
+		
 	}
 	@RequestMapping("/setReport")
 	public String setReport(Model model,@ModelAttribute reportStatus status,@RequestParam String name,String subject,String t)
@@ -383,4 +420,5 @@ public class AppraisalController {
 		return "viewAllUsers";
 		
 	}
+	
 }

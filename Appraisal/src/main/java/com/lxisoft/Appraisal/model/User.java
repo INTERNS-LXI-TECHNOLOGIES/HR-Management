@@ -15,19 +15,13 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lxisoft.Appraisal.model.LateArrival;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 @Entity
@@ -56,21 +50,11 @@ public class User {
 	private LocalDate joiningDate;
 	
 	private String fileContentType;
-	public String getFileContentType() {
-		return fileContentType;
-	}
-	public void setFileContentType(String fileContentType) {
-		this.fileContentType = fileContentType;
-	}
+	
 	private LocalDate dob;
 	@Lob
 	private byte[] image;
-	public byte[] getImage() {
-		return image;
-	}
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
+	
 	@NotEmpty(message="must not empty")
 	private String position;
 	
@@ -99,6 +83,16 @@ public class User {
 	 @JoinColumn(name = "user_id")
 	  @JsonManagedReference
 	 private List<LateArrival> lateArrival;
+	 
+	 @OneToMany(cascade = CascadeType.ALL)
+	 @JoinColumn(name = "user_id")
+	  @JsonManagedReference
+	 private List<reportStatus> reportStatus;
+	 
+	 @OneToMany(cascade = CascadeType.ALL)
+	 @JoinColumn(name = "user_id")
+	  @JsonManagedReference
+	 private List<EvaluationTest> evaluationTest;
 	
 	
 	public User() {
@@ -154,13 +148,25 @@ public class User {
 	public void setJoiningDate(LocalDate joiningDate) {
 		this.joiningDate = joiningDate;
 	}
+	
+	public String getFileContentType() {
+		return fileContentType;
+	}
+	public void setFileContentType(String fileContentType) {
+		this.fileContentType = fileContentType;
+	}
 	public LocalDate getDob() {
 		return dob;
 	}
 	public void setDob(LocalDate dob) {
 		this.dob = dob;
 	}
-	
+	public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
 	public String getPosition() {
 		return position;
 	}
@@ -184,10 +190,8 @@ public class User {
 	}
 
 	public void setRoles(Set < Role > roles) {
-		
 		this.roles=roles;
 	}
-	
 	public List<Leave> getLeave() {
 		return leave;
 	}
@@ -199,6 +203,18 @@ public class User {
 	}
 	public void setLateArrival(List<LateArrival> lateArrival) {
 		this.lateArrival = lateArrival;
+	}
+	public List<reportStatus> getReportStatus() {
+		return reportStatus;
+	}
+	public void setReportStatus(List<reportStatus> reportStatus) {
+		this.reportStatus = reportStatus;
+	}
+	public List<EvaluationTest> getEvaluationTest() {
+		return evaluationTest;
+	}
+	public void setEvaluationTest(List<EvaluationTest> evaluationTest) {
+		this.evaluationTest = evaluationTest;
 	}
 	
 	

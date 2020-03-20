@@ -19,10 +19,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import  com.lxisoft.Appraisal.repository.UserRepository;
+import com.lxisoft.Appraisal.repository.UserRepository;
 import com.lxisoft.Appraisal.repository.LateRepository;
-import  com.lxisoft.Appraisal.repository.LeaveRepository;
-import  com.lxisoft.Appraisal.repository.reportRepository;
+import com.lxisoft.Appraisal.repository.LeaveRepository;
+import com.lxisoft.Appraisal.repository.reportRepository;
+import com.lxisoft.Appraisal.repository.TestRepository;
 import com.lxisoft.Appraisal.config.UserPrincipal;
 
 
@@ -31,6 +32,7 @@ import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.model.reportStatus;
+import com.lxisoft.Appraisal.model.EvaluationTest;
 @Service
 public class UserService implements UserDetailsService {
 	
@@ -42,6 +44,8 @@ public class UserService implements UserDetailsService {
 	private LateRepository repol;
 	@Autowired
 	private reportRepository rep;
+	@Autowired
+	private TestRepository repot;
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
 	{
@@ -89,6 +93,10 @@ public class UserService implements UserDetailsService {
 	{
 		rep.save(status);
 	}
+	public void setTest(EvaluationTest test)
+	{
+		repot.save(test);
+	}
 	public  List<Leave> findLeave(Long id)
 	{
 		List<Leave> em=repos.findByUserId(id);
@@ -102,7 +110,20 @@ public class UserService implements UserDetailsService {
 		 
 		 return em;
 	}
+	public  List<EvaluationTest> findTest(Long id)
+	{
 
+		List<EvaluationTest> test=repot.findByUserId(id);
+		 
+		 return test;
+	}
+	public List<reportStatus> findReport(Long id)
+	{
+
+		List<reportStatus> status=rep.findByUserId(id);
+		 
+		 return status;
+	}
 	public User getUserByusername(String username) {
 		
 		return repo.findByUsername(username);
@@ -140,4 +161,5 @@ public class UserService implements UserDetailsService {
 		}
 		return users;
 	}
+
 }

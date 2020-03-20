@@ -2,18 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8" />
+   <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Evaluation</title>
     
 </head>
@@ -45,16 +42,16 @@
 <div class="container">
 <div class="row">
             <div class="col-md-6 col-md-offset-3">
-<form th:action="@{/setReport}" th:object="${newReportStatus}">
+<form th:action="@{/setTest}" th:object="${test}">
 		 <div class="form-group">
 		 	<h2>Evaluation</h2>
-		 	<tr th:each="list: ${leaveauth}">
-			   <td><a th:href="@{${'/userDetails?id='+list.id}}">  <span th:text="${list.getFirstName()} "></span> </a></td>
-			</tr>
 		 	<br><br>
 			<label for="test">Name</label><br>
 			<input type="text"  id="test" name="name" class="autocomplete"><br><br>
-			
+			<label for="mark">Git Mark  : </label>
+			<input type="number" id="num" name="num" min="0" max="5">
+			<label for="hackathon">Hackathon :</label>
+			<input type="number" id="hack" name="hack" min="0" max="30">
 		</div>
             <button class="btn btn-primary" type="submit">Update</button><br><br>
         </form>

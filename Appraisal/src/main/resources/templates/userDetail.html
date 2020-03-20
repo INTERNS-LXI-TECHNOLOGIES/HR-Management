@@ -95,6 +95,7 @@
               <!-- /input-group -->
             </div>
             <div class="col-sm-6">
+             
             <h4 style="color:#00b1b1;">Name :<span th:text="${employee.FirstName}"  ></span> <span th:text="${employee.LastName}"></h4></span>
                <span><p>Company :<span th:text="${employee.Company}" > </p></span> 
               <span><p>Position :<span th:text="${employee.position}" ></p></span> 
@@ -103,12 +104,14 @@
             </div>
  <div class="clearfix"></div><br>
  <hr style="margin:5px 0 5px 0;">
+ <form th:action="@{/startDate}">
+ <input type="hidden" name="id"  th:value="${employee.id}" ></input>
 <div class="col-sm-5 col-xs-6 tital " >From
-<input type="date" id="start" name="trip-start">
+<input type="date" id="start" name="start">
 </div>
 <div class="col-sm-7">To
-<input type="date" id="end" name="trip-end"></div>
-
+<input type="date" id="end" name="end"><button class="btn btn-primary" type="submit">Submit</button></div>
+</form>
 <div class="clearfix"></div>
 <hr style="margin:5px 0 5px 0;">
 <div class="col-sm-5 col-xs-6 tital " ><b>Leaves:</b></div>
@@ -116,8 +119,8 @@
  <div class="clearfix"></div><br>
 <div class="col-sm-5 col-xs-6 tital " >Authorized</div><div class="col-sm-7"> <span th:text="${auth.size()}" ></div>
 
-  <div class="clearfix"></div>
-<div class="bot-border"></div>
+  <div class="clearfix"></div><br>
+
 <div class="col-sm-5 col-xs-6 tital " >Unauthorized</div><div class="col-sm-7"><span th:text="${unauth.size()}" ></div>
  
   <div class="clearfix"></div>
@@ -151,17 +154,18 @@
 <div class="col-sm-5 col-xs-6 tital " ><b>Attendance:</b></div>
 
 <div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Total working days</div><div class="col-sm-7">8</div>
+<div class="col-sm-5 col-xs-6 tital " >Total working days</div><div class="col-sm-7"><span th:text="${day}" ></div>
 
 <div class="clearfix"></div><br>
 <div class="col-sm-5 col-xs-6 tital " >Attendance</div><div class="col-sm-7">7</div>
 
-
  <div class="clearfix"></div>
+<div class="bot-border"></div>
 <div class="bot-border"></div>
 <div class="col-sm-5 col-xs-6 tital " ><b>Reporting Status:</b></div>
 
 <div class="clearfix"></div><br>
+
 <div class="col-sm-5 col-xs-6 tital " >Attendance</div><div class="col-sm-7">7</div>
 
 <div class="clearfix"></div><br>
