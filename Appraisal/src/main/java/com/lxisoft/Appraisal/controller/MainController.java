@@ -45,11 +45,7 @@ public class MainController {
 		
 	}
 
-	@RequestMapping("/reportStatus")
-	public String statusPage() 
-	{
-		return "reportStatus";
-	}
+
 	@RequestMapping("/evaluation")
 	public String evaluation()
 	{

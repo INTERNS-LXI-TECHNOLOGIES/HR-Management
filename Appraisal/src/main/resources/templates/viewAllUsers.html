@@ -129,7 +129,7 @@ body {
                         <p class="card-text"><span th:text="${employee.getPosition()}"></span>- <span th:text="${employee.getCompany()}"></span></p>
                         <a th:href="@{${'/userDetails?id='+employee.id}}" ><button  type="button" class="btn btn-danger btn-sm">View Profile</button></a>
                         <td><a th:href="@{${'/editUser?id='+employee.id}}">&nbsp  edit &nbsp  </a></td>
-    <td><a th:href="@{${'/deleteUser?id='+employee.id}}">&nbsp delete &nbsp</a></td>
+   						<td><a th:href="@{${'/deleteUser?id='+employee.id}}">&nbsp delete &nbsp</a></td>
                     </div>
                 </div>
             </div>

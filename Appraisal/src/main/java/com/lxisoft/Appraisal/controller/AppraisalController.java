@@ -1,7 +1,5 @@
 package com.lxisoft.Appraisal.controller;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -18,17 +16,18 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
-import java.util.Date;
+
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.xml.bind.DatatypeConverter;
+//import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -50,11 +49,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
-import com.lxisoft.Appraisal.model.EvaluationTest;
 import com.lxisoft.Appraisal.model.reportStatus;
+import com.lxisoft.Appraisal.model.EvaluationTest;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
+import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 @Controller
 public class AppraisalController {
@@ -137,6 +137,8 @@ public class AppraisalController {
 			}
 		}
 		else {
+			
+			
 				try
 				{
 					byte[] bytes=file.getBytes();
@@ -172,18 +174,31 @@ public class AppraisalController {
 
 
 	@RequestMapping("/userDetails") 
-	 public ModelAndView userDetail(@RequestParam Long id) 
+	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = service.findByid(id);
 		 List<Leave> leave = service.findLeave(id);
 		 List<LateArrival> late = service.findLate(id);
+
 		 List<EvaluationTest> test=service.findTest(id);
+
+		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 Instant in=late.get(i).getReachedTime();
+//			 LocalDateTime time=Instant.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
+			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
+			 time.add(t);
+		 }
+
 		 mv.addObject("employee",user.get());
+
 		 LocalDate first=user.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
 		 long days= ChronoUnit.DAYS.between(first,second);
 		 long total=(days*7);
+
 		 List<Leave> auth=new ArrayList<Leave>();
 		 List<Leave> unauth=new ArrayList<Leave>();
 		 for(int i=0;i<leave.size();i++)
@@ -211,19 +226,33 @@ public class AppraisalController {
 			 }
 		 }
 
+		 if(!user.get().getFileContentType().isEmpty())
+		 {
+			 String image=Base64.getEncoder().encodeToString(user.get().getImage());
+//			 String image=DatatypeConverter.printBase64Binary(user.get().getImage());
+//			 Base64Encoder encoder=new Base64Encoder();
+//			 String image=encoder.encode(user.get().getImage());
+			 mv.addObject("image",image);
+		 }
+		
+
+
 		 int l=((auth.size())+(unauth.size()));
 		 long absence=l*7;
 		 long workedHour=(total-absence);
+
 		 List<reportStatus> status=service.findReport(id);
 		 List<reportStatus> unreportdays=new ArrayList<reportStatus>();
 		 for(int i=0;i<status.size();i++)
 		 {
 			unreportdays.add(status.get(i));
 		 }
+		
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
 		 mv.addObject("a",a);
 		 mv.addObject("un",un);
+		 mv.addObject("time",time);
 		 mv.addObject("day",days);
 		 mv.addObject("total",total);
 		 mv.addObject("workedHour",workedHour);
@@ -252,6 +281,17 @@ public class AppraisalController {
 		return result;
 	}
 
+	
+	
+
+	@RequestMapping("/reportStatus")
+	public String statusPage(Model model) 
+	{
+		model.addAttribute("newReportStatus",new reportStatus());
+		return "reportStatus";
+	}
+
+
 	@RequestMapping("/setTest")
 	public String setTest(@RequestParam String name,Long hack,Long num)
 	{
@@ -273,6 +313,7 @@ public class AppraisalController {
 		}
 		return "evaluation";
 		
+
 	}
 	@RequestMapping("/setReport")
 	public String setReport(@RequestParam String name,String subject,String t)
@@ -439,5 +480,4 @@ public class AppraisalController {
 		return "viewAllUsers";
 		
 	}
-	
 }
