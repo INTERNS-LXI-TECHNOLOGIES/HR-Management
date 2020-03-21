@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
@@ -25,6 +26,8 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.xml.bind.DatatypeConverter;
+//import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +53,7 @@ import com.lxisoft.Appraisal.model.reportStatus;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
+import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 @Controller
 public class AppraisalController {
@@ -184,6 +188,12 @@ public class AppraisalController {
 			 time.add(t);
 		 }
 		 mv.addObject("employee",user.get());
+
+		 LocalDate first=user.get().getJoiningDate();
+		 LocalDate second= LocalDate.now();
+		 long days= ChronoUnit.DAYS.between(first,second);
+		 long total=(days*7);
+
 		 List<Leave> auth=new ArrayList<Leave>();
 		 List<Leave> unauth=new ArrayList<Leave>();
 		 for(int i=0;i<leave.size();i++)
@@ -210,20 +220,38 @@ public class AppraisalController {
 				 un.add(late.get(i));
 			 }
 		 }
+
 		 if(!user.get().getFileContentType().isEmpty())
 		 {
-			 String image=Base64.getEncoder().encodeToString(user.get().getImage());
+//			 String image=Base64.getEncoder().encodeToString(user.get().getImage());
+//			 String image=DatatypeConverter.printBase64Binary(user.get().getImage());
+			 Base64Encoder encoder=new Base64Encoder();
+			 String image=encoder.encode(user.get().getImage());
 			 mv.addObject("image",image);
 		 }
 		
+
+
+		 int l=((auth.size())+(unauth.size()));
+		 long absence=l*7;
+		 long workedHour=(total-absence);
+		 System.out.println("w.."+workedHour);
+
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
 		 mv.addObject("a",a);
 		 mv.addObject("un",un);
-		 mv.addObject("time",time);
-		 return mv ;  
 
+		 mv.addObject("time",time);
+
+		 mv.addObject("day",days);
+		 mv.addObject("total",total);
+		 mv.addObject("workedHour",workedHour);
+//		 mv.addObject("test",test);
+
+		 return mv ;  
 	 }
+
 	@RequestMapping(value = "/statusform",method = RequestMethod.GET)
 	public @ResponseBody
 	List<User> getName(@RequestParam("firstName") String firstName) {
