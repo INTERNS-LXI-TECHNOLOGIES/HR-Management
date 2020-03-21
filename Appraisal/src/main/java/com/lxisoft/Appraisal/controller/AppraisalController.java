@@ -18,7 +18,7 @@ import java.util.Base64;
 import java.util.Calendar;
 
 import java.util.HashSet;
-
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -50,6 +50,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
 import com.lxisoft.Appraisal.model.reportStatus;
+import com.lxisoft.Appraisal.model.EvaluationTest;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
@@ -223,10 +224,10 @@ public class AppraisalController {
 
 		 if(!user.get().getFileContentType().isEmpty())
 		 {
-//			 String image=Base64.getEncoder().encodeToString(user.get().getImage());
+			 String image=Base64.getEncoder().encodeToString(user.get().getImage());
 //			 String image=DatatypeConverter.printBase64Binary(user.get().getImage());
-			 Base64Encoder encoder=new Base64Encoder();
-			 String image=encoder.encode(user.get().getImage());
+//			 Base64Encoder encoder=new Base64Encoder();
+//			 String image=encoder.encode(user.get().getImage());
 			 mv.addObject("image",image);
 		 }
 		
@@ -247,8 +248,6 @@ public class AppraisalController {
 		 mv.addObject("day",days);
 		 mv.addObject("total",total);
 		 mv.addObject("workedHour",workedHour);
-//		 mv.addObject("test",test);
-
 		 return mv ;  
 	 }
 
@@ -272,20 +271,9 @@ public class AppraisalController {
 
 		return result;
 	}
-	@RequestMapping("/leave")
-	public String Leave(Model model)
-	{
-		model.addAttribute("newLeave",new Leave());
-		return "leave";
-		
-	}
-	@RequestMapping("/lateArrival")
-	public String LateArrival(Model model)
-	{
-		model.addAttribute("newLate",new LateArrival());
-		return "lateArrival";
-		
-	}
+
+	
+	
 
 	@RequestMapping("/reportStatus")
 	public String statusPage(Model model) 
@@ -293,12 +281,38 @@ public class AppraisalController {
 		model.addAttribute("newReportStatus",new reportStatus());
 		return "reportStatus";
 	}
-	@RequestMapping("/setReport")
-	public String setReport(Model model,@ModelAttribute reportStatus status,@RequestParam String name,String subject,String t)
+
+
+	@RequestMapping("/setTest")
+	public String setTest(@RequestParam String name,Long hack,Long num)
 	{
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
 		{
+			EvaluationTest test=new EvaluationTest();
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+			LocalDate local=LocalDate.now();
+			if(name.contains(m))
+			{
+				test.setUser(u);
+				test.setDate(local);
+				test.setGitMark(num);
+				test.setHackathon(hack);
+				service.setTest(test);
+			}
+		}
+		return "evaluation";
+		
+
+	}
+	@RequestMapping("/setReport")
+	public String setReport(@RequestParam String name,String subject,String t)
+	{
+		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		for(int i=0;i<user.size();i++)
+		{
+			reportStatus status=new reportStatus();
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
 			LocalDate localDate = LocalDate.now();
@@ -312,13 +326,14 @@ public class AppraisalController {
 				service.setReport(status);
 			}
 		}
-		model.addAttribute("newReportStatus",new reportStatus());
 		return "reportStatus";
 	}
 	@RequestMapping("/setLate")
-	public String setLate(Model model,@ModelAttribute LateArrival late,@RequestParam String name,String subject,String ltime)
+	public String setLate(@RequestParam String name,String subject,String ltime)
 	{
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		LateArrival late=new LateArrival();
+		ModelAndView mv= new ModelAndView();
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
@@ -326,7 +341,6 @@ public class AppraisalController {
 			LocalDate localDate = LocalDate.now();
 			LocalTime localtime = LocalTime.parse(ltime);
 			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
-			System.out.println("today :::::::"+instant);
 			if(name.contains(m))
 			{
 				late.setUser(u);
@@ -334,33 +348,71 @@ public class AppraisalController {
 				late.setReachedTime(instant);
 				service.setLate(late);
 			}
+			
 		}
-		model.addAttribute("newLate",new LateArrival());
 		return "lateArrival";
 		
 	}
-	
+	@RequestMapping("/leave")
+	public ModelAndView Leave()
+	{
+		List<Leave> l=service.getAllLeave();
+		List<User> list=new ArrayList<User>();
+		LocalDate localDate = LocalDate.now();
+		ModelAndView mv= new ModelAndView("Leave");
+		for(int i=0;i<l.size();i++)
+		{
+			if((l.get(i).getDate()).equals(localDate))
+			{
+				list.add(l.get(i).getUser());
+			}
+		}
+		List<User> lea=removeDuplicates(list);
+		mv.addObject("leavelist",lea);
+		return mv;
+		
+	}
 	@RequestMapping("/setLeave")
-	public String setLeave(Model model,@ModelAttribute Leave leave,@RequestParam String name,String subject)
+	public ModelAndView setLeave(@RequestParam String name,String subject)
 	{
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
+		Leave leave=new Leave();
+		List<User> list=new ArrayList<User>();
+		List<Leave> l=service.getAllLeave();
+		LocalDate localDate = LocalDate.now();
+		ModelAndView mv= new ModelAndView("Leave");
+		for(int i=0;i<l.size();i++)
+		{
+			if((l.get(i).getDate()).equals(localDate))
+			{
+				list.add(l.get(i).getUser());
+			}
+		}
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
-			LocalDate localDate = LocalDate.now();
-			System.out.println("today is:::::::::"+localDate);
 			if(name.contains(m))
 			{
 				leave.setDate(localDate);
 				leave.setUser(u);
 				leave.setType(subject);
 				service.setLeave(leave);
+				list.add(leave.getUser());
 			}
 		}
-		model.addAttribute("newLeave",new Leave());
-		return "Leave";
+		List<User> lea=removeDuplicates(list);
+		mv.addObject("leavelist",lea);
+		return mv;
 	}
+	 public <T>List<T> removeDuplicates(List<T> list) 
+    { 
+        Set<T> set = new LinkedHashSet<>(); 
+        set.addAll(list); 
+        list.clear(); 
+        list.addAll(set); 
+        return list; 
+    } 
 	@RequestMapping("/deleteUser")
 	public String deleteUser(@RequestParam (name="id") Long id)
 	{

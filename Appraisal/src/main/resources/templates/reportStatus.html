@@ -87,12 +87,12 @@ body {
             <div class="col-md-6 col-md-offset-3">
 <form th:action="@{/setReport}" th:object="${newReportStatus}">
 		 <div class="form-group">
-		 	<h2>Report Status</h2>
+		 	<h2>UnReported Status</h2>
 		 	<br><br>
 			<label for="report">Name</label><br>
 			<input type="text"  id="report" name="name" class="autocomplete"><br><br>
 			<label for="t">Reporting Time:</label><br>
-			<input type="time" id="t" name="ltime"><br><br>
+			<input type="time" id="t" name="t"><br><br>
 			<input value="Authorized"  name="subject" class="auth" type="checkbox">Authorized
    			<input value="NonAuthorized" name="subject" class="auth" type="checkbox">Non Authorized 
    			

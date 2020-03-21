@@ -108,7 +108,7 @@ body {
         
             <div class="box-body">
                      <div class="col-sm-6">
-                     <div  align="center"> <img alt="User Pic" src="*{'data:image/jpg;base64,'+ image}" id="profile-image1" class="img-circle img-responsive"> 
+                     <div  align="center"> <img alt="User Pic" th:src="*{'data:image/jpg;base64,'+ image}" id="profile-image1" class="img-circle img-responsive"> 
                 
                 <input id="profile-image-upload" class="hidden" type="file">
 <div style="color:#999;" >click here to change profile image</div>
@@ -135,7 +135,7 @@ body {
 <input type="date" id="start" name="start">
 </div>
 <div class="col-sm-7">To
-<input type="date" id="end" name="end"><button class="btn btn-primary" type="submit">Submit</button></div>
+<input type="date" id="end" name="end"></div>
 </form>
 <div class="clearfix"></div>
 <hr style="margin:5px 0 5px 0;">
@@ -183,6 +183,14 @@ body {
 
 <div class="clearfix"></div><br>
 <div class="col-sm-5 col-xs-6 tital " >Absence</div><div class="col-sm-7"><span th:text="${auth.size()+unauth.size()}" ></div>
+
+<div class="clearfix"></div>
+<div class="bot-border"></div>
+<div class="col-sm-5 col-xs-6 tital " ><b>Report Status:</b></div>
+
+<div class="clearfix"></div><br>
+<div class="col-sm-5 col-xs-6 tital " >Unreported days</div><div class="col-sm-7">4</div>
+
 
 
 
