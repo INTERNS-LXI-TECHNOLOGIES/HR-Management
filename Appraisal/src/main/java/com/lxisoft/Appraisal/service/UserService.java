@@ -74,7 +74,10 @@ public class UserService implements UserDetailsService {
 		 List<User> list=repo.findAll();
 		return list;
 	}
-
+	public List<Leave> getAllLeave() {
+		 List<Leave> list=repos.findAll();
+		return list;
+	}
 	public  Optional <User> findByid(Long id)
 	{
 		 Optional <User> em=repo.findById(id);
