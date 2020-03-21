@@ -179,7 +179,6 @@ public class AppraisalController {
 		 List<Leave> leave = service.findLeave(id);
 		 List<LateArrival> late = service.findLate(id);
 		 List<EvaluationTest> test=service.findTest(id);
-		 List<reportStatus> status=service.findReport(id);
 		 mv.addObject("employee",user.get());
 		 LocalDate first=user.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
@@ -215,7 +214,12 @@ public class AppraisalController {
 		 int l=((auth.size())+(unauth.size()));
 		 long absence=l*7;
 		 long workedHour=(total-absence);
-		 System.out.println("w.."+workedHour);
+		 List<reportStatus> status=service.findReport(id);
+		 List<reportStatus> unreportdays=new ArrayList<reportStatus>();
+		 for(int i=0;i<status.size();i++)
+		 {
+			unreportdays.add(status.get(i));
+		 }
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
 		 mv.addObject("a",a);
@@ -223,6 +227,7 @@ public class AppraisalController {
 		 mv.addObject("day",days);
 		 mv.addObject("total",total);
 		 mv.addObject("workedHour",workedHour);
+		 mv.addObject("unreportdays",unreportdays);
 		 return mv ;  
 	 }
 

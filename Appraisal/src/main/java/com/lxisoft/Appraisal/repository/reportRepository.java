@@ -9,4 +9,5 @@ import com.lxisoft.Appraisal.model.reportStatus;
 public interface reportRepository extends JpaRepository<reportStatus, Long> {
 	
 	public	List<reportStatus> findByUserId(Long user);
+	
 }

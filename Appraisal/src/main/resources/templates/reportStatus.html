@@ -87,6 +87,7 @@ body {
             <div class="col-md-6 col-md-offset-3">
 <form th:action="@{/setReport}" th:object="${newReportStatus}">
 		 <div class="form-group">
+		 <ul class="list-group">
 		 	<h2>UnReported Status</h2>
 		 	<br><br>
 			<label for="report">Name</label><br>
@@ -95,7 +96,7 @@ body {
 			<input type="time" id="t" name="t"><br><br>
 			<input value="Authorized"  name="subject" class="auth" type="checkbox">Authorized
    			<input value="NonAuthorized" name="subject" class="auth" type="checkbox">Non Authorized 
-   			
+   			</ul>
 		</div>
             <button class="btn btn-primary" type="submit">Update</button><br><br>
         </form>
