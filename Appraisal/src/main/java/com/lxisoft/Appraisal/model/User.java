@@ -77,7 +77,7 @@ public class User {
 	 @OneToMany(cascade = CascadeType.ALL)
 	    @JoinColumn(name = "user_id")
 	  @JsonManagedReference
-	 private List<Leave> leave;
+	 private Set<Leave> leave;
 	 
 	 @OneToMany(cascade = CascadeType.ALL)
 	 @JoinColumn(name = "user_id")
@@ -192,10 +192,10 @@ public class User {
 	public void setRoles(Set < Role > roles) {
 		this.roles=roles;
 	}
-	public List<Leave> getLeave() {
+	public Set<Leave> getLeave() {
 		return leave;
 	}
-	public void setLeave(List<Leave> leave) {
+	public void setLeave(Set<Leave> leave) {
 		this.leave = leave;
 	}
 	public List<LateArrival> getLateArrival() {
