@@ -88,28 +88,34 @@ table th,td
   </a>
 </div>
 	
-     <div  align="center"><img th:src="*{'data:image/jpg;base64,'+user.get().getFileContentType()}" class="img-circle img-responsive" style="width:80px;height:80px;"/></div>
-      <form th:action="@{/edit}" th:object="${user}" >
+     <div  align="center"><img th:src="*{'data:image/jpg;base64,'+user.getFileContentType()}" 
+     	   class="img-circle img-responsive" id="profile-" style="width:200px;height:160px;cursor: pointer;"/></div>
+      <form th:action="@{/edit}" th:object="${user}" method="post" enctype="multipart/form-data" > 
+               
+<div style="color:#999;" >click here to change profile image</div>
+
 					
                     <input type="hidden"  name="id" th:field="*{id}" /><br>
                          				
-                    <label>First name</label> <input type="text" name="firstname" th:field="*{firstName}" />
+                    <label>First name</label> <input type="text" name="firstname" th:field="*{firstName}"  required/>
                     <span class="red" th:if="${#fields.hasErrors('firstName')}"
                     th:errors="*{firstName}"></span><br>
                                        
-                    <label>Last name</label> <input  type="text" name="lastname" th:field="*{lastName}" />
+                    <label>Last name</label> <input  type="text" name="lastname" th:field="*{lastName}" required/>
                     <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
                      <br>
                     
-                     <label>E-mail</label> <input type="text" name="emailID" th:field="*{emailID}" />
+                     <label>E-mail</label> <input type="text" name="emailID" th:field="*{emailID}" required/>
                       <p th:if="${#fields.hasErrors('emailID')}" th:errors="*{emailID}"></p>
                       <br>
                       
-                      DOB:  <input type="date" th:value="${date}"  name="date"/>
+                      DOB:  <input type="date" th:value="${date}"  name="date" required/>
                     <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></p><br>
       
-                    Joined Date:<input type="date"  th:value="${join}" name="join" />
+                    Joined Date:<input type="date"  th:value="${join}" name="join" required/>
                     <p th:if="${#fields.hasErrors('joiningDate')}" th:errors="*{joiningDate}"></p><br>
+                    
+                    <center> <input id="profile-upload"  type="file" name="image"></center>
                   	 <label >Company</label> 
                     <select  th:field="*{company}" name="company" >
    						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
@@ -129,8 +135,8 @@ table th,td
 					</select><br>
 					<p th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></p>
 					
-                    <label>User Name</label> <input type="text" name="username"   th:field="*{username}" /><br>
-                    <label >Password</label> <input type="text" name="password" th:field="*{password}"/><br>
+                    <label>User Name</label> <input type="text" name="username"   th:field="*{username}" required/><br>
+                    <label >Password</label> <input type="text" name="password" th:field="*{password}"required/><br>
                   
                     
                     <br>
@@ -147,8 +153,13 @@ table th,td
 <div sec:authorize="hasRole('ROLE_USER')">
   
 </div>
-<!-- Roles: <span sec:authentication="principal.authorities"></span> -->
+
 <script>
+              $(function() {
+            	    $('#profile-').on('click', function() {
+            	        $('#profile-upload').click();
+            	    });
+            	});       
     function myFunction() {
     	  var x = document.getElementById("myTopnav");
     	  if (x.className === "topnav") {

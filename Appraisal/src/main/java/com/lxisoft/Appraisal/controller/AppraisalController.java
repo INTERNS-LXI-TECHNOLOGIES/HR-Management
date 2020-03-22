@@ -439,7 +439,7 @@ public class AppraisalController {
 		ModelAndView mv=new ModelAndView("editUserPage");
 		Optional<User> user=service.findByid(id);
 		user.get().setFileContentType(Base64.getEncoder().encodeToString(user.get().getImage()));
-		mv.addObject("user",user);
+		mv.addObject("user",user.get());
 		String date=user.get().getDob().toString();
 		String join=user.get().getJoiningDate().toString();
 		mv.addObject("date",date);
@@ -448,17 +448,30 @@ public class AppraisalController {
 		
 		return mv;
 	}
-	@RequestMapping("/edit")
+	@PostMapping("/edit")
 	public String edit(@ModelAttribute @Valid User user,BindingResult bindingResult,@RequestParam (name="name") String roleName,
-			@RequestParam (name="date") String date , @RequestParam (name="join") String join, @RequestParam (name="id") long id)
+			@RequestParam (name="date") String date , @RequestParam (name="join") String join, @RequestParam (name="id") long id,
+			@RequestParam (name="image")MultipartFile file)
 	{
 		
-		if (bindingResult.hasErrors()) {
-			return "editUserPage";
+//		if (bindingResult.hasErrors()) {
+//			return "editUserPage";
+//			}
+		if(file.isEmpty()) {
+			Optional<User> u=service.findByid(id);
+			user.setImage(u.get().getImage());
+			user.setFileContentType(u.get().getFileContentType());
+		}
+		else
+		{
+			try {
+				user.setImage(file.getBytes());
+				user.setFileContentType(file.getContentType());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		Optional<User> u=service.findByid(id);
-		user.setImage(u.get().getImage());
-		user.setFileContentType(u.get().getFileContentType());
+		}
 		Role role=new Role(roleName);
 		Set < Role > roles=new HashSet < Role >();
 		roles.add(role);
