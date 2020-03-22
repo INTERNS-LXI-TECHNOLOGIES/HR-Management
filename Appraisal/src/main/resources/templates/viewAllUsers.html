@@ -122,7 +122,7 @@ body {
                 <div class="card-horizontal">
                     <div class="img-square-wrapper">
                     
-                        <img class="" th:src="@{/img/user.jpg}" alt="Card image cap" style="width:150px;height:100px">
+                       <img th:src="*{'data:image/jpg;base64,'+employee.FileContentType}" class="img-circle img-responsive" alt="Card image cap" style="width:150px;height:100px">
                     </div>
                     <div class="card-body">
                         <h4 class="card-title"><span th:text="${employee.getFirstName()}"></span> <span th:text="${employee.getLastName()}"></span> </a></h4>

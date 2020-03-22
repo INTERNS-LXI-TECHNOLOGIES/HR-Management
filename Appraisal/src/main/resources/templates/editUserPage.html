@@ -88,8 +88,8 @@ table th,td
   </a>
 </div>
 	
-      <img th:src="@{/img/user.jpg}" style="width:80px;height:80px;"/>
-     <form th:action="@{/edit}" th:object="${user}" >
+     <div  align="center"><img th:src="*{'data:image/jpg;base64,'+user.get().getFileContentType()}" class="img-circle img-responsive" style="width:80px;height:80px;"/></div>
+      <form th:action="@{/edit}" th:object="${user}" >
 					
                     <input type="hidden"  name="id" th:field="*{id}" /><br>
                          				
@@ -110,8 +110,7 @@ table th,td
       
                     Joined Date:<input type="date"  th:value="${join}" name="join" />
                     <p th:if="${#fields.hasErrors('joiningDate')}" th:errors="*{joiningDate}"></p><br>
-                  
-                    <label >Company</label> 
+                  	 <label >Company</label> 
                     <select  th:field="*{company}" name="company" >
    						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
    						 <option th:value="Bytatech" th:text="Bytatech"></option>

@@ -102,6 +102,11 @@ public class AppraisalController {
 			else	users=service.findByCompany(user.getCompany());
 			
 			
+			for (User us:users) 
+			{
+				us.setFileContentType(Base64.getEncoder().encodeToString(us.getImage()));
+				
+			}
 			
 			mv.addObject("fName",user.getFirstName());
 			mv.addObject("list", users);
@@ -433,23 +438,27 @@ public class AppraisalController {
 	{
 		ModelAndView mv=new ModelAndView("editUserPage");
 		Optional<User> user=service.findByid(id);
+		user.get().setFileContentType(Base64.getEncoder().encodeToString(user.get().getImage()));
 		mv.addObject("user",user);
 		String date=user.get().getDob().toString();
 		String join=user.get().getJoiningDate().toString();
 		mv.addObject("date",date);
 		mv.addObject("join",join);
 		
+		
 		return mv;
 	}
 	@RequestMapping("/edit")
 	public String edit(@ModelAttribute @Valid User user,BindingResult bindingResult,@RequestParam (name="name") String roleName,
-			@RequestParam (name="date") String date , @RequestParam (name="join") String join)
+			@RequestParam (name="date") String date , @RequestParam (name="join") String join, @RequestParam (name="id") long id)
 	{
 		
 		if (bindingResult.hasErrors()) {
 			return "editUserPage";
 			}
-		
+		Optional<User> u=service.findByid(id);
+		user.setImage(u.get().getImage());
+		user.setFileContentType(u.get().getFileContentType());
 		Role role=new Role(roleName);
 		Set < Role > roles=new HashSet < Role >();
 		roles.add(role);
