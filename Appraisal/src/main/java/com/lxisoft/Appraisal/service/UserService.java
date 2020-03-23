@@ -23,7 +23,8 @@ import com.lxisoft.Appraisal.repository.UserRepository;
 import com.lxisoft.Appraisal.repository.LateRepository;
 import com.lxisoft.Appraisal.repository.LeaveRepository;
 import com.lxisoft.Appraisal.repository.reportRepository;
-import com.lxisoft.Appraisal.repository.TestRepository;
+import com.lxisoft.Appraisal.repository.Gitrepository;
+import com.lxisoft.Appraisal.repository.Hackathonrepository;
 import com.lxisoft.Appraisal.config.UserPrincipal;
 
 
@@ -32,7 +33,8 @@ import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.model.reportStatus;
-import com.lxisoft.Appraisal.model.EvaluationTest;
+import com.lxisoft.Appraisal.model.Gitmark;
+import com.lxisoft.Appraisal.model.Hackathon;
 @Service
 public class UserService implements UserDetailsService {
 	
@@ -45,8 +47,11 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private reportRepository rep;
 	@Autowired
-	private TestRepository repot;
+	private Gitrepository repot;
+	@Autowired
+	private Hackathonrepository reph;
 	@Override
+	
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException 
 	{
 		
@@ -96,9 +101,9 @@ public class UserService implements UserDetailsService {
 	{
 		rep.save(status);
 	}
-	public void setTest(EvaluationTest test)
+	public void setGit(Gitmark git)
 	{
-		repot.save(test);
+		repot.save(git);
 	}
 	public  List<Leave> findLeave(Long id)
 	{
@@ -113,12 +118,27 @@ public class UserService implements UserDetailsService {
 		 
 		 return em;
 	}
-	public  List<EvaluationTest> findTest(Long id)
+	public  Optional<Gitmark> findGit(Long id)
 	{
 
-		List<EvaluationTest> test=repot.findByUserId(id);
+		Optional<Gitmark> git =repot.findByUserId(id);
 		 
-		 return test;
+		 return git;
+	}
+	public  Optional<Hackathon> findHack(Long id)
+	{
+
+		Optional<Hackathon> hack =reph.findByUserId(id);		 
+		 return hack;
+	}
+	public void setHackathon(Hackathon hack1)
+	{
+		reph.save(hack1);
+	}
+	public long getGitmark(long id)
+	{
+		long gitmark=6;
+		return gitmark;
 	}
 	public List<reportStatus> findReport(Long id)
 	{

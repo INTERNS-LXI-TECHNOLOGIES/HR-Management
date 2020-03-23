@@ -92,7 +92,7 @@ public class User {
 	 @OneToMany(cascade = CascadeType.ALL)
 	 @JoinColumn(name = "user_id")
 	  @JsonManagedReference
-	 private List<EvaluationTest> evaluationTest;
+	 private List<Gitmark> gitmark;
 	
 	
 	public User() {
@@ -210,11 +210,11 @@ public class User {
 	public void setReportStatus(List<reportStatus> reportStatus) {
 		this.reportStatus = reportStatus;
 	}
-	public List<EvaluationTest> getEvaluationTest() {
-		return evaluationTest;
+	public List<Gitmark> getGitMark() {
+		return gitmark;
 	}
-	public void setEvaluationTest(List<EvaluationTest> evaluationTest) {
-		this.evaluationTest = evaluationTest;
+	public void setEvaluationTest(List<Gitmark> gitmark) {
+		this.gitmark = gitmark;
 	}
 	
 	

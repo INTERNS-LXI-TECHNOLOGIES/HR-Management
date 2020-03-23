@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.lxisoft.Appraisal.model.EvaluationTest;
+import com.lxisoft.Appraisal.model.Gitmark;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.model.Role;

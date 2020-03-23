@@ -50,11 +50,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.lxisoft.Appraisal.model.Role;
 import com.lxisoft.Appraisal.model.User;
 import com.lxisoft.Appraisal.model.reportStatus;
-import com.lxisoft.Appraisal.model.EvaluationTest;
+import com.lxisoft.Appraisal.model.Gitmark;
+import com.lxisoft.Appraisal.model.Hackathon;
 import com.lxisoft.Appraisal.model.LateArrival;
 import com.lxisoft.Appraisal.model.Leave;
 import com.lxisoft.Appraisal.service.UserService;
-import com.thoughtworks.xstream.core.util.Base64Encoder;
 
 @Controller
 public class AppraisalController {
@@ -185,9 +185,6 @@ public class AppraisalController {
 		 Optional <User> user = service.findByid(id);
 		 List<Leave> leave = service.findLeave(id);
 		 List<LateArrival> late = service.findLate(id);
-
-		 List<EvaluationTest> test=service.findTest(id);
-
 		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
 		 for(int i=0;i<late.size();i++)
 		 {
@@ -195,9 +192,7 @@ public class AppraisalController {
 			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
 			 time.add(t);
 		 }
-
 		 mv.addObject("employee",user.get());
-
 		 LocalDate first=user.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
 		 long days= ChronoUnit.DAYS.between(first,second);
@@ -233,14 +228,8 @@ public class AppraisalController {
 		 if(!user.get().getFileContentType().isEmpty())
 		 {
 			 String image=Base64.getEncoder().encodeToString(user.get().getImage());
-//			 String image=DatatypeConverter.printBase64Binary(user.get().getImage());
-//			 Base64Encoder encoder=new Base64Encoder();
-//			 String image=encoder.encode(user.get().getImage());
 			 mv.addObject("image",image);
-		 }
-		
-
-
+		 }		
 		 int l=((auth.size())+(unauth.size()));
 		 long absence=l*7;
 		 long workedHour=(total-absence);
@@ -251,7 +240,16 @@ public class AppraisalController {
 		 {
 			unreportdays.add(status.get(i));
 		 }
-		
+		 Optional<Gitmark> git=service.findGit(id);
+		 Optional<Hackathon> hack=service.findHack(id);
+		 if(git.isPresent()) 
+		 {
+			 mv.addObject("git",git.get());
+		 }
+		if(hack.isPresent()) 
+		{
+			mv.addObject("hack",hack.get());
+		}
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
 		 mv.addObject("a",a);
@@ -297,22 +295,31 @@ public class AppraisalController {
 
 
 	@RequestMapping("/setTest")
-	public String setTest(@RequestParam String name,Long hack,Long num)
+	public String setTest(@RequestParam String name,Long num,Long hack )
 	{
 		ArrayList<User> user=(ArrayList<User>) service.getAllUsers();
 		for(int i=0;i<user.size();i++)
 		{
-			EvaluationTest test=new EvaluationTest();
+			Gitmark git=new Gitmark();
+			Hackathon hack1 = new Hackathon();
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
 			LocalDate local=LocalDate.now();
 			if(name.contains(m))
 			{
-				test.setUser(u);
-				test.setDate(local);
-				test.setGitMark(num);
-				test.setHackathon(hack);
-				service.setTest(test);
+				git.setUser(u);
+				git.setDate(local);
+				git.setGitMark(num);
+//				hack.setHackathon(num);
+//				service.setHackathon(hack)
+				service.setGit(git);
+			}
+			if(name.contains(m))
+			{
+				hack1.setUser(u);
+				hack1.setDate(local);
+				hack1.setHackathon(num);
+				service.setHackathon(hack1);
 			}
 		}
 		return "evaluation";
