@@ -242,14 +242,20 @@ public class AppraisalController {
 		 }
 		 List<Gitmark> git=service.findGit(id);
 		 List<Hackathon> hack=service.findHack(id);
+		 for(int i=0;i<git.size();i++)
+		 {
 		 if(git.size()!=0) 
 		 {
 			 mv.addObject("git",git);
 		 }
+		 }
+		 for(int i=0;i<hack.size();i++)
+		 {
 		if(hack.size()!=0) 
 		{
 			mv.addObject("hack",hack);
 		}
+		 }
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
 		 mv.addObject("a",a);
