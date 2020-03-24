@@ -123,8 +123,8 @@ body {
 						<option th:value="admin" th:text="admin"> </select>
 					</select><br>
 					<p th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></p>
-                    <label for="user" class="control-label">User Name</label> <input type="text" th:field="*{username}" class="form-control"/>
-                    <label for="password" class="control-label">Password</label> <input type="text" th:field="*{password}" class="form-control"/><br>
+                    <label for="user" class="control-label">User Name</label> <input type="text" th:field="*{username}" class="form-control" required/>
+                    <label for="password" class="control-label">Password</label> <input type="text" th:field="*{password}" class="form-control" required/><br>
                    <label>Role Type: </label><select name="name">
    						 <option th:value="ROLE_USER" th:text="user"></option>
    						 <option th:value="ROLE_ADMIN" th:text="Admin"></option>

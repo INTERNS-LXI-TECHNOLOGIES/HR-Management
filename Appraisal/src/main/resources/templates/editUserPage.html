@@ -105,7 +105,7 @@ table th,td
                     <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
                      <br>
                     
-                     <label>E-mail</label> <input type="text" name="emailID" th:field="*{emailID}" required/>
+                     <label>E-mail</label> <input type="text" name="emailID" th:field="*{emailID}"/>
                       <p th:if="${#fields.hasErrors('emailID')}" th:errors="*{emailID}"></p>
                       <br>
                       
@@ -125,7 +125,7 @@ table th,td
    						 <option th:value="Illude" th:text="Illude"></option>
 
                     </select><br>
-                    
+                    <p th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></p><br>
                     <label>Position:</label>
                     <select th:field="*{position}">
 						<option th:value="intern" th:text="intern"></option>
