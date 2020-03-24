@@ -13,15 +13,15 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
-@Table(name = "test")
-public class EvaluationTest {
+@Table(name = "git_mark")
+public class Gitmark {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private LocalDate date;
 	private Long gitMark;
-	private Long hackathon;
+	
 	@ManyToOne
     @JoinColumn(name = "user_id")
 	@JsonBackReference
@@ -43,13 +43,7 @@ public class EvaluationTest {
 	}
 	public void setGitMark(Long gitMark) {
 		this.gitMark = gitMark;
-	}
-	public Long getHackathon() {
-		return hackathon;
-	}
-	public void setHackathon(Long hackathon) {
-		this.hackathon = hackathon;
-	}
+	}	
 	public User getUser() {
 		return user;
 	}
