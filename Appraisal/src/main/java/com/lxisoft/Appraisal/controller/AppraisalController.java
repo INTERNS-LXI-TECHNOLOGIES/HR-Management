@@ -240,15 +240,15 @@ public class AppraisalController {
 		 {
 			unreportdays.add(status.get(i));
 		 }
-		 Optional<Gitmark> git=service.findGit(id);
-		 Optional<Hackathon> hack=service.findHack(id);
-		 if(git.isPresent()) 
+		 List<Gitmark> git=service.findGit(id);
+		 List<Hackathon> hack=service.findHack(id);
+		 if(git.size()!=0) 
 		 {
-			 mv.addObject("git",git.get());
+			 mv.addObject("git",git);
 		 }
-		if(hack.isPresent()) 
+		if(hack.size()!=0) 
 		{
-			mv.addObject("hack",hack.get());
+			mv.addObject("hack",hack);
 		}
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
@@ -310,8 +310,6 @@ public class AppraisalController {
 				git.setUser(u);
 				git.setDate(local);
 				git.setGitMark(num);
-//				hack.setHackathon(num);
-//				service.setHackathon(hack)
 				service.setGit(git);
 			}
 			if(name.contains(m))

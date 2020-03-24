@@ -118,17 +118,17 @@ public class UserService implements UserDetailsService {
 		 
 		 return em;
 	}
-	public  Optional<Gitmark> findGit(Long id)
+	public  List<Gitmark> findGit(Long id)
 	{
 
-		Optional<Gitmark> git =repot.findByUserId(id);
+		List<Gitmark> git =repot.findByUserId(id);
 		 
 		 return git;
 	}
-	public  Optional<Hackathon> findHack(Long id)
+	public  List<Hackathon> findHack(Long id)
 	{
 
-		Optional<Hackathon> hack =reph.findByUserId(id);		 
+		List<Hackathon> hack =reph.findByUserId(id);		 
 		 return hack;
 	}
 	public void setHackathon(Hackathon hack1)

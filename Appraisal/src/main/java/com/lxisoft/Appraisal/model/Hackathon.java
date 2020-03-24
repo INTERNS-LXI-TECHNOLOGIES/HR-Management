@@ -39,7 +39,7 @@ public class Hackathon {
 	public Long gethackathon() {
 		return hackathon;
 	}
-	public void setHackathon(Long hack)
+	public void setHackathon( Long hackathon)
 	{
 		this.hackathon = hackathon;
 	}	

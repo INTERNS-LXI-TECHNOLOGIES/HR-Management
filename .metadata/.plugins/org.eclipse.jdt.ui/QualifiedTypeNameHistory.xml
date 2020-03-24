@@ -1,2 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.lxisoft.Appraisal.model.Gitmark"/>
+<fullyQualifiedTypeName name="java.util.Optional"/>
+<fullyQualifiedTypeName name="com.lxisoft.Appraisal.repository.Hackathonrepository"/>
+<fullyQualifiedTypeName name="com.lxisoft.Appraisal.model.Hackathon"/>
+<fullyQualifiedTypeName name="antlr.collections.List"/>
+</qualifiedTypeNameHistroy>

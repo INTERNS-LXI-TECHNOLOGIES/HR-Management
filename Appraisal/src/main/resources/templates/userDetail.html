@@ -168,12 +168,13 @@ body {
 <div class="col-sm-5 col-xs-6 tital " >Total worked hours</div><div class="col-sm-7"><span th:text="${workedHour}" ></div>
 
 <div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Hackathon result</div><div class="col-sm-7"><span th:text="${git.gitMark}" ></div>
+
+<div class="col-sm-5 col-xs-6 tital " >Git score</div><div class="col-sm-7"><span th:text="${git.size()}" ></div>    
+<!-- <div class="col-sm-5 col-xs-6 tital " >Hackathon result</div><div class="col-sm-7"><span th:text="${hack.size()}" ></div> -->
 
 <div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >git</div><div class="col-sm-7"><span th:text="${git.gitMark}" ></div>
-
- <div class="clearfix"></div>
+ <div class="col-sm-5 col-xs-6 tital " >Hackathon score</div><div class="col-sm-7"><span th:text="${hack.size()}" ></div>
+<div class="clearfix"></div>
 <div class="bot-border"></div>
 <div class="col-sm-5 col-xs-6 tital " ><b>Attendance:</b></div>
 
