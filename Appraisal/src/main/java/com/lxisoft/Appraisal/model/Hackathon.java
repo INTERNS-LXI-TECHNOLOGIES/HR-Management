@@ -36,7 +36,7 @@ public class Hackathon {
 	public void setDate(LocalDate date) {
 		this.date = date;
 	}
-	public Long gethackathon() {
+	public Long getHackathon() {
 		return hackathon;
 	}
 	public void setHackathon( Long hackathon)
