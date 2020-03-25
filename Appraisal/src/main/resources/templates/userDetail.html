@@ -131,10 +131,11 @@ body {
  <form th:action="@{/startDate}">
  <input type="hidden" name="id"  th:value="${employee.id}" ></input>
 <div class="col-sm-5 col-xs-6 tital " >From
-<input type="date" id="start" name="start">
+<input type="date" id="start" name="start" required>
 </div>
 <div class="col-sm-7">To
-<input type="date" id="end" name="end"></div>
+<input type="date" id="end" name="end" required>
+<input type="submit" value="get result" /></div>
 </form>
 <div class="clearfix"></div>
 <hr style="margin:5px 0 5px 0;">

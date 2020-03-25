@@ -1,10 +1,13 @@
 package com.lxisoft.Appraisal.service;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -77,6 +80,24 @@ public class UserService implements UserDetailsService {
 
 	public List<User> getAllUsers() {
 		 List<User> list=repo.findAll();
+
+		 Date ldate = null;
+		try {
+			ldate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-09-12");
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}  
+
+		 Date fdate = null;
+		try {
+			fdate = new SimpleDateFormat("yyyy-MM-dd").parse("2015-02-25");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		List<User> listss=repo.getLeavesFromUserBetween(fdate,ldate);
+		 System.out.println(listss);
 		return list;
 	}
 	public List<Leave> getAllLeave() {
