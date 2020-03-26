@@ -14,5 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long>
 {	
 	User findByUsername(String username);
 	@Query(value = "SELECT * from User inner join leaves on leaves.user_id=user.id where leaves.date between ?1 AND ?2", nativeQuery = true)
-	List<User> getLeavesFromUserBetween(Date fdate,Date ldate);
+	List<User> getLeavesFromUserBetween(String da,String te);
+	
 }

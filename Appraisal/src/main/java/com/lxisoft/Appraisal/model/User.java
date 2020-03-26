@@ -93,6 +93,11 @@ public class User {
 	 @JoinColumn(name = "user_id")
 	  @JsonManagedReference
 	 private List<Gitmark> gitmark;
+	 
+	 @OneToMany(cascade = CascadeType.ALL)
+	 @JoinColumn(name = "user_id")
+	  @JsonManagedReference
+	 private List<Hackathon> hackathon;
 	
 	
 	public User() {
@@ -194,6 +199,16 @@ public class User {
 	}
 	public Set<Leave> getLeave() {
 		return leave;
+	}
+	
+	public void setGitmark(List<Gitmark> gitmark) {
+		this.gitmark = gitmark;
+	}
+	public List<Hackathon> getHackathon() {
+		return hackathon;
+	}
+	public void setHackathon(List<Hackathon> hackathon) {
+		this.hackathon = hackathon;
 	}
 	public void setLeave(Set<Leave> leave) {
 		this.leave = leave;

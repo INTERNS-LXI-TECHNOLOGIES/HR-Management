@@ -141,9 +141,7 @@ public class AppraisalController {
 				
 			}
 		}
-		else {
-			
-			
+					
 				try
 				{
 					byte[] bytes=file.getBytes();
@@ -161,9 +159,16 @@ public class AppraisalController {
 			user.setRoles(roles);
 			user.setJoiningDate(LocalDate.parse(request.getParameter("joinDate")));
 			user.setDob(LocalDate.parse(request.getParameter("do")));
-			service.addUser(user);
+			
 			mv=new ModelAndView("redirect:/");
+			try{
+				service.addUser(user);
+			}catch(Exception e)
+			{
+				mv=new ModelAndView("addUser");
 			}
+			
+			
 		return mv;
 	}
 
@@ -240,13 +245,14 @@ public class AppraisalController {
 		 {
 			unreportdays.add(status.get(i));
 		 }
-		 List<Gitmark> git=service.findGit(id);
+//		 List<Gitmark> git=service.findGit(id);
 		 List<Hackathon> hack=service.findHack(id);
-		 
-			 mv.addObject("git",git.get((git.size()-1)));
-		
-		
-			mv.addObject("hack",hack.get((hack.size()-1)));
+		 if (!user.get().getGitMark().isEmpty()) {
+			 mv.addObject("git",(user.get().getGitMark()).get((user.get().getGitMark().size()-1)));
+		 }
+		 if (!user.get().getHackathon().isEmpty()) {
+			mv.addObject("hack",(user.get().getHackathon()).get((user.get().getHackathon().size()-1)));
+		 }
 				 
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
@@ -451,37 +457,36 @@ public class AppraisalController {
 		return mv;
 	}
 	@PostMapping("/edit")
-	public String edit(@ModelAttribute @Valid User user,BindingResult bindingResult,@RequestParam (name="name") String roleName,
+	public String edit(@ModelAttribute @Valid User formUser,BindingResult bindingResult,@RequestParam (name="name") String roleName,
 			@RequestParam (name="date") String date , @RequestParam (name="join") String join, @RequestParam (name="id") long id,
 			@RequestParam (name="image")MultipartFile file)
 	{
+		Optional<User> user=service.findByid(id);
 		
 //		if (bindingResult.hasErrors()) {
 //			return "editUserPage";
 //			}
-		if(file.isEmpty()) {
-			Optional<User> u=service.findByid(id);
-			user.setImage(u.get().getImage());
-			user.setFileContentType(u.get().getFileContentType());
-		}
-		else
-		{
+		if(!file.isEmpty()) {
 			try {
-				user.setImage(file.getBytes());
-				user.setFileContentType(file.getContentType());
+				user.get().setImage(file.getBytes());
+				user.get().setFileContentType(file.getContentType());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		}
-		Role role=new Role(roleName);
-		Set < Role > roles=new HashSet < Role >();
-		roles.add(role);
-		user.setRoles(roles);
-		user.setDob(LocalDate.parse(date));
-		user.setJoiningDate(LocalDate.parse(join));
+		user.get().setFirstName(formUser.getFirstName());
+		user.get().setLastName(formUser.getLastName());
+		user.get().setEmailID(formUser.getEmailID());
+		user.get().setDob(LocalDate.parse(date));
+		user.get().setJoiningDate(LocalDate.parse(join));
+		user.get().setCompany(formUser.getCompany());
+		user.get().setPosition(formUser.getPosition());
+		user.get().setUsername(formUser.getUsername());
+		user.get().setPassword(formUser.getPassword());
 		
-		service.updateUser(user);
+		service.updateUser(user.get());
 		
 		return "redirect:/"; 
 	}
@@ -503,5 +508,27 @@ public class AppraisalController {
 		model.addAttribute("list",users);
 		return "viewAllUsers";
 		
+	}
+	@RequestMapping("/getAppraisalResult")
+	public String getAppraisalResult(@RequestParam long id, Model model)
+	{
+		long attendance=service.getAttendance(id);
+		
+		long punctuality=service.getPunctuality(id);
+		
+		long meetingTargets=service.getTargets(id);
+		
+		long companyPolicy=service.getcompanyPolicy(id);
+		
+		long codeQuality=service.getCodeQuality(id);
+		
+		model.addAttribute("attendance",attendance);
+		model.addAttribute("punctuality",punctuality);
+		model.addAttribute("meetingTargets",meetingTargets);
+		model.addAttribute("companyPolicy",companyPolicy);
+		model.addAttribute("codeQuality",codeQuality);
+		
+//		System.out.println(attendance+"  "+punctuality+ " "+punctuality+"  "+companyPolicy+" "+codeQuality);
+		return "AppraisalReport";
 	}
 }

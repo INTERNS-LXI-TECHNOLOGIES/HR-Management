@@ -3,14 +3,18 @@ package com.lxisoft.Appraisal.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
-
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -81,23 +85,23 @@ public class UserService implements UserDetailsService {
 	public List<User> getAllUsers() {
 		 List<User> list=repo.findAll();
 
-		 Date ldate = null;
-		try {
-			ldate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-09-12");
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}  
-
-		 Date fdate = null;
-		try {
-			fdate = new SimpleDateFormat("yyyy-MM-dd").parse("2015-02-25");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}  
-		List<User> listss=repo.getLeavesFromUserBetween(fdate,ldate);
-		 System.out.println(listss);
+//		 Date ldate = null;
+//		try {
+//			ldate = new SimpleDateFormat("yyyy-MM-dd").parse("2020-09-12");
+//		} catch (ParseException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}  
+//
+//		 Date fdate = null;
+//		try {
+//			fdate = new SimpleDateFormat("yyyy-MM-dd").parse("2015-02-25");
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}  
+//		List<User> listss=repo.getLeavesFromUserBetween(fdate,ldate);
+//		 System.out.println(listss);
 		return list;
 	}
 	public List<Leave> getAllLeave() {
@@ -204,6 +208,113 @@ public class UserService implements UserDetailsService {
 				u.remove(	);
 		}
 		return users;
+	}
+
+	public long getAttendance(long id) {
+//		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+		LocalDate date = LocalDate.now();
+		LocalDate endDate= date.minusDays(30); 
+		String da=date.toString();
+		String te=endDate.toString();
+//		System.out.println(da+"  .."+te + " // "+repo.getLeavesFromUserBetween("2015-09-12","2021-09-13"));
+		
+		Optional<User> user=findByid(id);
+		LocalDate first=user.get().getJoiningDate();
+		 LocalDate second= LocalDate.now();
+		 long days= ChronoUnit.DAYS.between(first,second);
+		 long total=(days*7);
+		 long leaveCount=(user.get().getLeave()).size();
+		 long worked=total-(leaveCount*7);
+		 int attendance=((int)((worked*5/total)));
+		
+		return attendance;
+		
+	}
+
+	public long getPunctuality(long id) {
+		Optional<User> user=findByid(id);
+		LocalDate first=user.get().getJoiningDate();
+		 LocalDate second= LocalDate.now();
+		long days= ChronoUnit.DAYS.between(first,second);
+		 long total=(days*7);
+		 long leaveCount=(user.get().getLeave()).size();
+		 long worked=total-(leaveCount*7);
+		 int lates=(user.get().getLateArrival()).size();
+		 
+		int punctuality=(int) ((worked-lates)*5 /total);
+		return punctuality;
+	}
+
+	public long getTargets(long id) {
+		Optional<User> user=findByid(id);
+		LocalDate first=user.get().getJoiningDate();
+		 LocalDate second= LocalDate.now();
+		long days= ChronoUnit.DAYS.between(first,second);
+		 long total=(days*7);
+		 long leaveCount=(user.get().getLeave()).size();
+		 long worked=total-(leaveCount*7);
+		 int lates=(user.get().getLateArrival()).size();
+		 List<LateArrival> lates1=user.get().getLateArrival();
+		 long minutes= 0;
+		 LocalTime time=LocalTime.parse("06:30");
+		 for (LateArrival late:lates1)
+		 {
+			 LocalTime local=LocalTime.from(late.getReachedTime().atZone(ZoneId.of("GMT+3")));
+//			 System.out.println(time+"  :  "+local+" : "+late.getReachedTime());
+			minutes+=ChronoUnit.MINUTES.between(time,local); 
+		 }
+		 
+		
+		int hours=(int) (minutes/60);
+		int target=(int) ((worked-hours)*5/total);
+//		System.out.println(target);
+		return target;
+	}
+
+	public long getcompanyPolicy(long id) {
+		Optional<User> user=findByid(id);
+		LocalDate first=user.get().getJoiningDate();
+		 LocalDate second= LocalDate.now();
+		long days= ChronoUnit.DAYS.between(first,second);
+		 long total=(days*7);
+		 int count=0;
+		 
+		 Set<Leave> leaves= user.get().getLeave();
+		 for (Leave l:leaves)
+		 {
+			if (l.getType().contentEquals("NonAuthorized")) {
+				count++;
+				
+			}
+		 }
+		 
+		 List<LateArrival> lates1=user.get().getLateArrival();
+		 for (LateArrival l:lates1)
+		 {
+			 if (l.getType().contentEquals("NonAuthorized"))
+				 count++;
+		 }
+		 List<reportStatus> status=user.get().getReportStatus();
+		 for(reportStatus s:status)
+		 {
+			 if(s.getType().contentEquals("NonAuthorized"))
+				 count++;
+		 }
+		 
+		 int policy=(int) (count*5/total);
+		 System.out.println(count+" l "+policy);
+		
+		return 5-policy;
+	}
+
+	public long getCodeQuality(long id) {
+		Optional<User> user=findByid(id);
+		Long mark = (long) 0;
+		if(!user.get().getGitMark().isEmpty()) mark=(user.get().getGitMark().get(((user.get().getGitMark()).size()-1)).getGitMark());
+		Long hackmark = (long) 0;
+		if(!user.get().getHackathon().isEmpty()) hackmark= (user.get().getHackathon().get(((user.get().getHackathon()).size()-1)).getHackathon());
+		int quality=(int) (mark+hackmark*5/25)/2;
+		return quality;
 	}
 
 }
