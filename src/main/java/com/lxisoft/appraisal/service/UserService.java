@@ -3,8 +3,10 @@ package com.lxisoft.appraisal.service;
 import com.lxisoft.appraisal.config.Constants;
 import com.lxisoft.appraisal.domain.Authority;
 import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
 import com.lxisoft.appraisal.repository.PersistentTokenRepository;
+import com.lxisoft.appraisal.repository.UserExtraRepository;
 import com.lxisoft.appraisal.repository.UserRepository;
 import com.lxisoft.appraisal.security.AuthoritiesConstants;
 import com.lxisoft.appraisal.security.SecurityUtils;
@@ -46,6 +48,8 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
+
+    private  UserExtraRepository userExtraRepository;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PersistentTokenRepository persistentTokenRepository, AuthorityRepository authorityRepository, CacheManager cacheManager) {
         this.userRepository = userRepository;
@@ -92,7 +96,8 @@ public class UserService {
             });
     }
 
-    public User registerUser(UserDTO userDTO, String password) {
+    public User registerUser(UserDTO userDTO, String password,String company,String position,LocalDate joiningDate,LocalDate dob,byte[] image,String imageContentType,String username) 
+    {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
             if (!removed) {
@@ -127,6 +132,19 @@ public class UserService {
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
+        
+        UserExtra newUserExtra = new UserExtra();
+        newUserExtra.setUser(newUser);
+        newUserExtra.setCompany(company);
+        newUserExtra.setPosition(position);
+        newUserExtra.setJoiningDate(joiningDate);
+        newUserExtra.setDob(dob);
+        newUserExtra.setImage(image);
+        newUserExtra.setImageContentType(imageContentType);
+        newUserExtra.setUsername(username);
+        userExtraRepository.save(newUserExtra);
+        log.debug("Created Information for UserExtra: {}", newUserExtra);
+
         return newUser;
     }
 

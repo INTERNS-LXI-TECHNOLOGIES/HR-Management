@@ -87,9 +87,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .key(jHipsterProperties.getSecurity().getRememberMe().getKey())
         .and()
             .formLogin()
+            .loginPage("/login")
             .loginProcessingUrl("/api/authentication")
-            .successHandler(ajaxAuthenticationSuccessHandler())
-            .failureHandler(ajaxAuthenticationFailureHandler())
+
             .permitAll()
         .and()
             .logout()
@@ -108,6 +108,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .deny()
         .and()
             .authorizeRequests()
+            .antMatchers("/login",
+    				"/js/**",
+                    "/css/**",
+                    "/img/**",
+                    "/webjars/**").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
