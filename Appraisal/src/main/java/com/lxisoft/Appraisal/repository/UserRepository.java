@@ -13,7 +13,8 @@ import com.lxisoft.Appraisal.model.User;
 public interface UserRepository extends JpaRepository<User, Long>
 {	
 	User findByUsername(String username);
-	@Query(value = "SELECT * from User inner join leaves on leaves.user_id=user.id where leaves.date between ?1 AND ?2", nativeQuery = true)
-	List<User> getLeavesFromUserBetween(String da,String te);
+	@Query(value = "SELECT u from User u inner join u.leave l  on l.user=u.id where l.date between :startdate AND :enddate")
+	List<User> getLeavesFromUserBetween(@Param ("startdate") LocalDate date,@Param("enddate")LocalDate endDate);
+	
 	
 }
