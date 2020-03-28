@@ -94,7 +94,7 @@ public class ControllerResource {
 			
 			mv=new ModelAndView("redirect:/");
 			try{
-				User u=userService.createUser(user,us);
+//				User u=userService.createUser(user);
 			}catch(Exception e)
 			{
 				mv=new ModelAndView("addUser");
