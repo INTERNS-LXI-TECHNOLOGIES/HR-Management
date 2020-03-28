@@ -75,8 +75,7 @@ public class ControllerResource {
 				re.addFlashAttribute("message","select a file to upload");
 				
 			}
-		}
-					
+		}	
 				try
 				{
 					byte[] bytes=file.getBytes();
