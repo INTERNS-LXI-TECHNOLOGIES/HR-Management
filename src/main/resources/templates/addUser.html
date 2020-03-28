@@ -89,52 +89,42 @@ body {
                 </div>
 
                 <h1>User Info</h1>
-                <form name="form" role="form" (ngSubmit)="register()" [formGroup]="registerForm" >
-              <!--  --><!--  <form th:action="@{/api/register}" method="post"> -->
-                     
-                     <div class="form-group">
-                    <label class="form-control-label" for="login">Username</label>
-                    <input type="text" class="form-control" id="login" name="login" formControlName="login" #login>
-                           
-               		<div class="form-group">
-	                    <label class="form-control-label" for="email">Email</label>
-	                    <input type="email" class="form-control" id="email" name="email" formControlName="email">
-                     <div class="form-group">
-                     
-                     <div class="form-group">
-                      <label class="form-control-label" for="username" >username</label>
-                    <input type="text" class="form-control" id="username" name="username" #username="ngModel" [(ngModel)]="registerAccount.username">
-                    </div>
+                <form th:action="@{/addU}" th:object="${user}" enctype="multipart/form-data" method="post">
+                    <label>First name</label> <input type="text" th:field="*{firstName}" class="form-control" />
+                     <span class="red" th:if="${#fields.hasErrors('firstName')}"
+                    th:errors="*{firstName}"></span>
+                  
+                    <label>Last name</label> <input  type="text" th:field="*{lastName}" class="form-control" /> 
+                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+               
+                    <label>E-mail</label> <input type="text" th:field="*{email}" class="form-control"/>
                     
-                    <div class="form-group">
-                      <label class="form-control-label" for="company" >company</label>
-                    <input type="text" class="form-control" id="company" name="company" #company="ngModel" [(ngModel)]="registerAccount.company">
-                    </div>
+                    <label>DOB: </label> <input type ="date" name="dob"  required />
+                
+                    <label>Joined Date:</label><input type="date" name="joinDate" required /><br>
                     
-                    <div class="form-group">
-                     <label class="form-control-label" for="position" >position:</label>
-                    <input type="text" class="form-control" id="position" name="position" #position="ngModel" [(ngModel)]="registerAccount.position">
-                    </div>
-                     
-                     <div class="form-group">
-                    <label class="form-control-label" for="dob" >DOB:</label>
-                    <input type="date" class="form-control" id="dob" name="dob" #dob="ngModel" [(ngModel)]="registerAccount.dob">
-                    </div>
+                  	<label>pick a profile picture</label> <input type="file" name="picture"  required/><br>
                     
-                   <div class="form-group">
-                   <label class="form-control-label" for="joiningDate" >joiningDate:</label>
-                    <input type="date" class="form-control" id="joiningDate" name="joiningDate" #joiningDate="ngModel" [(ngModel)]="registerAccount.joiningDate">
-                    </div>
-                    
-                   <div class="form-group">
-                    <label class="form-control-label" for="image" >image</label>
-                    <input type="file" class="form-control" id="image" name="image" #image="ngModel" [(ngModel)]="registerAccount.image">
-                    </div>
-                    
-                    <div class="form-group">
-                    <label class="form-control-label" for="password">New password</label>
-                    <input type="password" class="form-control" id="password" name="password" formControlName="password">
-                   </div>
+                    <label >Company:</label> 
+                    <select  name="company">
+   						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
+   						 <option th:value="Bytatech" th:text="Bytatech"></option>
+   						 <option th:value="Divixo" th:text="Divixo"></option>
+   						 <option th:value="Felixo" th:text="Felixo"></option>
+   						 <option th:value="Illude" th:text="Illude"></option>
+                    </select>
+                    <label>Position:</label>
+                    <select name="position">
+						<option th:value="intern" th:text="intern"></option>
+						<option th:value="employee" th:text="employee "></option>
+						<option th:value="co-founder" th:text="co-founder"> </option>
+						<option th:value="admin" th:text="admin"> </select>
+					</select><br>
+					
+                    <label for="user" class="control-label">User Name</label> <input type="text" th:field="*{login}" class="form-control"/>
+                    <label for="password" class="control-label">Password</label> <input type="text" th:field="*{password}" class="form-control"/><br>
+
+                   
                		<br> <button type="submit" class="btn btn-success">Save</button>
 
                 </form>
