@@ -72,7 +72,7 @@ body {
     <title>Add User</title>
 </head>
 
-<body>
+<body align="center">
 	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -92,18 +92,18 @@ body {
                 <form th:action="@{/addU}" th:object="${user}" enctype="multipart/form-data" method="post">
                     <label>First name</label> <input type="text" th:field="*{firstName}" class="form-control" />
                      <span class="red" th:if="${#fields.hasErrors('firstName')}"
-                    th:errors="*{firstName}"></span>
+                    th:errors="*{firstName}"></span><br><br>
                   
                     <label>Last name</label> <input  type="text" th:field="*{lastName}" class="form-control" /> 
-                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p><br><br>
                
-                    <label>E-mail</label> <input type="text" th:field="*{email}" class="form-control"/>
+                    <label>E-mail</label> <input type="text" th:field="*{email}" class="form-control"/><br><br>
                     
-                    <label>DOB: </label> <input type ="date" name="dob"  required />
+                    <label>DOB: </label> <input type ="date" name="dob"  required /><br><br>
                 
-                    <label>Joined Date:</label><input type="date" name="joinDate" required /><br>
+                    <label>Joined Date:</label><input type="date" name="joinDate" required /><br><br>
                     
-                  	<label>pick a profile picture</label> <input type="file" name="picture"  required/><br>
+                  	<label>pick a profile picture</label> <input type="file" name="picture"  required/><br><br>
                     
                     <label >Company:</label> 
                     <select  name="company">
@@ -112,16 +112,16 @@ body {
    						 <option th:value="Divixo" th:text="Divixo"></option>
    						 <option th:value="Felixo" th:text="Felixo"></option>
    						 <option th:value="Illude" th:text="Illude"></option>
-                    </select>
+                    </select><br><br>
                     <label>Position:</label>
                     <select name="position">
 						<option th:value="intern" th:text="intern"></option>
 						<option th:value="employee" th:text="employee "></option>
 						<option th:value="co-founder" th:text="co-founder"> </option>
 						<option th:value="admin" th:text="admin"> </select>
-					</select><br>
+					</select><br><br>
 					
-                    <label for="user" class="control-label">User Name</label> <input type="text" th:field="*{login}" class="form-control"/>
+                    <label for="user" class="control-label">User Name</label> <input type="text" th:field="*{login}" class="form-control"/><br><br>
                     <label for="password" class="control-label">Password</label> <input type="text" th:field="*{password}" class="form-control"/><br>
 
                    

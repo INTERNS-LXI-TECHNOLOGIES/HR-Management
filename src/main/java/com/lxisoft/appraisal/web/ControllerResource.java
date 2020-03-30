@@ -1,4 +1,4 @@
-package com.lxisoft.appraisal.web.rest;
+package com.lxisoft.appraisal.web;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -27,6 +27,7 @@ import javax.xml.bind.DatatypeConverter;
 import org.springframework.web.bind.annotation.*;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
+import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.service.UserService;
 
 
@@ -37,7 +38,7 @@ import com.lxisoft.appraisal.service.UserService;
 @Controller
 public class ControllerResource {
 	@Autowired
-	UserService userService;
+	UserExtraService userService;
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
 
@@ -90,11 +91,12 @@ public class ControllerResource {
 			us.setCompany(request.getParameter("company"));
 			us.setCompany(request.getParameter("postion"));
 			us.setJoiningDate(LocalDate.parse(request.getParameter("joinDate")));
-			us.setDob(LocalDate.parse(request.getParameter("do")));
+			us.setDob(LocalDate.parse(request.getParameter("dob")));
+			us.setUser(user);
 			
 			mv=new ModelAndView("redirect:/");
 			try{
-//				User u=userService.createUser(user);
+				userService.createUser(user,us);
 			}catch(Exception e)
 			{
 				mv=new ModelAndView("addUser");

@@ -186,7 +186,6 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
-//        userExtraRepository.save(us);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;
