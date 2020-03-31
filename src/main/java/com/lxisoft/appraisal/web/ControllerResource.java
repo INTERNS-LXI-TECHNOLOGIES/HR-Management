@@ -8,10 +8,8 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -36,11 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import javax.xml.bind.DatatypeConverter;
-
 import org.springframework.web.bind.annotation.*;
-
-import com.lxisoft.appraisal.domain.Authority;
 import com.lxisoft.appraisal.domain.Git;
 import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.LateArrival;
@@ -49,17 +43,12 @@ import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
-import com.lxisoft.appraisal.security.AuthoritiesConstants;
 import com.lxisoft.appraisal.service.GitService;
 import com.lxisoft.appraisal.service.HackathonService;
 import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
 import com.lxisoft.appraisal.service.UserExtraService;
-import com.lxisoft.appraisal.service.UserService;
-
-
-
 /**
  * ControllerResource controller
  */
@@ -161,7 +150,6 @@ public class ControllerResource {
 			if(file.isEmpty())
 			{
 				re.addFlashAttribute("message","select a file to upload");
-				
 			}
 		}	
 		try
@@ -174,8 +162,7 @@ public class ControllerResource {
 		catch (IOException e) 
 		{
 			e.printStackTrace();
-		}
-//				
+		}		
 //				Set<Authority> authorities = new HashSet<>();
 //				if((request.getParameter("authority")).equals("ROLE_ADMIN"))
 //				{
@@ -184,7 +171,7 @@ public class ControllerResource {
 //				}
 //			user.setAuthorities(authorities);
 		us.setCompany(request.getParameter("company"));
-		us.setCompany(request.getParameter("postion"));
+		us.setPosition(request.getParameter("position"));
 		us.setJoiningDate(LocalDate.parse(request.getParameter("joinDate")));
 		us.setDob(LocalDate.parse(request.getParameter("dob")));
 		us.setUser(user);
@@ -299,7 +286,6 @@ public class ControllerResource {
 	public String evaluation()
 	{
 		return "evaluation";
-		
 	}
 	@RequestMapping("/setTest")
 	public String setTest(@RequestParam String name,Long num,Long hack )
@@ -328,8 +314,6 @@ public class ControllerResource {
 			}
 		}
 		return "evaluation";
-		
-
 	}
 	@RequestMapping("/reportStatus")
 	public String statusPage(Model model) 
@@ -364,7 +348,6 @@ public class ControllerResource {
 	public String LateArrival()
 	{
 		return "lateArrival";
-		
 	}
 	@RequestMapping("/setLate")
 	public String setLate(@RequestParam String name,String subject,String ltime)
@@ -386,10 +369,8 @@ public class ControllerResource {
 				late.setReachedTime(instant);
 				lateServ.setLate(late);
 			}
-			
 		}
 		return "lateArrival";
-		
 	}
 	@RequestMapping("/deleteUser")
 	public String deleteUser(@RequestParam (name="id") Long id)
@@ -397,8 +378,6 @@ public class ControllerResource {
 		userService.deleteUser(id);
 		 return "redirect:/";  
 	}
-	
-	
 	@RequestMapping("/filter")
 	public String filter(@RequestParam (name="company")String company,@RequestParam (name="position")String position, Model model)
 	{
@@ -415,8 +394,5 @@ public class ControllerResource {
 		
 		model.addAttribute("list",users);
 		return "viewAllUsers";
-		
 	}
-	
-
 }
