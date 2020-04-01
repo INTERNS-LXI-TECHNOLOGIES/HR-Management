@@ -88,7 +88,7 @@ table th,td
   </a>
 </div>
 	
-     <div  align="center"><img th:src="*{'data:image/jpg;base64,'+user.getFileContentType()}" 
+     <div  align="center"><img th:src="*{'data:image/jpg;base64,'+image}" 
      	   class="img-circle img-responsive" id="profile-" style="width:200px;height:160px;cursor: pointer;"/></div>
       <form th:action="@{/edit}" th:object="${user}" method="post" enctype="multipart/form-data" > 
                
@@ -105,19 +105,19 @@ table th,td
                     <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
                      <br>
                     
-                     <label>E-mail</label> <input type="text" name="emailID" th:field="*{emailID}"/>
-                      <p th:if="${#fields.hasErrors('emailID')}" th:errors="*{emailID}"></p>
+                     <label>E-mail</label> <input type="text" name="emailID" th:field="*{email}"/>
+                      <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                       <br>
                       
-                      DOB:  <input type="date" th:value="${date}"  name="date" required/>
-                    <p th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></p><br>
+                      DOB:  <input type="date" th:value="${date}"  name="date" required/><br>
+                    
       
                     Joined Date:<input type="date"  th:value="${join}" name="join" required/>
-                    <p th:if="${#fields.hasErrors('joiningDate')}" th:errors="*{joiningDate}"></p><br>
+                    
                     
                     <center> <input id="profile-upload"  type="file" name="image"></center>
                   	 <label >Company</label> 
-                    <select  th:field="*{company}" name="company" >
+                    <select  th:value="${company}" name="company" >
    						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
    						 <option th:value="Bytatech" th:text="Bytatech"></option>
    						 <option th:value="Divixo" th:text="Divixo"></option>
@@ -125,19 +125,17 @@ table th,td
    						 <option th:value="Illude" th:text="Illude"></option>
 
                     </select><br>
-                    <p th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></p><br>
+                    <br>
                     <label>Position:</label>
-                    <select th:field="*{position}">
+                    <select th:value="${position}" name="position">
 						<option th:value="intern" th:text="intern"></option>
 						<option th:value="employee" th:text="employee "></option>
 						<option th:value="co-founder" th:text="co-founder"> </option>
 						<option th:value="admin" th:text="admin"> </select>
 					</select><br>
-					<p th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></p>
+				
 					
-                    <label>User Name</label> <input type="text" name="username"   th:field="*{username}" required/><br>
-                    <label >Password</label> <input type="text" name="password" th:field="*{password}"required/><br>
-                  
+                   
                     
                     <br>
                    Role Type: <select name="name" >

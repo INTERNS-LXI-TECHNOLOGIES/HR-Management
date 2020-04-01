@@ -46,6 +46,11 @@ public class UserExtraService {
 		
 		return userRepository.findOneByLogin(login);
 	}
+	public Optional<User> findByid(Long id) {
+		
+		return userRepository.findById(id);
+	}
+	
 	public void deleteUser(Long id) 
 	{
 		userExtraRepository.deleteById(id);
@@ -72,5 +77,9 @@ public class UserExtraService {
 				u.remove(	);
 		}
 		return users;
+	}
+	public Optional<UserExtra> findByidExtra(Long id) {
+		
+		return userExtraRepository.findById(id);
 	}
 }

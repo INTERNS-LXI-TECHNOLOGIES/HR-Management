@@ -11,6 +11,7 @@ import java.util.Base64;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -400,4 +401,57 @@ public class ControllerResource {
 		model.addAttribute("list",users);
 		return "viewAllUsers";
 	}
+	@RequestMapping("/editUser")
+	public ModelAndView editUser(@RequestParam (name="id") Long id)
+	{
+		ModelAndView mv=new ModelAndView("editUserPage");
+		Optional<User> user=userService.findByid(id);
+		Optional<UserExtra> userEx=userService.findByidExtra(id);
+		mv.addObject("image",Base64.getEncoder().encodeToString(userEx.get().getImage()));
+		mv.addObject("user",user.get());
+//		mv.addObject("userex",userEx.get());
+		String date=userEx.get().getDob().toString();
+		String join=userEx.get().getJoiningDate().toString();
+		mv.addObject("date",date);
+		mv.addObject("join",join);
+		
+		
+		return mv;
+	}
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute @Valid User formUser,BindingResult bindingResult,@RequestParam (name="name") String roleName,
+			@RequestParam (name="date") String date , @RequestParam (name="join") String join, @RequestParam (name="company") String company,
+			@RequestParam (name="image")MultipartFile file, @RequestParam (name="position") String position)
+	{
+		long id=formUser.getId();
+		Optional<User> user=userService.findByid(id);
+		Optional<UserExtra> userEx=userService.findByidExtra(id);
+		
+//		if (bindingResult.hasErrors()) {
+//			return "editUserPage";
+//			}
+		if(!file.isEmpty()) {
+			try {
+				userEx.get().setImage(file.getBytes());
+				userEx.get().setImageContentType(file.getContentType());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		user.get().setFirstName(formUser.getFirstName());
+		user.get().setLastName(formUser.getLastName());
+		user.get().setEmail(formUser.getEmail());
+		userEx.get().setDob(LocalDate.parse(date));
+		userEx.get().setJoiningDate(LocalDate.parse(join));
+		userEx.get().setCompany(company);
+		userEx.get().setPosition(position);
+		
+		
+		userService.createUser(user.get(),userEx.get());
+		
+		return "redirect:/"; 
+	}
+	
 }
