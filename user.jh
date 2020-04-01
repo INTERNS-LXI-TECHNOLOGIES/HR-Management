@@ -1,0 +1,36 @@
+entity UserExtra {
+	company String,
+    position String,
+    joiningDate LocalDate,
+	dob LocalDate,
+    image Blob,
+ 	username String
+ 	
+}
+
+entity ReportStatus {
+	 reportingTime Instant,	
+	 type String
+	
+}
+
+entity Leave {
+	date LocalDate,
+	type String 
+}
+
+entity LateArrival {
+	reachedTime Instant,
+	type String
+}
+
+entity Hackathon{
+	date LocalDate,
+	mark Long
+}
+
+entity Git{
+	date LocalDate,
+	mark Long
+}
+
