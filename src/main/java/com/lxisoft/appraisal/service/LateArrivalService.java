@@ -1,5 +1,7 @@
 package com.lxisoft.appraisal.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,13 @@ public class LateArrivalService {
 	public void setLate(LateArrival late)
 	{
 		lateRepo.save(late);
+	}
+	public  List<LateArrival> findLate(Long id)
+	{
+
+		List<LateArrival> em=lateRepo.findByid(id);
+		 
+		 return em;
 	}
 
 }

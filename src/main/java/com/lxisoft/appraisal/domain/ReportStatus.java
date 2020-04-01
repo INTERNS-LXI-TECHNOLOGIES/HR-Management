@@ -28,8 +28,9 @@ public class ReportStatus implements Serializable {
     private String type;
 
     @ManyToOne
+    @JoinColumn(name="user_id")
     @JsonIgnoreProperties("reportStatuses")
-    private User user;
+    private UserExtra userExtra;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -66,17 +67,17 @@ public class ReportStatus implements Serializable {
         this.type = type;
     }
 
-    public User getUser() {
-        return user;
+    public UserExtra getUserExtra() {
+        return userExtra;
     }
 
-    public ReportStatus user(User user) {
-        this.user = user;
+    public ReportStatus userExtra(UserExtra userExtra) {
+        this.userExtra = userExtra;
         return this;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserExtra(UserExtra userExtra) {
+        this.userExtra = userExtra;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

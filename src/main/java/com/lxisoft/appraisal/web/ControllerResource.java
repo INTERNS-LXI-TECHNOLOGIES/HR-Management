@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashSet;
@@ -54,6 +55,7 @@ import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
 import com.lxisoft.appraisal.service.UserExtraService;
+import com.lxisoft.appraisal.service.dto.UserExtraDTO;
 /**
  * ControllerResource controller
  */
@@ -119,22 +121,112 @@ public class ControllerResource {
 			{
 				us.setImageContentType(Base64.getEncoder().encodeToString(us.getImage()));
 			}
-			
-			mv.addObject("user",userextra);
-			mv.addObject("list", users);
+			List <UserExtraDTO> dto=getAllUser(users,userextra);
+			mv.addObject("list",dto);
 		}
 		catch (Exception e)
 		{
 			mv.setViewName("redirect:/logout-success");
 		}
 		return mv;
-//		ModelAndView mv= new ModelAndView("viewAllUsers");
-//		List<User> users;
-//		users=(List<User>) userService.getAllUsers();			
-//		mv.addObject("list", users);
-//		
-//		return mv;
 	}
+    @RequestMapping("/userDetails") 
+	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
+	 {
+		 ModelAndView mv= new ModelAndView("userDetail"); 
+		 Optional <User> user = userService.findByid(id);
+		 Optional <UserExtra> userEx = userService.findExtraByid(id);
+		 List<Leave> leave = leaveSer.findLeave(id);
+		 List<LateArrival> late =lateServ.findLate(id);
+		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 Instant in=late.get(i).getReachedTime();
+			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
+			 time.add(t);
+		 }
+		 UserExtraDTO dto=getUser(user.get(),userEx.get());
+		 mv.addObject("employee",dto);
+		 LocalDate first=userEx.get().getJoiningDate();
+		 LocalDate second= LocalDate.now();
+		 long days= ChronoUnit.DAYS.between(first,second);
+		 long total=(days*7);
+		 List<Leave> auth=new ArrayList<Leave>();
+		 List<Leave> unauth=new ArrayList<Leave>();
+		 for(int i=0;i<leave.size();i++)
+		 {
+			 if(leave.get(i).getType().equals("Authorized"))
+			 {
+				 auth.add(leave.get(i));
+			 }
+			 if(leave.get(i).getType().equals("NonAuthorized"))
+			 {
+				 unauth.add(leave.get(i));
+			 }
+		 }
+		 List<LateArrival> a=new ArrayList<LateArrival>();
+		 List<LateArrival> un=new ArrayList<LateArrival>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 if(late.get(i).getType().equals("Authorized"))
+			 {
+				 a.add(late.get(i));
+			 }
+			 if(late.get(i).getType().equals("NonAuthorized"))
+			 {
+				 un.add(late.get(i));
+			 }
+		 }
+		 if(!userEx.get().getImageContentType().isEmpty())
+		 {
+			 String image=Base64.getEncoder().encodeToString(userEx.get().getImage());
+			 mv.addObject("image",image);
+		 }		
+		 int l=((auth.size())+(unauth.size()));
+		 long absence=l*7;
+		 long workedHour=(total-absence);
+		 
+		 List<ReportStatus> status=reportServ.findReport(id);
+		 List<ReportStatus> unreportdays=new ArrayList<ReportStatus>();
+		 for(int i=0;i<status.size();i++)
+		 {
+			unreportdays.add(status.get(i));
+		 }
+		 List<Hackathon> hack=hackServ.findHack(id);
+	 
+		 mv.addObject("auth",auth);
+		 mv.addObject("unauth",unauth);
+		 mv.addObject("a",a);
+		 mv.addObject("un",un);
+		 mv.addObject("time",time);
+		 mv.addObject("day",days);
+		 mv.addObject("total",total);
+		 mv.addObject("workedHour",workedHour);
+		 mv.addObject("unreportdays",unreportdays);
+		 return mv ;  
+	 }
+    public List<UserExtraDTO> getAllUser(List<User> users,List<UserExtra> userextra)
+    {
+    	List <UserExtraDTO> dto=new ArrayList<UserExtraDTO>();
+		for(int i=0;i<users.size();i++)
+		{
+			for(int j=0;j<userextra.size();j++)
+			{
+				if(i==j)
+				{
+					UserExtraDTO u=new UserExtraDTO(users.get(i),userextra.get(j));
+					dto.add(u);
+				}
+			}
+		}
+		return dto;
+    }
+    public UserExtraDTO getUser(User user,UserExtra ex)
+    {
+    	UserExtraDTO u=new UserExtraDTO(user,ex);
+    	return u;
+    }
+   
     @GetMapping(value= "/add")
     public String add(Model model) {
     	
@@ -226,32 +318,40 @@ public class ControllerResource {
 		}
 
 		return result;
+	}	
+	public List<UserExtraDTO> getSpecificUser(List<UserExtra> ex)	
+	{
+		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
+		List<UserExtraDTO> list=new ArrayList<UserExtraDTO>();
+		for(int i=0;i<user.size();i++)
+		{
+			for(int j=0;j<ex.size();j++)
+			{
+				if((user.get(i).getId()).equals(ex.get(j).getId()))
+				{
+					UserExtraDTO u=new UserExtraDTO(user.get(i),ex.get(j));
+					list.add(u);
+				}
+			}
+		}
+		return list;
+		
 	}
 	@RequestMapping("/leave")
 	public ModelAndView Leave()
 	{
-		List<Leave> l=leaveSer.getAllLeave();
-		List<User> list=new ArrayList<User>();
-		LocalDate localDate = LocalDate.now();
 		ModelAndView mv= new ModelAndView("Leave");
-		for(int i=0;i<l.size();i++)
-		{
-			if((l.get(i).getDate()).equals(localDate))
-			{
-				list.add(l.get(i).getUser());
-			}
-		}
-		List<User> lea=removeDuplicates(list);
-		mv.addObject("leavelist",lea);
 		return mv;
 		
 	}
 	@RequestMapping("/setLeave")
 	public ModelAndView setLeave(@RequestParam String name,String subject)
 	{
+		Long id=null;
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
+		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
-		List<User> list=new ArrayList<User>();
+		List<UserExtra> list=new ArrayList<UserExtra>();
 		List<Leave> l=leaveSer.getAllLeave();
 		LocalDate localDate = LocalDate.now();
 		ModelAndView mv= new ModelAndView("Leave");
@@ -259,24 +359,35 @@ public class ControllerResource {
 		{
 			if((l.get(i).getDate()).equals(localDate))
 			{
-				list.add(l.get(i).getUser());
+				list.add(l.get(i).getUserExtra());
 			}
 		}
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
-			User u=user.get(i);
 			if(name.contains(m))
 			{
-				leave.setDate(localDate);
-				leave.setUser(u);
-				leave.setType(subject);
-				leaveSer.setLeave(leave);
-				list.add(leave.getUser());
+				id=user.get(i).getId();
+				System.out.println("id;;;"+id);
 			}
 		}
-		List<User> lea=removeDuplicates(list);
-		mv.addObject("leavelist",lea);
+		for(int j=0;j<userextra.size();j++)
+		{
+			
+			if(id.equals(userextra.get(j).getId()))
+			{
+				UserExtra u=userextra.get(j);
+				System.out.println("id;;;"+id);
+				leave.setDate(localDate);
+				leave.setUserExtra(u);
+				leave.setType(subject);
+				leaveSer.setLeave(leave);
+				list.add(leave.getUserExtra());
+			}
+		}
+		List<UserExtra> lea=removeDuplicates(list);
+		List<UserExtraDTO> dto=getSpecificUser(lea);
+		mv.addObject("leavelist",dto);
 		return mv;
 	}
 	 public <T>List<T> removeDuplicates(List<T> list) 
@@ -297,26 +408,30 @@ public class ControllerResource {
 	public String setTest(@RequestParam String name,Long num,Long hack )
 	{
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
+		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		for(int i=0;i<user.size();i++)
 		{
 			Git git=new Git();
 			Hackathon hack1 = new Hackathon();
 			String m=user.get(i).getFirstName();
-			User u=user.get(i);
+			Long id=user.get(i).getId();
 			LocalDate local=LocalDate.now();
 			if(name.contains(m))
 			{
-				git.setUser(u);
-				git.setDate(local);
-				git.setMark(num);
-				gitServ.setGit(git);
-			}
-			if(name.contains(m))
-			{
-				hack1.setUser(u);
-				hack1.setDate(local);
-				hack1.setMark(num);
-				hackServ.setHackathon(hack1);
+				for(int j=0;j<userextra.size();j++)
+				{
+					if(id.equals(userextra.get(j).getId()))
+					{
+						git.setUserExtra(userextra.get(j));
+						git.setDate(local);
+						git.setMark(num);
+						gitServ.setGit(git);
+						hack1.setUserExtra(userextra.get(j));
+						hack1.setDate(local);
+						hack1.setMark(hack);
+						hackServ.setHackathon(hack1);
+					}
+				}
 			}
 		}
 		return "evaluation";
@@ -332,20 +447,28 @@ public class ControllerResource {
 	public String setReport(@RequestParam String name,String subject,String t)
 	{
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
+		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		for(int i=0;i<user.size();i++)
 		{
 			ReportStatus status=new ReportStatus();
 			String m=user.get(i).getFirstName();
-			User u=user.get(i);
 			LocalDate localDate = LocalDate.now();
 			LocalTime localtime = LocalTime.parse(t);
+			
 			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
 			if(name.contains(m))
 			{
-				status.setReportingTime(instant);
-				status.setUser(u);
-				status.setType(subject);
-				reportServ.setReport(status);
+				Long id=user.get(i).getId();
+				for(int j=0;j<userextra.size();j++)
+				{
+					if(id.equals(userextra.get(j).getId()))
+					{
+						status.setReportingTime(instant);
+						status.setUserExtra(userextra.get(j));
+						status.setType(subject);
+						reportServ.setReport(status);
+					}
+				}
 			}
 		}
 		return "reportStatus";
@@ -359,6 +482,7 @@ public class ControllerResource {
 	public String setLate(@RequestParam String name,String subject,String ltime)
 	{
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
+		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		LateArrival late=new LateArrival();
 		ModelAndView mv= new ModelAndView();
 		for(int i=0;i<user.size();i++)
@@ -367,13 +491,21 @@ public class ControllerResource {
 			User u=user.get(i);
 			LocalDate localDate = LocalDate.now();
 			LocalTime localtime = LocalTime.parse(ltime);
+			Long id=user.get(i).getId();
 			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
 			if(name.contains(m))
 			{
-				late.setUser(u);
-				late.setType(subject);
-				late.setReachedTime(instant);
-				lateServ.setLate(late);
+				for(int j=0;j<userextra.size();j++)
+				{
+					if(id.equals(userextra.get(j).getId()))
+					{
+						late.setUserExtra(userextra.get(j));
+						late.setType(subject);
+						late.setReachedTime(instant);
+						lateServ.setLate(late);
+					
+					}
+				}
 			}
 		}
 		return "lateArrival";
@@ -452,6 +584,28 @@ public class ControllerResource {
 		userService.createUser(user.get(),userEx.get());
 		
 		return "redirect:/"; 
+	}
+	@RequestMapping("/getAppraisalResult")
+	public String getAppraisalResult(@RequestParam long id, Model model)
+	{
+		long attendance=userService.getAttendance(id);
+		
+		long punctuality=userService.getPunctuality(id);
+		
+		long meetingTargets=userService.getTargets(id);
+		
+		long companyPolicy=userService.getcompanyPolicy(id);
+		
+		long codeQuality=userService.getCodeQuality(id);
+		
+		model.addAttribute("attendance",attendance);
+		model.addAttribute("punctuality",punctuality);
+		model.addAttribute("meetingTargets",meetingTargets);
+		model.addAttribute("companyPolicy",companyPolicy);
+		model.addAttribute("codeQuality",codeQuality);
+		
+//		System.out.println(attendance+"  "+punctuality+ " "+punctuality+"  "+companyPolicy+" "+codeQuality);
+		return "AppraisalReport";
 	}
 	
 }

@@ -24,5 +24,11 @@ public class LeaveService {
 	{
 		leaveRepo.save(leave);
 	}
+	public  List<Leave> findLeave(Long id)
+	{
+		List<Leave> em=leaveRepo.findByid(id);
+
+		 return em;
+	}	
 
 }

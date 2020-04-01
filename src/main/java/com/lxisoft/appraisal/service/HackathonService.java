@@ -1,5 +1,7 @@
 package com.lxisoft.appraisal.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,10 +15,15 @@ import com.lxisoft.appraisal.repository.HackathonRepository;
 public class HackathonService {
 
 	@Autowired
-	HackathonRepository HackRepo;
+	HackathonRepository hackRepo;
 	
 	public void setHackathon(Hackathon hack1)
 	{
-		HackRepo.save(hack1);
+		hackRepo.save(hack1);
+	}
+	public  List<Hackathon> findHack(Long id)
+	{
+		List<Hackathon> hack =hackRepo.findByid(id);		 
+		return hack;
 	}
 }

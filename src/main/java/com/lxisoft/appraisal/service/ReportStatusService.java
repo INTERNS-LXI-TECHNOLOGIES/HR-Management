@@ -1,5 +1,7 @@
 package com.lxisoft.appraisal.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,5 +20,11 @@ public class ReportStatusService {
 	{
 		reportRepo.save(status);
 	}
+	public List<ReportStatus> findReport(Long id)
+	{
 
+		List<ReportStatus> status=reportRepo.findByid(id);
+		 
+		 return status;
+	}
 }

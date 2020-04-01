@@ -8,11 +8,11 @@
     -->
     <changeSet id="20200327064800-2" author="jhipster">
         
-        <addForeignKeyConstraint baseColumnNames="user_id"
+        <addForeignKeyConstraint baseColumnNames="user_extra_id"
                                  baseTableName="jhi_leave"
-                                 constraintName="fk_jhi_leave_user_id"
+                                 constraintName="fk_jhi_leave_user_extra_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="jhi_user"/>
+                                 referencedTableName="user_extra"/>
 
     </changeSet>
 </databaseChangeLog>

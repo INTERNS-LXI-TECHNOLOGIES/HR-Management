@@ -1,11 +1,9 @@
 package com.lxisoft.appraisal.repository;
 
 import com.lxisoft.appraisal.domain.Git;
-
+import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Spring Data  repository for the Git entity.
@@ -14,6 +12,4 @@ import java.util.List;
 @Repository
 public interface GitRepository extends JpaRepository<Git, Long> {
 
-    @Query("select git from Git git where git.user.login = ?#{principal.username}")
-    List<Git> findByUserIsCurrentUser();
 }
