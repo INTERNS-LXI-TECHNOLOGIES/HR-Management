@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +39,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+
+import com.lxisoft.appraisal.domain.Authority;
 import com.lxisoft.appraisal.domain.Git;
 import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.LateArrival;
@@ -256,13 +260,14 @@ public class ControllerResource {
 		{
 			e.printStackTrace();
 		}		
-//				Set<Authority> authorities = new HashSet<>();
-//				if((request.getParameter("authority")).equals("ROLE_ADMIN"))
-//				{
-//					Optional<Authority> authority = authorityRepository.findById(AuthoritiesConstants.ADMIN);
-//					authorities.add(authority);
-//				}
-//			user.setAuthorities(authorities);
+				Set<Authority> authorities = new HashSet<>();
+				String auth=request.getParameter("authority");
+				authorities.add(new Authority(auth));
+				
+			user.setAuthorities(authorities);
+			BCryptPasswordEncoder encode=new BCryptPasswordEncoder(); 
+			user.setPassword(encode.encode(user.getPassword()));
+			
 		us.setCompany(request.getParameter("company"));
 		us.setPosition(request.getParameter("position"));
 		us.setJoiningDate(LocalDate.parse(request.getParameter("joinDate")));

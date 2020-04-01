@@ -43,7 +43,16 @@ public class Authority implements Serializable {
         return Objects.equals(name, ((Authority) o).name);
     }
 
-    @Override
+    public Authority() {
+		super();
+	}
+
+	public Authority(@NotNull @Size(max = 50) String name) {
+		super();
+		this.name = name;
+	}
+
+	@Override
     public int hashCode() {
         return Objects.hashCode(name);
     }
