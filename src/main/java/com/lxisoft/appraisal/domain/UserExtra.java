@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A UserExtra.
@@ -46,6 +48,21 @@ public class UserExtra implements Serializable {
     @MapsId
     @JoinColumn(name = "id")
     private User user;
+
+    @OneToMany(mappedBy = "userExtra")
+    private Set<Git> gits = new HashSet<>();
+
+    @OneToMany(mappedBy = "userExtra")
+    private Set<LateArrival> lateArrivals = new HashSet<>();
+
+    @OneToMany(mappedBy = "userExtra")
+    private Set<ReportStatus> reportStatuses = new HashSet<>();
+
+    @OneToMany(mappedBy = "userExtra")
+    private Set<Hackathon> hackathons = new HashSet<>();
+
+    @OneToMany(mappedBy = "userExtra")
+    private Set<Leave> leaves = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -158,6 +175,131 @@ public class UserExtra implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Set<Git> getGits() {
+        return gits;
+    }
+
+    public UserExtra gits(Set<Git> gits) {
+        this.gits = gits;
+        return this;
+    }
+
+    public UserExtra addGit(Git git) {
+        this.gits.add(git);
+        git.setUserExtra(this);
+        return this;
+    }
+
+    public UserExtra removeGit(Git git) {
+        this.gits.remove(git);
+        git.setUserExtra(null);
+        return this;
+    }
+
+    public void setGits(Set<Git> gits) {
+        this.gits = gits;
+    }
+
+    public Set<LateArrival> getLateArrivals() {
+        return lateArrivals;
+    }
+
+    public UserExtra lateArrivals(Set<LateArrival> lateArrivals) {
+        this.lateArrivals = lateArrivals;
+        return this;
+    }
+
+    public UserExtra addLateArrival(LateArrival lateArrival) {
+        this.lateArrivals.add(lateArrival);
+        lateArrival.setUserExtra(this);
+        return this;
+    }
+
+    public UserExtra removeLateArrival(LateArrival lateArrival) {
+        this.lateArrivals.remove(lateArrival);
+        lateArrival.setUserExtra(null);
+        return this;
+    }
+
+    public void setLateArrivals(Set<LateArrival> lateArrivals) {
+        this.lateArrivals = lateArrivals;
+    }
+
+    public Set<ReportStatus> getReportStatuses() {
+        return reportStatuses;
+    }
+
+    public UserExtra reportStatuses(Set<ReportStatus> reportStatuses) {
+        this.reportStatuses = reportStatuses;
+        return this;
+    }
+
+    public UserExtra addReportStatus(ReportStatus reportStatus) {
+        this.reportStatuses.add(reportStatus);
+        reportStatus.setUserExtra(this);
+        return this;
+    }
+
+    public UserExtra removeReportStatus(ReportStatus reportStatus) {
+        this.reportStatuses.remove(reportStatus);
+        reportStatus.setUserExtra(null);
+        return this;
+    }
+
+    public void setReportStatuses(Set<ReportStatus> reportStatuses) {
+        this.reportStatuses = reportStatuses;
+    }
+
+    public Set<Hackathon> getHackathons() {
+        return hackathons;
+    }
+
+    public UserExtra hackathons(Set<Hackathon> hackathons) {
+        this.hackathons = hackathons;
+        return this;
+    }
+
+    public UserExtra addHackathon(Hackathon hackathon) {
+        this.hackathons.add(hackathon);
+        hackathon.setUserExtra(this);
+        return this;
+    }
+
+    public UserExtra removeHackathon(Hackathon hackathon) {
+        this.hackathons.remove(hackathon);
+        hackathon.setUserExtra(null);
+        return this;
+    }
+
+    public void setHackathons(Set<Hackathon> hackathons) {
+        this.hackathons = hackathons;
+    }
+
+    public Set<Leave> getLeaves() {
+        return leaves;
+    }
+
+    public UserExtra leaves(Set<Leave> leaves) {
+        this.leaves = leaves;
+        return this;
+    }
+
+    public UserExtra addLeave(Leave leave) {
+        this.leaves.add(leave);
+        leave.setUserExtra(this);
+        return this;
+    }
+
+    public UserExtra removeLeave(Leave leave) {
+        this.leaves.remove(leave);
+        leave.setUserExtra(null);
+        return this;
+    }
+
+    public void setLeaves(Set<Leave> leaves) {
+        this.leaves = leaves;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

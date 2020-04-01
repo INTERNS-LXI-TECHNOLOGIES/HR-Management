@@ -1,5 +1,7 @@
 package com.lxisoft.appraisal.service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +17,7 @@ import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
 import com.lxisoft.appraisal.repository.UserRepository;
+import com.lxisoft.appraisal.service.dto.UserExtraDTO;
 
 @Service
 @Transactional
@@ -32,6 +35,16 @@ public class UserExtraService {
     	 userRepository.save(user);
          userExtraRepository.save(us);
     }
+    public  Optional<User> findByid(Long id)
+	{
+		 Optional<User> em=userRepository.findById(id);
+		 return em;
+	}	
+    public  Optional<UserExtra> findExtraByid(Long id)
+	{
+		 Optional<UserExtra> extra=userExtraRepository.findById(id);
+		 return extra;
+	}
     public List<User> getAllUsers()
     {
     	List<User> list=userRepository.findAll();
@@ -72,5 +85,25 @@ public class UserExtraService {
 				u.remove(	);
 		}
 		return users;
+	}
+	public long getAttendance(long id)
+	{
+		LocalDate date = LocalDate.now();
+		LocalDate endDate= date.minusDays(30); 
+		String da=date.toString();
+		String te=endDate.toString();
+		Optional<User> u=findByid(id);
+		Optional <UserExtra> ex =findExtraByid(id); 
+		UserExtraDTO user=new UserExtraDTO(u.get(),ex.get());
+		LocalDate first=user.getJoiningDate();
+		LocalDate second= LocalDate.now();
+		long days= ChronoUnit.DAYS.between(first,second);
+		long total=(days*7);
+		long leaveCount=(ex.get().getLeaves()).size();
+		long worked=total-(leaveCount*7);
+		int attendance=((int)((worked*5/total)));
+		
+		return attendance;
+		
 	}
 }

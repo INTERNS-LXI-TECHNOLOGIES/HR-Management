@@ -36,6 +36,36 @@
             "ownerSide": true,
             "useJPADerivedIdentifier": true,
             "otherEntityRelationshipName": "userExtra"
+        },
+        {
+            "relationshipName": "git",
+            "otherEntityName": "git",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "userExtra"
+        },
+        {
+            "relationshipName": "lateArrival",
+            "otherEntityName": "lateArrival",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "userExtra"
+        },
+        {
+            "relationshipName": "reportStatus",
+            "otherEntityName": "reportStatus",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "userExtra"
+        },
+        {
+            "relationshipName": "hackathon",
+            "otherEntityName": "hackathon",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "userExtra"
+        },
+        {
+            "relationshipName": "leave",
+            "otherEntityName": "leave",
+            "relationshipType": "one-to-many",
+            "otherEntityRelationshipName": "userExtra"
         }
     ],
     "changelogDate": "20200327064600",

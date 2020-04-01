@@ -2,10 +2,10 @@ package com.lxisoft.appraisal.repository;
 
 import com.lxisoft.appraisal.domain.Leave;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 /**
  * Spring Data  repository for the Leave entity.
@@ -13,7 +13,5 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface LeaveRepository extends JpaRepository<Leave, Long> {
-
-    @Query("select leave from Leave leave where leave.user.login = ?#{principal.username}")
-    List<Leave> findByUserIsCurrentUser();
+	public	List<Leave> findByUserId(Long user);
 }

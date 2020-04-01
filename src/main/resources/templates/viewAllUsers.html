@@ -111,7 +111,6 @@ body {
 	</select>
 	<input type="submit" value="filter">
 </form>
-   
 
   <table class="table">
   <tr th:each="employee: ${list}">
@@ -121,8 +120,16 @@ body {
             <div class="card">
                 <div class="card-horizontal">
                     <div class="card-body">
-                        <h4 class="card-title"><span th:text="${employee.getFirstName()}"></span> <span th:text="${employee.getLastName()}"></span> </a></h4>
-                		 <a th:href="@{${'/userDetails?id='+employee.id}}" ><button  type="button" class="btn btn-danger btn-sm">View Profile</button></a>
+                      <div class="img-square-wrapper">
+                       <img th:src="*{'data:image/jpg;base64,'+employee.ImageContentType}" class="img-circle img-responsive" alt="Card image cap" style="width:150px;height:100px">
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title"><span th:text="${employee.getFirstName()}"></span> <span th:text="${employee.getLastName()}"></span></h4>
+                        <p class="card-text"><span th:text="${employee.getPosition()}"></span>- <span th:text="${employee.getCompany()}"></span></p>
+                        <a th:href="@{${'/userDetails?id='+employee.id}}" ><button  type="button" class="btn btn-danger btn-sm">View Profile</button></a>
+                        <td><a th:href="@{${'/editUser?id='+employee.id}}">&nbsp  edit &nbsp  </a></td>
+   						<td><a th:href="@{${'/deleteUser?id='+employee.id}}">&nbsp delete &nbsp</a></td>
+                    </div>
                     </div>
                 </div>
             </div>
