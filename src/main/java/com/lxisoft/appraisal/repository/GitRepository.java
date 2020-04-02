@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface GitRepository extends JpaRepository<Git, Long> {
-
+public interface GitRepository extends JpaRepository<Git, Long> 
+{
+	public	List<Git> findByUserId(Long id);
 }

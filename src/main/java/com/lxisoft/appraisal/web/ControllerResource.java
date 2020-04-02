@@ -214,7 +214,16 @@ public class ControllerResource {
 		 {
 			unreportdays.add(status.get(i));
 		 }
+		 List<Git> git=gitServ.findGit(id);
 		 List<Hackathon> hack=hackServ.findHack(id);
+		   if(git.size()!=0) 
+				 {
+					 mv.addObject("git",git.get((git.size()-1)));
+				 }			
+			if(hack.size()!=0)
+				{
+					mv.addObject("hack",hack.get((hack.size()-1)));
+				}	
 	 
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
