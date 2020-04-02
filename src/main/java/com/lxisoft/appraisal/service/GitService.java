@@ -18,6 +18,14 @@ public class GitService {
 	public void setGit(Git git)
 	{
 		gitRepo.save(git);
+		
 	}
+	
+	public  List<Git> findGit(Long id)
+	{
 
+		List<Git> git =gitRepo.findByUserId(id);
+		 
+		 return git;
+	}
 }

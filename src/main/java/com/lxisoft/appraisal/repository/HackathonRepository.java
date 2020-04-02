@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface HackathonRepository extends JpaRepository<Hackathon, Long> {
-	public	List<Hackathon> findByid(Long user);
+public interface HackathonRepository extends JpaRepository<Hackathon, Long>
+{
+	public	List<Hackathon> findByUserid(Long id);
 }

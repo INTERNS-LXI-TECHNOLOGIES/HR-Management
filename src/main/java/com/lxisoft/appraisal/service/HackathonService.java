@@ -23,7 +23,7 @@ public class HackathonService {
 	}
 	public  List<Hackathon> findHack(Long id)
 	{
-		List<Hackathon> hack =hackRepo.findByid(id);		 
+		List<Hackathon> hack =hackRepo.findByUserid(id);		 
 		return hack;
 	}
 }
