@@ -224,4 +224,13 @@ public class UserExtraService {
 		int quality=(int) (mark+hackmark*5/25)/2;
 		return quality;
 	}
+
+	public ArrayList<User> getUsersFromUserExtra(List<UserExtra> userEx) {
+		ArrayList<User> users=new ArrayList<User>();
+		for(UserExtra u:userEx)
+		{
+			users.add(findByid(u.getId()).get());
+		}
+		return users;
+	}
 }

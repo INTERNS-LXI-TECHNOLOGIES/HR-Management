@@ -80,24 +80,33 @@ public class ControllerResource {
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
     @RequestMapping(value="/")
-	public String index()
+	public ModelAndView index()
 	{
     	ModelAndView mv=new ModelAndView(); 
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		boolean isAdmin=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = authentication.getName();
+		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
 		if(isAdmin)
 		{
-			return "redirect:/viewuser";
+			mv.addObject("username",username);
+			mv.setViewName("redirect:/viewuser");
+			return mv;
 		}
 		else if(isUser)
 		{
-			return "redirect:/userDetails";
+			Optional<User> user=userService.getUserByusername(username);
+			mv.addObject("id",user.get().getId());
+			mv.setViewName("redirect:/userDetails");
+			return mv;
 		}
 		else 
-			return "redirect:/login";
-	
+		{
+			mv.setViewName("/login");
+			return mv;
+		}
 	}
 
     @GetMapping(value= "/login")
@@ -110,18 +119,31 @@ public class ControllerResource {
 	{
     	ModelAndView mv= new ModelAndView("viewAllUsers");
     	try {
-			List<User> users;
-			List<UserExtra> userextra;
-//			Optional<User> user=userService.getUserByusername(request.getParameter("username"));
-//			UserExtra u=new UserExtra();
-//			u.setUser((user.get()));
-			users=(ArrayList<User>) userService.getAllUsers();
-			userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
-			for (UserExtra us:userextra) 
+			List<User> users = null;
+			List<UserExtra> userEx = null;
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			
+			System.out.println("user:...."+username);
+			Optional<User> user=userService.getUserByusername(username);
+			
+			Optional<UserExtra> u=userService.findByidExtra(user.get().getId());
+			if(u.get().getCompany().equalsIgnoreCase("Lxisoft"))
+			{
+				users=(ArrayList<User>) userService.getAllUsers();
+				userEx=userService.getAllExtraUsers();
+			}
+			else
+			{
+				userEx=userService.findByCompany(u.get().getCompany());
+				users=(ArrayList<User>) userService.getUsersFromUserExtra(userEx);
+			}
+			
+			for (UserExtra us:userEx) 
 			{
 				us.setImageContentType(Base64.getEncoder().encodeToString(us.getImage()));
 			}
-			List <UserExtraDTO> dto=getAllUser(users,userextra);
+			List <UserExtraDTO> dto=getAllUser(users,userEx);
 			mv.addObject("list",dto);
 		}
 		catch (Exception e)
@@ -529,8 +551,18 @@ public class ControllerResource {
 		{
 			users=userService.findByPosition(users,position);
 		}
+		ArrayList<User> user=(ArrayList<User>) userService.getUsersFromUserExtra(users);
 		
-		model.addAttribute("list",users);
+		for(UserExtra userEx:users)
+		{
+			if(!userEx.getImageContentType().isEmpty())
+			 {
+				 String image=Base64.getEncoder().encodeToString(userEx.getImage());
+				userEx.setImageContentType(image);
+			 }	
+		}
+		List <UserExtraDTO> dto=getAllUser(user,users);
+		model.addAttribute("list",dto);
 		return "viewAllUsers";
 	}
 	@RequestMapping("/editUser")
