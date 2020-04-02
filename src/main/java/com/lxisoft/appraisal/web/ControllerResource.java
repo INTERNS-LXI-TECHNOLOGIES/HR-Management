@@ -14,6 +14,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +57,6 @@ import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
 import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
-import org.springframework.security.core.userdetails.UserDetails;
 /**
  * ControllerResource controller
  */
@@ -87,22 +87,28 @@ public class ControllerResource {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		boolean isAdmin=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		 String username = ((UserDetails)principal).getUsername();
-		if(isUser)
+//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = authentication.getName();
+		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
+		if(isAdmin)
 		{
-//			mv.addObject("username",username);
-			mv.setViewName( "redirect:/viewuser");
-		}
-//		if(isUser)
-//		{
-//			Optional<User> user=userService.getUserByusername(username);
-//			mv.addObject("id",user.get().getId());
-//			mv.setViewName( "redirect:/userDetails");
-//		}
-//		
+			mv.addObject("username",username);
+			mv.setViewName("redirect:/viewuser");
 			return mv;
-	
+		}
+		else if(isUser)
+		{
+			Optional<User> user=userService.getUserByusername(username);
+			mv.addObject("id",user.get().getId());
+			mv.setViewName("redirect:/userDetails");
+			return mv;
+		}
+		else 
+		{
+			mv.setViewName("/login");
+			return mv;
+		}
+
 	}
 
     @GetMapping(value= "/login")
@@ -115,18 +121,31 @@ public class ControllerResource {
 	{
     	ModelAndView mv= new ModelAndView("viewAllUsers");
     	try {
-			List<User> users;
-			List<UserExtra> userextra;
-//			Optional<User> user=userService.getUserByusername(request.getParameter("username"));
-//			UserExtra u=new UserExtra();
-//			u.setUser((user.get()));
-			users=(ArrayList<User>) userService.getAllUsers();
-			userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
-			for (UserExtra us:userextra) 
+			List<User> users = null;
+			List<UserExtra> userEx = null;
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			
+			System.out.println("user:...."+username);
+			Optional<User> user=userService.getUserByusername(username);
+			
+			Optional<UserExtra> u=userService.findByidExtra(user.get().getId());
+			if(u.get().getCompany().equalsIgnoreCase("Lxisoft"))
+			{
+				users=(ArrayList<User>) userService.getAllUsers();
+				userEx=userService.getAllExtraUsers();
+			}
+			else
+			{
+				userEx=userService.findByCompany(u.get().getCompany());
+				users=(ArrayList<User>) userService.getUsersFromUserExtra(userEx);
+			}
+			
+			for (UserExtra us:userEx) 
 			{
 				us.setImageContentType(Base64.getEncoder().encodeToString(us.getImage()));
 			}
-			List <UserExtraDTO> dto=getAllUser(users,userextra);
+			List <UserExtraDTO> dto=getAllUser(users,userEx);
 			mv.addObject("list",dto);
 		}
 		catch (Exception e)
@@ -332,12 +351,13 @@ public class ControllerResource {
 		{
 			for(int j=0;j<ex.size();j++)
 			{
+				System.out.println("size:::::"+ex.size());
 				Long id=user.get(i).getId();
 				Long idd=ex.get(j).getId();
 				System.out.println("id::"+id);
 				if((id).equals(idd))
 				{
-					System.out.println("name::"+user.get(j).getFirstName());
+					System.out.println("name::;;;;"+user.get(j).getFirstName());
 					UserExtraDTO u=new UserExtraDTO(user.get(i),ex.get(j));
 					list.add(u);
 				}
@@ -346,26 +366,36 @@ public class ControllerResource {
 		return list;
 		
 	}
+	public LocalDate ToLocalDate(Date dateToConvert) {
+	    return dateToConvert.toInstant()
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDate();
+	}
 	@RequestMapping("/leave")
 	public ModelAndView Leave()
 	{
 		List<Leave> l=leaveSer.getAllLeave();
+		System.out.println("size:::::"+l.size());
 		List<UserExtra> list=new ArrayList<UserExtra>();
+		System.out.println("list::"+list.size());
 		LocalDate localDate = LocalDate.now();
+		System.out.println("date;;;"+localDate);
 		for(int i=0;i<l.size();i++)
 		{
+			System.out.println("lis::"+list.size());
 			if((l.get(i).getDate()).equals(localDate))
 			{
+				System.out.println("li::"+list.size());
 				list.add(l.get(i).getUserExtra());
-				System.out.println("name::");
+				System.out.println("list::"+list.size());
 			}
 		}
 		List<UserExtra> lea=removeDuplicates(list);
 		List<UserExtraDTO> dto=getSpecificUser(lea);
-//		for(int j=0;j<dto.size();j++)
-//		{
-//			System.out.println("name::"+dto.get(j).getFirstName());
-//		}
+		for(int j=0;j<dto.size();j++)
+		{
+			System.out.println("name::"+dto.get(j).getFirstName());
+		}
 		ModelAndView mv= new ModelAndView("Leave");
 		mv.addObject("leavelist",dto);	
 		return mv;
@@ -403,6 +433,7 @@ public class ControllerResource {
 			if(id.equals(userextra.get(j).getId()))
 			{
 				UserExtra u=userextra.get(j);
+				System.out.println("da;;;"+localDate);
 				System.out.println("id;;;"+id);
 				leave.setDate(localDate);
 				leave.setUserExtra(u);
@@ -554,8 +585,18 @@ public class ControllerResource {
 		{
 			users=userService.findByPosition(users,position);
 		}
+		ArrayList<User> user=(ArrayList<User>) userService.getUsersFromUserExtra(users);
 		
-		model.addAttribute("list",users);
+		for(UserExtra userEx:users)
+		{
+			if(!userEx.getImageContentType().isEmpty())
+			 {
+				 String image=Base64.getEncoder().encodeToString(userEx.getImage());
+				userEx.setImageContentType(image);
+			 }	
+		}
+		List <UserExtraDTO> dto=getAllUser(user,users);
+		model.addAttribute("list",dto);
 		return "viewAllUsers";
 	}
 	@RequestMapping("/editUser")
