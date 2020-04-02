@@ -56,6 +56,7 @@ import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
 import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
+import org.springframework.security.core.userdetails.UserDetails;
 /**
  * ControllerResource controller
  */
@@ -80,23 +81,27 @@ public class ControllerResource {
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
     @RequestMapping(value="/")
-	public String index()
+	public ModelAndView index()
 	{
     	ModelAndView mv=new ModelAndView(); 
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		boolean isAdmin=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(isAdmin)
+		 String username = ((UserDetails)principal).getUsername();
+		if(isUser)
 		{
-			return "redirect:/viewuser";
+//			mv.addObject("username",username);
+			mv.setViewName( "redirect:/viewuser");
 		}
-		else if(isUser)
-		{
-			return "redirect:/userDetails";
-		}
-		else 
-			return "redirect:/login";
+//		if(isUser)
+//		{
+//			Optional<User> user=userService.getUserByusername(username);
+//			mv.addObject("id",user.get().getId());
+//			mv.setViewName( "redirect:/userDetails");
+//		}
+//		
+			return mv;
 	
 	}
 
@@ -327,8 +332,12 @@ public class ControllerResource {
 		{
 			for(int j=0;j<ex.size();j++)
 			{
-				if((user.get(i).getId()).equals(ex.get(j).getId()))
+				Long id=user.get(i).getId();
+				Long idd=ex.get(j).getId();
+				System.out.println("id::"+id);
+				if((id).equals(idd))
 				{
+					System.out.println("name::"+user.get(j).getFirstName());
 					UserExtraDTO u=new UserExtraDTO(user.get(i),ex.get(j));
 					list.add(u);
 				}
@@ -340,7 +349,25 @@ public class ControllerResource {
 	@RequestMapping("/leave")
 	public ModelAndView Leave()
 	{
+		List<Leave> l=leaveSer.getAllLeave();
+		List<UserExtra> list=new ArrayList<UserExtra>();
+		LocalDate localDate = LocalDate.now();
+		for(int i=0;i<l.size();i++)
+		{
+			if((l.get(i).getDate()).equals(localDate))
+			{
+				list.add(l.get(i).getUserExtra());
+				System.out.println("name::");
+			}
+		}
+		List<UserExtra> lea=removeDuplicates(list);
+		List<UserExtraDTO> dto=getSpecificUser(lea);
+//		for(int j=0;j<dto.size();j++)
+//		{
+//			System.out.println("name::"+dto.get(j).getFirstName());
+//		}
 		ModelAndView mv= new ModelAndView("Leave");
+		mv.addObject("leavelist",dto);	
 		return mv;
 		
 	}
@@ -373,7 +400,6 @@ public class ControllerResource {
 		}
 		for(int j=0;j<userextra.size();j++)
 		{
-			
 			if(id.equals(userextra.get(j).getId()))
 			{
 				UserExtra u=userextra.get(j);
@@ -392,7 +418,7 @@ public class ControllerResource {
 	}
 	 public <T>List<T> removeDuplicates(List<T> list) 
     { 
-        Set<T> set = new LinkedHashSet<>(); 
+        Set<T> set=new LinkedHashSet<>(); 
         set.addAll(list); 
         list.clear(); 
         list.addAll(set); 
@@ -503,7 +529,6 @@ public class ControllerResource {
 						late.setType(subject);
 						late.setReachedTime(instant);
 						lateServ.setLate(late);
-					
 					}
 				}
 			}
@@ -533,4 +558,79 @@ public class ControllerResource {
 		model.addAttribute("list",users);
 		return "viewAllUsers";
 	}
+	@RequestMapping("/editUser")
+	public ModelAndView editUser(@RequestParam (name="id") Long id)
+	{
+		ModelAndView mv=new ModelAndView("editUserPage");
+		Optional<User> user=userService.findByid(id);
+		Optional<UserExtra> userEx=userService.findByidExtra(id);
+		mv.addObject("image",Base64.getEncoder().encodeToString(userEx.get().getImage()));
+		mv.addObject("user",user.get());
+//		mv.addObject("userex",userEx.get());
+		String date=userEx.get().getDob().toString();
+		String join=userEx.get().getJoiningDate().toString();
+		mv.addObject("date",date);
+		mv.addObject("join",join);
+		
+		
+		return mv;
+	}
+	@PostMapping("/edit")
+	public String edit(@ModelAttribute @Valid User formUser,BindingResult bindingResult,@RequestParam (name="name") String roleName,
+			@RequestParam (name="date") String date , @RequestParam (name="join") String join, @RequestParam (name="company") String company,
+			@RequestParam (name="image")MultipartFile file, @RequestParam (name="position") String position)
+	{
+		long id=formUser.getId();
+		Optional<User> user=userService.findByid(id);
+		Optional<UserExtra> userEx=userService.findByidExtra(id);
+		
+//		if (bindingResult.hasErrors()) {
+//			return "editUserPage";
+//			}
+		if(!file.isEmpty()) {
+			try {
+				userEx.get().setImage(file.getBytes());
+				userEx.get().setImageContentType(file.getContentType());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		user.get().setFirstName(formUser.getFirstName());
+		user.get().setLastName(formUser.getLastName());
+		user.get().setEmail(formUser.getEmail());
+		userEx.get().setDob(LocalDate.parse(date));
+		userEx.get().setJoiningDate(LocalDate.parse(join));
+		userEx.get().setCompany(company);
+		userEx.get().setPosition(position);
+		
+		
+		userService.createUser(user.get(),userEx.get());
+		
+		return "redirect:/"; 
+	}
+	@RequestMapping("/getAppraisalResult")
+	public String getAppraisalResult(@RequestParam long id, Model model)
+	{
+		long attendance=userService.getAttendance(id);
+		
+		long punctuality=userService.getPunctuality(id);
+		
+		long meetingTargets=userService.getTargets(id);
+		
+		long companyPolicy=userService.getcompanyPolicy(id);
+		
+		long codeQuality=userService.getCodeQuality(id);
+		
+		model.addAttribute("attendance",attendance);
+		model.addAttribute("punctuality",punctuality);
+		model.addAttribute("meetingTargets",meetingTargets);
+		model.addAttribute("companyPolicy",companyPolicy);
+		model.addAttribute("codeQuality",codeQuality);
+		
+//		System.out.println(attendance+"  "+punctuality+ " "+punctuality+"  "+companyPolicy+" "+codeQuality);
+		return "AppraisalReport";
+	}
+	
 }

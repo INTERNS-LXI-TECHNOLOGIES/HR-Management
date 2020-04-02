@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -178,7 +179,7 @@ public class UserExtra implements Serializable {
     }
 
     public Set<Git> getGits() {
-        return gits;
+        return  gits;
     }
 
     public UserExtra gits(Set<Git> gits) {
@@ -253,7 +254,7 @@ public class UserExtra implements Serializable {
     }
 
     public Set<Hackathon> getHackathons() {
-        return hackathons;
+        return  hackathons;
     }
 
     public UserExtra hackathons(Set<Hackathon> hackathons) {
@@ -281,10 +282,7 @@ public class UserExtra implements Serializable {
         return leaves;
     }
 
-    public UserExtra leaves(Set<Leave> leaves) {
-        this.leaves = leaves;
-        return this;
-    }
+    
 
     public UserExtra addLeave(Leave leave) {
         this.leaves.add(leave);

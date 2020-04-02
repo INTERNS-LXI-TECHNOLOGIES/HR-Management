@@ -22,7 +22,7 @@ public class LateArrivalService {
 	public  List<LateArrival> findLate(Long id)
 	{
 
-		List<LateArrival> em=lateRepo.findByUserId(id);
+		List<LateArrival> em=lateRepo.findByUserExtraId(id);
 		 
 		 return em;
 	}

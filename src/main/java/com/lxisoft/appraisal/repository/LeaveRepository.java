@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface LeaveRepository extends JpaRepository<Leave, Long> {
-	public	List<Leave> findByUserId(Long user);
+	public	List<Leave> findByUserExtraId(Long user);
 }

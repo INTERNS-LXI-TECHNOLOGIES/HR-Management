@@ -26,7 +26,7 @@ public class LeaveService {
 	}
 	public  List<Leave> findLeave(Long id)
 	{
-		List<Leave> em=leaveRepo.findByUserId(id);
+		List<Leave> em=leaveRepo.findByUserExtraId(id);
 
 		 return em;
 	}	
