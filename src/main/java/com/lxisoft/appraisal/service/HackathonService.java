@@ -21,9 +21,9 @@ public class HackathonService {
 	{
 		hackRepo.save(hack1);
 	}
-	public  List<Hackathon> findHack(Long id)
-	{
-		List<Hackathon> hack =hackRepo.findByUserId(id);		 
-		return hack;
-	}
+//	public  List<Hackathon> findHack(Long id)
+//	{
+//		List<Hackathon> hack =hackRepo.findByUserId(id);		 
+//		return hack;
+//	}
 }
