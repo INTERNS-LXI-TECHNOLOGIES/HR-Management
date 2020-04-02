@@ -260,13 +260,13 @@ public class ControllerResource {
 		{
 			e.printStackTrace();
 		}		
-				Set<Authority> authorities = new HashSet<>();
-				String auth=request.getParameter("authority");
-				authorities.add(new Authority(auth));
+		Set<Authority> authorities = new HashSet<>();
+		String auth=request.getParameter("authority");
+		authorities.add(new Authority(auth));
 				
-			user.setAuthorities(authorities);
-			BCryptPasswordEncoder encode=new BCryptPasswordEncoder(); 
-			user.setPassword(encode.encode(user.getPassword()));
+		user.setAuthorities(authorities);
+		BCryptPasswordEncoder encode=new BCryptPasswordEncoder(); 
+		user.setPassword(encode.encode(user.getPassword()));
 			
 		us.setCompany(request.getParameter("company"));
 		us.setPosition(request.getParameter("position"));
