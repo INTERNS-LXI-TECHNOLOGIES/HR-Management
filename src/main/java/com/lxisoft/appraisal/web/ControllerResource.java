@@ -89,7 +89,7 @@ public class ControllerResource {
 		boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 //		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = authentication.getName();
-		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
+//		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
 		if(isAdmin)
 		{
 			mv.addObject("username",username);
@@ -125,7 +125,7 @@ public class ControllerResource {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String username = authentication.getName();
 			
-			System.out.println("user:...."+username);
+//			System.out.println("user:...."+username);
 			Optional<User> user=userService.getUserByusername(username);
 			
 			Optional<UserExtra> u=userService.findByidExtra(user.get().getId());
@@ -224,6 +224,7 @@ public class ControllerResource {
 					Git object = (Git)it.next();
 					Long mark = object.getMark();
 					 mv.addObject("git",mark);
+					 System.out.println("mark: "+mark);
 				 }	}		
 			if(hack.size()!=0)
 				{
