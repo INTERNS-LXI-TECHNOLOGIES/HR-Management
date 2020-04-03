@@ -1,6 +1,8 @@
 package com.lxisoft.appraisal.repository;
 
 import com.lxisoft.appraisal.domain.Hackathon;
+import com.lxisoft.appraisal.domain.UserExtra;
+
 import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
@@ -10,7 +12,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface HackathonRepository extends JpaRepository<Hackathon, Long> {
 
-	public	List<Hackathon> findByUserExtraId(Long user);
+public interface HackathonRepository extends JpaRepository<Hackathon, Long>
+{
+	public	List<Hackathon> findByUserExtraId(Long userEx);
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lxisoft.appraisal.domain.Hackathon;
+import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.HackathonRepository;
 
 
@@ -22,9 +23,9 @@ public class HackathonService {
 		hackRepo.save(hack1);
 	}
 
-	public  List<Hackathon> findHack(Long id)
+	public  List<Hackathon> findHack(Long userEx)
 	{
-		List<Hackathon> hack =hackRepo.findByUserExtraId(id);		 
+		List<Hackathon> hack =hackRepo.findByUserExtraId(userEx);		 
 		return hack;
 	}
 }

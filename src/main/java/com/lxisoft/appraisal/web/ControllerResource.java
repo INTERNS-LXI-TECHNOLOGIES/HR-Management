@@ -10,6 +10,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
@@ -216,7 +217,28 @@ public class ControllerResource {
 		 {
 			unreportdays.add(status.get(i));
 		 }
-		 List<Hackathon> hack=hackServ.findHack(id);
+		 List<Git> git=gitServ.findGit(userService.findExtraByid(id).get().getId());
+		 List<Hackathon> hack=hackServ.findHack(userService.findExtraByid(id).get().getId());
+		 if(git.size()!=0) 
+		 {
+			Iterator it=git.iterator();
+			while (it.hasNext())
+			{
+				Git object = (Git)it.next();
+				Long mar= object.getMark();
+				 mv.addObject("git",mar);
+			 }	
+		}		
+		if(hack.size()!=0)
+		{
+			Iterator i=hack.iterator();
+			while (i.hasNext())
+			{
+				Hackathon object = (Hackathon)i.next();
+				Long mark = object.getMark();
+				mv.addObject("hack",mark);
+			 }	
+		}	
 	 
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
