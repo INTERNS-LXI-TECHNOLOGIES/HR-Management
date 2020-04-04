@@ -22,9 +22,10 @@ public class HackathonService {
 	{
 		hackRepo.save(hack1);
 	}
-	public  List<Hackathon> findHack(UserExtra userEx)
+
+	public  List<Hackathon> findHack(Long userEx)
 	{
-		List<Hackathon> hack =hackRepo.findByUserExtra(userEx);		 
+		List<Hackathon> hack =hackRepo.findByUserExtraId(userEx);		 
 		return hack;
 	}
 }

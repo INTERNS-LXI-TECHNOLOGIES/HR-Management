@@ -28,7 +28,7 @@ public class Leave implements Serializable {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_extra_id")
     @JsonIgnoreProperties("leaves")
     private UserExtra userExtra;
 

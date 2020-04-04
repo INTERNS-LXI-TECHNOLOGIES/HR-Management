@@ -23,7 +23,7 @@ public class ReportStatusService {
 	public List<ReportStatus> findReport(Long id)
 	{
 
-		List<ReportStatus> status=reportRepo.findByid(id);
+		List<ReportStatus> status=reportRepo.findByUserExtraId(id);
 		 
 		 return status;
 	}

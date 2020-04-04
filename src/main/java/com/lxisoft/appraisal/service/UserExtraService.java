@@ -96,9 +96,7 @@ public class UserExtraService {
 		return users;
 	}
 
-	public Optional<UserExtra> findByidExtra(Long id) {
-		
-		return userExtraRepository.findById(id);}
+	
 	public long getAttendance(long id)
 	{
 		LocalDate date = LocalDate.now();
@@ -119,7 +117,7 @@ public class UserExtraService {
 		return attendance;
 	}
 	public long getPunctuality(long id) {
-		Optional<UserExtra> userEx=findByidExtra(id);
+		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		LocalDate first=userEx.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
@@ -134,7 +132,7 @@ public class UserExtraService {
 	}
 
 	public long getTargets(long id) {
-		Optional<UserExtra> userEx=findByidExtra(id);
+		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		LocalDate first=userEx.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
@@ -161,7 +159,7 @@ public class UserExtraService {
 	}
 
 	public long getcompanyPolicy(long id) {
-		Optional<UserExtra> userEx=findByidExtra(id);
+		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		LocalDate first=userEx.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
@@ -198,7 +196,7 @@ public class UserExtraService {
 	}
 
 	public long getCodeQuality(long id) {
-		Optional<UserExtra> userEx=findByidExtra(id);
+		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		Long mark = (long) 0;
 		if(!userEx.get().getGits().isEmpty()) 

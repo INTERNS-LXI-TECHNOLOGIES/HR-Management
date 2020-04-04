@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface ReportStatusRepository extends JpaRepository<ReportStatus, Long> {
-	public	List<ReportStatus> findByid(Long user);
+	public	List<ReportStatus> findByUserExtraId(Long user);
 }

@@ -23,10 +23,10 @@ public class GitService {
 		
 	}
 	
-	public  Set<Git> findGit(UserExtra userex)
+	public  List<Git> findGit(Long userex)
 	{
 
-		Set<Git> git =gitRepo.findByUserExtra(userex);
+		List<Git> git =gitRepo.findByUserExtraId(userex);
 		 
 		 return git;
 	}

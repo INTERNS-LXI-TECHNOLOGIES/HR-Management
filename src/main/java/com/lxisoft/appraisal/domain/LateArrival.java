@@ -28,7 +28,7 @@ public class LateArrival implements Serializable {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_extra_id")
     @JsonIgnoreProperties("lateArrivals")
     private UserExtra userExtra;
 

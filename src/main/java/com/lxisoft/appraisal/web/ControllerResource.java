@@ -15,6 +15,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,7 +90,7 @@ public class ControllerResource {
 		boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 //		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = authentication.getName();
-//		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
+		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
 		if(isAdmin)
 		{
 			mv.addObject("username",username);
@@ -108,6 +109,7 @@ public class ControllerResource {
 			mv.setViewName("/login");
 			return mv;
 		}
+
 	}
 
     @GetMapping(value= "/login")
@@ -125,10 +127,10 @@ public class ControllerResource {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String username = authentication.getName();
 			
-//			System.out.println("user:...."+username);
+			System.out.println("user:...."+username);
 			Optional<User> user=userService.getUserByusername(username);
 			
-			Optional<UserExtra> u=userService.findByidExtra(user.get().getId());
+			Optional<UserExtra> u=userService.findExtraByid(user.get().getId());
 			if(u.get().getCompany().equalsIgnoreCase("Lxisoft"))
 			{
 				users=(ArrayList<User>) userService.getAllUsers();
@@ -215,21 +217,29 @@ public class ControllerResource {
 		 {
 			unreportdays.add(status.get(i));
 		 }
-		 Set<Git> git=gitServ.findGit(userService.findExtraByid(id).get());
-		 List<Hackathon> hack=hackServ.findHack(userService.findExtraByid(id).get());
-		   if(git.size()!=0) 
-				 {
-			   Iterator it=git.iterator();
-				while (it.hasNext()) {
-					Git object = (Git)it.next();
-					Long mark = object.getMark();
-					 mv.addObject("git",mark);
-					 System.out.println("mark: "+mark);
-				 }	}		
-			if(hack.size()!=0)
-				{
-					mv.addObject("hack",hack.get((hack.size()-1)));
-				}	
+
+		 List<Git> git=gitServ.findGit(userService.findExtraByid(id).get().getId());
+		 List<Hackathon> hack=hackServ.findHack(userService.findExtraByid(id).get().getId());
+		 if(git.size()!=0) 
+		 {
+			Iterator it=git.iterator();
+			while (it.hasNext())
+			{
+				Git object = (Git)it.next();
+				Long mar= object.getMark();
+				 mv.addObject("git",mar);
+			 }	
+		}		
+		if(hack.size()!=0)
+		{
+			Iterator i=hack.iterator();
+			while (i.hasNext())
+			{
+				Hackathon object = (Hackathon)i.next();
+				Long mark = object.getMark();
+				mv.addObject("hack",mark);
+			 }	
+		}	
 	 
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
@@ -297,13 +307,13 @@ public class ControllerResource {
 		{
 			e.printStackTrace();
 		}		
-				Set<Authority> authorities = new HashSet<>();
-				String auth=request.getParameter("authority");
-				authorities.add(new Authority(auth));
+		Set<Authority> authorities = new HashSet<>();
+		String auth=request.getParameter("authority");
+		authorities.add(new Authority(auth));
 				
-			user.setAuthorities(authorities);
-			BCryptPasswordEncoder encode=new BCryptPasswordEncoder(); 
-			user.setPassword(encode.encode(user.getPassword()));
+		user.setAuthorities(authorities);
+		BCryptPasswordEncoder encode=new BCryptPasswordEncoder(); 
+		user.setPassword(encode.encode(user.getPassword()));
 			
 		us.setCompany(request.getParameter("company"));
 		us.setPosition(request.getParameter("position"));
@@ -364,8 +374,13 @@ public class ControllerResource {
 		{
 			for(int j=0;j<ex.size();j++)
 			{
-				if((user.get(i).getId()).equals(ex.get(j).getId()))
+				System.out.println("size:::::"+ex.size());
+				Long id=user.get(i).getId();
+				Long idd=ex.get(j).getId();
+				System.out.println("id::"+id);
+				if((id).equals(idd))
 				{
+					System.out.println("name::;;;;"+user.get(j).getFirstName());
 					UserExtraDTO u=new UserExtraDTO(user.get(i),ex.get(j));
 					list.add(u);
 				}
@@ -374,10 +389,38 @@ public class ControllerResource {
 		return list;
 		
 	}
+	public LocalDate ToLocalDate(Date dateToConvert) {
+	    return dateToConvert.toInstant()
+	      .atZone(ZoneId.systemDefault())
+	      .toLocalDate();
+	}
 	@RequestMapping("/leave")
 	public ModelAndView Leave()
 	{
+		List<Leave> l=leaveSer.getAllLeave();
+		System.out.println("size:::::"+l.size());
+		List<UserExtra> list=new ArrayList<UserExtra>();
+		System.out.println("list::"+list.size());
+		LocalDate localDate = LocalDate.now();
+		System.out.println("date;;;"+localDate);
+		for(int i=0;i<l.size();i++)
+		{
+			System.out.println("lis::"+list.size());
+			if((l.get(i).getDate()).equals(localDate))
+			{
+				System.out.println("li::"+list.size());
+				list.add(l.get(i).getUserExtra());
+				System.out.println("list::"+list.size());
+			}
+		}
+		List<UserExtra> lea=removeDuplicates(list);
+		List<UserExtraDTO> dto=getSpecificUser(lea);
+		for(int j=0;j<dto.size();j++)
+		{
+			System.out.println("name::"+dto.get(j).getFirstName());
+		}
 		ModelAndView mv= new ModelAndView("Leave");
+		mv.addObject("leavelist",dto);	
 		return mv;
 		
 	}
@@ -410,10 +453,10 @@ public class ControllerResource {
 		}
 		for(int j=0;j<userextra.size();j++)
 		{
-			
 			if(id.equals(userextra.get(j).getId()))
 			{
 				UserExtra u=userextra.get(j);
+				System.out.println("da;;;"+localDate);
 				System.out.println("id;;;"+id);
 				leave.setDate(localDate);
 				leave.setUserExtra(u);
@@ -429,7 +472,7 @@ public class ControllerResource {
 	}
 	 public <T>List<T> removeDuplicates(List<T> list) 
     { 
-        Set<T> set = new LinkedHashSet<>(); 
+        Set<T> set=new LinkedHashSet<>(); 
         set.addAll(list); 
         list.clear(); 
         list.addAll(set); 
@@ -540,7 +583,6 @@ public class ControllerResource {
 						late.setType(subject);
 						late.setReachedTime(instant);
 						lateServ.setLate(late);
-					
 					}
 				}
 			}
@@ -585,7 +627,7 @@ public class ControllerResource {
 	{
 		ModelAndView mv=new ModelAndView("editUserPage");
 		Optional<User> user=userService.findByid(id);
-		Optional<UserExtra> userEx=userService.findByidExtra(id);
+		Optional<UserExtra> userEx=userService.findExtraByid(id);
 		mv.addObject("image",Base64.getEncoder().encodeToString(userEx.get().getImage()));
 		mv.addObject("user",user.get());
 //		mv.addObject("userex",userEx.get());
@@ -604,7 +646,7 @@ public class ControllerResource {
 	{
 		long id=formUser.getId();
 		Optional<User> user=userService.findByid(id);
-		Optional<UserExtra> userEx=userService.findByidExtra(id);
+		Optional<UserExtra> userEx=userService.findExtraByid(id);
 		
 //		if (bindingResult.hasErrors()) {
 //			return "editUserPage";
