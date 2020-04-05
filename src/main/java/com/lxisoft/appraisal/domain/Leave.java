@@ -20,7 +20,8 @@ public class Leave implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    
     @Column(name = "date")
     private LocalDate date;
 
