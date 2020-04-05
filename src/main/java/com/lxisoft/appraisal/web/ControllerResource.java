@@ -366,28 +366,21 @@ public class ControllerResource {
 
 		return result;
 	}	
-	public List<UserExtraDTO> getSpecificUser(List<UserExtra> ex)	
+	public List<UserExtraDTO> getSpecificUser(Set<UserExtra> list)	
 	{
-		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
-		List<UserExtraDTO> list=new ArrayList<UserExtraDTO>();
-		for(int i=0;i<user.size();i++)
-		{
-			for(int j=0;j<ex.size();j++)
-			{
-				System.out.println("size:::::"+ex.size());
-				Long id=user.get(i).getId();
-				Long idd=ex.get(j).getId();
-				System.out.println("id::"+id);
-				if((id).equals(idd))
-				{
-					System.out.println("name::;;;;"+user.get(j).getFirstName());
-					UserExtraDTO u=new UserExtraDTO(user.get(i),ex.get(j));
-					list.add(u);
-				}
-			}
-		}
-		return list;
+		List<UserExtraDTO> users=new ArrayList<UserExtraDTO>();
 		
+		Iterator<UserExtra> it=list.iterator();
+		while(it.hasNext())
+		{
+			UserExtra userEx=it.next();
+			Optional<User> user=userService.findByid(userEx.getId());
+			users.add(new UserExtraDTO(user.get(),userEx));
+		}
+		
+		
+		
+		return users;
 	}
 	public LocalDate ToLocalDate(Date dateToConvert) {
 	    return dateToConvert.toInstant()
@@ -397,29 +390,17 @@ public class ControllerResource {
 	@RequestMapping("/leave")
 	public ModelAndView Leave()
 	{
-		List<Leave> l=leaveSer.getAllLeave();
-		System.out.println("size:::::"+l.size());
-		List<UserExtra> list=new ArrayList<UserExtra>();
-		System.out.println("list::"+list.size());
+		Set<UserExtra> list=new HashSet<UserExtra>();
 		LocalDate localDate = LocalDate.now();
-		System.out.println("date;;;"+localDate);
-		for(int i=0;i<l.size();i++)
+		List<Leave> l=leaveSer.findByDate(localDate);
+		for(Leave u:l)
 		{
-			System.out.println("lis::"+list.size());
-			if((l.get(i).getDate()).equals(localDate))
-			{
-				System.out.println("li::"+list.size());
-				list.add(l.get(i).getUserExtra());
-				System.out.println("list::"+list.size());
-			}
+//			if(u.getDate().equals(localDate))
+				list.add(u.getUserExtra());
 		}
-		List<UserExtra> lea=removeDuplicates(list);
-		List<UserExtraDTO> dto=getSpecificUser(lea);
-		for(int j=0;j<dto.size();j++)
-		{
-			System.out.println("name::"+dto.get(j).getFirstName());
-		}
+		
 		ModelAndView mv= new ModelAndView("Leave");
+		List<UserExtraDTO> dto=getSpecificUser(list);
 		mv.addObject("leavelist",dto);	
 		return mv;
 		
@@ -431,24 +412,19 @@ public class ControllerResource {
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
-		List<UserExtra> list=new ArrayList<UserExtra>();
-		List<Leave> l=leaveSer.getAllLeave();
 		LocalDate localDate = LocalDate.now();
-		ModelAndView mv= new ModelAndView("Leave");
-		for(int i=0;i<l.size();i++)
-		{
-			if((l.get(i).getDate()).equals(localDate))
-			{
-				list.add(l.get(i).getUserExtra());
-			}
-		}
+
+		
+		ModelAndView mv= new ModelAndView("redirect:/Leave");
+		
+		
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
 			if(name.contains(m))
 			{
 				id=user.get(i).getId();
-				System.out.println("id;;;"+id);
+//				System.out.println("id;;;"+id);
 			}
 		}
 		for(int j=0;j<userextra.size();j++)
@@ -456,18 +432,18 @@ public class ControllerResource {
 			if(id.equals(userextra.get(j).getId()))
 			{
 				UserExtra u=userextra.get(j);
-				System.out.println("da;;;"+localDate);
-				System.out.println("id;;;"+id);
+//				System.out.println("da;;;"+localDate);
+//				System.out.println("id;;;"+id);
 				leave.setDate(localDate);
 				leave.setUserExtra(u);
 				leave.setType(subject);
 				leaveSer.setLeave(leave);
-				list.add(leave.getUserExtra());
+//				list.add(leave.getUserExtra());
 			}
 		}
-		List<UserExtra> lea=removeDuplicates(list);
-		List<UserExtraDTO> dto=getSpecificUser(lea);
-		mv.addObject("leavelist",dto);
+//		List<UserExtra> lea=removeDuplicates(list);
+//		List<UserExtraDTO> dto=getSpecificUser(list);
+//		mv.addObject("leavelist",dto);
 		return mv;
 	}
 	 public <T>List<T> removeDuplicates(List<T> list) 
