@@ -406,7 +406,7 @@ public class ControllerResource {
 		
 	}
 	@RequestMapping("/setLeave")
-	public ModelAndView setLeave(@RequestParam String name,String subject)
+	public ModelAndView setLeave(@RequestParam String name,@RequestParam (name="subject",required=false, defaultValue="NonAuthorized")String subject)
 	{
 		Long id=null;
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
@@ -415,7 +415,7 @@ public class ControllerResource {
 		LocalDate localDate = LocalDate.now();
 
 		
-		ModelAndView mv= new ModelAndView("redirect:/Leave");
+		ModelAndView mv= new ModelAndView("redirect:/leave");
 		
 		
 		for(int i=0;i<user.size();i++)
@@ -438,7 +438,8 @@ public class ControllerResource {
 				leave.setUserExtra(u);
 				leave.setType(subject);
 				leaveSer.setLeave(leave);
-//				list.add(leave.getUserExtra());
+
+//				System.out.println("da;;;"+leave.getDate());
 			}
 		}
 //		List<UserExtra> lea=removeDuplicates(list);
