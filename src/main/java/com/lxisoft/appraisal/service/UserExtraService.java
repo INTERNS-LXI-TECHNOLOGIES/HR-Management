@@ -1,5 +1,6 @@
 package com.lxisoft.appraisal.service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -23,6 +24,7 @@ import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.ReportStatus;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
+import com.lxisoft.appraisal.repository.LeaveRepository;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
 import com.lxisoft.appraisal.repository.UserRepository;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
@@ -35,6 +37,8 @@ public class UserExtraService {
 	UserRepository userRepository;
 	@Autowired
 	 UserExtraRepository userExtraRepository;
+	@Autowired
+	LeaveService leaveService;
 	
 
     private final Logger log = LoggerFactory.getLogger(UserExtraService.class);
@@ -96,9 +100,7 @@ public class UserExtraService {
 		return users;
 	}
 
-	public Optional<UserExtra> findByidExtra(Long id) {
-		
-		return userExtraRepository.findById(id);}
+	
 	public long getAttendance(long id)
 	{
 		LocalDate date = LocalDate.now();
@@ -119,7 +121,7 @@ public class UserExtraService {
 		return attendance;
 	}
 	public long getPunctuality(long id) {
-		Optional<UserExtra> userEx=findByidExtra(id);
+		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		LocalDate first=userEx.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
@@ -134,7 +136,7 @@ public class UserExtraService {
 	}
 
 	public long getTargets(long id) {
-		Optional<UserExtra> userEx=findByidExtra(id);
+		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		LocalDate first=userEx.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
@@ -161,7 +163,7 @@ public class UserExtraService {
 	}
 
 	public long getcompanyPolicy(long id) {
-		Optional<UserExtra> userEx=findByidExtra(id);
+		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		LocalDate first=userEx.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
@@ -169,6 +171,8 @@ public class UserExtraService {
 		 long total=(days*7);
 		 int count=0;
 		 
+
+		System.out.println("leaves between:::::::::::::::::::"+leaveService.findLeavesOfUserBetween(userEx.get(),second,first));
 		 Set<Leave> leaves= userEx.get().getLeaves();
 		 for (Leave l:leaves)
 		 {
@@ -198,7 +202,7 @@ public class UserExtraService {
 	}
 
 	public long getCodeQuality(long id) {
-		Optional<UserExtra> userEx=findByidExtra(id);
+		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		Long mark = (long) 0;
 		if(!userEx.get().getGits().isEmpty()) 

@@ -25,7 +25,7 @@ public class Git implements Serializable {
     private LocalDate date;
 
     @Column(name = "mark")
-    private Long mark;
+    private Long mark;  
 
     @ManyToOne
     @JoinColumn(name="user_extra_id")
