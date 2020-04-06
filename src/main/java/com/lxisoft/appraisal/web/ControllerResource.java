@@ -417,6 +417,7 @@ public class ControllerResource {
 		
 		ModelAndView mv= new ModelAndView("redirect:/leave");
 		
+		List<Leave> l=leaveSer.findByDate(localDate);
 		
 		for(int i=0;i<user.size();i++)
 		{
@@ -427,24 +428,33 @@ public class ControllerResource {
 //				System.out.println("id;;;"+id);
 			}
 		}
-		for(int j=0;j<userextra.size();j++)
+		boolean isExist = false;
+		for(Leave u:l)
 		{
-			if(id.equals(userextra.get(j).getId()))
+			
+			if(id.equals(u.getUserExtra().getId()))
+				isExist=true;
+		}
+		if(isExist)
+		{
+			
+		}
+		else
+		{
+			for(int j=0;j<userextra.size();j++)
 			{
-				UserExtra u=userextra.get(j);
-//				System.out.println("da;;;"+localDate);
-//				System.out.println("id;;;"+id);
-				leave.setDate(localDate);
-				leave.setUserExtra(u);
-				leave.setType(subject);
-				leaveSer.setLeave(leave);
+				if(id.equals(userextra.get(j).getId()))
+				{
+					UserExtra u=userextra.get(j);
+					leave.setDate(localDate);
+					leave.setUserExtra(u);
+					leave.setType(subject);
+					leaveSer.setLeave(leave);
+	
 
-//				System.out.println("da;;;"+leave.getDate());
+				}
 			}
 		}
-//		List<UserExtra> lea=removeDuplicates(list);
-//		List<UserExtraDTO> dto=getSpecificUser(list);
-//		mv.addObject("leavelist",dto);
 		return mv;
 	}
 	 public <T>List<T> removeDuplicates(List<T> list) 
@@ -650,6 +660,11 @@ public class ControllerResource {
 		userService.createUser(user.get(),userEx.get());
 		
 		return "redirect:/"; 
+	}
+	@RequestMapping("/appraisalResult")
+	public String appraisalResult(@RequestParam long id, Model model)
+	{
+		return "Appraisal";
 	}
 	@RequestMapping("/getAppraisalResult")
 	public String getAppraisalResult(@RequestParam long id, Model model)
