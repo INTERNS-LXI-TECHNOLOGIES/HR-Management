@@ -1,5 +1,7 @@
 package com.lxisoft.appraisal.service;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lxisoft.appraisal.domain.Leave;
+import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.LeaveRepository;
 
 @Service
@@ -29,6 +32,14 @@ public class LeaveService {
 		List<Leave> em=leaveRepo.findByUserExtraId(id);
 
 		 return em;
+	}
+	public List<Leave> findLeavesOfUserBetween(UserExtra userExtra, LocalDate second, LocalDate first) {
+		
+		return leaveRepo.findLeavesOfUserBetween(userExtra, second, first);
+	}
+	public List<Leave> findByDate(LocalDate localDate) {
+		
+		return leaveRepo.findAllByDate(localDate);
 	}	
 
 }
