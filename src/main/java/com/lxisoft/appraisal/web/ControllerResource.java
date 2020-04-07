@@ -662,5 +662,10 @@ public class ControllerResource {
 //		System.out.println(attendance+"  "+punctuality+ " "+punctuality+"  "+companyPolicy+" "+codeQuality);
 		return "AppraisalReport";
 	}
+	@GetMapping("/test")
+	public String test()
+	{
+		return "test";
+	}
 	
 }
