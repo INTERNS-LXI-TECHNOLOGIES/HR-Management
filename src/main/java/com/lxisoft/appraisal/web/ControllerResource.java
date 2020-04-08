@@ -287,6 +287,7 @@ public class ControllerResource {
     public String add(Model model) {
     	
     	model.addAttribute("user",new User());
+    
     	return "addUser";
     }
     @PostMapping("/addU")
@@ -712,5 +713,6 @@ public class ControllerResource {
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
 	}
+	
 	
 }
