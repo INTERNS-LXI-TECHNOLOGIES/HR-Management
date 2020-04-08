@@ -22,6 +22,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -53,11 +57,14 @@ import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
 import com.lxisoft.appraisal.service.GitService;
 import com.lxisoft.appraisal.service.HackathonService;
+import com.lxisoft.appraisal.service.JasperService;
 import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
 import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
+
+import net.sf.jasperreports.engine.JRException;
 /**
  * ControllerResource controller
  */
@@ -78,6 +85,8 @@ public class ControllerResource {
 	ReportStatusService reportServ;
 	@Autowired
 	AuthorityRepository authorityRepository;
+	@Autowired
+	JasperService jasperService;
 	
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
@@ -685,6 +694,23 @@ public class ControllerResource {
 		
 //		System.out.println(attendance+"  "+punctuality+ " "+punctuality+"  "+companyPolicy+" "+codeQuality);
 		return "AppraisalReport";
+	}
+	@RequestMapping("/pdf")
+	public ResponseEntity<byte[]>  getPdf()
+	{
+		byte[] pdfContents=null;
+		try {
+			pdfContents=jasperService.getReportAsPdfUsingDatabase();
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		HttpHeaders headers=new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		String fileName="Appraisal.pdf";
+		headers.add("content dis-position","attachment: filename="+fileName);
+		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
+		return response;
 	}
 	
 }

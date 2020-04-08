@@ -2,7 +2,11 @@
 <!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tree" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f6e4db4-9f8f-4ffe-9759-6e1fd142f492">
 	<property name="template.type" value="columnar"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[YXBwcmFpc2FsLmpoaV9sZWF2ZSAsMTUsMjAxLGUyYjZjMTg4LTQ0MmItNDJjZS04ZTk4LTU5MDYw
+YzBiM2YxNTthcHByYWlzYWwuamhpX3VzZXIgLDE4NSwxNSwzYWY3NGJhMi0xNWM2LTQ2MjQtODZi
+My04OTU4ZDQwYzUyNGI7]]>
+	</property>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Appraial Data Adapter "/>
 	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false"/>
@@ -16,7 +20,8 @@
 	</style>
 	<queryString language="SQL">
 		<![CDATA[SELECT appraisal.jhi_user.last_name,
-	appraisal.jhi_user.first_name
+	appraisal.jhi_user.first_name,
+	appraisal.jhi_user.email
 FROM appraisal.jhi_user
 	INNER JOIN appraisal.jhi_leave ON 
 	 appraisal.jhi_leave.id = appraisal.jhi_user.id]]>
@@ -29,23 +34,24 @@ FROM appraisal.jhi_user
 		<property name="com.jaspersoft.studio.field.label" value="first_name"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
 	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
+	</field>
 	<variable name="first_name1" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="DistinctCount">
 		<variableExpression><![CDATA[$F{first_name}]]></variableExpression>
+	</variable>
+	<variable name="last_name1" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Count">
+		<variableExpression><![CDATA[$F{last_name}]]></variableExpression>
 	</variable>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{last_name}]]></groupExpression>
 		<groupHeader>
-			<band height="31">
-				<frame>
-					<reportElement mode="Opaque" x="180" y="7" width="375" height="24" forecolor="#B89F7D" backcolor="#9DB1B8" uuid="d8de62c1-c7b7-4da8-8c69-000abeaa2cc0"/>
-					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-						<reportElement style="SubTitle" isPrintRepeatedValues="false" x="2" y="1" width="158" height="23" forecolor="#FFFFFF" uuid="25f707ae-9ac7-48d3-b45f-b14ee85fae9a"/>
-						<textElement>
-							<font isBold="false"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{last_name}]]></textFieldExpression>
-					</textField>
-				</frame>
+			<band height="55">
+				<textField>
+					<reportElement x="240" y="25" width="100" height="30" uuid="43ee75c4-7c11-414c-82c4-fdd1fc9998d4"/>
+					<textFieldExpression><![CDATA[$F{last_name}]]></textFieldExpression>
+				</textField>
 			</band>
 		</groupHeader>
 		<groupFooter>
@@ -55,13 +61,14 @@ FROM appraisal.jhi_user
 	<group name="Group2">
 		<groupExpression><![CDATA[$F{first_name}]]></groupExpression>
 		<groupHeader>
-			<band height="42">
-				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="180" y="4" width="200" height="20" forecolor="#000000" uuid="4f894c7b-ac0a-463e-9e33-7d2560baa292"/>
-					<textElement>
-						<font fontName="Times New Roman" size="16" isBold="false"/>
-					</textElement>
+			<band height="48">
+				<textField>
+					<reportElement x="234" y="18" width="100" height="30" uuid="a593aa00-e813-4321-b948-130247a0bbec"/>
 					<textFieldExpression><![CDATA[$F{first_name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="417" y="12" width="100" height="30" uuid="8a8a2995-d459-4847-9b3e-20d2968937ed"/>
+					<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
 				</textField>
 			</band>
 		</groupHeader>
@@ -81,13 +88,6 @@ FROM appraisal.jhi_user
 					<font size="80" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Tree Title]]></text>
-			</staticText>
-			<staticText>
-				<reportElement style="SubTitle" x="336" y="103" width="217" height="29" uuid="eef58983-008d-4a5b-8e47-97f8d4670c7a"/>
-				<textElement>
-					<font size="22" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Appraisal result]]></text>
 			</staticText>
 		</band>
 	</title>
