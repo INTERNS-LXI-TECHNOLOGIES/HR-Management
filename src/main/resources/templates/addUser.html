@@ -74,11 +74,18 @@
 
                     </select><br><br>
                    
-               		<br> <button type="submit" class="btn btn-success">Save</button>
+               		<br> <button type="submit" class="btn btn-success" onclick="sweetalertclick()">Save</button>
 
                 </form>
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script >
+    function sweetalertclick()
+    {
+    	Swall("Added successfully!")
+    }
+    </script>
 </body>
 </html>

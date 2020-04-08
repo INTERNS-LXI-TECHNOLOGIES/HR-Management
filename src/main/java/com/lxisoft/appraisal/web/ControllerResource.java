@@ -278,6 +278,7 @@ public class ControllerResource {
     public String add(Model model) {
     	
     	model.addAttribute("user",new User());
+    
     	return "addUser";
     }
     @PostMapping("/addU")
@@ -662,5 +663,6 @@ public class ControllerResource {
 //		System.out.println(attendance+"  "+punctuality+ " "+punctuality+"  "+companyPolicy+" "+codeQuality);
 		return "AppraisalReport";
 	}
+	
 	
 }
