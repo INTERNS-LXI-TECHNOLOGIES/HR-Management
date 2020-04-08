@@ -395,7 +395,6 @@ public class ControllerResource {
 		List<Leave> l=leaveSer.findByDate(localDate);
 		for(Leave u:l)
 		{
-//			if(u.getDate().equals(localDate))
 				list.add(u.getUserExtra());
 		}
 		
@@ -412,9 +411,7 @@ public class ControllerResource {
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
-		LocalDate localDate = LocalDate.now();
-
-		
+		LocalDate localDate = LocalDate.now();		
 		ModelAndView mv= new ModelAndView("redirect:/leave");
 		
 		List<Leave> l=leaveSer.findByDate(localDate);
@@ -425,7 +422,6 @@ public class ControllerResource {
 			if(name.contains(m))
 			{
 				id=user.get(i).getId();
-//				System.out.println("id;;;"+id);
 			}
 		}
 		boolean isExist = false;
@@ -443,6 +439,7 @@ public class ControllerResource {
 		{
 			for(int j=0;j<userextra.size();j++)
 			{
+
 				if(id.equals(userextra.get(j).getId()))
 				{
 					UserExtra u=userextra.get(j);
@@ -453,6 +450,7 @@ public class ControllerResource {
 	
 
 				}
+
 			}
 		}
 		return mv;
