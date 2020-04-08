@@ -229,7 +229,8 @@ public class UserExtraService {
 		return quality;
 	}
 
-	public ArrayList<User> getUsersFromUserExtra(List<UserExtra> userEx) {
+	public ArrayList<User> getUsersFromUserExtra(List<UserExtra> userEx) 
+	{
 		ArrayList<User> users=new ArrayList<User>();
 		for(UserExtra u:userEx)
 		{
