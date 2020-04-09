@@ -82,6 +82,7 @@
     <span th:if="${!#strings.isEmpty(message)}">
         <span th:text="#{error.message}">Message:</span>&nbsp;<span th:text="${message}"></span><br/>
     </span>
+    <button onclick='javascript:window.history.back()' >back</button>
 </div>
 </body>
 </html>
