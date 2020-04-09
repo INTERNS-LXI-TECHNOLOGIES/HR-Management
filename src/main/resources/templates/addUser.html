@@ -1,6 +1,5 @@
 
 <!DOCTYPE html>
-
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -18,7 +17,7 @@
     <title>Add User</title>
 </head>
 
-<body>
+<body align="center">
 	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -37,19 +36,17 @@
                 <h1>User Info</h1>
                 <form th:action="@{/addU}" th:object="${user}" enctype="multipart/form-data" method="post">
                     <label>First name</label> <input type="text" th:field="*{firstName}" class="form-control" />
-                     <span class="red" th:if="${#fields.hasErrors('firstName')}"
-                    th:errors="*{firstName}"></span>
-                  
+                     <font color="red" class="red" th:if="${#fields.hasErrors('firstName')}"th:errors="*{firstName}"></font><br><br>                  
                     <label>Last name</label> <input  type="text" th:field="*{lastName}" class="form-control" /> 
-                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
-               
-                    <label>E-mail</label> <input type="text" th:field="*{email}" class="form-control"/>
-                    
-                    <label>DOB: </label> <input type ="date" name="dob"  required />
+                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p><br><br>
+                    <label>E-mail</label> <input type="text" th:field="*{email}" class="form-control"/><br><br>
+                    <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+
+                    <label>DOB: </label> <input type ="date" name="dob"  required /><br><br>
                 
-                    <label>Joined Date:</label><input type="date" name="joinDate" required />
+                    <label>Joined Date:</label><input type="date" name="joinDate" required /><br><br>
                     
-                  	<label>pick a profile picture</label> <input type="file" name="picture"  required/>
+                  	<label>pick a profile picture</label> <input type="file" name="picture"  required/><br><br>
                     
                     <label >Company:</label> 
                     <select  name="company">
@@ -58,22 +55,23 @@
    						 <option th:value="Divixo" th:text="Divixo"></option>
    						 <option th:value="Felixo" th:text="Felixo"></option>
    						 <option th:value="Illude" th:text="Illude"></option>
-                    </select>
+                    </select><br><br>
                     <label>Position:</label>
                     <select name="position">
 						<option th:value="intern" th:text="intern"></option>
 						<option th:value="employee" th:text="employee "></option>
 						<option th:value="co-founder" th:text="co-founder"> </option>
 						<option th:value="admin" th:text="admin"> </select>
-					</select><br>
-					
-                    <label for="user" class="control-label">User Name</label> <input type="text" th:field="*{login}" class="form-control"/><br><br>
-                    <label for="password" class="control-label">Password</label> <input type="password" th:field="*{password}" class="form-control"/><br>
+					</select><br><br>
+                    <label for="username" class="control-label">User Name</label> <input type="text" th:field="*{login}" class="form-control" required/>
+                    		<span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span><br><br>
+                    <label for="password" class="control-label">Password</label> <input type="password" th:field="*{password}" class="form-control" required/>
+                    		<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span><br>
 					 <label>Role Type: </label><select name="authority">
    						 <option th:value="ROLE_USER" th:text="user"></option>
    						 <option th:value="ROLE_ADMIN" th:text="Admin"></option>
 
-                    </select><br>
+                    </select><br><br>
                    
                		<br> <button type="submit" class="btn btn-success" onclick="sweetalertclick()">Save</button>
 

@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
@@ -37,12 +38,12 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private String login;
 
     @JsonIgnore
-    @NotNull
+    @NotNull(message="not null")
     @Size(min = 6, max = 60)
     @Column(name = "password_hash", length = 60, nullable = false)
     private String password;
 
-    @Size(max = 50)
+    @Size(min=4,max = 50)
     @Column(name = "first_name", length = 50)
     private String firstName;
 
@@ -50,8 +51,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
-    @Email
-    @Size(min = 5, max = 254)
+    @Email(message="must be unique")
+    @Size(min = 5, max = 254, message="min 5")
     @Column(length = 254, unique = true)
     private String email;
 
@@ -237,4 +238,5 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", activationKey='" + activationKey + '\'' +
             "}";
     }
+   
 }

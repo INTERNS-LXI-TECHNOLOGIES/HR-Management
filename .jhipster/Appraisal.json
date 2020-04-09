@@ -1,0 +1,44 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [
+        {
+            "relationshipName": "userExtra",
+            "otherEntityName": "userExtra",
+            "relationshipType": "one-to-one",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "appraisal"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "attendance",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "punctuality",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "meetingTargets",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "companyPolicy",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "codeQuality",
+            "fieldType": "Long"
+        }
+    ],
+    "changelogDate": "20200409033827",
+    "dto": "no",
+    "searchEngine": false,
+    "service": "no",
+    "entityTableName": "appraisal",
+    "databaseType": "sql",
+    "readOnly": false,
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}
