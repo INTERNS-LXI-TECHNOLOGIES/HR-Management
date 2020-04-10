@@ -66,6 +66,15 @@
             "otherEntityName": "leave",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "userExtra"
+        },
+        {
+            "relationshipName": "appraisal",
+            "otherEntityName": "appraisal",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "useJPADerivedIdentifier": true,
+            "otherEntityRelationshipName": "userExtra"
         }
     ],
     "changelogDate": "20200327064600",

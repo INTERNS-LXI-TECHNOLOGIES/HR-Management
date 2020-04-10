@@ -1,6 +1,7 @@
 package com.lxisoft.appraisal.web;
 
 import java.io.IOException;
+import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -421,7 +422,9 @@ public class ControllerResource {
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
-		LocalDate localDate = LocalDate.now();		
+//		Clock cl = Clock.systemUTC(); 
+		 ZoneId zid = ZoneId.of("delhi"); 
+		LocalDate localDate = LocalDate.now(zid);		
 		ModelAndView mv= new ModelAndView("redirect:/leave");
 		
 		List<Leave> l=leaveSer.findByDate(localDate);
@@ -465,15 +468,6 @@ public class ControllerResource {
 		}
 		return mv;
 	}
-	 public <T>List<T> removeDuplicates(List<T> list) 
-    { 
-        Set<T> set=new LinkedHashSet<>(); 
-        set.addAll(list); 
-        list.clear(); 
-        list.addAll(set); 
-        return list; 
-    } 
-
 	@RequestMapping("/evaluation")
 	public String evaluation()
 	{

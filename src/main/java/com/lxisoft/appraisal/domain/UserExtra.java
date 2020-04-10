@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -50,25 +49,26 @@ public class UserExtra implements Serializable {
     @JoinColumn(name = "id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_extra_id")
+    @OneToMany(mappedBy = "userExtra")
     private Set<Git> gits = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_extra_id")
+    @OneToMany(mappedBy = "userExtra")
     private Set<LateArrival> lateArrivals = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_extra_id")
+    @OneToMany(mappedBy = "userExtra")
     private Set<ReportStatus> reportStatuses = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_extra_id")
+    @OneToMany(mappedBy = "userExtra")
     private Set<Hackathon> hackathons = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_extra_id")
+    @OneToMany(mappedBy = "userExtra")
     private Set<Leave> leaves = new HashSet<>();
+
+    @OneToOne
+
+    @MapsId
+    @JoinColumn(name = "id")
+    private Appraisal appraisal;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -184,7 +184,7 @@ public class UserExtra implements Serializable {
     }
 
     public Set<Git> getGits() {
-        return  gits;
+        return gits;
     }
 
     public UserExtra gits(Set<Git> gits) {
@@ -259,7 +259,7 @@ public class UserExtra implements Serializable {
     }
 
     public Set<Hackathon> getHackathons() {
-        return  hackathons;
+        return hackathons;
     }
 
     public UserExtra hackathons(Set<Hackathon> hackathons) {
@@ -287,7 +287,10 @@ public class UserExtra implements Serializable {
         return leaves;
     }
 
-    
+    public UserExtra leaves(Set<Leave> leaves) {
+        this.leaves = leaves;
+        return this;
+    }
 
     public UserExtra addLeave(Leave leave) {
         this.leaves.add(leave);
@@ -303,6 +306,19 @@ public class UserExtra implements Serializable {
 
     public void setLeaves(Set<Leave> leaves) {
         this.leaves = leaves;
+    }
+
+    public Appraisal getAppraisal() {
+        return appraisal;
+    }
+
+    public UserExtra appraisal(Appraisal appraisal) {
+        this.appraisal = appraisal;
+        return this;
+    }
+
+    public void setAppraisal(Appraisal appraisal) {
+        this.appraisal = appraisal;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
