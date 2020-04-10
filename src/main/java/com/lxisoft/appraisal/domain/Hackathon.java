@@ -28,8 +28,8 @@ public class Hackathon implements Serializable {
     private Long mark;
 
     @ManyToOne
-    @JoinColumn(name="user_extra_id")
     @JsonIgnoreProperties("hackathons")
+    @JoinColumn(name="user_extra_id")
     private UserExtra userExtra;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

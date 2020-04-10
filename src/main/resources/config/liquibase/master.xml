@@ -28,5 +28,6 @@
     <include file="config/liquibase/changelog/20200327064800_added_entity_constraints_Leave.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200327064700_added_entity_constraints_ReportStatus.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200327064600_added_entity_constraints_UserExtra.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200409033827_added_entity_constraints_Appraisal.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

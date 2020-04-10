@@ -1,6 +1,7 @@
 package com.lxisoft.appraisal.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 import java.io.Serializable;
@@ -24,7 +25,7 @@ public class Git implements Serializable {
     private LocalDate date;
 
     @Column(name = "mark")
-    private Long mark;  
+    private Long mark;
 
     @ManyToOne
     @JoinColumn(name="user_extra_id")

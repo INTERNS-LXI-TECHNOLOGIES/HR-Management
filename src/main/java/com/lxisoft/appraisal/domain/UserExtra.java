@@ -64,11 +64,8 @@ public class UserExtra implements Serializable {
     @OneToMany(mappedBy = "userExtra")
     private Set<Leave> leaves = new HashSet<>();
 
-    @OneToOne
-
-    @MapsId
-    @JoinColumn(name = "id")
-    private Appraisal appraisal;
+    @OneToMany(mappedBy = "userExtra")
+    private Set<Appraisal> appraisals = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -308,17 +305,29 @@ public class UserExtra implements Serializable {
         this.leaves = leaves;
     }
 
-    public Appraisal getAppraisal() {
-        return appraisal;
+    public Set<Appraisal> getAppraisals() {
+        return appraisals;
     }
 
-    public UserExtra appraisal(Appraisal appraisal) {
-        this.appraisal = appraisal;
+    public UserExtra appraisals(Set<Appraisal> appraisals) {
+        this.appraisals = appraisals;
         return this;
     }
 
-    public void setAppraisal(Appraisal appraisal) {
-        this.appraisal = appraisal;
+    public UserExtra addAppraisal(Appraisal appraisal) {
+        this.appraisals.add(appraisal);
+        appraisal.setUserExtra(this);
+        return this;
+    }
+
+    public UserExtra removeAppraisal(Appraisal appraisal) {
+        this.appraisals.remove(appraisal);
+        appraisal.setUserExtra(null);
+        return this;
+    }
+
+    public void setAppraisals(Set<Appraisal> appraisals) {
+        this.appraisals = appraisals;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

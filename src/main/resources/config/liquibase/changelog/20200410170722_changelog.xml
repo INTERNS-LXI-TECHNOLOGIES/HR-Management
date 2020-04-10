@@ -1,0 +1,16 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="meharu (generated)" id="1586538506998-1">
+        <addColumn tableName="appraisal">
+            <column name="date" type="date"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586538506998-2">
+        <addColumn tableName="appraisal">
+            <column name="user_extra_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586538506998-3">
+        <addForeignKeyConstraint baseColumnNames="user_extra_id" baseTableName="appraisal" constraintName="FKlan5nbklq0vvm8ejp16bmg5s" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user_extra" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

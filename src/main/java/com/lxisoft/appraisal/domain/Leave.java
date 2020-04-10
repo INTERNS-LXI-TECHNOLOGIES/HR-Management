@@ -20,8 +20,7 @@ public class Leave implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    
+
     @Column(name = "date")
     private LocalDate date;
 
@@ -29,8 +28,8 @@ public class Leave implements Serializable {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name="user_extra_id")
     @JsonIgnoreProperties("leaves")
+    @JoinColumn(name="user_extra_id")
     private UserExtra userExtra;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

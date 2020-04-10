@@ -14,6 +14,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,6 +48,9 @@ public class AppraisalResourceIT {
     private static final Long DEFAULT_CODE_QUALITY = 1L;
     private static final Long UPDATED_CODE_QUALITY = 2L;
 
+    private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
+
     @Autowired
     private AppraisalRepository appraisalRepository;
 
@@ -69,7 +74,8 @@ public class AppraisalResourceIT {
             .punctuality(DEFAULT_PUNCTUALITY)
             .meetingTargets(DEFAULT_MEETING_TARGETS)
             .companyPolicy(DEFAULT_COMPANY_POLICY)
-            .codeQuality(DEFAULT_CODE_QUALITY);
+            .codeQuality(DEFAULT_CODE_QUALITY)
+            .date(DEFAULT_DATE);
         return appraisal;
     }
     /**
@@ -84,7 +90,8 @@ public class AppraisalResourceIT {
             .punctuality(UPDATED_PUNCTUALITY)
             .meetingTargets(UPDATED_MEETING_TARGETS)
             .companyPolicy(UPDATED_COMPANY_POLICY)
-            .codeQuality(UPDATED_CODE_QUALITY);
+            .codeQuality(UPDATED_CODE_QUALITY)
+            .date(UPDATED_DATE);
         return appraisal;
     }
 
@@ -113,6 +120,7 @@ public class AppraisalResourceIT {
         assertThat(testAppraisal.getMeetingTargets()).isEqualTo(DEFAULT_MEETING_TARGETS);
         assertThat(testAppraisal.getCompanyPolicy()).isEqualTo(DEFAULT_COMPANY_POLICY);
         assertThat(testAppraisal.getCodeQuality()).isEqualTo(DEFAULT_CODE_QUALITY);
+        assertThat(testAppraisal.getDate()).isEqualTo(DEFAULT_DATE);
     }
 
     @Test
@@ -150,7 +158,8 @@ public class AppraisalResourceIT {
             .andExpect(jsonPath("$.[*].punctuality").value(hasItem(DEFAULT_PUNCTUALITY.intValue())))
             .andExpect(jsonPath("$.[*].meetingTargets").value(hasItem(DEFAULT_MEETING_TARGETS.intValue())))
             .andExpect(jsonPath("$.[*].companyPolicy").value(hasItem(DEFAULT_COMPANY_POLICY.intValue())))
-            .andExpect(jsonPath("$.[*].codeQuality").value(hasItem(DEFAULT_CODE_QUALITY.intValue())));
+            .andExpect(jsonPath("$.[*].codeQuality").value(hasItem(DEFAULT_CODE_QUALITY.intValue())))
+            .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())));
     }
     
     @Test
@@ -168,7 +177,8 @@ public class AppraisalResourceIT {
             .andExpect(jsonPath("$.punctuality").value(DEFAULT_PUNCTUALITY.intValue()))
             .andExpect(jsonPath("$.meetingTargets").value(DEFAULT_MEETING_TARGETS.intValue()))
             .andExpect(jsonPath("$.companyPolicy").value(DEFAULT_COMPANY_POLICY.intValue()))
-            .andExpect(jsonPath("$.codeQuality").value(DEFAULT_CODE_QUALITY.intValue()));
+            .andExpect(jsonPath("$.codeQuality").value(DEFAULT_CODE_QUALITY.intValue()))
+            .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()));
     }
 
     @Test
@@ -196,7 +206,8 @@ public class AppraisalResourceIT {
             .punctuality(UPDATED_PUNCTUALITY)
             .meetingTargets(UPDATED_MEETING_TARGETS)
             .companyPolicy(UPDATED_COMPANY_POLICY)
-            .codeQuality(UPDATED_CODE_QUALITY);
+            .codeQuality(UPDATED_CODE_QUALITY)
+            .date(UPDATED_DATE);
 
         restAppraisalMockMvc.perform(put("/api/appraisals").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
@@ -212,6 +223,7 @@ public class AppraisalResourceIT {
         assertThat(testAppraisal.getMeetingTargets()).isEqualTo(UPDATED_MEETING_TARGETS);
         assertThat(testAppraisal.getCompanyPolicy()).isEqualTo(UPDATED_COMPANY_POLICY);
         assertThat(testAppraisal.getCodeQuality()).isEqualTo(UPDATED_CODE_QUALITY);
+        assertThat(testAppraisal.getDate()).isEqualTo(UPDATED_DATE);
     }
 
     @Test

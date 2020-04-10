@@ -70,10 +70,7 @@
         {
             "relationshipName": "appraisal",
             "otherEntityName": "appraisal",
-            "relationshipType": "one-to-one",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "useJPADerivedIdentifier": true,
+            "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "userExtra"
         }
     ],
