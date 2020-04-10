@@ -73,19 +73,22 @@
    						 <option th:value="ROLE_ADMIN" th:text="Admin"></option>
 
                     </select><br><br>
-                   
-               		<br> <button onclick="sweetalertclick() type="button" class="btn btn-success" ">Save</button>
-
+                    		<div id="alert" class="alert">
+						  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+						  User added Successfully!! 
+						</div>				                   						                     
+               		<br> <button type="button" class="btn btn-success" onclick="userAdd()">Save</button>
+						 
                 </form>
             </div>
         </div>
     </div>
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
     <script >
-    function sweetalertclick()
-    {
-    	Swall("Added successfully!")
-    }
+   function userAdd()
+   {
+	   document.getElementById('alert').style.display = "block";
+   }
     </script>
 </body>
 </html>
