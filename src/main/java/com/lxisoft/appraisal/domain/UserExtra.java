@@ -64,10 +64,9 @@ public class UserExtra implements Serializable {
     @OneToMany(mappedBy = "userExtra")
     private Set<Leave> leaves = new HashSet<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
 
-    @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "appraisal", referencedColumnName = "userExtra")
     private Appraisal appraisal;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

@@ -35,8 +35,7 @@ public class Appraisal implements Serializable {
     @Column(name = "code_quality")
     private Long codeQuality;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_extra_id")
+    @OneToOne(mappedBy = "appraisal")    
     @JsonIgnore
     private UserExtra userExtra;
 
