@@ -3,11 +3,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tree" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f6e4db4-9f8f-4ffe-9759-6e1fd142f492">
 	<property name="template.type" value="columnar"/>
 	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[YXBwcmFpc2FsLmpoaV9sZWF2ZSAsMTUsMjAxLGUyYjZjMTg4LTQ0MmItNDJjZS04ZTk4LTU5MDYw
-YzBiM2YxNTthcHByYWlzYWwuamhpX3VzZXIgLDE4NSwxNSwzYWY3NGJhMi0xNWM2LTQ2MjQtODZi
-My04OTU4ZDQwYzUyNGI7]]>
+		<![CDATA[YXBwcmFpc2FsLmFwcHJhaXNhbCAsMTUsMTUsMGE3M2M0MjktYWQyNS00ZTk0LWFlMTAtYzRkZjg1
+OTYwZDNlOw==]]>
 	</property>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Appraial Data Adapter "/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (4)"/>
 	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
@@ -19,39 +18,52 @@ My04OTU4ZDQwYzUyNGI7]]>
 		</conditionalStyle>
 	</style>
 	<queryString language="SQL">
-		<![CDATA[SELECT appraisal.jhi_user.last_name,
-	appraisal.jhi_user.first_name,
-	appraisal.jhi_user.email
-FROM appraisal.jhi_user
-	INNER JOIN appraisal.jhi_leave ON 
-	 appraisal.jhi_leave.id = appraisal.jhi_user.id]]>
+		<![CDATA[SELECT *
+FROM appraisal.appraisal]]>
 	</queryString>
-	<field name="last_name" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="last_name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
+	<field name="id" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
 	</field>
-	<field name="first_name" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="first_name"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
+	<field name="attendance" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="attendance"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
 	</field>
-	<field name="email" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="email"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
+	<field name="punctuality" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="punctuality"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
 	</field>
-	<variable name="first_name1" class="java.lang.Integer" resetType="Group" resetGroup="Group2" calculation="DistinctCount">
-		<variableExpression><![CDATA[$F{first_name}]]></variableExpression>
-	</variable>
-	<variable name="last_name1" class="java.lang.Integer" resetType="Group" resetGroup="Group1" calculation="Count">
-		<variableExpression><![CDATA[$F{last_name}]]></variableExpression>
-	</variable>
+	<field name="meeting_targets" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="meeting_targets"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+	</field>
+	<field name="company_policy" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="company_policy"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+	</field>
+	<field name="code_quality" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="code_quality"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+	</field>
 	<group name="Group1">
-		<groupExpression><![CDATA[$F{last_name}]]></groupExpression>
+		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
-			<band height="55">
-				<textField>
-					<reportElement x="240" y="25" width="100" height="30" uuid="43ee75c4-7c11-414c-82c4-fdd1fc9998d4"/>
-					<textFieldExpression><![CDATA[$F{last_name}]]></textFieldExpression>
-				</textField>
+			<band height="31">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#9DB1B8" uuid="d8de62c1-c7b7-4da8-8c69-000abeaa2cc0"/>
+					<textField>
+						<reportElement x="28" y="3" width="100" height="30" uuid="8b610624-6100-4afa-b6a2-f0cdd16c2b3e"/>
+						<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="177" y="8" width="100" height="30" uuid="8fb285d3-e934-470e-a3fd-84dc76fde7b1"/>
+						<textFieldExpression><![CDATA[$F{attendance}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="372" y="12" width="100" height="30" uuid="8a44399b-97d4-4d17-b979-85e022567af2"/>
+						<textFieldExpression><![CDATA[$F{punctuality}]]></textFieldExpression>
+					</textField>
+				</frame>
 			</band>
 		</groupHeader>
 		<groupFooter>
@@ -59,19 +71,22 @@ FROM appraisal.jhi_user
 		</groupFooter>
 	</group>
 	<group name="Group2">
-		<groupExpression><![CDATA[$F{first_name}]]></groupExpression>
+		<groupExpression><![CDATA[$F{attendance}]]></groupExpression>
 		<groupHeader>
-			<band height="48">
-				<textField>
-					<reportElement x="234" y="18" width="100" height="30" uuid="a593aa00-e813-4321-b948-130247a0bbec"/>
-					<textFieldExpression><![CDATA[$F{first_name}]]></textFieldExpression>
-				</textField>
-				<textField>
-					<reportElement x="417" y="12" width="100" height="30" uuid="8a8a2995-d459-4847-9b3e-20d2968937ed"/>
-					<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
-				</textField>
-			</band>
+			<band height="24"/>
 		</groupHeader>
+	</group>
+	<group name="punctuality">
+		<groupExpression><![CDATA[$F{punctuality}]]></groupExpression>
+	</group>
+	<group name="meeting_targets">
+		<groupExpression><![CDATA[$F{meeting_targets}]]></groupExpression>
+	</group>
+	<group name="company_policy">
+		<groupExpression><![CDATA[$F{company_policy}]]></groupExpression>
+	</group>
+	<group name="code_quality">
+		<groupExpression><![CDATA[$F{code_quality}]]></groupExpression>
 	</group>
 	<background>
 		<band splitType="Stretch"/>
@@ -98,7 +113,7 @@ FROM appraisal.jhi_user
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="91" splitType="Stretch">
+		<band height="92" splitType="Stretch">
 			<image>
 				<reportElement x="2" y="0" width="56" height="80" uuid="a0221c49-fb14-4d48-97e4-11333b968c72"/>
 				<imageExpression><![CDATA["tree2.png"]]></imageExpression>
@@ -106,6 +121,18 @@ FROM appraisal.jhi_user
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="2" y="90" width="551" height="1" uuid="5e41185f-9c90-45ca-839b-e28b308c1430"/>
 			</line>
+			<textField>
+				<reportElement x="125" y="39" width="100" height="30" uuid="89eb1d07-a2f7-4999-a5b7-7b76bd7efe98"/>
+				<textFieldExpression><![CDATA[$F{meeting_targets}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="267" y="14" width="100" height="30" uuid="850e08ab-bab2-44c2-92fe-905c5828a0fe"/>
+				<textFieldExpression><![CDATA[$F{company_policy}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="384" y="62" width="100" height="30" uuid="604b1274-c3b0-4d6a-a7f8-407c504a52d8"/>
+				<textFieldExpression><![CDATA[$F{code_quality}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

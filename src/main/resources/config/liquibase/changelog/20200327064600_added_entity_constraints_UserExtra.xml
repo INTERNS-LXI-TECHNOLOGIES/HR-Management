@@ -14,11 +14,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 
-        <addForeignKeyConstraint baseColumnNames="id"
-                                 baseTableName="user_extra"
-                                 constraintName="fk_user_extra_appraisal_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="appraisal"/>
-
     </changeSet>
 </databaseChangeLog>

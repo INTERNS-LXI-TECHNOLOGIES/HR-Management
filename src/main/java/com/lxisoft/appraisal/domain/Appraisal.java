@@ -35,7 +35,8 @@ public class Appraisal implements Serializable {
     @Column(name = "code_quality")
     private Long codeQuality;
 
-    @OneToOne(mappedBy = "appraisal")    
+    
+    @Column(name = "appraisal")
     @JsonIgnore
     private UserExtra userExtra;
 

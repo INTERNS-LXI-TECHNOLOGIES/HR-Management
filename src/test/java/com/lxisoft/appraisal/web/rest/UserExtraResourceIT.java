@@ -3,7 +3,6 @@ package com.lxisoft.appraisal.web.rest;
 import com.lxisoft.appraisal.AppraisalApp;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.domain.User;
-import com.lxisoft.appraisal.domain.Appraisal;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
 import com.lxisoft.appraisal.repository.UserRepository;
 
@@ -90,16 +89,6 @@ public class UserExtraResourceIT {
         em.persist(user);
         em.flush();
         userExtra.setUser(user);
-        // Add required entity
-        Appraisal appraisal;
-        if (TestUtil.findAll(em, Appraisal.class).isEmpty()) {
-            appraisal = AppraisalResourceIT.createEntity(em);
-            em.persist(appraisal);
-            em.flush();
-        } else {
-            appraisal = TestUtil.findAll(em, Appraisal.class).get(0);
-        }
-        userExtra.setAppraisal(appraisal);
         return userExtra;
     }
     /**
@@ -122,16 +111,6 @@ public class UserExtraResourceIT {
         em.persist(user);
         em.flush();
         userExtra.setUser(user);
-        // Add required entity
-        Appraisal appraisal;
-        if (TestUtil.findAll(em, Appraisal.class).isEmpty()) {
-            appraisal = AppraisalResourceIT.createUpdatedEntity(em);
-            em.persist(appraisal);
-            em.flush();
-        } else {
-            appraisal = TestUtil.findAll(em, Appraisal.class).get(0);
-        }
-        userExtra.setAppraisal(appraisal);
         return userExtra;
     }
 
