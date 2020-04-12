@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lxisoft.appraisal.domain.UserDataBean;
+import com.lxisoft.appraisal.jasper.UserDataBeanList;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -24,6 +25,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 @Transactional
@@ -37,7 +39,9 @@ public class JasperService {
 		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/Tree.jrxml");
 		
 		//preparing parameteres
-		Map <String,Object> parameters=new HashMap<String,Object>();
+		Map parameters=new HashMap();
+		parameters.put("Report Heading","This is the title of the report");
+		parameters.put("id_ap","2");
 		Connection con=null;
 		try {
 			con=dataSource.getConnection();
@@ -49,14 +53,15 @@ public class JasperService {
 		return JasperExportManager.exportReportToPdf(jp);
 		
 	}
-	public static List getUserDataBeanList()
+	
+	public byte[] getReportAsPdfUsingJavaBeans()throws JRException
 	{
-		List<UserDataBean> dataBeanList=new ArrayList<UserDataBean>();
-		dataBeanList.add(new UserDataBean("ajith","kp","lxisoft"));
-		dataBeanList.add(new UserDataBean("push","pu","lxisof\t"));
-		dataBeanList.add(new UserDataBean("abhi","jith","lxist"));
-		dataBeanList.add(new UserDataBean("mehar","thatha","lxi"));
-		return dataBeanList;
+		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/TreeBean.jrxml");
+		JRBeanCollectionDataSource collectionDataSource=new JRBeanCollectionDataSource(UserDataBeanList.
+				getUserDataBeanList());
+		Map < String , Object > parameters = new HashMap < String ,	Object >();
+		JasperPrint jp=JasperFillManager.fillReport(jr,parameters,collectionDataSource);
+		return JasperExportManager.exportReportToPdf(jp);
+		
 	}
-
 }

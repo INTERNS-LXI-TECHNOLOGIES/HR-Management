@@ -690,7 +690,7 @@ public class ControllerResource {
 //		System.out.println(attendance+"  "+punctuality+ " "+punctuality+"  "+companyPolicy+" "+codeQuality);
 		return "AppraisalReport";
 	}
-	@RequestMapping("/pdf")
+	@GetMapping("/pdf")
 	public ResponseEntity<byte[]>  getPdf()
 	{
 		byte[] pdfContents=null;
@@ -707,6 +707,22 @@ public class ControllerResource {
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
 	}
-	
+	@GetMapping("/report")
+	public ResponseEntity<byte[]> report()
+	{
+		byte[] pdfContents=null;
+		try {
+			pdfContents=jasperService.getReportAsPdfUsingJavaBeans();
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		HttpHeaders headers=new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		String fileName="Appraisal.pdf";
+		headers.add("content dis-position","attachment: filename="+fileName);
+		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
+		return response;
+	}
 	
 }
