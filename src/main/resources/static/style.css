@@ -105,6 +105,7 @@ body {
 						
 		/* The alert message box */
 .alert {
+  display: none;
   padding: 20px;
   background-color: #FEFF00; /*yellow */
   color: black;
