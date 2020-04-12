@@ -40,14 +40,23 @@
 			<input value="Authorized"  name="subject" class="auth" type="checkbox">Authorized
    			<input value="NonAuthorized" name="subject" class="auth" type="checkbox">Non Authorized 
 		</div>
-            <button class="btn btn-primary" type="submit">Update</button><br><br>
+		<div id="alert" class="alert">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+						 LateArrival updated  
+		</div>	
+            <button class="btn btn-primary" type="submit" onclick="userLate()">Update</button><br><br>
         </form>
         
         <button class="btn btn-primary" onclick="window.location.href='status'" >Exit</button>
 	</div>
 	</div>
 	</div>
-
+	<script >
+	 function userLate()
+	   {
+		   document.getElementById('alert').style.display = "block";
+	   }
+	</script>
 </body>
 </html>
 
