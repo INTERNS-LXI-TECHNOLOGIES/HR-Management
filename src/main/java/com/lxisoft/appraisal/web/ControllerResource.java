@@ -56,6 +56,7 @@ import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
+import com.lxisoft.appraisal.service.AppraisalService;
 import com.lxisoft.appraisal.service.GitService;
 import com.lxisoft.appraisal.service.HackathonService;
 import com.lxisoft.appraisal.service.JasperService;
@@ -88,6 +89,8 @@ public class ControllerResource {
 	AuthorityRepository authorityRepository;
 	@Autowired
 	JasperService jasperService;
+	@Autowired
+	AppraisalService appraisalService;
 	
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
@@ -710,6 +713,8 @@ public class ControllerResource {
 	@GetMapping("/report")
 	public ResponseEntity<byte[]> report()
 	{
+		appraisalService.setDetails();
+		System.out.println("asdfghjkl,,,,,,,,,,,,,,,,,,,,"+appraisalService.getDetails());
 		byte[] pdfContents=null;
 		try {
 			pdfContents=jasperService.getReportAsPdfUsingJavaBeans();

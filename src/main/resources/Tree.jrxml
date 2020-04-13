@@ -2,11 +2,8 @@
 <!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tree" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f6e4db4-9f8f-4ffe-9759-6e1fd142f492">
 	<property name="template.type" value="columnar"/>
-	<property name="com.jaspersoft.studio.data.sql.tables">
-		<![CDATA[YXBwcmFpc2FsLmFwcHJhaXNhbCAsMTUsMTUsOTgzOWIyZDYtMjliOS00M2UzLThkNDEtN2VhOGNk
-M2I1ZDA3Ow==]]>
-	</property>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (4)"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (7)"/>
 	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
@@ -17,13 +14,10 @@ M2I1ZDA3Ow==]]>
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
-	<parameter name="Report Heading" class="java.lang.String"/>
-	<parameter name="id_ap" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT *
-FROM appraisal.appraisal
-WHERE 
-appraisal.appraisal.id = $P!{id_ap}]]>
+		<![CDATA[SELECT appraisal.appraisal.id,
+	appraisal.appraisal.attendance
+FROM appraisal.appraisal]]>
 	</queryString>
 	<field name="id" class="java.lang.Long">
 		<property name="com.jaspersoft.studio.field.label" value="id"/>
@@ -33,28 +27,19 @@ appraisal.appraisal.id = $P!{id_ap}]]>
 		<property name="com.jaspersoft.studio.field.label" value="attendance"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
 	</field>
-	<field name="punctuality" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="punctuality"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
-	</field>
-	<field name="meeting_targets" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="meeting_targets"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
-	</field>
-	<field name="company_policy" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="company_policy"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
-	</field>
-	<field name="code_quality" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="code_quality"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
-	</field>
 	<group name="Group1">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
 			<band height="31">
 				<frame>
 					<reportElement mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#9DB1B8" uuid="d8de62c1-c7b7-4da8-8c69-000abeaa2cc0"/>
+					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+						<reportElement style="SubTitle" isPrintRepeatedValues="false" x="2" y="1" width="479" height="23" forecolor="#FFFFFF" uuid="25f707ae-9ac7-48d3-b45f-b14ee85fae9a"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+					</textField>
 				</frame>
 			</band>
 		</groupHeader>
@@ -65,7 +50,15 @@ appraisal.appraisal.id = $P!{id_ap}]]>
 	<group name="Group2">
 		<groupExpression><![CDATA[$F{attendance}]]></groupExpression>
 		<groupHeader>
-			<band height="24"/>
+			<band height="24">
+				<textField isBlankWhenNull="true">
+					<reportElement positionType="Float" x="0" y="4" width="299" height="20" forecolor="#000000" uuid="4f894c7b-ac0a-463e-9e33-7d2560baa292"/>
+					<textElement>
+						<font fontName="Times New Roman" size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{attendance}]]></textFieldExpression>
+				</textField>
+			</band>
 		</groupHeader>
 	</group>
 	<group name="punctuality">
@@ -84,17 +77,25 @@ appraisal.appraisal.id = $P!{id_ap}]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="137" splitType="Stretch">
+		<band height="132" splitType="Stretch">
 			<image>
 				<reportElement x="2" y="0" width="118" height="132" uuid="d47168ce-aae1-4efc-8d24-e15195025a5a"/>
 				<imageExpression><![CDATA["tree1.png"]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="220" y="40" width="280" height="70" uuid="bd63e746-9fc7-4209-ae17-fa91b38fc793">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textFieldExpression><![CDATA[$P{Report Heading}]]></textFieldExpression>
-			</textField>
+			<staticText>
+				<reportElement style="Title" x="120" y="10" width="435" height="93" uuid="f49d68fd-a2c7-44ec-a5fc-9300d10c85a1"/>
+				<textElement>
+					<font size="80" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Tree Title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="336" y="103" width="217" height="29" uuid="eef58983-008d-4a5b-8e47-97f8d4670c7a"/>
+				<textElement>
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Tree SubTitle]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -104,7 +105,7 @@ appraisal.appraisal.id = $P!{id_ap}]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="92" splitType="Stretch">
+		<band height="91" splitType="Stretch">
 			<image>
 				<reportElement x="2" y="0" width="56" height="80" uuid="a0221c49-fb14-4d48-97e4-11333b968c72"/>
 				<imageExpression><![CDATA["tree2.png"]]></imageExpression>
