@@ -61,18 +61,6 @@ FROM appraisal.appraisal]]>
 			</band>
 		</groupHeader>
 	</group>
-	<group name="punctuality">
-		<groupExpression><![CDATA[$F{punctuality}]]></groupExpression>
-	</group>
-	<group name="meeting_targets">
-		<groupExpression><![CDATA[$F{meeting_targets}]]></groupExpression>
-	</group>
-	<group name="company_policy">
-		<groupExpression><![CDATA[$F{company_policy}]]></groupExpression>
-	</group>
-	<group name="code_quality">
-		<groupExpression><![CDATA[$F{code_quality}]]></groupExpression>
-	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
