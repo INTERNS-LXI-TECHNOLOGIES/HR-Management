@@ -2,16 +2,21 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Appraisal</title>
 </head>
 <body>
 Appraisal Report
 <br>
 
-	attendance  <span th:text="${attendance}"></span><br>
-	punctuality  <span th:text="${punctuality}"></span><br> 
-	meetingTargets  <span th:text="${meetingTargets}"></span><br>
-	companyPolicy  <span th:text="${companyPolicy}"></span><br>
-	codeQuality  <span th:text="${codeQuality}"></span><br>
+	attendance  <span th:text="${object.attendance}"></span><br>
+	punctuality  <span th:text="${object.punctuality}"></span><br> 
+	meetingTargets  <span th:text="${object.meetingTargets}"></span><br>
+	companyPolicy  <span th:text="${object.companyPolicy}"></span><br>
+	codeQuality  <span th:text="${object.codeQuality}"></span><br>
+	<br>
+	<form th:action="@{getPdf}" >
+	<input type="hidden" name="id" th:value=${id}>
+	<input type="submit" value="get pdf">
+	</form>
 </body>
 </html>

@@ -40,7 +40,7 @@ public class JasperService {
 		
 		//preparing parameteres
 		Map parameters=new HashMap();
-//		parameters.put("Report Heading","This is the title of the report");
+		parameters.put("head","Appraisal report");
 		parameters.put("id",id);
 		Connection con=null;
 		try {

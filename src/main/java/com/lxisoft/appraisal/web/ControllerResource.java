@@ -669,10 +669,11 @@ public class ControllerResource {
 	@RequestMapping("/getAppraisalResult")
 	public ModelAndView getAppraisalResult(@RequestParam long id)
 	{
-		ModelAndView mv=new ModelAndView("redirect:/getPdf");
-		System.out.println("id:::::::::: "+id);
+		ModelAndView mv=new ModelAndView("AppraisalReport");
+//		System.out.println("id:::::::::: "+id);
 		appraisalService.setAppraisal(id);
 		mv.addObject("id",id);
+		mv.addObject("object",appraisalService.getOneAppraisal(id));
 		
 		
 		return mv;

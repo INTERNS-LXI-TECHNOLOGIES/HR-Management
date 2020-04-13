@@ -36,6 +36,10 @@ public class AppraisalService {
 		appRepo.save(appraisal);
 		
 	}
+	public Appraisal getOneAppraisal(long id)
+	{
+		return (appRepo.getOneByUserExtraId(service.findExtraByid(id).get())).get(0);
+	}
 	
 
 }
