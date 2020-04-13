@@ -665,39 +665,25 @@ public class ControllerResource {
 		
 		return "redirect:/"; 
 	}
-	@RequestMapping("/appraisalResult")
-	public String appraisalResult(@RequestParam long id, Model model)
-	{
-		return "Appraisal";
-	}
+	
 	@RequestMapping("/getAppraisalResult")
-	public String getAppraisalResult(@RequestParam long id, Model model)
+	public ModelAndView getAppraisalResult(@RequestParam long id)
 	{
-		long attendance=userService.getAttendance(id);
+		ModelAndView mv=new ModelAndView("redirect:/getPdf");
+		System.out.println("id:::::::::: "+id);
+		appraisalService.setAppraisal(id);
+		mv.addObject("id",id);
 		
-		long punctuality=userService.getPunctuality(id);
 		
-		long meetingTargets=userService.getTargets(id);
-		
-		long companyPolicy=userService.getcompanyPolicy(id);
-		
-		long codeQuality=userService.getCodeQuality(id);
-		
-		model.addAttribute("attendance",attendance);
-		model.addAttribute("punctuality",punctuality);
-		model.addAttribute("meetingTargets",meetingTargets);
-		model.addAttribute("companyPolicy",companyPolicy);
-		model.addAttribute("codeQuality",codeQuality);
-		
-//		System.out.println(attendance+"  "+punctuality+ " "+punctuality+"  "+companyPolicy+" "+codeQuality);
-		return "AppraisalReport";
+		return mv;
 	}
-	@GetMapping("/pdf")
-	public ResponseEntity<byte[]>  getPdf()
+	@GetMapping("/getPdf")
+	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id)
 	{
+//		long i=Long.parseLong(id);
 		byte[] pdfContents=null;
 		try {
-			pdfContents=jasperService.getReportAsPdfUsingDatabase();
+			pdfContents=jasperService.getReportAsPdfUsingDatabase(id);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -712,8 +698,8 @@ public class ControllerResource {
 	@GetMapping("/report")
 	public ResponseEntity<byte[]> report()
 	{
-		appraisalService.setDetails();
-		System.out.println("asdfghjkl,,,,,,,,,,,,,,,,,,,,"+appraisalService.getDetails());
+		
+		
 		byte[] pdfContents=null;
 		try {
 			pdfContents=jasperService.getReportAsPdfUsingJavaBeans();

@@ -34,14 +34,14 @@ public class JasperService {
 	@Autowired
 	DataSource dataSource;
 	
-	public byte[] getReportAsPdfUsingDatabase()throws JRException
+	public byte[] getReportAsPdfUsingDatabase(long id)throws JRException
 	{
-		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/Tree.jrxml");
+		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/appraisal.jrxml");
 		
 		//preparing parameteres
 		Map parameters=new HashMap();
 //		parameters.put("Report Heading","This is the title of the report");
-//		parameters.put("id_ap","2");
+		parameters.put("id",id);
 		Connection con=null;
 		try {
 			con=dataSource.getConnection();
