@@ -61,7 +61,23 @@ public class Appraisal implements Serializable {
         return this;
     }
 
-    public void setAttendance(Long attendance) {
+    public Appraisal() {
+		super();
+	}
+
+	public Appraisal(Long attendance, Long punctuality, Long meetingTargets, Long companyPolicy,
+			Long codeQuality) {
+		super();
+//		this.id = id;
+		this.attendance = attendance;
+		this.punctuality = punctuality;
+		this.meetingTargets = meetingTargets;
+		this.companyPolicy = companyPolicy;
+		this.codeQuality = codeQuality;
+		
+	}
+
+	public void setAttendance(Long attendance) {
         this.attendance = attendance;
     }
 

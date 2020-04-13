@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tree" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f6e4db4-9f8f-4ffe-9759-6e1fd142f492">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TreeBean" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f6e4db4-9f8f-4ffe-9759-6e1fd142f492">
 	<property name="template.type" value="columnar"/>
-	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (7)"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (6)"/>
 	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false"/>
 	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
@@ -14,70 +13,35 @@
 			<style mode="Opaque" backcolor="#F0EFEF"/>
 		</conditionalStyle>
 	</style>
-	<queryString language="SQL">
-		<![CDATA[SELECT appraisal.appraisal.id,
-	appraisal.appraisal.attendance
-FROM appraisal.appraisal]]>
+	<queryString>
+		<![CDATA[]]>
 	</queryString>
+	<field name="codeQuality" class="java.lang.Long">
+		<fieldDescription><![CDATA[codeQuality]]></fieldDescription>
+	</field>
+	<field name="punctuality" class="java.lang.Long">
+		<fieldDescription><![CDATA[punctuality]]></fieldDescription>
+	</field>
+	<field name="meetingTargets" class="java.lang.Long">
+		<fieldDescription><![CDATA[meetingTargets]]></fieldDescription>
+	</field>
+	<field name="companyPolicy" class="java.lang.Long">
+		<fieldDescription><![CDATA[companyPolicy]]></fieldDescription>
+	</field>
 	<field name="id" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="id"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
 	</field>
 	<field name="attendance" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="attendance"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+		<fieldDescription><![CDATA[attendance]]></fieldDescription>
 	</field>
-	<group name="Group1">
-		<groupExpression><![CDATA[$F{id}]]></groupExpression>
-		<groupHeader>
-			<band height="31">
-				<frame>
-					<reportElement mode="Opaque" x="0" y="7" width="555" height="24" forecolor="#B89F7D" backcolor="#9DB1B8" uuid="d8de62c1-c7b7-4da8-8c69-000abeaa2cc0"/>
-					<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-						<reportElement style="SubTitle" isPrintRepeatedValues="false" x="2" y="1" width="479" height="23" forecolor="#FFFFFF" uuid="25f707ae-9ac7-48d3-b45f-b14ee85fae9a"/>
-						<textElement>
-							<font isBold="false"/>
-						</textElement>
-						<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
-					</textField>
-				</frame>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band height="6"/>
-		</groupFooter>
-	</group>
-	<group name="Group2">
-		<groupExpression><![CDATA[$F{attendance}]]></groupExpression>
-		<groupHeader>
-			<band height="24">
-				<textField isBlankWhenNull="true">
-					<reportElement positionType="Float" x="0" y="4" width="299" height="20" forecolor="#000000" uuid="4f894c7b-ac0a-463e-9e33-7d2560baa292"/>
-					<textElement>
-						<font fontName="Times New Roman" size="16" isBold="false"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{attendance}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupHeader>
-	</group>
-	<group name="punctuality">
-		<groupExpression><![CDATA[$F{punctuality}]]></groupExpression>
-	</group>
-	<group name="meeting_targets">
-		<groupExpression><![CDATA[$F{meeting_targets}]]></groupExpression>
-	</group>
-	<group name="company_policy">
-		<groupExpression><![CDATA[$F{company_policy}]]></groupExpression>
-	</group>
-	<group name="code_quality">
-		<groupExpression><![CDATA[$F{code_quality}]]></groupExpression>
-	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="132" splitType="Stretch">
+		<band height="137" splitType="Stretch">
 			<image>
 				<reportElement x="2" y="0" width="118" height="132" uuid="d47168ce-aae1-4efc-8d24-e15195025a5a"/>
 				<imageExpression><![CDATA["tree1.png"]]></imageExpression>
@@ -96,6 +60,18 @@ FROM appraisal.appraisal]]>
 				</textElement>
 				<text><![CDATA[Tree SubTitle]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="156" y="99" width="100" height="30" uuid="11fad8f0-51d0-4b38-b61f-60851e58e500"/>
+				<textFieldExpression><![CDATA[$F{codeQuality}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="312" y="107" width="100" height="30" uuid="b9f00977-f7a1-4b6c-bb19-8cad352a81c9"/>
+				<textFieldExpression><![CDATA[$F{punctuality}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="497" y="107" width="100" height="30" uuid="389362c0-653f-4d74-ac87-f34827b32738"/>
+				<textFieldExpression><![CDATA[$F{meetingTargets}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

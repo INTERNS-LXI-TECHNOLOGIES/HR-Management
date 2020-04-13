@@ -56,6 +56,7 @@ import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
+import com.lxisoft.appraisal.service.AppraisalService;
 import com.lxisoft.appraisal.service.GitService;
 import com.lxisoft.appraisal.service.HackathonService;
 import com.lxisoft.appraisal.service.JasperService;
@@ -88,6 +89,8 @@ public class ControllerResource {
 	AuthorityRepository authorityRepository;
 	@Autowired
 	JasperService jasperService;
+	@Autowired
+	AppraisalService appraisalService;
 	
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
@@ -689,7 +692,7 @@ public class ControllerResource {
 //		System.out.println(attendance+"  "+punctuality+ " "+punctuality+"  "+companyPolicy+" "+codeQuality);
 		return "AppraisalReport";
 	}
-	@RequestMapping("/pdf")
+	@GetMapping("/pdf")
 	public ResponseEntity<byte[]>  getPdf()
 	{
 		byte[] pdfContents=null;
@@ -706,6 +709,24 @@ public class ControllerResource {
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
 	}
-	
+	@GetMapping("/report")
+	public ResponseEntity<byte[]> report()
+	{
+		appraisalService.setDetails();
+		System.out.println("asdfghjkl,,,,,,,,,,,,,,,,,,,,"+appraisalService.getDetails());
+		byte[] pdfContents=null;
+		try {
+			pdfContents=jasperService.getReportAsPdfUsingJavaBeans();
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		HttpHeaders headers=new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		String fileName="Appraisal.pdf";
+		headers.add("content dis-position","attachment: filename="+fileName);
+		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
+		return response;
+	}
 	
 }

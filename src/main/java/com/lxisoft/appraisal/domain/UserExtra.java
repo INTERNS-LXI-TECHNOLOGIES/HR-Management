@@ -64,6 +64,7 @@ public class UserExtra implements Serializable {
     @OneToMany(mappedBy = "userExtra")
     private Set<Leave> leaves = new HashSet<>();
 
+
     @OneToMany(mappedBy = "userExtra")
     private Set<Appraisal> appraisals = new HashSet<>();
 
@@ -305,6 +306,7 @@ public class UserExtra implements Serializable {
         this.leaves = leaves;
     }
 
+
     public Set<Appraisal> getAppraisals() {
         return appraisals;
     }
@@ -329,6 +331,7 @@ public class UserExtra implements Serializable {
     public void setAppraisals(Set<Appraisal> appraisals) {
         this.appraisals = appraisals;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
