@@ -20,8 +20,7 @@ public class Leave implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    
+
     @Column(name = "date")
     private LocalDate date;
 
@@ -29,7 +28,6 @@ public class Leave implements Serializable {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name="user_extra_id")
     @JsonIgnoreProperties("leaves")
     private UserExtra userExtra;
 

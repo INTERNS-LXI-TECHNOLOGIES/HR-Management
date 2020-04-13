@@ -28,7 +28,6 @@ public class ReportStatus implements Serializable {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name="user_extra_id")
     @JsonIgnoreProperties("reportStatuses")
     private UserExtra userExtra;
 

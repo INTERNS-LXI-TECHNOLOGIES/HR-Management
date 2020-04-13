@@ -5,8 +5,8 @@
         {
             "relationshipName": "userExtra",
             "otherEntityName": "userExtra",
-            "relationshipType": "one-to-one",
-            "ownerSide": false,
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id",
             "otherEntityRelationshipName": "appraisal"
         }
     ],
@@ -30,6 +30,10 @@
         {
             "fieldName": "codeQuality",
             "fieldType": "Long"
+        },
+        {
+            "fieldName": "date",
+            "fieldType": "LocalDate"
         }
     ],
     "changelogDate": "20200409033827",

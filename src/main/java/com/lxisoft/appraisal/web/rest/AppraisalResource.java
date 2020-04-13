@@ -17,8 +17,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * REST controller for managing {@link com.lxisoft.appraisal.domain.Appraisal}.
@@ -84,18 +82,10 @@ public class AppraisalResource {
     /**
      * {@code GET  /appraisals} : get all the appraisals.
      *
-     * @param filter the filter of the request.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of appraisals in body.
      */
     @GetMapping("/appraisals")
-    public List<Appraisal> getAllAppraisals(@RequestParam(required = false) String filter) {
-        if ("userextra-is-null".equals(filter)) {
-            log.debug("REST request to get all Appraisals where userExtra is null");
-            return StreamSupport
-                .stream(appraisalRepository.findAll().spliterator(), false)
-                .filter(appraisal -> appraisal.getUserExtra() == null)
-                .collect(Collectors.toList());
-        }
+    public List<Appraisal> getAllAppraisals() {
         log.debug("REST request to get all Appraisals");
         return appraisalRepository.findAll();
     }

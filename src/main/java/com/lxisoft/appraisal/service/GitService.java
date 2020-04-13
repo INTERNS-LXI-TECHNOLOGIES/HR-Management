@@ -25,7 +25,6 @@ public class GitService {
 	
 	public  List<Git> findGit(Long userex)
 	{
-
 		List<Git> git =gitRepo.findByUserExtraId(userex);
 		 
 		 return git;

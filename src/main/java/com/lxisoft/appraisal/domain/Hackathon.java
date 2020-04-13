@@ -28,7 +28,6 @@ public class Hackathon implements Serializable {
     private Long mark;
 
     @ManyToOne
-    @JoinColumn(name="user_extra_id")
     @JsonIgnoreProperties("hackathons")
     private UserExtra userExtra;
 

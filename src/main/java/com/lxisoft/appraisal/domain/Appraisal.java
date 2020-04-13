@@ -1,11 +1,12 @@
 package com.lxisoft.appraisal.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.time.LocalDate;
 
 /**
  * A Appraisal.
@@ -35,9 +36,11 @@ public class Appraisal implements Serializable {
     @Column(name = "code_quality")
     private Long codeQuality;
 
-    
-    @Column(name = "appraisal")
-    @JsonIgnore
+    @Column(name = "date")
+    private LocalDate date;
+
+    @ManyToOne
+    @JsonIgnoreProperties("appraisals")
     private UserExtra userExtra;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -130,6 +133,19 @@ public class Appraisal implements Serializable {
         this.codeQuality = codeQuality;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public Appraisal date(LocalDate date) {
+        this.date = date;
+        return this;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
     public UserExtra getUserExtra() {
         return userExtra;
     }
@@ -169,6 +185,7 @@ public class Appraisal implements Serializable {
             ", meetingTargets=" + getMeetingTargets() +
             ", companyPolicy=" + getCompanyPolicy() +
             ", codeQuality=" + getCodeQuality() +
+            ", date='" + getDate() + "'" +
             "}";
     }
 }

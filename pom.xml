@@ -314,6 +314,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                 
+            <configuration>
+                <source>${java.version}</source>
+                <target>${java.version}</target>
+                <fork>true</fork>
+                <executable>C:\Program Files\Java\jdk1.8.0_131\bin\javac</executable>
+            </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -786,6 +793,7 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
+                   
                     <executions>
                         <execution>
                             <goals>
@@ -800,6 +808,9 @@
                         Enable the line below to have remote debugging of your application on port 5005
                         <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                         -->
+                        <arguments>
+                        <argument>--spring.profiles.active=dev</argument>
+                     </arguments>
                     </configuration>
 
                 </plugin>
