@@ -422,9 +422,8 @@ public class ControllerResource {
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
-//		Clock cl = Clock.systemUTC(); 
-		 ZoneId zid = ZoneId.of("delhi"); 
-		LocalDate localDate = LocalDate.now(zid);		
+
+		LocalDate localDate = LocalDate.now();		
 		ModelAndView mv= new ModelAndView("redirect:/leave");
 		
 		List<Leave> l=leaveSer.findByDate(localDate);

@@ -2,6 +2,8 @@ package com.lxisoft.appraisal.repository;
 
 import com.lxisoft.appraisal.domain.ReportStatus;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -11,4 +13,5 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface ReportStatusRepository extends JpaRepository<ReportStatus, Long> {
+	List<ReportStatus> findByUserExtraId(Long id);
 }

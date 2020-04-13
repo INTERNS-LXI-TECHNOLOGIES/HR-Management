@@ -28,7 +28,6 @@ public class Git implements Serializable {
     private Long mark;
 
     @ManyToOne
-    @JoinColumn(name="user_extra_id")
     @JsonIgnoreProperties("gits")
     private UserExtra userExtra;
 

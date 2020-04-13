@@ -33,10 +33,10 @@ public class LeaveService {
 
 		 return em;
 	}
-	public List<Leave> findLeavesOfUserBetween(UserExtra userExtra, LocalDate second, LocalDate first) {
-		
-		return leaveRepo.findLeavesOfUserBetween(userExtra, second, first);
-	}
+//	public List<Leave> findLeavesOfUserBetween(UserExtra userExtra, LocalDate second, LocalDate first) {
+//		
+//		return leaveRepo.findLeavesOfUserExtraBetween(userExtra, second, first);
+//	}
 	public List<Leave> findByDate(LocalDate localDate) {
 		
 		return leaveRepo.findAllByDate(localDate);

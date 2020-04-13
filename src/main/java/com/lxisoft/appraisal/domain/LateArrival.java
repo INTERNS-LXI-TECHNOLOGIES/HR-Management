@@ -29,7 +29,6 @@ public class LateArrival implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties("lateArrivals")
-    @JoinColumn(name="user_extra_id")
     private UserExtra userExtra;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

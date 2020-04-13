@@ -2,6 +2,12 @@
 <html xmlns = "http://www.w3.org/1999/xhtml" 
    xmlns:th = "http://www.thymeleaf.org" >
    <head>
+   <meta http-equiv="Content-Security-Policy" content="default-src * 'self';
+   img-src * 'self' data: https:;
+   script-src-elem * 'self' 'unsafe-inline'; 
+   script-src * 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; 
+   object-src 'self';
+   style-src * 'self' 'unsafe-inline' *">
  <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <meta charset="utf-8" />
@@ -11,9 +17,15 @@
 <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="/autocompleteScript.js"></script>
 <script src="/responsiveScript.js"></script>
 <script src="/imageUploadScript.js"></script>
+<script src="/js/userdetail.js"></script>
+<link rel="stylesheet" href="/style.css" type="text/css">
+<link rel="stylesheet" href="/css/userdetail.css" type="text/css">
+
+	
+	<link type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="/style.css" type="text/css">
 </style>
 <title>User Info</title>
@@ -29,117 +41,162 @@
     <i class="fa fa-bars"></i>
   </a>
 </div>
-<div class="container">
-	<div class="row">
-       <div class="col-md-7 ">
-
-<div class="panel panel-default">
-  <div class="panel-heading">  <h4 >User Profile</h4></div>
-   <div class="panel-body">
-       
-    <div class="box box-info">
-        
-            <div class="box-body">
-                     <div class="col-sm-6">
-                     <div  align="center"> <img alt="User Pic" th:src="*{'data:image/jpg;base64,'+ image}" id="profile-image1" 
-                     class="img-circle img-responsive" style="width:300px;height:200px;"> 
-              
-                <!--Upload Image Js And Css-->
-                     
-                     </div>
-              
-              <br>
-              <!-- /input-group -->
-            </div>
-            <div class="col-sm-6">
-             
-            <h4 style="color:#00b1b1;">Name :<span th:text="${employee.FirstName}"  ></span> <span th:text="${employee.LastName}"></h4></span>
-               <span><p>Company :<span th:text="${employee.Company}"> </p></span> 
-              <span><p>Position :<span th:text="${employee.position}" ></p></span> 
-               <span><p>D.O.B :<span th:text="${employee.dob}" ></p></span> 
-                <span><p>Joining Date :<span th:text="${employee.joiningDate}" ></p></span>            
-            </div>
-            <form th:action="@{pdf}" th:method="post">
-            	<input type="hidden" name="id" th:value="${employee.id}"/>
-            	<input type="submit" value="Appraisal Result" />
-            
-            </form>
-            
- <div class="clearfix"></div><br>
- <hr style="margin:5px 0 5px 0;">
- <form th:action="@{/startDate}">
- <input type="hidden" name="id"  th:value="${employee.id}" ></input>
-<div class="col-sm-5 col-xs-6 tital " >From
-<input type="date" id="start" name="start" required>
-</div>
-<div class="col-sm-7">To
-<input type="date" id="end" name="end" required>
-<input type="submit" value="get status" /></div>
-</form>
-<div class="clearfix"></div>
-<hr style="margin:5px 0 5px 0;">
-<div class="col-sm-5 col-xs-6 tital " ><b>Leaves:</b></div>
- 
- <div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Authorized</div><div class="col-sm-7"> <span th:text="${auth.size()}" ></div>
-
-  <div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Unauthorized</div><div class="col-sm-7"><span th:text="${unauth.size()}" ></div>
- 
-  <div class="clearfix"></div>
-<div class="bot-border"></div>
-<div class="col-sm-5 col-xs-6 tital " ><b>Late Arrival</b></div>
- 
-  <div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Authorized</div><div class="col-sm-7"><span th:text="${a.size()}" ></div>
-
-  <div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Unauthorized</div><div class="col-sm-7"><span th:text="${un.size()}" ></div>
-
- <div class="clearfix"></div>
-<div class="bot-border"></div>
-<div class="col-sm-5 col-xs-6 tital " ><b>Work Status:</b></div>
-  
-  <div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Total working hours</div><div class="col-sm-7"><span th:text="${total}"></div>
-
- <div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Total worked hours</div><div class="col-sm-7"><span th:text="${workedHour}" ></div>
-
-<div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Git score</div><div class="col-sm-7"><span th:text="${git}"></div>    
-
-<div class="clearfix"></div><br>
- <div class="col-sm-5 col-xs-6 tital " >Hackathon score</div><div class="col-sm-7"><span th:text="${hack}"></div>
-
-<div class="clearfix"></div>
-<div class="bot-border"></div>
-<div class="col-sm-5 col-xs-6 tital " ><b>Attendance:</b></div>
-
-<div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Total working days</div><div class="col-sm-7"><span th:text="${day}" ></div>
-
-<div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Absence</div><div class="col-sm-7"><span th:text="${auth.size()+unauth.size()}" ></div>
-
-<div class="clearfix"></div>
-<div class="bot-border"></div>
-<div class="col-sm-5 col-xs-6 tital " ><b>Report Status:</b></div>
-
-<div class="clearfix"></div><br>
-<div class="col-sm-5 col-xs-6 tital " >Unreported days</div><div class="col-sm-7"> <span th:text="${unreportdays.size()}" ></div>
-
-
-
-
-            <!-- /.box-body -->
-          </div>
-        </div>            
-      </div> 
-    </div>
-</div>  
-</div>
-</div>
-  
-    </body>
-    </html>   
+	<div class="profile-main">
+		<div class="profile-header">
+			<div class="user-detail">
+				<div class="user-image">
+					<img alt="User Pic" th:src="*{'data:image/jpg;base64,'+ image}" id="profile-image1" 
+                     class="img-circle img-responsive" style="width:100px;height:100px;"> 
+				</div>
+				<div class="user-data">
+					<h2><span th:text="${employee.FirstName}"></span><span th:text="${employee.LastName}"></h2>
+					<p><span th:text="${employee.position}" ><br>
+					
+					</p>
+					<p><form th:action="@{pdf}" th:method="post">
+			           	<input type="hidden" name="id" th:value="${employee.id}"/>
+			           	<input type="submit" value="Appraisal Result" />
+			           
+			           </form>
+			        </p>
+				</div>
+			</div>
+			<div class="tab-panel-main">
+				<ul class="tabs">
+					<li class="tab-link current" data-tab="Basic-detail">Basic Detail</li>
+					<li class="tab-link" data-tab="Edu-detail">Work Profile</li>
+				</ul>
+				<div id="Basic-detail" class="tab-content current">
+					<div class="detail-box">
+						
+						<ul class="ul-first">
+							<strong><li>First Name</li><br>
+							<li>Last Name</li><br>
+							<li>Company</li><br>
+							<li>Position</li><br>
+							<li>D.O.B</li><br>
+							<li>Joining Date</li><br></strong>
+						</ul>
+						<ul class="ul-second">
+							<li><span th:text="${employee.FirstName}"></li><br>
+							<li><span th:text="${employee.LastName}"></li><br>
+							<li><span th:text="${employee.Company}"></li><br>
+							<li><span th:text="${employee.position}" ></li><br>
+							<li><span th:text="${employee.dob}" ></li><br>
+							<li><span th:text="${employee.joiningDate}" ></li><br>
+						</ul>
+					</div>
+				</div>
+				<div id="Edu-detail" class="tab-content">
+					<div class="Edu-box-main">
+						<h2>
+						
+						<form th:action="@{/startDate}">
+						 <input type="hidden" name="id"  th:value="${employee.id}" ></input>
+						<div class="col-sm-5 col-xs-6 tital " >From
+						<input type="date" id="start" name="start" required>
+						</div>
+						<div class="col-sm-5 col-xs-6 tital">To
+						<input type="date" id="end" name="end" required>
+						<input type="submit" value="get status" /></div>
+						</form>
+						</h2>
+						 <div class="Edu-box">
+						 	<strong><h5><span>Leave</span></h5></strong>
+						 	<p>
+						 	<ul class="ul-first">
+							<li>Authorized</li><br>
+							<li>Unauthorized</li><br>
+							
+							</ul>
+							<ul class="ul-second">
+							<li><span th:text="${auth.size()}" ></li><br>
+							<li><span th:text="${unauth.size()}" ></li><br>
+							
+							</ul>
+							</p>
+						 </div>
+						 <div class="Edu-box">
+						 	<strong><h5><span>Late Arrival</span></h5></strong>
+						 	<p>
+						 	<ul class="ul-first">
+							<li>Authorized</li><br>
+							<li>Unauthorized</li><br>
+							
+							</ul>
+							<ul class="ul-second">
+							<li><span th:text="${a.size()}" ></li><br>
+							<li><span th:text="${un.size()}" ></li><br>
+							</ul>
+							</p>
+						 </div>						  
+					</div>
+					<div class="Edu-box-main">
+						 <div class="Edu-box">
+						 	<strong><h5><span>Work Status</span></h5></strong>
+						 	<p>
+						 	<ul class="ul-first">
+						 	<li>Total working hours</li><br>
+							<li>Total worked hours</li><br>
+							
+							</ul>
+							<ul class="ul-second">
+							<li><span th:text="${total}"></li><br>
+							<li><span th:text="${workedHour}" ></li><br>
+							
+							</ul>
+							<p>
+							</div>
+						 
+						 <div class="Edu-box">
+						 	<strong><h5><span>Evaluation</span></h5></strong>
+						 	<p>
+						 	<ul class="ul-first">
+							<li>Git score</li><br>
+							<li>Hackathon score</li><br>
+							</ul>
+							<ul class="ul-second">
+							<li><span th:text="${git}" ></li><br>
+							<li><span th:text="${hack}" ></li><br>
+							</ul>
+							<p>
+						 </div>						  
+					</div>
+					<div class="Edu-box-main">
+						 <div class="Edu-box">
+						 	<strong><h5><span>Attendence</span></h5></strong>
+						 	<p>
+						 	<ul class="ul-first">
+						 	<li>Total working days</li><br>
+							<li>Absence</li><br>
+							</ul>
+							<ul class="ul-second">
+							<li><span th:text="${day}"></li><br>
+							<li><span th:text="${auth.size()+unauth.size()}" ></li><br>
+							</ul>
+							<p>
+							</div>
+						 
+						 <div class="Edu-box">
+						 	<strong><h5><span>Reporting Status</span></h5></strong>
+						 	<p>
+						 	<ul class="ul-first">
+							<li>Total worked days</li><br>
+							<li>Unreported days</li><br>
+							</ul>
+							<ul class="ul-second">
+							<li><span th:text="${day-(auth.size()+unauth.size())}" ></li><br>
+							<li><span th:text="${unreportdays.size()}" ></li><br>
+							</ul>
+							<p>
+						 </div>						  
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+	</body>
+</html>

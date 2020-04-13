@@ -1,0 +1,157 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet author="meharu (generated)" id="1586605249813-2">
+        <createTable tableName="appraisal">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="appraisalPK"/>
+            </column>
+            <column name="attendance" type="BIGINT"/>
+            <column name="code_quality" type="BIGINT"/>
+            <column name="company_policy" type="BIGINT"/>
+            <column name="date" type="date"/>
+            <column name="meeting_targets" type="BIGINT"/>
+            <column name="punctuality" type="BIGINT"/>
+            <column name="user_extra_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-3">
+        <createTable tableName="git">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="gitPK"/>
+            </column>
+            <column name="date" type="date"/>
+            <column name="mark" type="BIGINT"/>
+            <column name="user_extra_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-4">
+        <createTable tableName="hackathon">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="hackathonPK"/>
+            </column>
+            <column name="date" type="date"/>
+            <column name="mark" type="BIGINT"/>
+            <column name="user_extra_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-5">
+        <createTable tableName="jhi_leave">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_leavePK"/>
+            </column>
+            <column name="date" type="date"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="user_extra_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-6">
+        <createTable tableName="jhi_persistent_audit_event">
+            <column autoIncrement="true" name="event_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_persistent_audit_eventPK"/>
+            </column>
+            <column name="event_date" type="datetime"/>
+            <column name="event_type" type="VARCHAR(255)"/>
+            <column name="principal" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-7">
+        <createTable tableName="jhi_persistent_audit_evt_data">
+            <column name="event_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-8">
+        <createTable tableName="jhi_persistent_token">
+            <column name="series" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="jhi_persistent_tokenPK"/>
+            </column>
+            <column name="ip_address" type="VARCHAR(39)"/>
+            <column name="token_date" type="date"/>
+            <column name="token_value" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_agent" type="VARCHAR(255)"/>
+            <column name="user_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-9">
+        <createTable tableName="late_arrival">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="late_arrivalPK"/>
+            </column>
+            <column name="reached_time" type="datetime"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="user_extra_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-10">
+        <createTable tableName="report_status">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="report_statusPK"/>
+            </column>
+            <column name="reporting_time" type="datetime"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="user_extra_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-11">
+        <createTable tableName="user_extra">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_extraPK"/>
+            </column>
+            <column name="company" type="VARCHAR(255)"/>
+            <column name="dob" type="date"/>
+            <column name="image" type="LONGBLOB"/>
+            <column name="image_content_type" type="VARCHAR(255)"/>
+            <column name="joining_date" type="date"/>
+            <column name="position" type="VARCHAR(255)"/>
+            <column name="username" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-12">
+        <addPrimaryKey columnNames="user_id, authority_name" tableName="jhi_user_authority"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-13">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="jhi_user_authority" constraintName="FK290okww5jujghp4el5i7mgwu0" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-14">
+        <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="jhi_persistent_audit_evt_data" constraintName="FK2ehnyx2si4tjd2nt4q7y40v8m" deferrable="false" initiallyDeferred="false" referencedColumnNames="event_id" referencedTableName="jhi_persistent_audit_event" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-15">
+        <addForeignKeyConstraint baseColumnNames="user_extra_id" baseTableName="jhi_leave" constraintName="FK43ut8l1tlbockonmncu2bqobf" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user_extra" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-16">
+        <addForeignKeyConstraint baseColumnNames="authority_name" baseTableName="jhi_user_authority" constraintName="FK4psxl0jtx6nr7rhqbynr6itoc" deferrable="false" initiallyDeferred="false" referencedColumnNames="name" referencedTableName="jhi_authority" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-17">
+        <addForeignKeyConstraint baseColumnNames="user_extra_id" baseTableName="git" constraintName="FK8d7upgvsf0u4eacnuqmhkw6i5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user_extra" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-18">
+        <addForeignKeyConstraint baseColumnNames="user_extra_id" baseTableName="hackathon" constraintName="FKetv9f4hyyvrtisr5htej4doyx" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user_extra" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-19">
+        <addForeignKeyConstraint baseColumnNames="user_extra_id" baseTableName="appraisal" constraintName="FKlan5nbklq0vvm8ejp16bmg5s" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user_extra" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-20">
+        <addForeignKeyConstraint baseColumnNames="id" baseTableName="user_extra" constraintName="FKlq95v3mpj1gjo80ugr9oqoi0h" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-21">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="jhi_persistent_token" constraintName="FKmogh0vmv89yg5kofe6n3t77ud" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="jhi_user" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-22">
+        <addForeignKeyConstraint baseColumnNames="user_extra_id" baseTableName="late_arrival" constraintName="FKmuk9mrtw3laxuveenl2rgw110" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user_extra" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-23">
+        <addForeignKeyConstraint baseColumnNames="user_extra_id" baseTableName="report_status" constraintName="FKq5agplmhoi413a0kk2gyidyv" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="user_extra" validate="true"/>
+    </changeSet>
+    <changeSet author="meharu (generated)" id="1586605249813-1">
+        <addNotNullConstraint columnDataType="varchar(60)" columnName="password_hash" tableName="jhi_user" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
