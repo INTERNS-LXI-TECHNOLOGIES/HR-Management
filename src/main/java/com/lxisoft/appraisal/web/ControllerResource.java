@@ -133,7 +133,7 @@ public class ControllerResource {
     @RequestMapping("/viewuser")
 	public ModelAndView viewUsers(HttpServletRequest request, HttpServletResponse response)
 	{
-    	ModelAndView mv= new ModelAndView("viewAllUsers");
+    	ModelAndView mv= new ModelAndView("viewAllUser");
     	try {
 			List<User> users = null;
 			List<UserExtra> userEx = null;
@@ -611,7 +611,7 @@ public class ControllerResource {
 		}
 		List <UserExtraDTO> dto=getAllUser(user,users);
 		model.addAttribute("list",dto);
-		return "viewAllUsers";
+		return "viewAllUser";
 	}
 	@RequestMapping("/editUser")
 	public ModelAndView editUser(@RequestParam (name="id") Long id)
