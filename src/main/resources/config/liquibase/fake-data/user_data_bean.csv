@@ -1,11 +1,11 @@
-id;first_name;last_name;company
-1;Palma;Brown;South Dakota cyan
-2;Telly;Zboncak;Iran
-3;Pearline;Champlin;GB quantify
-4;Sallie;Koch;Architect
-5;Ronny;Lockman;Data Electronics Awesome Rubber Computer
-6;Priscilla;Paucek;calculating redefine
-7;Jade;Greenfelder;exploit
-8;Grayson;Reichel;Inverse Refined Fresh Gloves
-9;Genesis;Johns;Planner
-10;Colton;Douglas;capacitor
+id;first_name;last_name;company;position;email;attendance;punctuality;meeting_targets;company_policy;code_quality
+1;Palma;Brown;South Dakota cyan;Executive Iran back-end;Santino_Corkery86@yahoo.com;45841;15853;98977;47869;84230
+2;Kasey;Walsh;auxiliary green New Mexico;wireless;Rick_Robel@yahoo.com;45847;29292;18408;39451;85138
+3;Grayson;Reichel;Inverse Refined Fresh Gloves;eyeballs Planner;Colin_Cassin56@gmail.com;90299;20472;98158;30464;21403
+4;Lamar;Schamberger;Washington Pizza;Auto Loan Account Terrace Garden;Jane40@gmail.com;60456;13871;15045;97577;27390
+5;Westley;Boehm;Producer Cayman Islands Dollar circuit;interface Liberia;Cassie_Yundt@gmail.com;7620;10070;73752;74257;50128
+6;Litzy;Cormier;Analyst;calculating evolve;Pedro72@gmail.com;9523;7462;81859;57483;44545
+7;Isabella;Schmidt;USB;Electronics Freeway;Annetta12@gmail.com;54211;27257;98891;96575;28711
+8;Mayra;Cassin;exploit;Associate;Genoveva_Steuber0@hotmail.com;64703;86430;46875;77548;82576
+9;Norval;Pfeffer;Handcrafted Frozen Bike Steel deploy;Facilitator concept eco-centric;Aurelia_Gleason67@yahoo.com;68958;94953;43749;96979;19747
+10;Beryl;Mueller;Chief;Plastic;Patience.Ortiz81@yahoo.com;58828;78107;42403;13403;67182

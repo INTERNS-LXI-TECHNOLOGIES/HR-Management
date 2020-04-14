@@ -53,6 +53,7 @@ import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.domain.ReportStatus;
 import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.domain.UserDataBean;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
@@ -63,6 +64,7 @@ import com.lxisoft.appraisal.service.JasperService;
 import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
+import com.lxisoft.appraisal.service.UserDataBeanService;
 import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
 
@@ -91,6 +93,8 @@ public class ControllerResource {
 	JasperService jasperService;
 	@Autowired
 	AppraisalService appraisalService;
+	@Autowired
+	UserDataBeanService userDataBeanService;
 	
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
@@ -700,10 +704,11 @@ public class ControllerResource {
 	public ResponseEntity<byte[]> report()
 	{
 		
+		List<UserDataBean>list=userDataBeanService.getAllUserDataBeans();
 		
 		byte[] pdfContents=null;
 		try {
-			pdfContents=jasperService.getReportAsPdfUsingJavaBeans();
+			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(list);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
