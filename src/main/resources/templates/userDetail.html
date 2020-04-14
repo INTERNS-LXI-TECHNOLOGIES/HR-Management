@@ -46,7 +46,7 @@
 					<p><span th:text="${employee.position}" ><br>
 					
 					</p>
-					<p><form th:action="@{pdf}" th:method="post">
+					<p><form th:action="@{getAppraisalResult}">
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
 			           	<input type="submit" value="Appraisal Result" />
 			           
