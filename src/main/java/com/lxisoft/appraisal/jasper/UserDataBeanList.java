@@ -18,7 +18,7 @@ public class UserDataBeanList {
 	{
 		Long attendance=(long) 741,punctuality=(long) 852,meetingTargets=(long) 4852,companyPolicy=(long) 8529,codeQuality=(long) 85;
 		List<Appraisal>dataBeanList=new ArrayList<Appraisal>();
-		dataBeanList= getProduceDataList();
+//		dataBeanList= getProduceDataList();
 		dataBeanList.add(new Appraisal(attendance,punctuality,meetingTargets,companyPolicy,codeQuality));
 //		dataBeanList.add(new UserDataBean("push","pu","lxisof\t"));
 //		dataBeanList.add(new UserDataBean("abhi","jith","lxist"));
@@ -31,11 +31,11 @@ public class UserDataBeanList {
 //		Appraisal appraisal=new Appraisal(attendance,punctuality,meetingTargets,companyPolicy,codeQuality);
 //		return appraisal;
 //	}
-	public static List<Appraisal> getProduceDataList()
-	{
-		List<Appraisal> list=new ArrayList<Appraisal>();
-		System.out.println(".,,,,,,,,,,,,,,,,,,,,"+appService.getDetails());
-		list=appService.getDetails();
-		return list;
-	}
+//	public static List<Appraisal> getProduceDataList()
+//	{
+//		List<Appraisal> list=new ArrayList<Appraisal>();
+//		System.out.println(".,,,,,,,,,,,,,,,,,,,,"+appService.getDetails());
+//		list=appService.getDetails();
+//		return list;
+//	}
 }
