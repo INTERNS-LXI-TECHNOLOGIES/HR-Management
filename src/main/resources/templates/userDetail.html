@@ -19,14 +19,14 @@
 <link rel="stylesheet" href="/css/userdetail.css" type="text/css">
 	<link type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="stylesheet" href="/style.css" type="text/css">
+
 </style>
 <title>User Info</title>
 </head>
    <body align="center"> 
    <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
-  <a href="/addUser" th:href="@{/}"><div sec:authorize="hasRole('ROLE_ADMIN')">View All Users</div></a>
+  
   <a href="/editUser" th:href="@{${'/editUser?id='+employee.id}}"><div sec:authorize="hasRole('ROLE_ADMIN')">Edit</div></a>
   <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout</a>
   <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout-success}"></form>

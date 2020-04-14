@@ -125,7 +125,12 @@ public class ControllerResource {
 
 	}
 
-    @GetMapping(value= "/login")
+    @GetMapping(value= "/adminLogin")
+    public String adminLogin() {
+    	
+        return "adminLogin";
+    }
+    @RequestMapping(value= "/login")
     public String login() {
     	
         return "login";

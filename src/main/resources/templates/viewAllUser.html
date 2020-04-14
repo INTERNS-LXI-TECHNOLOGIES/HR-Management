@@ -19,9 +19,7 @@
   </head>
   <body>
   <div class="topnav" id="myTopnav">
-  <a href="/status"  th:href="@{/status}">Set Status</a>
-  <a href="/adminLogin" th:href="@{/adminLogin}">settings</a>
-   <a href="/addUser" th:href="@{/add}">Add User</a>
+  <a href="/adminLogin" th:href="@{/adminLogin}">Settings</a>
    <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout</a>
    <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout-success}"></form>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
