@@ -14,6 +14,34 @@
         {
             "fieldName": "company",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "position",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "attendance",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "punctuality",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "meetingTargets",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "companyPolicy",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "codeQuality",
+            "fieldType": "Long"
         }
     ],
     "changelogDate": "20200412053500",

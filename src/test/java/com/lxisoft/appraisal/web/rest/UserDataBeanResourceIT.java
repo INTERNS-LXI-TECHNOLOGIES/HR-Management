@@ -41,6 +41,27 @@ public class UserDataBeanResourceIT {
     private static final String DEFAULT_COMPANY = "AAAAAAAAAA";
     private static final String UPDATED_COMPANY = "BBBBBBBBBB";
 
+    private static final String DEFAULT_POSITION = "AAAAAAAAAA";
+    private static final String UPDATED_POSITION = "BBBBBBBBBB";
+
+    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
+    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_ATTENDANCE = 1L;
+    private static final Long UPDATED_ATTENDANCE = 2L;
+
+    private static final Long DEFAULT_PUNCTUALITY = 1L;
+    private static final Long UPDATED_PUNCTUALITY = 2L;
+
+    private static final Long DEFAULT_MEETING_TARGETS = 1L;
+    private static final Long UPDATED_MEETING_TARGETS = 2L;
+
+    private static final Long DEFAULT_COMPANY_POLICY = 1L;
+    private static final Long UPDATED_COMPANY_POLICY = 2L;
+
+    private static final Long DEFAULT_CODE_QUALITY = 1L;
+    private static final Long UPDATED_CODE_QUALITY = 2L;
+
     @Autowired
     private UserDataBeanRepository userDataBeanRepository;
 
@@ -65,7 +86,14 @@ public class UserDataBeanResourceIT {
         UserDataBean userDataBean = new UserDataBean()
             .firstName(DEFAULT_FIRST_NAME)
             .lastName(DEFAULT_LAST_NAME)
-            .company(DEFAULT_COMPANY);
+            .company(DEFAULT_COMPANY)
+            .position(DEFAULT_POSITION)
+            .email(DEFAULT_EMAIL)
+            .attendance(DEFAULT_ATTENDANCE)
+            .punctuality(DEFAULT_PUNCTUALITY)
+            .meetingTargets(DEFAULT_MEETING_TARGETS)
+            .companyPolicy(DEFAULT_COMPANY_POLICY)
+            .codeQuality(DEFAULT_CODE_QUALITY);
         return userDataBean;
     }
     /**
@@ -78,7 +106,14 @@ public class UserDataBeanResourceIT {
         UserDataBean userDataBean = new UserDataBean()
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
-            .company(UPDATED_COMPANY);
+            .company(UPDATED_COMPANY)
+            .position(UPDATED_POSITION)
+            .email(UPDATED_EMAIL)
+            .attendance(UPDATED_ATTENDANCE)
+            .punctuality(UPDATED_PUNCTUALITY)
+            .meetingTargets(UPDATED_MEETING_TARGETS)
+            .companyPolicy(UPDATED_COMPANY_POLICY)
+            .codeQuality(UPDATED_CODE_QUALITY);
         return userDataBean;
     }
 
@@ -105,6 +140,13 @@ public class UserDataBeanResourceIT {
         assertThat(testUserDataBean.getFirstName()).isEqualTo(DEFAULT_FIRST_NAME);
         assertThat(testUserDataBean.getLastName()).isEqualTo(DEFAULT_LAST_NAME);
         assertThat(testUserDataBean.getCompany()).isEqualTo(DEFAULT_COMPANY);
+        assertThat(testUserDataBean.getPosition()).isEqualTo(DEFAULT_POSITION);
+        assertThat(testUserDataBean.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testUserDataBean.getAttendance()).isEqualTo(DEFAULT_ATTENDANCE);
+        assertThat(testUserDataBean.getPunctuality()).isEqualTo(DEFAULT_PUNCTUALITY);
+        assertThat(testUserDataBean.getMeetingTargets()).isEqualTo(DEFAULT_MEETING_TARGETS);
+        assertThat(testUserDataBean.getCompanyPolicy()).isEqualTo(DEFAULT_COMPANY_POLICY);
+        assertThat(testUserDataBean.getCodeQuality()).isEqualTo(DEFAULT_CODE_QUALITY);
     }
 
     @Test
@@ -140,7 +182,14 @@ public class UserDataBeanResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(userDataBean.getId().intValue())))
             .andExpect(jsonPath("$.[*].firstName").value(hasItem(DEFAULT_FIRST_NAME)))
             .andExpect(jsonPath("$.[*].lastName").value(hasItem(DEFAULT_LAST_NAME)))
-            .andExpect(jsonPath("$.[*].company").value(hasItem(DEFAULT_COMPANY)));
+            .andExpect(jsonPath("$.[*].company").value(hasItem(DEFAULT_COMPANY)))
+            .andExpect(jsonPath("$.[*].position").value(hasItem(DEFAULT_POSITION)))
+            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
+            .andExpect(jsonPath("$.[*].attendance").value(hasItem(DEFAULT_ATTENDANCE.intValue())))
+            .andExpect(jsonPath("$.[*].punctuality").value(hasItem(DEFAULT_PUNCTUALITY.intValue())))
+            .andExpect(jsonPath("$.[*].meetingTargets").value(hasItem(DEFAULT_MEETING_TARGETS.intValue())))
+            .andExpect(jsonPath("$.[*].companyPolicy").value(hasItem(DEFAULT_COMPANY_POLICY.intValue())))
+            .andExpect(jsonPath("$.[*].codeQuality").value(hasItem(DEFAULT_CODE_QUALITY.intValue())));
     }
     
     @Test
@@ -156,7 +205,14 @@ public class UserDataBeanResourceIT {
             .andExpect(jsonPath("$.id").value(userDataBean.getId().intValue()))
             .andExpect(jsonPath("$.firstName").value(DEFAULT_FIRST_NAME))
             .andExpect(jsonPath("$.lastName").value(DEFAULT_LAST_NAME))
-            .andExpect(jsonPath("$.company").value(DEFAULT_COMPANY));
+            .andExpect(jsonPath("$.company").value(DEFAULT_COMPANY))
+            .andExpect(jsonPath("$.position").value(DEFAULT_POSITION))
+            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
+            .andExpect(jsonPath("$.attendance").value(DEFAULT_ATTENDANCE.intValue()))
+            .andExpect(jsonPath("$.punctuality").value(DEFAULT_PUNCTUALITY.intValue()))
+            .andExpect(jsonPath("$.meetingTargets").value(DEFAULT_MEETING_TARGETS.intValue()))
+            .andExpect(jsonPath("$.companyPolicy").value(DEFAULT_COMPANY_POLICY.intValue()))
+            .andExpect(jsonPath("$.codeQuality").value(DEFAULT_CODE_QUALITY.intValue()));
     }
 
     @Test
@@ -182,7 +238,14 @@ public class UserDataBeanResourceIT {
         updatedUserDataBean
             .firstName(UPDATED_FIRST_NAME)
             .lastName(UPDATED_LAST_NAME)
-            .company(UPDATED_COMPANY);
+            .company(UPDATED_COMPANY)
+            .position(UPDATED_POSITION)
+            .email(UPDATED_EMAIL)
+            .attendance(UPDATED_ATTENDANCE)
+            .punctuality(UPDATED_PUNCTUALITY)
+            .meetingTargets(UPDATED_MEETING_TARGETS)
+            .companyPolicy(UPDATED_COMPANY_POLICY)
+            .codeQuality(UPDATED_CODE_QUALITY);
 
         restUserDataBeanMockMvc.perform(put("/api/user-data-beans").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
@@ -196,6 +259,13 @@ public class UserDataBeanResourceIT {
         assertThat(testUserDataBean.getFirstName()).isEqualTo(UPDATED_FIRST_NAME);
         assertThat(testUserDataBean.getLastName()).isEqualTo(UPDATED_LAST_NAME);
         assertThat(testUserDataBean.getCompany()).isEqualTo(UPDATED_COMPANY);
+        assertThat(testUserDataBean.getPosition()).isEqualTo(UPDATED_POSITION);
+        assertThat(testUserDataBean.getEmail()).isEqualTo(UPDATED_EMAIL);
+        assertThat(testUserDataBean.getAttendance()).isEqualTo(UPDATED_ATTENDANCE);
+        assertThat(testUserDataBean.getPunctuality()).isEqualTo(UPDATED_PUNCTUALITY);
+        assertThat(testUserDataBean.getMeetingTargets()).isEqualTo(UPDATED_MEETING_TARGETS);
+        assertThat(testUserDataBean.getCompanyPolicy()).isEqualTo(UPDATED_COMPANY_POLICY);
+        assertThat(testUserDataBean.getCodeQuality()).isEqualTo(UPDATED_CODE_QUALITY);
     }
 
     @Test
