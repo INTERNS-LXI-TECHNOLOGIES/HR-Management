@@ -729,5 +729,109 @@ public class ControllerResource {
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
 	}
+	@RequestMapping("/sortDate")
+	public ModelAndView statusBydate(@RequestParam Long id,@RequestParam (name="start") String start,@RequestParam (name="end") String end  )
+	{
+		 ModelAndView mv= new ModelAndView("userDetail"); 
+		 LocalDate start1=LocalDate.parse(start);
+		 LocalDate end1=LocalDate.parse(end);
+		 Optional <User> user = userService.findByid(id);
+		 Optional <UserExtra> userEx = userService.findExtraByid(id);
+		 List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),start1,end1);
+		 System.out.println("leaves in two date:...."+leave.get(1));
+
+		 List<LateArrival> late =lateServ.findLate(id);
+		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 Instant in=late.get(i).getReachedTime();
+			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
+			 time.add(t);
+		 }
+		 UserExtraDTO dto=getUser(user.get(),userEx.get());
+		 mv.addObject("employee",dto);
+		 LocalDate first=userEx.get().getJoiningDate();
+		 LocalDate second= LocalDate.now();
+		 long days= ChronoUnit.DAYS.between(first,second);
+		 long total=(days*7);
+		 List<Leave> auth=new ArrayList<Leave>();
+		 List<Leave> unauth=new ArrayList<Leave>();
+		 for(int i=0;i<leave.size();i++)
+		 {
+			 if(leave.get(i).getType().equals("Authorized"))
+			 {
+				 auth.add(leave.get(i));
+			 }
+			 if(leave.get(i).getType().equals("NonAuthorized"))
+			 {
+				 unauth.add(leave.get(i));
+			 }
+		 }
+		 List<LateArrival> a=new ArrayList<LateArrival>();
+		 List<LateArrival> un=new ArrayList<LateArrival>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 if(late.get(i).getType().equals("Authorized"))
+			 {
+				 a.add(late.get(i));
+			 }
+			 if(late.get(i).getType().equals("NonAuthorized"))
+			 {
+				 un.add(late.get(i));
+			 }
+		 }
+		 if(!userEx.get().getImageContentType().isEmpty())
+		 {
+			 String image=Base64.getEncoder().encodeToString(userEx.get().getImage());
+			 mv.addObject("image",image);
+		 }		
+		 int l=((auth.size())+(unauth.size()));
+		 long absence=l*7;
+		 long workedHour=(total-absence);
+		 
+		 List<ReportStatus> status=reportServ.findReport(id);
+		 List<ReportStatus> unreportdays=new ArrayList<ReportStatus>();
+		 for(int i=0;i<status.size();i++)
+		 {
+			unreportdays.add(status.get(i));
+		 }
+
+		 List<Git> git=gitServ.findGitOfUserBetween(userEx.get(),start1,end1);
+		 List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userEx.get(),start1,end1);
+		 if(git.size()!=0) 
+		 {
+			Iterator it=git.iterator();
+			while (it.hasNext())
+			{
+				Git object = (Git)it.next();
+				Long mar= object.getMark();
+				 mv.addObject("git",mar);
+			 }	
+		}		
+		if(hack.size()!=0)
+		{
+			Iterator i=hack.iterator();
+			while (i.hasNext())
+			{
+				Hackathon object = (Hackathon)i.next();
+				Long mark = object.getMark();
+				mv.addObject("hack",mark);
+			 }	
+		}	
+		appraisalService.setAppraisal(id);
+		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+		 mv.addObject("appraisal",appraisal);
+		
+		 mv.addObject("auth",auth);
+		 mv.addObject("unauth",unauth);
+		 mv.addObject("a",a);
+		 mv.addObject("un",un);
+		 mv.addObject("time",time);
+		 mv.addObject("day",days);
+		 mv.addObject("total",total);
+		 mv.addObject("workedHour",workedHour);
+		 mv.addObject("unreportdays",unreportdays);
+		 return mv ;  
+	}
 	
 }

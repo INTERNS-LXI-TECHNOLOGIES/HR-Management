@@ -1,5 +1,6 @@
 package com.lxisoft.appraisal.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,4 +29,17 @@ public class HackathonService {
 		List<Hackathon> hack =hackRepo.findByUserExtraId(userEx);		 
 		return hack;
 	}
+
+	public List<Hackathon> findHackathonOfUserBetween(UserExtra userEx, LocalDate second, LocalDate first)
+	{
+		
+		return hackRepo.findHackathonOfUserBetween(userEx, second, first);
+	}
+	public List<Hackathon> findByDate(LocalDate localDate)
+	{
+		
+		return hackRepo.findAllByDate(localDate);
+	}	
+
+
 }
