@@ -735,7 +735,7 @@ public class ControllerResource {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 LocalDate start1=LocalDate.parse(start);
 		 LocalDate end1=LocalDate.parse(end);
-		 Optional <User> user = userService.findByid(id);
+		// Optional <User> user = userService.findByid(id);
 		 Optional <UserExtra> userEx = userService.findExtraByid(id);
 		 List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),start1,end1);
 		 System.out.println("leaves in two date:...."+leave.get(1));
@@ -748,8 +748,10 @@ public class ControllerResource {
 			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
 			 time.add(t);
 		 }
-		 UserExtraDTO dto=getUser(user.get(),userEx.get());
-		 mv.addObject("employee",dto);
+		/*
+		 * UserExtraDTO dto=getUser(user.get(),userEx.get());
+		 * mv.addObject("employee",dto);
+		 */
 		 LocalDate first=userEx.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
 		 long days= ChronoUnit.DAYS.between(first,second);
@@ -820,7 +822,7 @@ public class ControllerResource {
 		}	
 		appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
-		 mv.addObject("appraisal",appraisal);
+		mv.addObject("appraisal",appraisal);
 		
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);

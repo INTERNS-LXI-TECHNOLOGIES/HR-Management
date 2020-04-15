@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface LateArrivalRepository extends JpaRepository<LateArrival, Long> {
+public interface LateArrivalRepository extends JpaRepository<LateArrival, Long> 
+{
 	List<LateArrival> findByUserExtraId(Long id);
 }

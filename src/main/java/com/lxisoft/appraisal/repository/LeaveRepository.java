@@ -21,7 +21,5 @@ public interface LeaveRepository extends JpaRepository<Leave, Long>
 	List <Leave> findLeavesOfUserBetween(UserExtra userEx, LocalDate second,LocalDate first);
 	@Query("SELECT u FROM Leave u WHERE u.date=?1")
 	
-	
-
 	List<Leave> findAllByDate(LocalDate localDate);
 }
