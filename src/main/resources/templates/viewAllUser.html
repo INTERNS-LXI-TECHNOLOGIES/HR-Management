@@ -31,6 +31,7 @@
     <div th:if="${message}">
     	<h2 th:text="${message}"/>
 	</div>
+<center>
 <form th:action="@{filter}">
 	<select name="company">
 	<option type="text" value="--select--" >--company--</option>
@@ -50,10 +51,10 @@
 	</select>
 	<input type="submit" value="filter">
 </form><br><br>
+
   <table class="table">
   <tr th:each="employee: ${list}">
   <td>
-
 <div class="wrapper">
 	<div class="container">
 		<div class="img-container">
@@ -79,11 +80,11 @@
 		</div>
 	</div>
 </div>
-<br><br>
+<br>
 
 </td>
 </tr>
 </table>
-
+</center>
 </body>
 </html>
