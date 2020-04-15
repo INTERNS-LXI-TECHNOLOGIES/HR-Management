@@ -1,5 +1,6 @@
 package com.lxisoft.appraisal.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -29,4 +30,17 @@ public class GitService {
 		 
 		 return git;
 	}
+
+
+	public List<Git> findGitOfUserBetween(UserExtra userEx, LocalDate second, LocalDate first)
+	{
+		
+		return gitRepo.findGitOfUserBetween(userEx, second, first);
+	}
+	public List<Git> findByDate(LocalDate localDate)
+	{
+		
+		return gitRepo.findAllByDate(localDate);
+	}	
+
 }

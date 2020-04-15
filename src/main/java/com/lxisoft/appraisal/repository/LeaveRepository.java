@@ -14,8 +14,14 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface LeaveRepository extends JpaRepository<Leave, Long> {
+public interface LeaveRepository extends JpaRepository<Leave, Long>
+{
 	List<Leave> findByUserExtraId(Long id);
-//	List<Leave> findLeavesOfUserExtraBetween(UserExtra userExtra, LocalDate second, LocalDate first);
+	@Query("SELECT u FROM Leave u WHERE u.userExtra = ?1 AND u.date<=?2 AND u.date>=?3")
+	List <Leave> findLeavesOfUserBetween(UserExtra userEx, LocalDate second,LocalDate first);
+	@Query("SELECT u FROM Leave u WHERE u.date=?1")
+	
+	
+
 	List<Leave> findAllByDate(LocalDate localDate);
 }
