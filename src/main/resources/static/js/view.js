@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+ $(document).ready(function(){
+	   $(".floating-icon").click(function(){
+		   $(this).toggleClass("active");
+		   $(".btn").toggleClass("active");
+	   });
+   });

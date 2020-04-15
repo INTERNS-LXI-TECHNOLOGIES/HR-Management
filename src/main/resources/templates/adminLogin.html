@@ -11,9 +11,9 @@
 <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="/responsiveScript.js"></script>
-<link rel="stylesheet" href="/style.css" type="text/css">
-    <title>adminLogin</title>
+<script src="/js/responsiveScript.js"></script>
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+    <title>adminPage</title>
 </head>
 <div class="topnav" id="myTopnav">
   <a href="#home"  th:href="@{/}">Home</a>
@@ -24,8 +24,13 @@
 <div><span th:text="${date}"></span></div>
 <br><br>
  <center> 
-<button  type="button" class="btn btn-danger btn-lg" onclick="window.location.href='/'" >View All Users</button>
-<button  type="button" class="btn btn-danger btn-lg" onclick="window.location.href='/'" >Add Company</button>
+<button class="button btn1" onclick="window.location.href='viewuser'" >View All User</button>&nbsp;&nbsp;
+<button class="button btn1" onclick="window.location.href='status'" >Set Status</button>
+<br><br>
+</center>
+<center>
+<button class="button btn1" onclick="window.location.href='add'" >Add User</button>&nbsp;&nbsp;
+<button class="button btn1" onclick="window.location.href='report'" >appraisal report</button>
 </center>
 </body>
 </html>

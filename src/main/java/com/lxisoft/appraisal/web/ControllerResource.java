@@ -47,6 +47,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import com.lxisoft.appraisal.domain.Appraisal;
 import com.lxisoft.appraisal.domain.Authority;
 import com.lxisoft.appraisal.domain.Git;
 import com.lxisoft.appraisal.domain.Hackathon;
@@ -129,7 +130,12 @@ public class ControllerResource {
 
 	}
 
-    @GetMapping(value= "/login")
+    @GetMapping(value= "/adminLogin")
+    public String adminLogin() {
+    	
+        return "adminLogin";
+    }
+    @RequestMapping(value= "/login")
     public String login() {
     	
         return "login";
@@ -137,7 +143,7 @@ public class ControllerResource {
     @RequestMapping("/viewuser")
 	public ModelAndView viewUsers(HttpServletRequest request, HttpServletResponse response)
 	{
-    	ModelAndView mv= new ModelAndView("viewAllUsers");
+    	ModelAndView mv= new ModelAndView("viewAllUser");
     	try {
 			List<User> users = null;
 			List<UserExtra> userEx = null;
@@ -257,7 +263,10 @@ public class ControllerResource {
 				mv.addObject("hack",mark);
 			 }	
 		}	
-	 
+		appraisalService.setAppraisal(id);
+		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+		 mv.addObject("appraisal",appraisal);
+		
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
 		 mv.addObject("a",a);
@@ -615,7 +624,7 @@ public class ControllerResource {
 		}
 		List <UserExtraDTO> dto=getAllUser(user,users);
 		model.addAttribute("list",dto);
-		return "viewAllUsers";
+		return "viewAllUser";
 	}
 	@RequestMapping("/editUser")
 	public ModelAndView editUser(@RequestParam (name="id") Long id)

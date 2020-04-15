@@ -11,14 +11,14 @@
 <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="/autocompleteScript.js"></script>
-<script src="/responsiveScript.js"></script>
-<link rel="stylesheet" href="/style.css" type="text/css">
+<script src="/js/autocompleteScript.js"></script>
+<script src="/js/responsiveScript.js"></script>
+<link rel="stylesheet" href="/css/style.css" type="text/css">
 
  <title>Leave</title>
     
 </head>
-<body align="center">
+<body>
 	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -27,20 +27,23 @@
     <i class="fa fa-bars"></i>
   </a>
 </div>
-<div class="container">
+<div class="container" align="left">
 <div class="row">
             <div class="col-md-6 col-md-offset-3">
 <form th:action="@{/setLeave}" th:object="${newLeave}">
 		 <div class="form-group">
-		 	<h2>Leave</h2>		
-		 		<ul class="list-group">
-		 	<center><li class="list-group-item active">Today's Leave</li></center>
+		 	<center><h2>Leave</h2></center>	
+		 	<div class="c">
+		 	<table>
+		 	<th><strong>Today's Leave</strong></th>
 		 	<tr th:each="emp: ${leavelist}" >
-			   <li class="list-group-item"><p><a th:href="@{${'/userDetails?id='+emp.id}}" ><span th:text="${emp.getFirstName()} "></span> <span th:text="${emp.getLastName()} "></p></li>
-				</a>
+			   <td><a th:href="@{${'/userDetails?id='+emp.id}}" ><span th:text="${emp.getFirstName()} "></span> <span th:text="${emp.getLastName()} ">
+				</a></td>
 			</tr>
-			</ul>
-		 	<br><br> 	
+			</table>
+			</div>
+		 	<br><br> 
+		 	<div align="center">	
 			<label for="leave">Name </label>
 			<input type="text"  id="leave" name="name" class="autocomplete" required><br><br>
 			<div id="container"></div>
@@ -52,12 +55,13 @@
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 						 Leave updated  
 		</div>	
-            <button class="btn btn-primary" type="submit" onclick="userLeave()">Update</button><br><br>
+         <center>  <button  class="button btn2" type="submit" onclick="userLeave()">Update</button><br><br>
         </form>
-        <button class="btn btn-primary" onclick="window.location.href='status'" >Exit</button>
+        
+        </center>
 	</div>
 	</div>
-	
+	</div>
 	</div>
 	<script>
 	 function userLeave()

@@ -11,13 +11,13 @@
 <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="/autocompleteScript.js"></script>
-<script src="/responsiveScript.js"></script>
-<link rel="stylesheet" href="/style.css" type="text/css">
+<script src="/js/autocompleteScript.js"></script>
+<script src="/js/responsiveScript.js"></script>
+<link rel="stylesheet" href="/css/style.css" type="text/css">
 <title>Evaluation</title>
     
 </head>
-<body>
+<body align="center">
 	
 <div class="topnav" id="myTopnav">
   <a href="#home"  th:href="@{/}">Home</a>
@@ -34,7 +34,7 @@
 		 <div class="form-group">
 		 	<h2>Evaluation</h2>
 		 	<br><br>
-			<label for="test">Name</label><br>
+			<label for="test">Name</label>
 			<input type="text"  id="test" name="name" class="autocomplete"><br><br>
 			<label for="mark">Git Mark  : </label>
 			<input type="number" id="num" name="num" min="0" max="5">
@@ -44,11 +44,12 @@
 		<div id="alert" class="alert">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 						 Scores updated  
-		</div>	
-            <button class="btn btn-primary" type="submit" onclick="userScore()">Update</button><br> <br>
+		</div>
+		<center>	
+            <button  class="button btn2" type="submit" onclick="userScore()">Update</button><br> <br>
         </form>
-         
-	</div><button class="btn btn-primary" onclick="window.location.href='status'" >Exit</button>
+         </center>
+	</div>
 	</div>
 	</div>
 	<script >

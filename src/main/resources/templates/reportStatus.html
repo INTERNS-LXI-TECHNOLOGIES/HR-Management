@@ -11,13 +11,13 @@
 <link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="/autocompleteScript.js"></script>
-<script src="/responsiveScript.js"></script>
-<link rel="stylesheet" href="/style.css" type="text/css">
+<script src="/js/autocompleteScript.js"></script>
+<script src="/js/responsiveScript.js"></script>
+<link rel="stylesheet" href="/css/style.css" type="text/css">
     <title>report status</title>
     
 </head>
-<body>
+<body align="center">
   	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -35,23 +35,22 @@
 		 <ul class="list-group">
 		 	<h2>UnReported Status</h2>
 		 	<br><br>
-			<label for="report">Name</label><br>
+			<label for="report">Name:</label>
 			<input type="text"  id="report" name="name" class="autocomplete"><br><br>
-			<label for="t">Reporting Time:</label><br>
+			<label for="t">Reporting Time:</label>
 			<input type="time" id="t" name="t"><br><br>
 			<input value="Authorized"  name="subject" class="auth" type="checkbox">Authorized
    			<input value="NonAuthorized" name="subject" class="auth" type="checkbox">Non Authorized 
    			</ul>
-		</div>
+		</div><br>
 			
 		<div id="alert" class="alert">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 						Status Report updated  
 		</div>	
-            <button class="btn btn-primary" type="submit" onclick="report()">Update</button><br><br>
+            <center><button class="button btn2" type="submit" onclick="report()">Update</button><br><br>
         </form>
-        
-        <button class="btn btn-primary" onclick="window.location.href='status'" >Exit</button>
+        </center>
 	</div>
 	</div>
 	</div>

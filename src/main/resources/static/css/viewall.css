@@ -1,0 +1,172 @@
+@charset "ISO-8859-1";
+*{
+	margin:0;
+	padding:0;
+}
+body
+{
+	background:#dedfel;
+	font-family: 'Open Sans', sans-serif;
+}
+.wrapper{
+	position: relative;
+	top: 100px;
+	left: 50%;
+	right:50%;
+	transform: translate(-50%,-50%);
+	
+}
+/*Style the Container*/
+.container{
+	
+	width: 520px;
+	height: 200px;
+	background: #fff;
+	border-radius: 5px;
+	box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+/*consider the 40% width and 100% height of the container and float value to left and set its position value to relative , so that we can set the child element accordingly  */
+.img-container
+{
+	width: 40%;
+	height: 100%;
+	float: left;
+	position: relative;
+	
+}
+/*set imag's width and height to 100% as the width and height of img-container*/
+.img-container img{
+	width: 100%;
+	height: 100%;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+}
+/* consider the 60% width and 100% height of container and float value to left and set its padding value*/
+.content
+{
+	width: 60%;
+	height: 100%;
+	float: left;
+	padding: 30px 40px;
+	box-sizing: border-box;
+}
+/* style the text and data div element*/
+.head
+{
+	padding-bottom: 30px;
+}
+.head p{
+	font-size:12px;
+	color: #444444;
+	
+}
+.head span{
+	color:#444444;
+	font-size:18px;
+	font-weight: 600;
+}
+.data{
+	width:90%;
+}
+.inner-data{
+	width: 50%;
+	float: left;
+	text-align: left;
+	color: #444444;
+	
+}
+.inner-data p{
+	font-size: 14px;
+	padding-bottom: 9px;
+	
+}
+.inner-data span{
+	font-size:12px;
+	font-weight: 400px;
+	
+}
+.btn1{
+	text-transform: uppercase;
+	font-size: 12px;
+	background: red;
+	padding: 6px 15px;
+	border-radius: 50px;
+	color: #fff;
+	cursor: pointer;
+	font-weight: 600;
+	transition: all 1s ease;
+	opacity: 1;
+}
+/* /* create floating icon
+.floating-icon{
+	position: absolute;
+	width: 50px;
+	height: 50px;
+	background: black;
+	border-radius: 50%;
+	cursor: pointer;
+	top: 38%;
+	right: -5%;
+}
+.floating-icon .fa{
+	position: absolute;
+	left: 18px;
+	top: 15px;
+	color:black;
+	font-size: 20px;
+	transition: all 1s ease;
+} */ */
+.btn {
+	position: absolute;
+	top: 100px;
+	right: 10px;
+	text-transform: uppercase;
+	font-size: 12px;
+	background: black;
+	padding: 6px 15px;
+	border-radius: 50px;
+	color: #fff;
+	cursor: pointer;
+	font-weight: 600;
+	transition: all 1s ease;
+	opacity: 1;
+}
+.btn2 {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	text-transform: uppercase;
+	font-size: 12px;
+	background: black;
+	padding: 6px 15px;
+	border-radius: 50px;
+	color: #fff;
+	cursor: pointer;
+	font-weight: 600;
+	transition: all 1s ease;
+	opacity: 1;
+}
+.btn3 {
+	position: absolute;
+	top: 50px;
+	right: 10px;
+	text-transform: uppercase;
+	font-size: 12px;
+	background: black;
+	padding: 6px 15px;
+	border-radius: 50px;
+	color: #fff;
+	cursor: pointer;
+	font-weight: 600;
+	transition: all 1s ease;
+	opacity: 1;
+}
+/* 
+toggle class
+.floating-icon.active .fa{
+	transform: rotate(45deg);
+	transition: all 1s ease;
+} 
+.btn.active{
+	opacity:1;
+} */
