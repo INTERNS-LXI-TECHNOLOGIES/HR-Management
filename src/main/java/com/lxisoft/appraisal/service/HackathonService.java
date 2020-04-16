@@ -33,7 +33,7 @@ public class HackathonService {
 	public List<Hackathon> findHackathonOfUserBetween(UserExtra userEx, LocalDate second, LocalDate first)
 	{
 		
-		return hackRepo.findHackathonOfUserBetween(userEx, second, first);
+		return hackRepo.findByUserExtraAndDateBetween(userEx, second, first);
 	}
 	public List<Hackathon> findByDate(LocalDate localDate)
 	{

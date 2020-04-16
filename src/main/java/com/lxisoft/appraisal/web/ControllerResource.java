@@ -738,22 +738,7 @@ public class ControllerResource {
 		 Optional <User> user = userService.findByid(id);
 		 Optional <UserExtra> userEx = userService.findExtraByid(id);
 		 List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),start1,end1);
-		 System.out.println("leaves in two date:...."+leave.get(1));
-
-		 List<LateArrival> late =lateServ.findLate(id);
-		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
-		 for(int i=0;i<late.size();i++)
-		 {
-			 Instant in=late.get(i).getReachedTime();
-			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
-			 time.add(t);
-		 }
-		 UserExtraDTO dto=getUser(user.get(),userEx.get());
-		 mv.addObject("employee",dto);
-		 LocalDate first=userEx.get().getJoiningDate();
-		 LocalDate second= LocalDate.now();
-		 long days= ChronoUnit.DAYS.between(first,second);
-		 long total=(days*7);
+		 //System.out.println("leaves in two date:...."+leave.get(1));
 		 List<Leave> auth=new ArrayList<Leave>();
 		 List<Leave> unauth=new ArrayList<Leave>();
 		 for(int i=0;i<leave.size();i++)
@@ -767,6 +752,25 @@ public class ControllerResource {
 				 unauth.add(leave.get(i));
 			 }
 		 }
+		 mv.addObject("auth",auth);
+		 mv.addObject("unauth",unauth);
+		 List<LateArrival> late =lateServ.findLate(id);
+		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 Instant in=late.get(i).getReachedTime();
+			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
+			 time.add(t);
+		 }
+		
+		  UserExtraDTO dto=getUser(user.get(),userEx.get());
+		  mv.addObject("employee",dto);
+		
+		 LocalDate first=userEx.get().getJoiningDate();
+		 LocalDate second= LocalDate.now();
+		 long days= ChronoUnit.DAYS.between(first,second);
+		 long total=(days*7);
+		
 		 List<LateArrival> a=new ArrayList<LateArrival>();
 		 List<LateArrival> un=new ArrayList<LateArrival>();
 		 for(int i=0;i<late.size();i++)
@@ -820,10 +824,9 @@ public class ControllerResource {
 		}	
 		appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
-		 mv.addObject("appraisal",appraisal);
+		mv.addObject("appraisal",appraisal);
 		
-		 mv.addObject("auth",auth);
-		 mv.addObject("unauth",unauth);
+		
 		 mv.addObject("a",a);
 		 mv.addObject("un",un);
 		 mv.addObject("time",time);
