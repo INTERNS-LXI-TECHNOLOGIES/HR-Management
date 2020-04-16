@@ -18,7 +18,7 @@ public interface GitRepository extends JpaRepository<Git, Long>
 {
 	List<Git> findByUserExtraId(Long userex);
 	@Query("SELECT u FROM Git u WHERE u.userExtra = ?1 AND u.date<=?2 AND u.date>=?3")
-	List <Git> findGitOfUserBetween(UserExtra userEx, LocalDate second,LocalDate first);
+	List <Git> findByUserExtraAndDateBetween(UserExtra userEx, LocalDate second,LocalDate first);
 	@Query("SELECT u FROM Git u WHERE u.date=?1")
 	
 	public List<Git> findAllByDate(LocalDate localDate);

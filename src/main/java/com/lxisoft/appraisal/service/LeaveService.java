@@ -41,7 +41,7 @@ public class LeaveService {
 	public List<Leave> findLeavesOfUserBetween(UserExtra userEx, LocalDate second, LocalDate first)
 	{
 		
-		return leaveRepo.findLeavesOfUserBetween(userEx, second, first);
+		return leaveRepo.findByUserExtraAndDateBetween(userEx, second, first);
 	}
 	
 	
