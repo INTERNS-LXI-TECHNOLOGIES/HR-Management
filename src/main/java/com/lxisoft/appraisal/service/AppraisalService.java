@@ -41,6 +41,20 @@ public class AppraisalService {
 	{
 		return (appRepo.getOneByUserExtraId(service.findExtraByid(id).get())).get(0);
 	}
+	public void setAppraisal(Long id, String aStart, String aLast) {
+		Appraisal appraisal=new Appraisal();
+		appraisal.setId(id);
+		appraisal.setAttendance(service.getAttendance(id));
+		appraisal.setCodeQuality(service.getCodeQuality(id));
+		appraisal.setCompanyPolicy(service.getcompanyPolicy(id));
+		appraisal.setMeetingTargets(service.getTargets(id));
+		appraisal.setPunctuality(service.getPunctuality(id));
+		appraisal.setDate(LocalDate.now());
+		appraisal.setUserExtra(service.findExtraByid(id).get());
+		appRepo.save(appraisal);
+		
+		
+	}
 	
 
 }

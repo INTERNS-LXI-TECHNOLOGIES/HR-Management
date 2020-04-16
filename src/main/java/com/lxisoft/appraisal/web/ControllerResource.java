@@ -179,7 +179,9 @@ public class ControllerResource {
 		return mv;
 	}
     @RequestMapping("/userDetails") 
-	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
+	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model, 
+			 @RequestParam (name="start" ,required=false)String aStart,
+				@RequestParam (name="end", required=false)String aLast) 
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = userService.findByid(id);
@@ -730,7 +732,8 @@ public class ControllerResource {
 		return response;
 	}
 	@RequestMapping("/sortDate")
-	public ModelAndView statusBydate(@RequestParam Long id,@RequestParam (name="start") String start,@RequestParam (name="end") String end  )
+	public ModelAndView statusBydate(@RequestParam Long id,@RequestParam (name="start") String start,
+			@RequestParam (name="end") String end)
 	{
 		 ModelAndView mv= new ModelAndView("userDetail"); 	
 		 LocalDate start1=LocalDate.parse(start);
@@ -742,8 +745,8 @@ public class ControllerResource {
 		 List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userEx.get(),start1,end1);
 		 List<Git> mar=new ArrayList<Git>();
 		 List<Hackathon> mark=new ArrayList<Hackathon>();
-		 int n=git.size();
-		 int m = hack.size();
+		 int n=git.size()-1;
+		 int m = hack.size()-1;
 		 if(git.size()!=0) 
 		 {
 			 mar.add(git.get(n));
