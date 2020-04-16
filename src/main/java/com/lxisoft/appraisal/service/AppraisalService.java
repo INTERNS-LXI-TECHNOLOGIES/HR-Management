@@ -26,6 +26,7 @@ public class AppraisalService {
 	public void setAppraisal(long id) 
 	{
 		Appraisal appraisal=new Appraisal();
+		appraisal.setId(id);
 		appraisal.setAttendance(service.getAttendance(id));
 		appraisal.setCodeQuality(service.getCodeQuality(id));
 		appraisal.setCompanyPolicy(service.getcompanyPolicy(id));

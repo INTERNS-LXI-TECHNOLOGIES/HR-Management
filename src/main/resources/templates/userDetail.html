@@ -46,12 +46,7 @@
 					<p><span th:text="${employee.position}" ><br>
 					
 					</p>
-					<p><form th:action="@{getAppraisalResult}">
-			           	<input type="hidden" name="id" th:value="${employee.id}"/>
-			           	<input type="submit" value="Print Appraisal Result" />
-			           
-			           </form>
-			        </p>
+					
 				</div>
 			</div>
 			<div class="tab-panel-main">
@@ -201,7 +196,15 @@
 						<input type="date" id="end" name="end" required>
 						<input type="submit" value="get status" /></div>
 						</form>
-					</div><br><br><br><br><br><br>
+					
+					
+					<p><form th:action="@{getPdf}">
+			           	<input type="hidden" name="id" th:value="${employee.id}"/>
+			           	<input type="submit" value="Print Appraisal Result" />
+			           
+			           </form>
+			        </p></div>
+					<br><br><br><br><br><br><br><br>
 					<div class="Edu-box">
 						<ul class="ul-first">
 							<strong><li>attendance</li><br>
