@@ -742,8 +742,8 @@ public class ControllerResource {
 		 List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userEx.get(),start1,end1);
 		 List<Git> mar=new ArrayList<Git>();
 		 List<Hackathon> mark=new ArrayList<Hackathon>();
-		 int n=git.size()-1;
-		 int m = hack.size()-1;
+		 int n=git.size();
+		 int m = hack.size();
 		 if(git.size()!=0) 
 		 {
 			 mar.add(git.get(n));
@@ -785,7 +785,7 @@ public class ControllerResource {
 		
 		 LocalDate first=userEx.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
-		 long days= ChronoUnit.DAYS.between(first,second);
+		 long days= ChronoUnit.DAYS.between(start1,end1);
 		 long total=(days*7);
 		
 		 List<LateArrival> a=new ArrayList<LateArrival>();
