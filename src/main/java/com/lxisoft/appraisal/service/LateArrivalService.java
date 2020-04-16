@@ -1,5 +1,11 @@
 package com.lxisoft.appraisal.service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.chrono.ChronoLocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +27,16 @@ public class LateArrivalService {
 	}
 	public  List<LateArrival> findLate(Long id)
 	{
-		List<LateArrival> em=lateRepo.findByUserExtraId(id);
-		 
+		List<LateArrival> em=lateRepo.findByUserExtraId(id);		 
 		 return em;
 	}
 
+	public List<LocalDate> getLocalDate(Instant em)
+	{
+		//yourInstant.atZone(yourZoneId).toLocalDate(); Will work with earlier versions for LocalDate...
+		
+		 ((ChronoLocalDateTime<LocalDate>) ZoneId.of("Asia/Kolkata")).toLocalDate();
+		 List<LocalDate> Date=new ArrayList<LocalDate>();
+	    return Date;
+	}
 }

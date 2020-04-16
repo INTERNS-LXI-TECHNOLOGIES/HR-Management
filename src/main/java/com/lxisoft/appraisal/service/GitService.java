@@ -35,7 +35,7 @@ public class GitService {
 	public List<Git> findGitOfUserBetween(UserExtra userEx, LocalDate second, LocalDate first)
 	{
 		
-		return gitRepo.findGitOfUserBetween(userEx, second, first);
+		return gitRepo.findByUserExtraAndDateBetween(userEx, second, first);
 	}
 	public List<Git> findByDate(LocalDate localDate)
 	{

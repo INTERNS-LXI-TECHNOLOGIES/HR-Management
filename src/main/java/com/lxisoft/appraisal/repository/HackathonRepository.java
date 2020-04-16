@@ -17,9 +17,8 @@ import org.springframework.stereotype.Repository;
 public interface HackathonRepository extends JpaRepository<Hackathon, Long>
 {
 	List<Hackathon> findByUserExtraId(Long userEx);
-	@Query("SELECT u FROM Hackathon u WHERE u.userExtra = ?1 AND u.date<=?2 AND u.date>=?3")
-	List <Hackathon> findHackathonOfUserBetween(UserExtra userEx, LocalDate second,LocalDate first);
-	@Query("SELECT u FROM Hackathon u WHERE u.date=?1")
+
+	List <Hackathon> findByUserExtraAndDateBetween(UserExtra userEx, LocalDate second,LocalDate first);
 	
 	public List<Hackathon> findAllByDate(LocalDate localDate);
 
