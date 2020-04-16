@@ -14,6 +14,7 @@
 <script src="/js/view.js"></script>
 <link rel="stylesheet" href="/css/style.css" type="text/css">
 <link rel="stylesheet" href="/css/viewall.css" type="text/css">
+<link rel="stylesheet" href="/css/deleteConfirm.css" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <title>View All User</title>  
   </head>
@@ -31,6 +32,7 @@
     <div th:if="${message}">
     	<h2 th:text="${message}"/>
 	</div>
+<center>
 <form th:action="@{filter}">
 	<select name="company">
 	<option type="text" value="--select--" >--company--</option>
@@ -50,10 +52,10 @@
 	</select>
 	<input type="submit" value="filter">
 </form><br><br>
+
   <table class="table">
   <tr th:each="employee: ${list}">
   <td>
-
 <div class="wrapper">
 	<div class="container">
 		<div class="img-container">
@@ -79,11 +81,11 @@
 		</div>
 	</div>
 </div>
-<br><br>
+<br>
 
 </td>
 </tr>
 </table>
-
+</center>
 </body>
 </html>
