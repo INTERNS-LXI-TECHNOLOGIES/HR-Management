@@ -732,11 +732,28 @@ public class ControllerResource {
 	@RequestMapping("/sortDate")
 	public ModelAndView statusBydate(@RequestParam Long id,@RequestParam (name="start") String start,@RequestParam (name="end") String end  )
 	{
-		 ModelAndView mv= new ModelAndView("userDetail"); 
+		 ModelAndView mv= new ModelAndView("userDetail"); 	
 		 LocalDate start1=LocalDate.parse(start);
 		 LocalDate end1=LocalDate.parse(end);
+
 		 Optional <User> user = userService.findByid(id);
 		 Optional <UserExtra> userEx = userService.findExtraByid(id);
+		 List<Git> git=gitServ.findGitOfUserBetween(userEx.get(),start1,end1);
+		 List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userEx.get(),start1,end1);
+		 List<Git> mar=new ArrayList<Git>();
+		 List<Hackathon> mark=new ArrayList<Hackathon>();
+		 int n=git.size();
+		 int m = hack.size();
+		 if(git.size()!=0) 
+		 {
+			 mar.add(git.get(n));
+			mv.addObject("git",mar);
+		}		
+		if(hack.size()!=0)
+		{
+			 mark.add(hack.get(m));
+			mv.addObject("hack",mark);
+		}	
 		 List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),start1,end1);
 		 //System.out.println("leaves in two date:...."+leave.get(1));
 		 List<Leave> auth=new ArrayList<Leave>();
@@ -768,7 +785,7 @@ public class ControllerResource {
 		
 		 LocalDate first=userEx.get().getJoiningDate();
 		 LocalDate second= LocalDate.now();
-		 long days= ChronoUnit.DAYS.between(first,second);
+		 long days= ChronoUnit.DAYS.between(start1,end1);
 		 long total=(days*7);
 		
 		 List<LateArrival> a=new ArrayList<LateArrival>();
@@ -800,28 +817,7 @@ public class ControllerResource {
 			unreportdays.add(status.get(i));
 		 }
 
-		 List<Git> git=gitServ.findGitOfUserBetween(userEx.get(),start1,end1);
-		 List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userEx.get(),start1,end1);
-		 if(git.size()!=0) 
-		 {
-			Iterator it=git.iterator();
-			while (it.hasNext())
-			{
-				Git object = (Git)it.next();
-				Long mar= object.getMark();
-				 mv.addObject("git",mar);
-			 }	
-		}		
-		if(hack.size()!=0)
-		{
-			Iterator i=hack.iterator();
-			while (i.hasNext())
-			{
-				Hackathon object = (Hackathon)i.next();
-				Long mark = object.getMark();
-				mv.addObject("hack",mark);
-			 }	
-		}	
+		
 		appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		mv.addObject("appraisal",appraisal);
