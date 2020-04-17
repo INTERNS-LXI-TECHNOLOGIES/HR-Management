@@ -56,7 +56,7 @@ public class JasperService {
 	
 	public byte[] getReportAsPdfUsingJavaBeans(List<UserDataBean> list)throws JRException
 	{
-		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/TreeBean.jrxml");
+		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/C.jrxml");
 		JRBeanCollectionDataSource collectionDataSource=new JRBeanCollectionDataSource(list);
 		Map < String , Object > parameters = new HashMap < String ,	Object >();
 		JasperPrint jp=JasperFillManager.fillReport(jr,parameters,collectionDataSource);

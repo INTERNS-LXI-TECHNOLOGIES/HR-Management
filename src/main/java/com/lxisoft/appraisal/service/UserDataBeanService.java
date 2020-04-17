@@ -91,7 +91,7 @@ public class UserDataBeanService {
 					userEx.getPosition(),user.getEmail(),appraisal.getAttendance(),appraisal.getPunctuality(),
 					appraisal.getMeetingTargets(),appraisal.getCompanyPolicy(),appraisal.getCodeQuality());
 			list.add(bean);
-			
+			System.out.println("000000000000000"+list);
 		}
 		return list;
 		
