@@ -52,7 +52,7 @@ body{
 .user-data h2{ 
   margin-bottom: 0px;
   margin-top: 35px;
-  font-size: 20px;
+  font-size: 30px;
   font-weight: 600;
 }
 .user-data .post-label{
@@ -68,7 +68,7 @@ body{
   border-color: #F2D4BA;
 }
 .user-data p{
-  font-size: 12px;
+  font-size: 19px;
   color: #404040;
 }
 .msg-btn{ 
@@ -125,7 +125,7 @@ ul.tabs li.current{
 }
 .tab-content.current{
   display: inherit;
-  
+  padding: 15px 5px;
 }
 .detail-box{
   float: center;
@@ -225,8 +225,8 @@ ul.tabs li.current{
 #Basic-detail{
   height: 210px;
   float: left;
-  padding-left: 0px;
-  padding-right: 0px; 
+  padding-right: 0;
+  padding-left: 0;
 }
 
 @media (min-width: 320px) and (max-width: 640px){

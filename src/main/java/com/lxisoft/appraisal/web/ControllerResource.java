@@ -179,7 +179,9 @@ public class ControllerResource {
 		return mv;
 	}
     @RequestMapping("/userDetails") 
-	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model) 
+	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model, 
+			 @RequestParam (name="start" ,required=false)String aStart,
+				@RequestParam (name="end", required=false)String aLast) 
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = userService.findByid(id);
@@ -441,9 +443,7 @@ public class ControllerResource {
 
 		LocalDate localDate = LocalDate.now();		
 		ModelAndView mv= new ModelAndView("redirect:/leave");
-		
 		List<Leave> l=leaveSer.findByDate(localDate);
-		
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
@@ -730,7 +730,8 @@ public class ControllerResource {
 		return response;
 	}
 	@RequestMapping("/sortDate")
-	public ModelAndView statusBydate(@RequestParam Long id,@RequestParam (name="start") String start,@RequestParam (name="end") String end  )
+	public ModelAndView statusBydate(@RequestParam Long id,@RequestParam (name="start") String start,
+			@RequestParam (name="end") String end)
 	{
 		 ModelAndView mv= new ModelAndView("userDetail"); 	
 		 LocalDate start1=LocalDate.parse(start);

@@ -36,7 +36,7 @@ public class JasperService {
 	
 	public byte[] getReportAsPdfUsingDatabase(long id)throws JRException
 	{
-		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/appraisal.jrxml");
+		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/Cher.jrxml");
 		
 		//preparing parameteres
 		Map parameters=new HashMap();

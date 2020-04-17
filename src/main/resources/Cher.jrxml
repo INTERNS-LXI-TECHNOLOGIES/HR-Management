@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Cher" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4eedbb89-b4f6-4469-9ab6-f642a1688cf7">
+	<property name="template.engine" value="tabular_template"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (7)"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="tableDataset" uuid="9cbe371f-08c3-4cfc-8188-a25c48ff66c3">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (7)"/>
+		<queryString language="SQL">
+			<![CDATA[SELECT appraisal.jhi_user.id,
+	appraisal.jhi_user.first_name,
+	appraisal.jhi_user.last_name
+FROM appraisal.jhi_user]]>
+		</queryString>
+		<field name="id" class="java.lang.Long">
+			<property name="com.jaspersoft.studio.field.label" value="id"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
+		</field>
+		<field name="first_name" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="first_name"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
+		</field>
+		<field name="last_name" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="last_name"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
+		</field>
+		<group name="id">
+			<groupExpression><![CDATA[$F{id}]]></groupExpression>
+		</group>
+		<group name="first_name">
+			<groupExpression><![CDATA[$F{first_name}]]></groupExpression>
+		</group>
+		<group name="last_name">
+			<groupExpression><![CDATA[$F{last_name}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="id" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT appraisal.appraisal.attendance,
+	appraisal.appraisal.punctuality,
+	appraisal.appraisal.meeting_targets,
+	appraisal.appraisal.company_policy,
+	appraisal.appraisal.code_quality,
+	appraisal.appraisal.date,
+	appraisal.user_extra.company,
+	appraisal.user_extra.position,
+	appraisal.jhi_user.first_name,
+	appraisal.jhi_user.last_name,
+	appraisal.jhi_user.email
+FROM appraisal.user_extra
+
+	INNER JOIN appraisal.appraisal ON 
+	 appraisal.appraisal.user_extra_id = $P{id} 
+	INNER JOIN appraisal.jhi_user ON 
+	 appraisal.jhi_user.id = $P{id}
+	 WHERE appraisal.user_extra.id=$P{id}]]>
+	</queryString>
+	<field name="attendance" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="attendance"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+	</field>
+	<field name="punctuality" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="punctuality"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+	</field>
+	<field name="meeting_targets" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="meeting_targets"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+	</field>
+	<field name="company_policy" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="company_policy"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+	</field>
+	<field name="code_quality" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="code_quality"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+	</field>
+	<field name="date" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="date"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="appraisal"/>
+	</field>
+	<field name="company" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="company"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="user_extra"/>
+	</field>
+	<field name="position" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="position"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="user_extra"/>
+	</field>
+	<field name="first_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="first_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
+	</field>
+	<field name="last_name" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="last_name"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
+	</field>
+	<field name="email" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="email"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="jhi_user"/>
+	</field>
+	<title>
+		<band height="132" splitType="Stretch">
+			<image>
+				<reportElement x="456" y="0" width="99" height="132" uuid="c8b48dab-7d5c-43ee-bd0d-67e64af5eee1"/>
+				<imageExpression><![CDATA["cherry.jpg"]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="451" height="95" backcolor="#000000" uuid="17682764-df02-4019-b2d7-8e75ca15e0ac"/>
+				<staticText>
+					<reportElement style="Title" x="0" y="0" width="450" height="66" uuid="11ac3f46-a024-4077-8b0f-d70faad0f27d"/>
+					<textElement>
+						<font size="44" isBold="false"/>
+					</textElement>
+					<text><![CDATA[APPRAISAL REPORT]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" x="130" y="66" width="249" height="29" uuid="d3ca5a61-0a5a-4fbe-abda-ede840dea154"/>
+					<textElement>
+						<font size="22" isBold="false"/>
+					</textElement>
+					<text><![CDATA[ SubTitle]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="100" width="451" height="32" forecolor="#000000" backcolor="#CC0000" uuid="7366c5da-9f57-4203-9be5-2771f0645269"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="307" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="690688fa-96ea-4941-8308-e9f0c094fe99"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<staticText>
+				<reportElement x="470" y="10" width="74" height="84" forecolor="#FAF0F0" uuid="5db8bb62-47fd-40da-abfd-cfeaf936158a"/>
+				<textElement>
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[image comming soon]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageFooter>
+		<band height="30" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="1" width="555" height="24" forecolor="#D0B48E" backcolor="#000000" uuid="2857bbc0-51d5-4ed7-b542-cefaeb4bdc36"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="513" y="0" width="40" height="20" forecolor="#FFFFFF" uuid="d3ed7bc6-6ef6-4e83-9691-406b1a607921"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="433" y="0" width="80" height="20" forecolor="#FFFFFF" uuid="87edde92-ff3c-4380-9545-f2a0dfda283a"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="1" width="197" height="20" forecolor="#FFFFFF" uuid="09939741-c641-46e1-9582-e814af1b519c"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="230" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<textField>
+				<reportElement x="82" y="19" width="98" height="30" uuid="3972a643-59a2-4b5f-b452-20c57d998bb9"/>
+				<textFieldExpression><![CDATA[$F{first_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="19" width="40" height="31" uuid="a42b5ee3-aed4-457a-a35c-5c7f8ccc5d9a"/>
+				<text><![CDATA[NAME]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="160" y="17" width="100" height="30" uuid="c5c72513-f201-49ad-aec7-bfe0dfcc9ef7"/>
+				<textFieldExpression><![CDATA[$F{last_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="52" width="100" height="30" uuid="dfba35c7-4e7a-43ad-941e-61f39f35359c"/>
+				<textFieldExpression><![CDATA[$F{company}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="84" y="161" width="100" height="30" uuid="6223fe3f-5af5-42ab-a3ad-b8279f967ddf"/>
+				<textFieldExpression><![CDATA[$F{attendance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="200" width="81" height="30" uuid="05c3d009-9637-4030-af36-4865d8d5cc84"/>
+				<textFieldExpression><![CDATA[$F{punctuality}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="160" width="79" height="30" uuid="d8c4ca41-c52a-4506-a9e1-2aa0f5c4a4ad"/>
+				<textFieldExpression><![CDATA[$F{meeting_targets}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="90" y="200" width="79" height="30" uuid="7c7a2e14-09b2-487b-9fa7-93b5b1244831"/>
+				<textFieldExpression><![CDATA[$F{company_policy}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="270" y="160" width="79" height="30" uuid="f91cccb1-4e2f-419f-ae94-d6b6d162afbe"/>
+				<textFieldExpression><![CDATA[$F{code_quality}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="84" y="91" width="79" height="30" uuid="bbda8a6d-7b13-40cb-853a-516a21138dc2"/>
+				<textFieldExpression><![CDATA[$F{position}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="70" width="79" height="30" uuid="864fc8e9-8bc1-4621-a2fc-967e6d4e4055"/>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="52" width="56" height="31" uuid="fd04a041-0e69-47d5-98f5-0a4c121dc865"/>
+				<text><![CDATA[COMPANY ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="90" width="59" height="31" uuid="1874a198-d92d-4b2b-b6c2-86492b69384a"/>
+				<text><![CDATA[POSITION]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="160" width="80" height="31" uuid="5f34bce1-0d5b-485a-9641-a3c707d08bdb"/>
+				<text><![CDATA[ATTENDANCE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="199" width="80" height="31" uuid="6000dbd9-e99d-4301-ba5e-fa6213fb50f3"/>
+				<text><![CDATA[COMPANY POLICY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="199" width="80" height="31" uuid="8b03c10b-b411-49d9-87e2-3e112bd76292"/>
+				<text><![CDATA[PUNCTUALITY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="182" y="160" width="80" height="31" uuid="c837f39c-bccc-406a-9e9d-562fda2bd24a"/>
+				<text><![CDATA[CODE QUALITY]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="160" width="110" height="31" uuid="633c39ca-914c-4421-af7b-350cd9dddda3"/>
+				<text><![CDATA[MEETING TARGETS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="241" y="70" width="80" height="31" uuid="b7865c5d-5011-4487-9806-7deba0d05cf5"/>
+				<text><![CDATA[EMAIL]]></text>
+			</staticText>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="121" width="555" height="24" forecolor="#0D0C0C" backcolor="#171414" uuid="16e1306c-47d5-404d-a2cb-1045745ad58d"/>
+				<staticText>
+					<reportElement x="30" y="3" width="100" height="17" forecolor="#FCFAFB" uuid="b1eccbff-ef55-4fb7-a506-ceeaa9f5c827"/>
+					<text><![CDATA[REPORT]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</summary>
+</jasperReport>

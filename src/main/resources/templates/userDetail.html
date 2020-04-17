@@ -26,6 +26,7 @@
    <body align="center"> 
    <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
+  <a href="javascript:history.back()">Back</a>
   
   <a href="/editUser" th:href="@{${'/editUser?id='+employee.id}}"><div sec:authorize="hasRole('ROLE_ADMIN')">Edit</div></a>
   <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout</a>
@@ -46,12 +47,7 @@
 					<p><span th:text="${employee.position}" ><br>
 					
 					</p>
-					<p><form th:action="@{getAppraisalResult}">
-			           	<input type="hidden" name="id" th:value="${employee.id}"/>
-			           	<input type="submit" value="Print Appraisal Result" />
-			           
-			           </form>
-			        </p>
+					
 				</div>
 			</div>
 			<div class="tab-panel-main">
@@ -189,19 +185,14 @@
 				</div>
 				
 				<div id="App-detail" class="tab-content">
-					<div class="Edu-box">
-						
-						
-						 <form th:action="@{/startDate}">
-						 <input type="hidden" name="id"  th:value="${employee.id}" ></input>
-						<div class="col-sm-5 col-xs-6 tital " >From
-						<input type="date" id="start" name="start" required>
-						</div>
-						<div class="col-sm-5 col-xs-6 tital">To
-						<input type="date" id="end" name="end" required>
-						<input type="submit" value="get status" /></div>
-						</form> 
-					</div><br><br><br><br><br><br>
+					<div class="Edu-box">								
+							<p><form th:action="@{getPdf}">
+			           	<input type="hidden" name="id" th:value="${employee.id}"/>
+			           	<input type="submit" value="Print Appraisal Result" />
+			           
+			           </form>
+			        </p></div>
+					<br><br><br><br>
 					<div class="Edu-box">
 						<ul class="ul-first">
 							<strong><li>attendance</li><br>
