@@ -199,7 +199,7 @@ FROM appraisal.user_extra
 				<text><![CDATA[NAME]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="160" y="17" width="100" height="30" uuid="c5c72513-f201-49ad-aec7-bfe0dfcc9ef7"/>
+				<reportElement x="167" y="22" width="100" height="30" uuid="c5c72513-f201-49ad-aec7-bfe0dfcc9ef7"/>
 				<textFieldExpression><![CDATA[$F{last_name}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -211,7 +211,7 @@ FROM appraisal.user_extra
 				<textFieldExpression><![CDATA[$F{attendance}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="200" width="81" height="30" uuid="05c3d009-9637-4030-af36-4865d8d5cc84"/>
+				<reportElement x="272" y="200" width="81" height="30" uuid="05c3d009-9637-4030-af36-4865d8d5cc84"/>
 				<textFieldExpression><![CDATA[$F{punctuality}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -219,7 +219,7 @@ FROM appraisal.user_extra
 				<textFieldExpression><![CDATA[$F{meeting_targets}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="90" y="200" width="79" height="30" uuid="7c7a2e14-09b2-487b-9fa7-93b5b1244831"/>
+				<reportElement x="86" y="200" width="79" height="30" uuid="7c7a2e14-09b2-487b-9fa7-93b5b1244831"/>
 				<textFieldExpression><![CDATA[$F{company_policy}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -231,7 +231,7 @@ FROM appraisal.user_extra
 				<textFieldExpression><![CDATA[$F{position}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="70" width="79" height="30" uuid="864fc8e9-8bc1-4621-a2fc-967e6d4e4055"/>
+				<reportElement x="244" y="53" width="79" height="30" uuid="864fc8e9-8bc1-4621-a2fc-967e6d4e4055"/>
 				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -239,7 +239,7 @@ FROM appraisal.user_extra
 				<text><![CDATA[COMPANY ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="3" y="90" width="59" height="31" uuid="1874a198-d92d-4b2b-b6c2-86492b69384a"/>
+				<reportElement x="5" y="90" width="59" height="31" uuid="1874a198-d92d-4b2b-b6c2-86492b69384a"/>
 				<text><![CDATA[POSITION]]></text>
 			</staticText>
 			<staticText>
@@ -263,7 +263,7 @@ FROM appraisal.user_extra
 				<text><![CDATA[MEETING TARGETS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="241" y="70" width="80" height="31" uuid="b7865c5d-5011-4487-9806-7deba0d05cf5"/>
+				<reportElement x="161" y="52" width="80" height="31" uuid="b7865c5d-5011-4487-9806-7deba0d05cf5"/>
 				<text><![CDATA[EMAIL]]></text>
 			</staticText>
 			<frame>
