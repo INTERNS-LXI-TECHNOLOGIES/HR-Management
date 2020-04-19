@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lxisoft.appraisal.domain.LateArrival;
+import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.LateArrivalRepository;
 
 @Service
@@ -39,4 +40,8 @@ public class LateArrivalService {
 		 List<LocalDate> Date=new ArrayList<LocalDate>();
 	    return Date;
 	}
+	public List<LateArrival> findAll() {
+		
+		return lateRepo.findAll();
+	}	
 }

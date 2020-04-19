@@ -32,6 +32,15 @@
 <form th:action="@{/setLate}" th:object="${newLate}" >
 		 <div class="form-group">
 		 	<h2>Late Arrival</h2>
+		 	<div class="c">
+		 	<table>
+		 	<th><strong>Today's Late Arrival</strong></th>
+		 	<tr th:each="emp: ${latelist}" >
+			   <td><a th:href="@{${'/userDetails?id='+emp.id}}" ><span th:text="${emp.getFirstName()} "></span> <span th:text="${emp.getLastName()} ">
+				</a></td>
+			</tr>
+			</table>
+			</div>
 		 	<br><br>
 			<label for="late">Name:</label>
 			<input type="text"  id="late" name="name" class="autocomplete"><br><br>
