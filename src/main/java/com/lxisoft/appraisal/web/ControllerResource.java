@@ -445,9 +445,7 @@ public class ControllerResource {
 
 		LocalDate localDate = LocalDate.now();		
 		ModelAndView mv= new ModelAndView("redirect:/leave");
-		
 		List<Leave> l=leaveSer.findByDate(localDate);
-		
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
@@ -562,25 +560,43 @@ public class ControllerResource {
 		return "reportStatus";
 	}
 	@RequestMapping("/lateArrival")
-	public String LateArrival()
+	public ModelAndView LateArrival()
 	{
-		return "lateArrival";
+		Set<UserExtra> list=new HashSet<UserExtra>();
+		List<LateArrival> l=lateServ.findAll();
+		LocalDate local= LocalDate.now();
+		for(int i=0;i<l.size();i++)
+		{
+			Instant in=l.get(i).getReachedTime();
+			LocalDate localDate = in.atZone(ZoneId.systemDefault()).toLocalDate();
+			if(local.equals(localDate))
+			{
+				list.add(l.get(i).getUserExtra());
+			}
+		}
+		
+		ModelAndView mv= new ModelAndView("lateArrival");
+		List<UserExtraDTO> dto=getSpecificUser(list);
+		mv.addObject("latelist",dto);	
+		return mv;
 	}
 	@RequestMapping("/setLate")
-	public String setLate(@RequestParam String name,String subject,String ltime)
+	public ModelAndView setLate(@RequestParam String name,String subject,String ltime)
 	{
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		LateArrival late=new LateArrival();
-		ModelAndView mv= new ModelAndView();
+		ModelAndView mv= new ModelAndView("redirect:/lateArrival");
+		LocalDate localDate = LocalDate.now();
+		LocalTime localtime = LocalTime.parse(ltime);
+		Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
-			LocalDate localDate = LocalDate.now();
-			LocalTime localtime = LocalTime.parse(ltime);
+			
 			Long id=user.get(i).getId();
-			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
+			
 			if(name.contains(m))
 			{
 				for(int j=0;j<userextra.size();j++)
@@ -595,7 +611,7 @@ public class ControllerResource {
 				}
 			}
 		}
-		return "lateArrival";
+		return mv;
 	}
 	@RequestMapping("/deleteUser")
 	public String deleteUser(@RequestParam (name="id") Long id)
@@ -858,7 +874,7 @@ public class ControllerResource {
 		 mv.addObject("unreportdays",unreportdays);
 		 return mv ;  
 	}
-	boolean isWithinRange(LocalDate start1,LocalDate end1,LocalDate Localdate) 
+	public boolean isWithinRange(LocalDate start1,LocalDate end1,LocalDate Localdate) 
 	{
 		return Localdate.isAfter(start1) && Localdate.isBefore(end1);
 	}

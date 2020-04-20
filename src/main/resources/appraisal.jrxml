@@ -162,7 +162,7 @@ FROM appraisal.user_extra
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="160" splitType="Stretch">
 			<textField>
 				<reportElement isPrintRepeatedValues="false" x="290" y="40" width="100" height="30" uuid="576849ad-e104-4135-821e-d96058c44ff3">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e3fba42e-57bb-44e0-9459-98b6ef40b325"/>

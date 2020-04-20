@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lxisoft.appraisal.domain.Git;
 import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.domain.UserExtra;
+
+import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.LateArrivalRepository;
 
 @Service
@@ -32,8 +34,7 @@ public class LateArrivalService
 	{
 		List<LateArrival> em=lateRepo.findByUserExtraId(id);		 
 		 return em;
-	}
-	
+	}	
 	/*
 	 * public List<LateArrival> findLateOfUserBetween(UserExtra userEx, Instant
 	 * dateTime, Instant dateTime1) {
@@ -46,4 +47,19 @@ public class LateArrivalService
 	 {
 		return lateRepo.findAllByUserExtraId(id);		 
 	 }
+
+
+	public List<LocalDate> getLocalDate(Instant em)
+	{
+		//yourInstant.atZone(yourZoneId).toLocalDate(); Will work with earlier versions for LocalDate...
+		
+		 ((ChronoLocalDateTime<LocalDate>) ZoneId.of("Asia/Kolkata")).toLocalDate();
+		 List<LocalDate> Date=new ArrayList<LocalDate>();
+	    return Date;
+	}
+	public List<LateArrival> findAll() {
+		
+		return lateRepo.findAll();
+	}	
+
 }

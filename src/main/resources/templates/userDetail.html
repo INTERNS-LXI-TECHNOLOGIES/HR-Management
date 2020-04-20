@@ -26,6 +26,7 @@
    <body align="center"> 
    <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
+  <a href="javascript:history.back()">Back</a>
   
   <a href="/editUser" th:href="@{${'/editUser?id='+employee.id}}"><div sec:authorize="hasRole('ROLE_ADMIN')">Edit</div></a>
   <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout</a>
@@ -79,7 +80,7 @@
 				</div>
 				<div id="Edu-detail" class="tab-content">
 					<div class="Edu-box-main">
-						<h2>
+						 <h2>
 						
 						<form th:action="@{/sortDate}">
 						 <input type="hidden" name="id"  th:value="${employee.id}" ></input>
@@ -184,8 +185,7 @@
 				</div>
 				
 				<div id="App-detail" class="tab-content">
-					<div class="Edu-box">
-											
+					<div class="Edu-box">								
 							<p><form th:action="@{getPdf}">
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
 			           	<input type="submit" value="Print Appraisal Result" />
