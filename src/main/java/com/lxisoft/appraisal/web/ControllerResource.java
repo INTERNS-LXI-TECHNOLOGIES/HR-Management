@@ -6,7 +6,9 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -737,28 +739,39 @@ public class ControllerResource {
 	{
 		 ModelAndView mv= new ModelAndView("userDetail"); 	
 		 LocalDate start1=LocalDate.parse(start);
-		 LocalDate end1=LocalDate.parse(end);
-
+		 LocalDate end1=LocalDate.parse(end);		
+		 
 		 Optional <User> user = userService.findByid(id);
 		 Optional <UserExtra> userEx = userService.findExtraByid(id);
 		 List<Git> git=gitServ.findGitOfUserBetween(userEx.get(),start1,end1);
 		 List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userEx.get(),start1,end1);
-		 List<Git> mar=new ArrayList<Git>();
-		 List<Hackathon> mark=new ArrayList<Hackathon>();
-		 int n=git.size()-1;
-		 int m = hack.size()-1;
+		// List<Git> mar=new ArrayList<Git>();
+		 //List<Hackathon> mark=new ArrayList<Hackathon>();
+		// int n=git.size()-1;
+		 //int m = hack.size()-1;
 		 if(git.size()!=0) 
 		 {
-			 mar.add(git.get(n));
-			mv.addObject("git",mar);
+			 Iterator<Git> it=git.iterator();
+			 while (it.hasNext())
+			{
+				Git object = (Git)it.next();
+				Long mar= object.getMark();
+				 mv.addObject("git",mar);
+			 }	
 		}		
 		if(hack.size()!=0)
 		{
-			 mark.add(hack.get(m));
-			mv.addObject("hack",mark);
+			Iterator<Hackathon> i=hack.iterator();
+			while (i.hasNext())
+			{
+				Hackathon object = (Hackathon)i.next();
+				Long mark = object.getMark();
+				mv.addObject("hack",mark);
+			 }	
+			//mark.add(hack.get(m));
+			//mv.addObject("hack",mark);
 		}	
 		 List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),start1,end1);
-		 //System.out.println("leaves in two date:...."+leave.get(1));
 		 List<Leave> auth=new ArrayList<Leave>();
 		 List<Leave> unauth=new ArrayList<Leave>();
 		 for(int i=0;i<leave.size();i++)
@@ -774,7 +787,19 @@ public class ControllerResource {
 		 }
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
-		 List<LateArrival> late =lateServ.findLate(id);
+		 	 
+		 List<LateArrival> lateAll=lateServ.findAllLate(id);
+		 List<LateArrival> late = new ArrayList<LateArrival>();
+		 for(int i=0;i<lateAll.size();i++)
+		 {
+			 Instant insta =lateAll.get(i).getReachedTime();
+			 LocalDate localdate = insta.atZone(ZoneId.systemDefault()).toLocalDate();
+			if(isWithinRange(localdate,start1,end1)==true)
+			{
+				late.add(lateAll.get(i));
+			}			 
+		 }
+		 
 		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
 		 for(int i=0;i<late.size();i++)
 		 {
@@ -784,10 +809,8 @@ public class ControllerResource {
 		 }
 		
 		  UserExtraDTO dto=getUser(user.get(),userEx.get());
-		  mv.addObject("employee",dto);
+		  mv.addObject("employee",dto);		
 		
-		 LocalDate first=userEx.get().getJoiningDate();
-		 LocalDate second= LocalDate.now();
 		 long days= ChronoUnit.DAYS.between(start1,end1);
 		 long total=(days*7);
 		
@@ -834,6 +857,10 @@ public class ControllerResource {
 		 mv.addObject("workedHour",workedHour);
 		 mv.addObject("unreportdays",unreportdays);
 		 return mv ;  
+	}
+	boolean isWithinRange(LocalDate start1,LocalDate end1,LocalDate Localdate) 
+	{
+		return Localdate.isAfter(start1) && Localdate.isBefore(end1);
 	}
 	
 }
