@@ -12,15 +12,27 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="/js/responsiveScript.js"></script>
 <script src="/js/view.js"></script>
+<script src="/js/dropdownScript.js"></script>
 <link rel="stylesheet" href="/css/style.css" type="text/css">
 <link rel="stylesheet" href="/css/viewall.css" type="text/css">
-<link rel="stylesheet" href="/css/deleteConfirm.css" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <title>View All User</title>  
   </head>
   <body>
   <div class="topnav" id="myTopnav">
-  <a href="/adminLogin" th:href="@{/adminLogin}">Settings</a>
+  <a href="/add" th:href="@{/add}">Add User</a>
+  <a href="/report" th:href="@{/report}">Appraisal report</a>
+   <div class="dropdown">
+  <button class="dropbtn" onclick="myFunction()">Set Status
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-content" id="myDropdown">
+    <a href="/leave">Leave Status</a>
+    <a href="/lateArrival">Late Arrival</a>
+    <a href="/reportStatus">Reporting Status</a>
+    <a href="/evaluation">Evaluation Test</a>
+  </div>
+  </div> 
    <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout</a>
    <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout-success}"></form>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">

@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lxisoft.appraisal.domain.Appraisal;
+import com.lxisoft.appraisal.domain.UserDataBean;
 import com.lxisoft.appraisal.repository.AppraisalRepository;
 
+/**
+ * Service Implementation for managing {@link Appraisal}.
+ */
 @Service
 @Transactional
 public class AppraisalService {
@@ -18,6 +22,10 @@ public class AppraisalService {
 	AppraisalRepository appRepo;
 	@Autowired 
 	UserExtraService service;
+	/**
+	 * to get all appraisal details
+	 * @return list of appraisal
+	 */
 	
 	public List getAllDetails()
 	{

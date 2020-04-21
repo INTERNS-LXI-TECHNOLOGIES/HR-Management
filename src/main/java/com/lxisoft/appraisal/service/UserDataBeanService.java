@@ -77,7 +77,10 @@ public class UserDataBeanService {
         log.debug("Request to delete UserDataBean : {}", id);
         userDataBeanRepository.deleteById(id);
     }
-
+    /**
+     * get all user date beans
+     *
+     */
 	public List<UserDataBean> getAllUserDataBeans() 
 	{
 		List<UserExtra> users=userExService.getAllExtraUsers();
