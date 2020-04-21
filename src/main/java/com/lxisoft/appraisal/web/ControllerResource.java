@@ -1,20 +1,16 @@
 package com.lxisoft.appraisal.web;
 
 import java.io.IOException;
-import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Period;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -442,7 +438,8 @@ public class ControllerResource {
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
-
+		LateArrival late =new LateArrival();
+		
 		LocalDate localDate = LocalDate.now();		
 		ModelAndView mv= new ModelAndView("redirect:/leave");
 		List<Leave> l=leaveSer.findByDate(localDate);
@@ -452,6 +449,10 @@ public class ControllerResource {
 			if(name.contains(m))
 			{
 				id=user.get(i).getId();
+			}
+			else 
+			{
+				mv.addObject("empty",late);
 			}
 		}
 		boolean isExist = false;
@@ -469,7 +470,6 @@ public class ControllerResource {
 		{
 			for(int j=0;j<userextra.size();j++)
 			{
-
 				if(id.equals(userextra.get(j).getId()))
 				{
 					UserExtra u=userextra.get(j);
@@ -477,12 +477,10 @@ public class ControllerResource {
 					leave.setUserExtra(u);
 					leave.setType(subject);
 					leaveSer.setLeave(leave);
-	
-
 				}
-
 			}
 		}
+		
 		return mv;
 	}
 	@RequestMapping("/evaluation")
