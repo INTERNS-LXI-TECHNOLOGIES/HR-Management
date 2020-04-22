@@ -18,8 +18,7 @@ public interface LeaveRepository extends JpaRepository<Leave, Long>
 {
 	List<Leave> findByUserExtraId(Long id);
 	
-	List <Leave> findByUserExtraAndDateBetween(UserExtra userEx, LocalDate second,LocalDate first);
-	
+	List <Leave> findByUserExtraAndDateBetween(UserExtra userEx, LocalDate second,LocalDate first);	
 	
 	List<Leave> findAllByDate(LocalDate localDate);
 }
