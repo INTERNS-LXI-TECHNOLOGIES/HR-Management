@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.UserDataBean;
 import com.lxisoft.appraisal.jasper.UserDataBeanList;
 
@@ -26,14 +27,21 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-
+/**
+ * Service Implementation for managing Jasper report.
+ */
 @Service
 @Transactional
 public class JasperService {
 	private final static Logger log =LoggerFactory . getLogger ( JasperService.class );
 	@Autowired
 	DataSource dataSource;
-	
+	/**
+	 * get report as pdf of single user using database
+	 * @param id
+	 * @return
+	 * @throws JRException
+	 */
 	public byte[] getReportAsPdfUsingDatabase(long id)throws JRException
 	{
 		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/app.jrxml");
@@ -53,7 +61,12 @@ public class JasperService {
 		return JasperExportManager.exportReportToPdf(jp);
 		
 	}
-	
+	/**
+	 * get report as pdf of all user using javabeans
+	 * @param list
+	 * @return
+	 * @throws JRException
+	 */
 	public byte[] getReportAsPdfUsingJavaBeans(List<UserDataBean> list)throws JRException
 	{
 		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/C.jrxml");

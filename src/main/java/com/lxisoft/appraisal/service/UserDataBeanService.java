@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -78,7 +79,7 @@ public class UserDataBeanService {
         userDataBeanRepository.deleteById(id);
     }
     /**
-     * get all user date beans
+     * get all user data beans
      *
      */
 	public List<UserDataBean> getAllUserDataBeans() 
@@ -97,6 +98,13 @@ public class UserDataBeanService {
 			System.out.println("000000000000000"+list);
 		}
 		return list;
-		
 	}
+//	/**
+//	 * get user data beans between two date
+//	 */
+//	public List<UserDataBean> findOneUserDataBeanByDate(Long id, LocalDate first, LocalDate second)
+//	{
+//		appraisalService.setAppraisalByDate(id,first,second);
+//		
+//	}
 }

@@ -31,6 +31,10 @@ public class AppraisalService {
 	{
 		return appRepo.findAll();
 	}
+	/**
+	 * set Appraisal by id
+	 * @param id
+	 */
 	public void setAppraisal(long id) 
 	{
 		Appraisal appraisal=new Appraisal();
@@ -45,23 +49,33 @@ public class AppraisalService {
 		appRepo.save(appraisal);
 		
 	}
+	/**
+	 * get single User Appraisal
+	 * @param id
+	 * @return Appraisal
+	 */
 	public Appraisal getOneAppraisal(long id)
 	{
 		return (appRepo.getOneByUserExtraId(service.findExtraByid(id).get())).get(0);
 	}
-	public void setAppraisal(Long id, String aStart, String aLast) {
+	/**
+	 * for settting appraisal between two date
+	 * @param id
+	 * @param first
+	 * @param second
+	 */
+	public void setAppraisalByDate(Long id,LocalDate first, LocalDate second) 
+	{
 		Appraisal appraisal=new Appraisal();
 		appraisal.setId(id);
 		appraisal.setAttendance(service.getAttendance(id));
 		appraisal.setCodeQuality(service.getCodeQuality(id));
-		appraisal.setCompanyPolicy(service.getcompanyPolicy(id));
-		appraisal.setMeetingTargets(service.getTargets(id));
-		appraisal.setPunctuality(service.getPunctuality(id));
+		appraisal.setCompanyPolicy(service.getcompanyPolicyByDate(id,first,second));
+		appraisal.setMeetingTargets(service.getTargetsByDate(id,first,second));
+		appraisal.setPunctuality(service.getPunctualityByDate(id,first,second));
 		appraisal.setDate(LocalDate.now());
 		appraisal.setUserExtra(service.findExtraByid(id).get());
 		appRepo.save(appraisal);
-		
-		
 	}
 	
 

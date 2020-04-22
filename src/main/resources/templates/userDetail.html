@@ -195,10 +195,10 @@
 			           <form th:action="@{/getPdfBetweenTwoDate}">
 						 <input type="hidden" name="id"  th:value="${employee.id}" ></input>
 						<div class="col-sm-5 col-xs-6 tital " >From
-						<input type="date" id="start" name="start" required>
+						<input type="date" id="astart" name="astart" required>
 						</div>
 						<div class="col-sm-5 col-xs-6 tital">To
-						<input type="date" id="end" name="end" required>
+						<input type="date" id="aend" name="aend" required>
 						<input type="submit" value="get Appraisal" /></div>
 						</form>
 			        </p></div>
@@ -220,18 +220,11 @@
 							<li><span th:text="${appraisal.codeQuality}" ></li><br>
 							
 						</ul>
-						 
-					</div> 		  
-					
-					
-				</div>
-				
-				
+					</div> 		  			
 				</div>
 			</div>
+			</div>
 		</div>
-		
-		
 	</div>
-	</body>
+</body>
 </html>

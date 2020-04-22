@@ -13,7 +13,10 @@ public class UserDataBeanList {
 	@Autowired
 	static
 	AppraisalService appService;
-
+	/**
+	 * get list of User with dummy data
+	 * @return List: UserDataBean object list
+	 */
 	public static List getUserDataBeanList()
 	{
 
