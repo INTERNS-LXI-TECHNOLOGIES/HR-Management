@@ -18,8 +18,13 @@
     <title>Add User</title>
 </head>
 
-<body align="center">
-	
+<body align="center" >
+	<script type="text/javascript" th:if="${user}">
+	function userAdd()
+	   {
+		   document.getElementById('alert').style.display = "block";
+	   }
+	</script>
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -30,9 +35,9 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
 
-                <div th:if="${param.success}">
+                <!-- <div th:if="${param.success}">
                     <div class="alert alert-info">User successfully added!</div>
-                </div>
+                </div> -->
 
                 <h1>User Info</h1>
                 <form th:action="@{/addU}" th:object="${user}" enctype="multipart/form-data" method="post">

@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.Date;
 
+import org.apache.logging.log4j.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -280,6 +281,8 @@ public class ControllerResource {
 		 mv.addObject("total",total);
 		 mv.addObject("workedHour",workedHour);
 		 mv.addObject("unreportdays",unreportdays);
+		 
+		 mv.addObject("lastAction", "entity has been created/updated successfully");
 		 return mv ;  
 	 }
     public List<UserExtraDTO> getAllUser(List<User> users,List<UserExtra> userextra)
@@ -305,9 +308,10 @@ public class ControllerResource {
     }
    
     @GetMapping(value= "/add")
-    public String add(Model model) {
+    public String add(Model model,RedirectAttributes re) {
     	
     	model.addAttribute("user",new User());
+    	re.addFlashAttribute("user", true);
     
     	return "addUser";
     }
