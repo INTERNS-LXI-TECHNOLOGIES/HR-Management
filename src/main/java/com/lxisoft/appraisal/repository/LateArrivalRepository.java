@@ -22,7 +22,6 @@ import org.springframework.stereotype.Repository;
 public interface LateArrivalRepository extends JpaRepository<LateArrival, Long> 
 {
 	List<LateArrival> findByUserExtraId(Long id);
-
 	
 	//List <LateArrival> findByUserExtraAndInstantBetween(UserExtra userEx, Instant dateTime,Instant  dateTime1);
 	

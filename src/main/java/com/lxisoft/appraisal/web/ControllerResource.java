@@ -74,6 +74,7 @@ import net.sf.jasperreports.engine.JRException;
 
 @Controller
 public class ControllerResource {
+	private static final Object Invalid = null;
 	@Autowired
 	UserExtraService userService;
 	@Autowired
@@ -432,16 +433,19 @@ public class ControllerResource {
 		
 	}
 	@RequestMapping("/setLeave")
-	public ModelAndView setLeave(@RequestParam String name,@RequestParam (name="subject",required=false, defaultValue="NonAuthorized")String subject)
+	public Model setLeave(@RequestParam String name,@RequestParam (name="subject",required=false, defaultValue="NonAuthorized")String subject, Model model)
 	{
 		Long id=null;
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
-		LateArrival late =new LateArrival();
+		
+		Object Valid =null;
+		List <Valid> valid=new ArrayList<Valid>();
 		
 		LocalDate localDate = LocalDate.now();		
-		ModelAndView mv= new ModelAndView("redirect:/leave");
+		Model model= new Model("leave");
+		
 		List<Leave> l=leaveSer.findByDate(localDate);
 		for(int i=0;i<user.size();i++)
 		{
@@ -449,10 +453,13 @@ public class ControllerResource {
 			if(name.contains(m))
 			{
 				id=user.get(i).getId();
+				model.addAttribute("message","valid");
+				return model;
 			}
 			else 
 			{
-				mv.addObject("empty",late);
+				model.addAttribute("message","invalid");
+				return  model;
 			}
 		}
 		boolean isExist = false;
@@ -481,7 +488,7 @@ public class ControllerResource {
 			}
 		}
 		
-		return mv;
+		return model;
 	}
 	@RequestMapping("/evaluation")
 	public String evaluation()
