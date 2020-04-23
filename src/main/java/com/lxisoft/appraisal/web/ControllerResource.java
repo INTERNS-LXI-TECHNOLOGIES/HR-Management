@@ -311,7 +311,7 @@ public class ControllerResource {
     public String add(Model model,RedirectAttributes re) {
     	
     	model.addAttribute("user",new User());
-    	re.addFlashAttribute("user", true);
+    	re.addFlashAttribute("user", "true");
     
     	return "addUser";
     }

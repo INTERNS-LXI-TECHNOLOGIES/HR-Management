@@ -18,12 +18,16 @@
     <title>Add User</title>
 </head>
 
-<body align="center" >
-	<script type="text/javascript" th:if="${user}">
-	function userAdd()
+<body align="center"  th:onload="'use('+*{user}+')'">
+<input type="hidden" id="you" th:value="${user}"/>
+	<script type="text/javascript">
+	function use(text)
 	   {
+			var val=[[${user}!=null?true:false]];
+			if(val){
 		   document.getElementById('alert').style.display = "block";
 	   }
+	}
 	</script>
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -76,6 +80,7 @@
 					 <label>Role Type: </label><select name="authority">
    						 <option th:value="ROLE_USER" th:text="user"></option>
    						 <option th:value="ROLE_ADMIN" th:text="Admin"></option>
+   						
 
                     </select><br><br>
                     
