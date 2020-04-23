@@ -68,8 +68,8 @@ public class AppraisalService {
 	{
 		Appraisal appraisal=new Appraisal();
 		appraisal.setId(id);
-		appraisal.setAttendance(service.getAttendance(id));
-		appraisal.setCodeQuality(service.getCodeQuality(id));
+		appraisal.setAttendance(service.getAttendanceByDate(id,first,second));
+		appraisal.setCodeQuality(service. getCodeQualityByDate(id,first,second));
 		appraisal.setCompanyPolicy(service.getcompanyPolicyByDate(id,first,second));
 		appraisal.setMeetingTargets(service.getTargetsByDate(id,first,second));
 		appraisal.setPunctuality(service.getPunctualityByDate(id,first,second));
