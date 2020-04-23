@@ -1,5 +1,6 @@
 package com.lxisoft.appraisal.repository;
 
+import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.domain.ReportStatus;
 
 import java.util.List;
@@ -15,4 +16,6 @@ import org.springframework.stereotype.Repository;
 public interface ReportStatusRepository extends JpaRepository<ReportStatus, Long>
 {
 	List<ReportStatus> findByUserExtraId(Long id);
+	
+	List<ReportStatus> findAllByUserExtraId(Long id);
 }

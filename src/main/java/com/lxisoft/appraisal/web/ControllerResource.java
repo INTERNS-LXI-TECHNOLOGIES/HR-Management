@@ -433,18 +433,15 @@ public class ControllerResource {
 		
 	}
 	@RequestMapping("/setLeave")
-	public Model setLeave(@RequestParam String name,@RequestParam (name="subject",required=false, defaultValue="NonAuthorized")String subject, Model model)
+	public ModelAndView setLeave(@RequestParam String name,@RequestParam (name="subject",required=false, defaultValue="NonAuthorized")String subject)
 	{
 		Long id=null;
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
-		
-		Object Valid =null;
-		List <Valid> valid=new ArrayList<Valid>();
-		
+		int x= 0;
 		LocalDate localDate = LocalDate.now();		
-		Model model= new Model("leave");
+		ModelAndView mv= new ModelAndView("redirect:/leave");
 		
 		List<Leave> l=leaveSer.findByDate(localDate);
 		for(int i=0;i<user.size();i++)
@@ -453,21 +450,31 @@ public class ControllerResource {
 			if(name.contains(m))
 			{
 				id=user.get(i).getId();
-				model.addAttribute("message","valid");
-				return model;
+				x++;
 			}
 			else 
 			{
-				model.addAttribute("message","invalid");
-				return  model;
+				System.out.print("Ayana Boyyyy WWWWW QQQQQQQQ WWWWWQQQQQQQWWWW ");
+				//ModelAndView mod= new ModelAndView("status");
+				//return  mod;
+				
 			}
 		}
 		boolean isExist = false;
+		if(x>0)
+		{
 		for(Leave u:l)
 		{
 			
 			if(id.equals(u.getUserExtra().getId()))
+			{
 				isExist=true;
+			}
+			else
+			{
+				System.out.print("pppppppwwwwwwwwwwwwwqqqqqqqqqqqqq");
+			}
+		}
 		}
 		if(isExist)
 		{
@@ -488,7 +495,7 @@ public class ControllerResource {
 			}
 		}
 		
-		return model;
+		return mv;
 	}
 	@RequestMapping("/evaluation")
 	public String evaluation()
@@ -857,13 +864,17 @@ public class ControllerResource {
 		 long absence=l*7;
 		 long workedHour=(total-absence);
 		 
-		 List<ReportStatus> status=reportServ.findReport(id);
+		 List<ReportStatus> status=reportServ.findAllReport(id);
 		 List<ReportStatus> unreportdays=new ArrayList<ReportStatus>();
 		 for(int i=0;i<status.size();i++)
 		 {
-			unreportdays.add(status.get(i));
+			 Instant insta =status.get(i).getReportingTime();
+			 LocalDate localdate = insta.atZone(ZoneId.systemDefault()).toLocalDate();
+			if(isWithinRange(localdate,start1,end1)==true)
+			{
+				unreportdays.add(status.get(i));
+			}			 
 		 }
-
 		
 		appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
