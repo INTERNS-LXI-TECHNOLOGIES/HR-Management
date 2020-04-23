@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.ReportStatus;
 import com.lxisoft.appraisal.repository.ReportStatusRepository;
@@ -38,4 +38,9 @@ public class ReportStatusService {
 		 
 		 return status;
 	}
+	 public List<ReportStatus> findAllReport(Long id)
+	 {
+		return reportRepo.findAllByUserExtraId(id);		 
+	 }
+
 }

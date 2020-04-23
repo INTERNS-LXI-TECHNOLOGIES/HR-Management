@@ -1,20 +1,16 @@
 package com.lxisoft.appraisal.web;
 
 import java.io.IOException;
-import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Period;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -78,6 +74,7 @@ import net.sf.jasperreports.engine.JRException;
 
 @Controller
 public class ControllerResource {
+	private static final Object Invalid = null;
 	@Autowired
 	UserExtraService userService;
 	@Autowired
@@ -511,9 +508,10 @@ public class ControllerResource {
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
-
+		int x= 0;
 		LocalDate localDate = LocalDate.now();		
 		ModelAndView mv= new ModelAndView("redirect:/leave");
+		
 		List<Leave> l=leaveSer.findByDate(localDate);
 		for(int i=0;i<user.size();i++)
 		{
@@ -521,21 +519,37 @@ public class ControllerResource {
 			if(name.contains(m))
 			{
 				id=user.get(i).getId();
+				x++;
+			}
+			else 
+			{
+				System.out.print("Ayana Boyyyy WWWWW QQQQQQQQ WWWWWQQQQQQQWWWW ");
+				//ModelAndView mod= new ModelAndView("status");
+				//return  mod;
+				
 			}
 		}
 		boolean isExist = false;
+		if(x>0)
+		{
 		for(Leave u:l)
 		{
 			
 			if(id.equals(u.getUserExtra().getId()))
+			{
 				isExist=true;
+			}
+			else
+			{
+				System.out.print("pppppppwwwwwwwwwwwwwqqqqqqqqqqqqq");
+			}
+		}
 		}
 		if(isExist) {}
 		else
 		{
 			for(int j=0;j<userextra.size();j++)
 			{
-
 				if(id.equals(userextra.get(j).getId()))
 				{
 					UserExtra u=userextra.get(j);
@@ -546,6 +560,7 @@ public class ControllerResource {
 				}
 			}
 		}
+		
 		return mv;
 	}
 	/**
@@ -992,11 +1007,16 @@ public class ControllerResource {
 		 long absence=l*7;
 		 long workedHour=(total-absence);
 		 
-		 List<ReportStatus> status=reportServ.findReport(id);
+		 List<ReportStatus> status=reportServ.findAllReport(id);
 		 List<ReportStatus> unreportdays=new ArrayList<ReportStatus>();
 		 for(int i=0;i<status.size();i++)
 		 {
-			unreportdays.add(status.get(i));
+			 Instant insta =status.get(i).getReportingTime();
+			 LocalDate localdate = insta.atZone(ZoneId.systemDefault()).toLocalDate();
+			if(isWithinRange(localdate,start1,end1)==true)
+			{
+				unreportdays.add(status.get(i));
+			}			 
 		 }
 		appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
