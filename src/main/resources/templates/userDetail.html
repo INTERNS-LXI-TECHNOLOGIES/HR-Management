@@ -188,9 +188,19 @@
 					<div class="Edu-box">								
 							<p><form th:action="@{getPdf}">
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
+			           	
 			           	<input type="submit" value="Print Appraisal Result" />
-			           
+			            
 			           </form>
+			           <form th:action="@{/getPdfBetweenTwoDate}">
+						 <input type="hidden" name="id"  th:value="${employee.id}" ></input>
+						<div class="col-sm-5 col-xs-6 tital " >From
+						<input type="date" id="astart" name="astart" required>
+						</div>
+						<div class="col-sm-5 col-xs-6 tital">To
+						<input type="date" id="aend" name="aend" required>
+						<input type="submit" value="get Appraisal" /></div>
+						</form>
 			        </p></div>
 					<br><br><br><br>
 					<div class="Edu-box">
@@ -210,18 +220,11 @@
 							<li><span th:text="${appraisal.codeQuality}" ></li><br>
 							
 						</ul>
-						 
-					</div> 		  
-					
-					
-				</div>
-				
-				
+					</div> 		  			
 				</div>
 			</div>
+			</div>
 		</div>
-		
-		
 	</div>
-	</body>
+</body>
 </html>

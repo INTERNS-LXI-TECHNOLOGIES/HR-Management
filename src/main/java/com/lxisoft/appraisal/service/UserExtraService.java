@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.lxisoft.appraisal.domain.Appraisal;
 import com.lxisoft.appraisal.domain.Git;
 import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.LateArrival;
@@ -28,7 +29,9 @@ import com.lxisoft.appraisal.repository.LeaveRepository;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
 import com.lxisoft.appraisal.repository.UserRepository;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
-
+/**
+ * Service Implementation for managing {@link UserExtra,User}.
+ */
 @Service
 @Transactional
 public class UserExtraService {
@@ -36,48 +39,85 @@ public class UserExtraService {
 	@Autowired 
 	UserRepository userRepository;
 	@Autowired
-	 UserExtraRepository userExtraRepository;
+	UserExtraRepository userExtraRepository;
 	@Autowired
 	LeaveService leaveService;
+	@Autowired
+	LateArrivalService lateServ;
 	
 
     private final Logger log = LoggerFactory.getLogger(UserExtraService.class);
+    /**
+     * for creating user
+     * @param user
+     * @param us
+     */
     public void createUser(User user,UserExtra us)
     {
     	 userRepository.save(user);
          userExtraRepository.save(us);
     }
-    
+    /**
+     * find userExtra by id
+     * @param id
+     * @return UserExtra
+     */
     public  Optional<UserExtra> findExtraByid(Long id)
 	{
 		 Optional<UserExtra> extra=userExtraRepository.findById(id);
 		 return extra;
 	}
+    /**
+     * for getting all User
+     * @return list of user
+     */
     public List<User> getAllUsers()
     {
     	List<User> list=userRepository.findAll();
     	return list;
     }
+    /**
+     * for getting all UserExtra
+     * @return list of UserExtra
+     */
     public List<UserExtra> getAllExtraUsers()
     {
     	List<UserExtra> list=userExtraRepository.findAll();
     	return list;
     }
+    /**
+     * for getting user by username
+     * @param login
+     * @return User
+     */
 	public Optional<User> getUserByusername(String login) {
 		
 		return userRepository.findOneByLogin(login);
 	}
+	/**
+	 * find user by id
+	 * @param id
+	 * @return User
+	 */
 	public Optional<User> findByid(Long id) {
 		
 		return userRepository.findById(id);
 	}
-	
+	/**
+	 * for deleting user
+	 * @param id
+	 */
 	public void deleteUser(Long id) 
 	{
 		userExtraRepository.deleteById(id);
 		userRepository.deleteById(id);
 		
 	}
+	/**
+	 * find userExtra by company
+	 * @param company
+	 * @return List of UserExtra
+	 */
 	public ArrayList<UserExtra> findByCompany(String company) 
 	{
 		ArrayList<UserExtra> users=(ArrayList<UserExtra>)getAllExtraUsers();
@@ -89,6 +129,12 @@ public class UserExtraService {
 		}
 		return users;
 	}
+	/**
+	 * finding userExtra by company.
+	 * @param users
+	 * @param position
+	 * @return List of UserExtra
+	 */
 	public ArrayList<UserExtra> findByPosition(ArrayList<UserExtra> users, String position) 
 	{
 		for(Iterator<UserExtra> u = users.iterator(); u.hasNext();)
@@ -99,8 +145,11 @@ public class UserExtraService {
 		}
 		return users;
 	}
-
-	
+	/**
+	 * get overall attendence out of 5
+	 * @param id
+	 * @return Attendence in long
+	 */
 	public long getAttendance(long id)
 	{
 		LocalDate date = LocalDate.now();
@@ -120,36 +169,95 @@ public class UserExtraService {
 		
 		return attendance;
 	}
-	public long getPunctuality(long id) {
+	/**
+	 * get punctuality between two date out of 5.
+	 * @param id
+	 * @param one
+	 * @param two
+	 * @return punctuality value in long
+	 */
+	public long getPunctualityByDate(long id,LocalDate one,LocalDate two)
+	{
+		Optional<UserExtra> userEx=findExtraByid(id);
+		Optional<User> user=findByid(id);
+		long days= ChronoUnit.DAYS.between(one,two);
+		long total=(days*7);
+		List<Leave> leave=leaveService.findLeavesOfUserBetween(userEx.get(),one,two);
+		long leaveCount=leave.size();
+		long worked=total-(leaveCount*7);
+		int lates=(userEx.get().getLateArrivals()).size();	 
+		int punctuality=(int) ((worked-lates)*5 /total);
+		return punctuality;
+	}
+	/**
+	 * getting over all punctuality details out of 5.
+	 * @param id
+	 * @return punctuality value in long
+	 */
+	public long getPunctuality(long id) 
+	{
 		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		LocalDate first=userEx.get().getJoiningDate();
-		 LocalDate second= LocalDate.now();
+		LocalDate second= LocalDate.now();
 		long days= ChronoUnit.DAYS.between(first,second);
-		 long total=(days*7);
-		 long leaveCount=(userEx.get().getLeaves()).size();
-		 long worked=total-(leaveCount*7);
-		 int lates=(userEx.get().getLateArrivals()).size();
+		long total=(days*7);
+		long leaveCount=(userEx.get().getLeaves()).size();
+		long worked=total-(leaveCount*7);
+		int lates=(userEx.get().getLateArrivals()).size();
 		 
 		int punctuality=(int) ((worked-lates)*5 /total);
 		return punctuality;
 	}
-
-	public long getTargets(long id) {
+	/**
+	 * get meeting target details between two date out of 5.
+	 * @param id
+	 * @return target value in long
+	 */
+	public long getTargetsByDate(long id,LocalDate one,LocalDate two) 
+	{
+		Optional<UserExtra> userEx=findExtraByid(id);
+		Optional<User> user=findByid(id);
+		long days= ChronoUnit.DAYS.between(one,two);
+		long total=(days*7);
+	    long leaveCount=(userEx.get().getLeaves()).size();
+		long worked=total-(leaveCount*7);
+		int lates=(userEx.get().getLateArrivals()).size();
+		Set<LateArrival> lates1= userEx.get().getLateArrivals();
+		long minutes= 0;
+		LocalTime time=LocalTime.parse("06:30");
+		for (LateArrival late:lates1)
+		{
+			 LocalTime local=LocalTime.from(late.getReachedTime().atZone(ZoneId.of("GMT+3")));
+//			 System.out.println(time+"  :  "+local+" : "+late.getReachedTime());
+			minutes+=ChronoUnit.MINUTES.between(time,local); 
+		 }
+		int hours=(int) (minutes/60);
+		int target=(int) ((worked-hours)*5/total);
+//		System.out.println(target);
+		return target;
+	}
+	/**
+	 * get overall meeting target details out of 5.
+	 * @param id
+	 * @return target value in long
+	 */
+	public long getTargets(long id) 
+	{
 		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		LocalDate first=userEx.get().getJoiningDate();
-		 LocalDate second= LocalDate.now();
+		LocalDate second= LocalDate.now();
 		long days= ChronoUnit.DAYS.between(first,second);
-		 long total=(days*7);
-		 long leaveCount=(userEx.get().getLeaves()).size();
-		 long worked=total-(leaveCount*7);
-		 int lates=(userEx.get().getLateArrivals()).size();
-		 Set<LateArrival> lates1= userEx.get().getLateArrivals();
-		 long minutes= 0;
-		 LocalTime time=LocalTime.parse("06:30");
-		 for (LateArrival late:lates1)
-		 {
+		long total=(days*7);
+	    long leaveCount=(userEx.get().getLeaves()).size();
+		long worked=total-(leaveCount*7);
+		int lates=(userEx.get().getLateArrivals()).size();
+		Set<LateArrival> lates1= userEx.get().getLateArrivals();
+		long minutes= 0;
+		LocalTime time=LocalTime.parse("06:30");
+		for (LateArrival late:lates1)
+		{
 			 LocalTime local=LocalTime.from(late.getReachedTime().atZone(ZoneId.of("GMT+3")));
 //			 System.out.println(time+"  :  "+local+" : "+late.getReachedTime());
 			minutes+=ChronoUnit.MINUTES.between(time,local); 
@@ -161,15 +269,63 @@ public class UserExtraService {
 //		System.out.println(target);
 		return target;
 	}
+	/**
+	 * get companyPolicy between two date out of 5
+	 * @param id
+	 * @param one
+	 * @param two
+	 * @return companyPolicy in long
+	 */
+	public long getcompanyPolicyByDate(long id,LocalDate one,LocalDate two) 
+	{
+		Optional<UserExtra> userEx=findExtraByid(id);
+		Optional<User> user=findByid(id);
+		long days= ChronoUnit.DAYS.between(one,two);
+		long total=(days*7);
+		int count=0;
+		 
 
-	public long getcompanyPolicy(long id) {
+//		System.out.println("leaves between:::::::::::::::::::"+leaveService.findLeavesOfUserBetween(userEx.get(),second,first));
+		 Set<Leave> leaves= userEx.get().getLeaves();
+		 for (Leave l:leaves)
+		 {
+			if (l.getType().contentEquals("NonAuthorized")) {
+				count++;
+				
+			}
+		 }
+		 Set<LateArrival> lates1= userEx.get().getLateArrivals();
+		 for (LateArrival l:lates1)
+		 {
+			 if (l.getType().contentEquals("NonAuthorized"))
+				 count++;
+		 }
+		 Set<ReportStatus> status=userEx.get().getReportStatuses();
+		 for(ReportStatus s:status)
+		 {
+			 if(s.getType().contentEquals("NonAuthorized"))
+				 count++;
+		 }
+		 
+		 int policy=(int) (count*5/total);
+		 System.out.println(count+" l "+policy);
+		
+		return 5-policy;
+	}
+	/**
+	 * get company policy out of 5
+	 * @param id
+	 * @return companyPolicy in long
+	 */
+	public long getcompanyPolicy(long id) 
+	{
 		Optional<UserExtra> userEx=findExtraByid(id);
 		Optional<User> user=findByid(id);
 		LocalDate first=userEx.get().getJoiningDate();
-		 LocalDate second= LocalDate.now();
+		LocalDate second= LocalDate.now();
 		long days= ChronoUnit.DAYS.between(first,second);
-		 long total=(days*7);
-		 int count=0;
+		long total=(days*7);
+		int count=0;
 		 
 
 //		System.out.println("leaves between:::::::::::::::::::"+leaveService.findLeavesOfUserBetween(userEx.get(),second,first));

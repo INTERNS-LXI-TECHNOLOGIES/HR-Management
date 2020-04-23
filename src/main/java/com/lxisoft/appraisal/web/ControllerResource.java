@@ -98,6 +98,10 @@ public class ControllerResource {
 	
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
+    /**
+     * redirecting based on user or admin
+     * @return
+     */
     @RequestMapping(value="/")
 	public ModelAndView index()
 	{
@@ -105,7 +109,6 @@ public class ControllerResource {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		boolean isAdmin=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
-//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = authentication.getName();
 		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
 		if(isAdmin)
@@ -128,17 +131,21 @@ public class ControllerResource {
 		}
 
 	}
-
-    @GetMapping(value= "/adminLogin")
-    public String adminLogin() {
-    	
-        return "adminLogin";
-    }
+    /**
+     * login page
+     * @return
+     */
     @RequestMapping(value= "/login")
     public String login() {
     	
         return "login";
     }
+    /**
+     * view all user page.
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/viewuser")
 	public ModelAndView viewUsers(HttpServletRequest request, HttpServletResponse response)
 	{
@@ -177,6 +184,14 @@ public class ControllerResource {
 		}
 		return mv;
 	}
+    /**
+     * getting single userdetails.
+     * @param id
+     * @param model
+     * @param aStart
+     * @param aLast
+     * @return
+     */
     @RequestMapping("/userDetails") 
 	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model, 
 			 @RequestParam (name="start" ,required=false)String aStart,
@@ -279,6 +294,12 @@ public class ControllerResource {
 		 mv.addObject("unreportdays",unreportdays);
 		 return mv ;  
 	 }
+   /**
+    * get a list of UserExtraDTO from list of user and userExtra.
+    * @param users
+    * @param userextra
+    * @return
+    */
     public List<UserExtraDTO> getAllUser(List<User> users,List<UserExtra> userextra)
     {
     	List <UserExtraDTO> dto=new ArrayList<UserExtraDTO>();
@@ -295,12 +316,22 @@ public class ControllerResource {
 		}
 		return dto;
     }
+    /**
+     * getting userExtraDTO from user and userExtra.
+     * @param user
+     * @param ex
+     * @return
+     */
     public UserExtraDTO getUser(User user,UserExtra ex)
     {
     	UserExtraDTO u=new UserExtraDTO(user,ex);
     	return u;
     }
-   
+    /**
+     * redirect to add user page
+     * @param model
+     * @return
+     */
     @GetMapping(value= "/add")
     public String add(Model model) {
     	
@@ -308,6 +339,15 @@ public class ControllerResource {
     
     	return "addUser";
     }
+    /**
+     * for adding user
+     * @param user
+     * @param bindingResult
+     * @param request
+     * @param file
+     * @param re
+     * @return
+     */
     @PostMapping("/addU")
 	public ModelAndView addUser(@Valid @ModelAttribute  User user,BindingResult bindingResult, HttpServletRequest request,
 			@RequestParam (name="picture") MultipartFile file, RedirectAttributes re)
@@ -358,6 +398,12 @@ public class ControllerResource {
 		}
 		return mv;
 	}
+    /**
+     * for logout 
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping("/logout-success")
 
 	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {  
@@ -367,12 +413,11 @@ public class ControllerResource {
         }  
          return "redirect:/login";  
      } 
-    @RequestMapping("/status")
-	public String status()
-	{
-		
-		return "status";
-	}
+    /**
+     * getting search result
+     * @param firstName
+     * @return list of user
+     */
 	@RequestMapping(value = "/statusform",method = RequestMethod.GET)
 	public @ResponseBody List<User> getName(@RequestParam("firstName") String firstName)
 	{
@@ -380,7 +425,11 @@ public class ControllerResource {
 		return simulateSearchResult(firstName);
 
 	}
-
+	/**
+	 * searching user based on first name, used in autocomplete implementation.
+	 * @param firstName
+	 * @return list of user
+	 */
 	private List<User> simulateSearchResult(String firstName)
 	{
 
@@ -393,7 +442,12 @@ public class ControllerResource {
 		}
 
 		return result;
-	}	
+	}
+	/**
+	 * getting UserExtraDTO based on userExtra.
+	 * @param list
+	 * @return
+	 */
 	public List<UserExtraDTO> getSpecificUser(Set<UserExtra> list)	
 	{
 		List<UserExtraDTO> users=new ArrayList<UserExtraDTO>();
@@ -410,11 +464,20 @@ public class ControllerResource {
 		
 		return users;
 	}
+	/**
+	 * coverting date to localdate
+	 * @param dateToConvert
+	 * @return
+	 */
 	public LocalDate ToLocalDate(Date dateToConvert) {
 	    return dateToConvert.toInstant()
 	      .atZone(ZoneId.systemDefault())
 	      .toLocalDate();
 	}
+	/**
+	 * view leave page with listing leave status on the corresponding date
+	 * @return
+	 */
 	@RequestMapping("/leave")
 	public ModelAndView Leave()
 	{
@@ -432,6 +495,12 @@ public class ControllerResource {
 		return mv;
 		
 	}
+	/**
+	 * setting leave status and redirect to same page
+	 * @param name
+	 * @param subject
+	 * @return
+	 */
 	@RequestMapping("/setLeave")
 	public ModelAndView setLeave(@RequestParam String name,@RequestParam (name="subject",required=false, defaultValue="NonAuthorized")String subject)
 	{
@@ -476,10 +545,7 @@ public class ControllerResource {
 			}
 		}
 		}
-		if(isExist)
-		{
-			
-		}
+		if(isExist) {}
 		else
 		{
 			for(int j=0;j<userextra.size();j++)
@@ -497,11 +563,22 @@ public class ControllerResource {
 		
 		return mv;
 	}
+	/**
+	 * view evaluation page
+	 * @return
+	 */
 	@RequestMapping("/evaluation")
 	public String evaluation()
 	{
 		return "evaluation";
 	}
+	/**
+	 * for setting evaluation result
+	 * @param name
+	 * @param num
+	 * @param hack
+	 * @return
+	 */
 	@RequestMapping("/setTest")
 	public String setTest(@RequestParam String name,Long num,Long hack )
 	{
@@ -534,13 +611,24 @@ public class ControllerResource {
 		}
 		return "evaluation";
 	}
+	/**
+	 * view report status page
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/reportStatus")
 	public String statusPage(Model model) 
 	{
 		model.addAttribute("status",new ReportStatus());
 		return "reportStatus";
 	}
-
+    /**
+     * for setting late reporting status and redirecting to the same page
+     * @param name
+     * @param subject
+     * @param t
+     * @return
+     */
 	@RequestMapping("/setReport")
 	public String setReport(@RequestParam String name,String subject,String t)
 	{
@@ -571,6 +659,10 @@ public class ControllerResource {
 		}
 		return "reportStatus";
 	}
+	/**
+	 * view late arrival page with listing late arrival status on current date
+	 * @return
+	 */
 	@RequestMapping("/lateArrival")
 	public ModelAndView LateArrival()
 	{
@@ -592,6 +684,13 @@ public class ControllerResource {
 		mv.addObject("latelist",dto);	
 		return mv;
 	}
+	/**
+	 * for setting late arrival and redirecting to same page
+	 * @param name
+	 * @param subject
+	 * @param ltime
+	 * @return
+	 */
 	@RequestMapping("/setLate")
 	public ModelAndView setLate(@RequestParam String name,String subject,String ltime)
 	{
@@ -625,12 +724,24 @@ public class ControllerResource {
 		}
 		return mv;
 	}
+	/**
+	 * for deleting user
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/deleteUser")
 	public String deleteUser(@RequestParam (name="id") Long id)
 	{
 		userService.deleteUser(id);
 		 return "redirect:/";  
 	}
+	/**
+	 * for filtering user based on position and company
+	 * @param company
+	 * @param position
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/filter")
 	public String filter(@RequestParam (name="company")String company,@RequestParam (name="position")String position, Model model)
 	{
@@ -658,6 +769,11 @@ public class ControllerResource {
 		model.addAttribute("list",dto);
 		return "viewAllUser";
 	}
+	/**
+	 * view edit user page
+	 * @param id
+	 * @return
+	 */
 	@RequestMapping("/editUser")
 	public ModelAndView editUser(@RequestParam (name="id") Long id)
 	{
@@ -666,7 +782,6 @@ public class ControllerResource {
 		Optional<UserExtra> userEx=userService.findExtraByid(id);
 		mv.addObject("image",Base64.getEncoder().encodeToString(userEx.get().getImage()));
 		mv.addObject("user",user.get());
-//		mv.addObject("userex",userEx.get());
 		String date=userEx.get().getDob().toString();
 		String join=userEx.get().getJoiningDate().toString();
 		mv.addObject("date",date);
@@ -675,6 +790,18 @@ public class ControllerResource {
 		
 		return mv;
 	}
+	/**
+	 *  for editing user
+	 * @param formUser
+	 * @param bindingResult
+	 * @param roleName
+	 * @param date
+	 * @param join
+	 * @param company
+	 * @param file
+	 * @param position
+	 * @return
+	 */
 	@PostMapping("/edit")
 	public String edit(@ModelAttribute @Valid User formUser,BindingResult bindingResult,@RequestParam (name="name") String roleName,
 			@RequestParam (name="date") String date , @RequestParam (name="join") String join, @RequestParam (name="company") String company,
@@ -683,10 +810,6 @@ public class ControllerResource {
 		long id=formUser.getId();
 		Optional<User> user=userService.findByid(id);
 		Optional<UserExtra> userEx=userService.findExtraByid(id);
-		
-//		if (bindingResult.hasErrors()) {
-//			return "editUserPage";
-//			}
 		if(!file.isEmpty()) {
 			try {
 				userEx.get().setImage(file.getBytes());
@@ -710,19 +833,11 @@ public class ControllerResource {
 		
 		return "redirect:/"; 
 	}
-	
-	@RequestMapping("/getAppraisalResult")
-	public ModelAndView getAppraisalResult(@RequestParam long id)
-	{
-		ModelAndView mv=new ModelAndView("AppraisalReport");
-//		System.out.println("id:::::::::: "+id);
-		appraisalService.setAppraisal(id);
-		mv.addObject("id",id);
-		mv.addObject("object",appraisalService.getOneAppraisal(id));
-		
-		
-		return mv;
-	}
+	/**
+	 * get appraisal result of single user
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/getPdf")
 	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id)
 	{
@@ -741,6 +856,10 @@ public class ControllerResource {
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
 	}
+	/**
+	 * getting appraisal form all employees
+	 * @return
+	 */
 	@GetMapping("/report")
 	public ResponseEntity<byte[]> report()
 	{
@@ -761,6 +880,30 @@ public class ControllerResource {
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
 	}
+	/**
+	 * to get appraisal details between two date
+	 * @param id
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+//	@RequestMapping("/getPdfBetweenTwoDate")
+//	public ModelAndView pdfBydate(@RequestParam Long id,@RequestParam (name="astart") String start,
+//			@RequestParam (name="aend") String end)
+//	{
+//		 ModelAndView mv= new ModelAndView();
+//		 LocalDate first=LocalDate.parse(start);
+//		 LocalDate second=LocalDate.parse(end);
+//		 userDataBeanService.findOneUserDataBeanByDate(Long id, LocalDate first, LocalDate second);
+//		 return mv ;  
+//	}
+	/**
+	 * to get user details between two date
+	 * @param id
+	 * @param start
+	 * @param end
+	 * @return
+	 */
 	@RequestMapping("/sortDate")
 	public ModelAndView statusBydate(@RequestParam Long id,@RequestParam (name="start") String start,
 			@RequestParam (name="end") String end)
@@ -875,12 +1018,9 @@ public class ControllerResource {
 				unreportdays.add(status.get(i));
 			}			 
 		 }
-		
 		appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
-		mv.addObject("appraisal",appraisal);
-		
-		
+		mv.addObject("appraisal",appraisal);		
 		 mv.addObject("a",a);
 		 mv.addObject("un",un);
 		 mv.addObject("time",time);

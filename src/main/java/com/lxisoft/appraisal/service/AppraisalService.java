@@ -9,8 +9,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lxisoft.appraisal.domain.Appraisal;
+import com.lxisoft.appraisal.domain.UserDataBean;
 import com.lxisoft.appraisal.repository.AppraisalRepository;
 
+/**
+ * Service Implementation for managing {@link Appraisal}.
+ */
 @Service
 @Transactional
 public class AppraisalService {
@@ -18,11 +22,19 @@ public class AppraisalService {
 	AppraisalRepository appRepo;
 	@Autowired 
 	UserExtraService service;
+	/**
+	 * to get all appraisal details
+	 * @return list of appraisal
+	 */
 	
 	public List getAllDetails()
 	{
 		return appRepo.findAll();
 	}
+	/**
+	 * set Appraisal by id
+	 * @param id
+	 */
 	public void setAppraisal(long id) 
 	{
 		Appraisal appraisal=new Appraisal();
@@ -37,23 +49,33 @@ public class AppraisalService {
 		appRepo.save(appraisal);
 		
 	}
+	/**
+	 * get single User Appraisal
+	 * @param id
+	 * @return Appraisal
+	 */
 	public Appraisal getOneAppraisal(long id)
 	{
 		return (appRepo.getOneByUserExtraId(service.findExtraByid(id).get())).get(0);
 	}
-	public void setAppraisal(Long id, String aStart, String aLast) {
+	/**
+	 * for settting appraisal between two date
+	 * @param id
+	 * @param first
+	 * @param second
+	 */
+	public void setAppraisalByDate(Long id,LocalDate first, LocalDate second) 
+	{
 		Appraisal appraisal=new Appraisal();
 		appraisal.setId(id);
 		appraisal.setAttendance(service.getAttendance(id));
 		appraisal.setCodeQuality(service.getCodeQuality(id));
-		appraisal.setCompanyPolicy(service.getcompanyPolicy(id));
-		appraisal.setMeetingTargets(service.getTargets(id));
-		appraisal.setPunctuality(service.getPunctuality(id));
+		appraisal.setCompanyPolicy(service.getcompanyPolicyByDate(id,first,second));
+		appraisal.setMeetingTargets(service.getTargetsByDate(id,first,second));
+		appraisal.setPunctuality(service.getPunctualityByDate(id,first,second));
 		appraisal.setDate(LocalDate.now());
 		appraisal.setUserExtra(service.findExtraByid(id).get());
 		appRepo.save(appraisal);
-		
-		
 	}
 	
 
