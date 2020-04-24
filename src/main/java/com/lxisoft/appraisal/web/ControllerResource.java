@@ -529,7 +529,7 @@ public class ControllerResource {
 		if (validUser==true)
 		{
 			System.out.print("sssssssss33333333333344444444ssssssss33333333222333333333333");
-			return mv;
+			//return mv;
 		}
 		else
 		{
@@ -550,7 +550,7 @@ public class ControllerResource {
 		
 		if(isExist)
 		{
-			return mv;
+			//return mv;
 		}
 		else
 		{
@@ -634,6 +634,12 @@ public class ControllerResource {
 	@RequestMapping("/setReport")
 	public String setReport(@RequestParam String name,String subject,String t)
 	{
+		if(t ==null)
+		{
+			System.out.print("abhiabhiabhiabahihiahfahiahfihf");
+			return "reportStatus";
+		}
+		else {
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		for(int i=0;i<user.size();i++)
@@ -658,6 +664,7 @@ public class ControllerResource {
 					}
 				}
 			}
+		}
 		}
 		return "reportStatus";
 	}
