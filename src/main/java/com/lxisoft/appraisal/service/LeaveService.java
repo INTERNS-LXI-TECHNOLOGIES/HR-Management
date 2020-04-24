@@ -8,36 +8,64 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.LeaveRepository;
-
+/**
+ * Service Implementation for managing {@link Leave}.
+ */
 @Service
 @Transactional
 public class LeaveService {
 	
 	@Autowired
 	LeaveRepository leaveRepo;
-	
-	public List<Leave> getAllLeave() {
+	/**
+	 * find all leaves
+	 * @return List: list of Leave
+	 */
+	public List<Leave> getAllLeave() 
+	{
 		 List<Leave> list=leaveRepo.findAll();
 		return list;
 	}
+	/**
+	 * for saving leave
+	 * @param leave
+	 */
 	public void setLeave(Leave leave)
 	{
 		leaveRepo.save(leave);
 	}
+	/**
+	 * find leave by UserExtra id
+	 * @param id
+	 * @return List: list of Leave
+	 */
 	public  List<Leave> findLeave(Long id)
 	{
 		List<Leave> em=leaveRepo.findByUserExtraId(id);
 
 		 return em;
 	}
-
-	public List<Leave> findByDate(LocalDate localDate) {
+	/**
+	 * find all leave by Date
+	 * @param localDate
+	 * @return List: list of Leave
+	 */
+	public List<Leave> findByDate(LocalDate localDate) 
+	{
 		
 		return leaveRepo.findAllByDate(localDate);
 	}	
+	/**
+	 * find leave of UserExtra between two date
+	 * @param userEx
+	 * @param second
+	 * @param first
+	 * @return List: list of Leave
+	 */
 	public List<Leave> findLeavesOfUserBetween(UserExtra userEx, LocalDate second, LocalDate first)
 	{
 		

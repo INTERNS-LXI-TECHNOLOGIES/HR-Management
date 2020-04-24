@@ -21,7 +21,6 @@
   	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
-  <a href="#Back"th:href="@{/status}">Back</a>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
     <i class="fa fa-bars"></i>
   </a>
@@ -33,7 +32,7 @@
 <form th:action="@{/setReport}" th:object="${newReportStatus}">
 		 <div class="form-group">
 		 <ul class="list-group">
-		 	<h2>UnReported Status</h2>
+		 	<h2>Late Reporting Status</h2>
 		 	<br><br>
 			<label for="report">Name:</label>
 			<input type="text"  id="report" name="name" class="autocomplete"><br><br>

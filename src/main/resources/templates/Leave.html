@@ -22,7 +22,6 @@
 	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
-  <a href="#Back"th:href="@{/status}">Back</a>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
     <i class="fa fa-bars"></i>
   </a>
@@ -49,6 +48,8 @@
 			<div id="container"></div>
 			<input value="Authorized"  name="subject" class="auth" type="checkbox">Authorized
    			<input value="NonAuthorized" name="subject" class="auth" type="checkbox">Non Authorized 
+   			
+   							
 		</div><br><br>
 		
 		<div id="alert" class="alert">
@@ -57,6 +58,8 @@
 		</div>	
          <center>  <button  class="button btn2" type="submit" onclick="userLeave()">Update</button><br><br>
         </form>
+         <span th:if="${message=='nonvalid'}">Invalid User</span>
+        
         </center>
 	</div>
 	</div>

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,7 +78,10 @@ public class UserDataBeanService {
         log.debug("Request to delete UserDataBean : {}", id);
         userDataBeanRepository.deleteById(id);
     }
-
+    /**
+     * get all user data beans
+     *
+     */
 	public List<UserDataBean> getAllUserDataBeans() 
 	{
 		List<UserExtra> users=userExService.getAllExtraUsers();
@@ -94,6 +98,21 @@ public class UserDataBeanService {
 			System.out.println("000000000000000"+list);
 		}
 		return list;
-		
+	}
+	/**
+	 * get user data beans between two date
+	 */
+	public List<UserDataBean> findOneUserDataBeanByDate(Long id, LocalDate first, LocalDate second)
+	{
+		List<UserDataBean> list=new ArrayList<UserDataBean>();
+		User user=userExService.findByid(id).get();
+		UserExtra userEx=userExService.findExtraByid(id).get();
+		appraisalService.setAppraisalByDate(id,first,second);
+		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+		UserDataBean bean=new UserDataBean(user.getFirstName(),user.getLastName(),userEx.getCompany(),
+				userEx.getPosition(),user.getEmail(),appraisal.getAttendance(),appraisal.getPunctuality(),
+				appraisal.getMeetingTargets(),appraisal.getCompanyPolicy(),appraisal.getCodeQuality());
+		list.add(bean);
+		return list;
 	}
 }
