@@ -896,16 +896,27 @@ public class ControllerResource {
 	 * @param end
 	 * @return
 	 */
-//	@RequestMapping("/getPdfBetweenTwoDate")
-//	public ModelAndView pdfBydate(@RequestParam Long id,@RequestParam (name="astart") String start,
-//			@RequestParam (name="aend") String end)
-//	{
-//		 ModelAndView mv= new ModelAndView();
-//		 LocalDate first=LocalDate.parse(start);
-//		 LocalDate second=LocalDate.parse(end);
-//		 userDataBeanService.findOneUserDataBeanByDate(Long id, LocalDate first, LocalDate second);
-//		 return mv ;  
-//	}
+	@RequestMapping("/getPdfBetweenTwoDate")
+	public ResponseEntity<byte[]> pdfBydate(@RequestParam Long id,@RequestParam (name="astart") String start,
+			@RequestParam (name="aend") String end)
+	{
+		 LocalDate first=LocalDate.parse(start);
+		 LocalDate second=LocalDate.parse(end);
+		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
+		 byte[] pdfContents=null;
+			try {
+				pdfContents=jasperService.getPdfUsingJavaBeans(bean);
+			} catch (JRException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			HttpHeaders headers=new HttpHeaders();
+			headers.setContentType(MediaType.parseMediaType("application/pdf"));
+			String fileName="Appraisal.pdf";
+			headers.add("content dis-position","attachment: filename="+fileName);
+			ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
+			return response;
+	}
 	/**
 	 * to get user details between two date
 	 * @param id
