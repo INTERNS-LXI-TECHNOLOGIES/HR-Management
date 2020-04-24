@@ -103,7 +103,7 @@ public class ControllerResource {
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
     @RequestMapping(value="/")
-	public ModelAndView index()
+	public ModelAndView index(@RequestParam(name="userAdded",required=false )boolean success)
 	{
     	ModelAndView mv=new ModelAndView(); 
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -112,6 +112,7 @@ public class ControllerResource {
 //		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = authentication.getName();
 		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
+		if(success)mv.addObject("userAdded",true);
 		if(isAdmin)
 		{
 			mv.addObject("username",username);
@@ -144,7 +145,7 @@ public class ControllerResource {
         return "login";
     }
     @RequestMapping("/viewuser")
-	public ModelAndView viewUsers(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView viewUsers(@RequestParam(name="userAdded",required=false )boolean success)
 	{
     	ModelAndView mv= new ModelAndView("viewAllUser");
     	try {
@@ -153,7 +154,7 @@ public class ControllerResource {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String username = authentication.getName();
 			
-			System.out.println("user:...."+username);
+			if(success)mv.addObject("success",true);
 			Optional<User> user=userService.getUserByusername(username);
 			
 			Optional<UserExtra> u=userService.findExtraByid(user.get().getId());
@@ -308,10 +309,10 @@ public class ControllerResource {
     }
    
     @GetMapping(value= "/add")
-    public String add(Model model,RedirectAttributes re) {
+    public String add(Model model) {
     	
     	model.addAttribute("user",new User());
-    	re.addFlashAttribute("user", "true");
+    	model.addAttribute("success", true);
     
     	return "addUser";
     }
@@ -359,8 +360,11 @@ public class ControllerResource {
 		mv=new ModelAndView("redirect:/");
 		try{
 			userService.createUser(user,us);
+			mv.addObject("userAdded",true);
+			
 		}catch(Exception e)
 		{
+			mv.addObject("error",true);
 			mv=new ModelAndView("addUser");
 		}
 		return mv;

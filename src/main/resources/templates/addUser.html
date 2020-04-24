@@ -18,17 +18,19 @@
     <title>Add User</title>
 </head>
 
-<body align="center"  th:onload="'use('+*{user}+')'">
-<input type="hidden" id="you" th:value="${user}"/>
-	<script type="text/javascript">
-	function use(text)
-	   {
-			var val=[[${user}!=null?true:false]];
-			if(val){
-		   document.getElementById('alert').style.display = "block";
-	   }
-	}
-	</script>
+<body align="center" >
+		<div id="alert" class="alert">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		 User added Successfully!! 
+		</div>	
+<script >
+   function use(us)
+   {  th:onload="use([[${u}]])" 
+	   if(!us)
+	   document.getElementById('alert').style.display = "block";
+   }
+    </script>
+	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -39,12 +41,10 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
 
-                <!-- <div th:if="${param.success}">
-                    <div class="alert alert-info">User successfully added!</div>
-                </div> -->
+              
 
                 <h1>User Info</h1>
-                <form th:action="@{/addU}" th:object="${user}" enctype="multipart/form-data" method="post">
+              	   <form th:action="@{/addU}" th:object="${user}" enctype="multipart/form-data" method="post">
                     <label>First name</label> <input type="text" th:field="*{firstName}" class="form-control" />
                      <font color="red" class="red" th:if="${#fields.hasErrors('firstName')}"th:errors="*{firstName}"></font><br><br>                  
                     <label>Last name</label> <input  type="text" th:field="*{lastName}" class="form-control" /> 
@@ -84,11 +84,8 @@
 
                     </select><br><br>
                     
-                    	<div id="alert" class="alert">
-						<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-						  User added Successfully!! 
-						</div>				                   						                     
-               		<br> <button type="submit" class="btn btn-success" onclick="userAdd()">Save</button>
+                    				                   						                     
+               		<br> <button type="submit" class="btn btn-success">Save</button>
 						 
                 </form>
             </div>
