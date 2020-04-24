@@ -49,6 +49,8 @@ public class UserExtraService {
 	GitService gitServ;
 	@Autowired
 	HackathonService hackServ;
+	@Autowired
+	ReportStatusService statusServ;
 	
 
     private final Logger log = LoggerFactory.getLogger(UserExtraService.class);
@@ -166,6 +168,22 @@ public class UserExtraService {
 		 }
 		 return late;
 	}
+	public List<ReportStatus> getReportStatusDetail(long id,LocalDate start,LocalDate end)
+	{
+		 List<ReportStatus> status=statusServ.findAllReport(id);
+		 List<ReportStatus> unreportdays=new ArrayList<ReportStatus>();
+		 for(int i=0;i<status.size();i++)
+		 {
+			 Instant insta =status.get(i).getReportingTime();
+			 LocalDate localdate = insta.atZone(ZoneId.systemDefault()).toLocalDate();
+			 boolean isTrue=localdate.isAfter(start) && localdate.isBefore(end);
+			if(isTrue==true)
+			{
+				unreportdays.add(status.get(i));
+			}			 
+		 }
+		 return unreportdays;
+	}
 	/**
 	 * get attendence between two date
 	 * @param id
@@ -268,12 +286,12 @@ public class UserExtraService {
 		for (LateArrival late:lateArrival)
 		{
 			 LocalTime local=LocalTime.from(late.getReachedTime().atZone(ZoneId.of("GMT+3")));
-//			 System.out.println(time+"  :  "+local+" : "+late.getReachedTime());
+		 System.out.println(time+"  :  "+local+" : "+late.getReachedTime());
 			minutes+=ChronoUnit.MINUTES.between(time,local); 
 		 }
 		int hours=(int) (minutes/60);
 		int target=(int) ((worked-hours)*5/total);
-//		System.out.println(target);
+		System.out.println(target);
 		return target;
 	}
 	/**
@@ -339,7 +357,7 @@ public class UserExtraService {
 			 if (l.getType().contentEquals("NonAuthorized"))
 				 count++;
 		 }
-		 Set<ReportStatus> status=userEx.get().getReportStatuses();
+		 List<ReportStatus> status= getReportStatusDetail(userEx.get().getId(),one,two);
 		 for(ReportStatus s:status)
 		 {
 			 if(s.getType().contentEquals("NonAuthorized"))

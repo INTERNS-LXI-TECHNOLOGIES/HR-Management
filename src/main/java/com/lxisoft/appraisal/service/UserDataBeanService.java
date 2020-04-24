@@ -99,12 +99,20 @@ public class UserDataBeanService {
 		}
 		return list;
 	}
-//	/**
-//	 * get user data beans between two date
-//	 */
-//	public List<UserDataBean> findOneUserDataBeanByDate(Long id, LocalDate first, LocalDate second)
-//	{
-//		appraisalService.setAppraisalByDate(id,first,second);
-//		
-//	}
+	/**
+	 * get user data beans between two date
+	 */
+	public List<UserDataBean> findOneUserDataBeanByDate(Long id, LocalDate first, LocalDate second)
+	{
+		List<UserDataBean> list=new ArrayList<UserDataBean>();
+		User user=userExService.findByid(id).get();
+		UserExtra userEx=userExService.findExtraByid(id).get();
+		appraisalService.setAppraisalByDate(id,first,second);
+		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+		UserDataBean bean=new UserDataBean(user.getFirstName(),user.getLastName(),userEx.getCompany(),
+				userEx.getPosition(),user.getEmail(),appraisal.getAttendance(),appraisal.getPunctuality(),
+				appraisal.getMeetingTargets(),appraisal.getCompanyPolicy(),appraisal.getCodeQuality());
+		list.add(bean);
+		return list;
+	}
 }
