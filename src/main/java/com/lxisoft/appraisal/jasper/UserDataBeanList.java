@@ -22,8 +22,8 @@ public class UserDataBeanList {
 
 		List<UserDataBean>dataBeanList=new ArrayList<UserDataBean>();
 
-		Long a=(long) 45,b=(long) 456,c=(long) 678,d=(long) 5678,e=(long) 6789;
-		dataBeanList.add(new UserDataBean("push","pu","lxisof","inter","ajith@gmail.com",a,b,c,d,e));
+//		Long a=(long) 45,b=(long) 456,c=(long) 678,d=(long) 5678,e=(long) 6789;
+//		dataBeanList.add(new UserDataBean("push","pu","lxisof","inter","ajith@gmail.com",a,b,c,d,e));
 
 
 		return dataBeanList;

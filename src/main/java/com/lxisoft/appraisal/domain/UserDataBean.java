@@ -4,6 +4,7 @@ package com.lxisoft.appraisal.domain;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -48,7 +49,7 @@ public class UserDataBean implements Serializable {
 
     @Column(name = "code_quality")
     private Long codeQuality;
-
+    
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -77,7 +78,9 @@ public class UserDataBean implements Serializable {
         this.id = id;
     }
 
-    public String getFirstName() {
+    
+
+	public String getFirstName() {
         return firstName;
     }
 
@@ -206,6 +209,13 @@ public class UserDataBean implements Serializable {
     public void setCodeQuality(Long codeQuality) {
         this.codeQuality = codeQuality;
     }
+
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
