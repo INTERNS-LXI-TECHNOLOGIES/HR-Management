@@ -510,7 +510,7 @@ public class ControllerResource {
 		Leave leave=new Leave();
 		
 		boolean validUser = false ;
-		String msg = "unvalid";
+		boolean msg = true;
 		LocalDate localDate = LocalDate.now();		
 		ModelAndView mv= new ModelAndView("redirect:/leave");		
 		List<Leave> l=leaveSer.findByDate(localDate);
@@ -521,7 +521,7 @@ public class ControllerResource {
 			{
 				validUser = true;
 				id=user.get(i).getId();
-				msg="valid";
+				msg=false;
 			}
 			else 
 			{
@@ -556,7 +556,7 @@ public class ControllerResource {
 		}
 		else
 		{ 
-			msg="valid";
+			msg=false;
 			for(int j=0;j<userextra.size();j++)
 			{
 				if(id.equals(userextra.get(j).getId()))
