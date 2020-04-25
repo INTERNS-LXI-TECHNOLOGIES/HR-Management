@@ -341,7 +341,7 @@ public class ControllerResource {
     	
     	model.addAttribute("user",new User());
     	model.addAttribute("success", true);
-    
+    	    
     	return "addUser";
     }
     /**
@@ -363,6 +363,7 @@ public class ControllerResource {
 		if (bindingResult.hasErrors()) 
 		{
 			mv=new ModelAndView("addUser");
+			mv.addObject("error",true);
 			
 			if(file.isEmpty())
 			{
@@ -401,8 +402,10 @@ public class ControllerResource {
 			
 		}catch(Exception e)
 		{
-			mv.addObject("error",true);
 			mv=new ModelAndView("addUser");
+			mv.addObject("error",true);
+//			mv.addObject("message",e.getLocalizedMessage());
+			
 		}
 		return mv;
 	}
@@ -531,7 +534,7 @@ public class ControllerResource {
 			}
 			else 
 			{
-				System.out.print("Ayana Boyyyy WWWWW QQQQQQQQ WWWWWQQQQQQQWWWW ");
+				
 				//ModelAndView mod= new ModelAndView("status");
 				//return  mod;
 				
@@ -837,7 +840,12 @@ public class ControllerResource {
 		userEx.get().setPosition(position);
 		
 		
-		userService.createUser(user.get(),userEx.get());
+		try {
+			userService.createUser(user.get(),userEx.get());
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 		
 		return "redirect:/"; 
 	}
