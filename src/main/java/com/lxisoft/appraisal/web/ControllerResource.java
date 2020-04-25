@@ -196,8 +196,8 @@ public class ControllerResource {
      */
     @RequestMapping("/userDetails") 
 	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model, 
-			 @RequestParam (name="start" ,required=false)String aStart,
-				@RequestParam (name="end", required=false)String aLast) 
+			 @RequestParam (name="start" ,required=false)String aStart,@RequestParam (name="end", required=false)String aLast,
+	 		 @RequestParam(name="success",required=false )boolean success)
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = userService.findByid(id);
@@ -294,6 +294,8 @@ public class ControllerResource {
 		 mv.addObject("total",total);
 		 mv.addObject("workedHour",workedHour);
 		 mv.addObject("unreportdays",unreportdays);
+		 
+		 if(success)mv.addObject("success",true);
 		 
 		 mv.addObject("lastAction", "entity has been created/updated successfully");
 		 return mv ;  
@@ -853,6 +855,7 @@ public class ControllerResource {
 		userEx.get().setCompany(company);
 		userEx.get().setPosition(position);
 		mv.addObject("id", id);
+		mv.addObject("success",true);
 		
 		try {
 			userService.createUser(user.get(),userEx.get());

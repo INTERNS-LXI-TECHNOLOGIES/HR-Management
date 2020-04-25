@@ -23,7 +23,7 @@
 </style>
 <title>User Info</title>
 </head>
-   <body align="center"> 
+   <body align="center" th:onload="use([[${success}]])" > 
    
    
    
@@ -38,6 +38,17 @@
     <i class="fa fa-bars"></i>
   </a>
 </div>
+<div id="alert" class="alert">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		user modified succesfully...!
+		</div>
+		<script >
+   function use(us)
+   {
+	   if(us){
+	   document.getElementById('alert').style.display = "block";}
+   }
+    </script>
 	<div class="profile-main">
 		<div class="profile-header">
 			<div class="user-detail">
