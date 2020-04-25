@@ -492,16 +492,16 @@ public class ControllerResource {
 	 * @return
 	 */
 	@RequestMapping("/leave")
-	public ModelAndView Leave()
+	public ModelAndView Leave(Long id)
 	{
 		Set<UserExtra> list=new HashSet<UserExtra>();
 		LocalDate localDate = LocalDate.now();
 		List<Leave> l=leaveSer.findByDate(localDate);
+		
 		for(Leave u:l)
 		{
 				list.add(u.getUserExtra());
 		}
-		
 		ModelAndView mv= new ModelAndView("Leave");
 		List<UserExtraDTO> dto=getSpecificUser(list);
 		mv.addObject("leavelist",dto);	
@@ -521,30 +521,33 @@ public class ControllerResource {
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
-		int x= 0;
-		LocalDate localDate = LocalDate.now();		
-		ModelAndView mv= new ModelAndView("redirect:/leave");
 		
+		boolean validUser = true ;
+		LocalDate localDate = LocalDate.now();		
+		ModelAndView mv= new ModelAndView("redirect:/leave");		
 		List<Leave> l=leaveSer.findByDate(localDate);
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
-			if(name.contains(m))
+			if(name.equals(m))
 			{
+				validUser = false;
 				id=user.get(i).getId();
-				x++;
 			}
 			else 
 			{
-				
-				//ModelAndView mod= new ModelAndView("status");
-				//return  mod;
-				
+
 			}
 		}
-		boolean isExist = false;
-		if(x>0)
+		if (validUser==true)
 		{
+			System.out.print("sssssssss33333333333344444444ssssssss33333333222333333333333");
+			//return mv;
+		}
+		else
+		{
+		boolean isExist = false;
+		
 		for(Leave u:l)
 		{
 			
@@ -557,8 +560,11 @@ public class ControllerResource {
 				System.out.print("pppppppwwwwwwwwwwwwwqqqqqqqqqqqqq");
 			}
 		}
+		
+		if(isExist)
+		{
+			//return mv;
 		}
-		if(isExist) {}
 		else
 		{
 			for(int j=0;j<userextra.size();j++)
@@ -572,14 +578,10 @@ public class ControllerResource {
 					leaveSer.setLeave(leave);
 				}
 			}
-		}
-		
+		}	
+	}
 		return mv;
 	}
-	/**
-	 * view evaluation page
-	 * @return
-	 */
 	@RequestMapping("/evaluation")
 	public String evaluation()
 	{
@@ -645,6 +647,12 @@ public class ControllerResource {
 	@RequestMapping("/setReport")
 	public String setReport(@RequestParam String name,String subject,String t)
 	{
+		if(t ==null)
+		{
+			System.out.print("abhiabhiabhiabahihiahfahiahfihf");
+			return "reportStatus";
+		}
+		else {
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		for(int i=0;i<user.size();i++)
@@ -669,6 +677,7 @@ public class ControllerResource {
 					}
 				}
 			}
+		}
 		}
 		return "reportStatus";
 	}

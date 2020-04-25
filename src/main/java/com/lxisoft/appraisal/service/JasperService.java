@@ -78,10 +78,10 @@ public class JasperService {
 	}
 	public byte[] getPdfUsingJavaBeans(List<UserDataBean> list)throws JRException
 	{
-		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/app.jrxml");
-		JRBeanCollectionDataSource collectionDataSource=new JRBeanCollectionDataSource(list,false);
+		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/UserReport.jrxml");
+		JRBeanCollectionDataSource dataSource=new JRBeanCollectionDataSource(list, false);
 		Map < String , Object > parameters = new HashMap < String ,	Object >();
-		JasperPrint jp=JasperFillManager.fillReport(jr,parameters,collectionDataSource);
+		JasperPrint jp=JasperFillManager.fillReport(jr,parameters,dataSource);
 		return JasperExportManager.exportReportToPdf(jp);
 		
 	}
