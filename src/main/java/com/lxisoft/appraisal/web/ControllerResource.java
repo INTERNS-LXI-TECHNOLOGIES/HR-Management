@@ -509,7 +509,8 @@ public class ControllerResource {
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
 		
-		boolean validUser = true ;
+		boolean validUser = false ;
+		String msg = "unvalid";
 		LocalDate localDate = LocalDate.now();		
 		ModelAndView mv= new ModelAndView("redirect:/leave");		
 		List<Leave> l=leaveSer.findByDate(localDate);
@@ -518,17 +519,18 @@ public class ControllerResource {
 			String m=user.get(i).getFirstName();
 			if(name.equals(m))
 			{
-				validUser = false;
+				validUser = true;
 				id=user.get(i).getId();
+				msg="valid";
 			}
 			else 
 			{
-				System.out.print("ooowwwf Boyyyy aayyyeee QQQQQQQQ WWWWWQQQQQQQWWWW ");
+				System.out.print("3333333############33333##### "+msg);
 			}
 		}
-		if (validUser==true)
+		if (validUser==false)
 		{
-			System.out.print("sssssssss33333333333344444444ssssssss33333333222333333333333");
+			System.out.print("444444444444444444444sssssss"+msg);
 			//return mv;
 		}
 		else
@@ -544,7 +546,7 @@ public class ControllerResource {
 			}
 			else
 			{
-				System.out.print("pppppppwwwwwwwwwwwwwqqqqqqqqqqqqq");
+				System.out.print("hey how y'all doing !!!"+msg);
 			}
 		}
 		
@@ -553,7 +555,8 @@ public class ControllerResource {
 			//return mv;
 		}
 		else
-		{
+		{ 
+			msg="valid";
 			for(int j=0;j<userextra.size();j++)
 			{
 				if(id.equals(userextra.get(j).getId()))
@@ -567,6 +570,12 @@ public class ControllerResource {
 			}
 		}	
 	}
+		System.out.print("Id And NAme of User in Leave"+id+name);
+		if(name!=null)
+		{
+			System.out.print("the name is nulll nulll!!!"+id+name);
+		}
+		mv.addObject("msg",msg);
 		return mv;
 	}
 	@RequestMapping("/evaluation")
