@@ -786,7 +786,7 @@ public class ControllerResource {
 	 * @return
 	 */
 	@RequestMapping("/editUser")
-	public ModelAndView editUser(@RequestParam (name="id") Long id)
+	public ModelAndView editUser(@RequestParam (name="id") Long id,@RequestParam (name="error", required=false) boolean error)
 	{
 		ModelAndView mv=new ModelAndView("editUserPage");
 		Optional<User> user=userService.findByid(id);
@@ -797,7 +797,8 @@ public class ControllerResource {
 		String join=userEx.get().getJoiningDate().toString();
 		mv.addObject("date",date);
 		mv.addObject("join",join);
-		
+		 if(error)
+			 mv.addObject("error",true);
 		
 		return mv;
 	}
@@ -814,13 +815,26 @@ public class ControllerResource {
 	 * @return
 	 */
 	@PostMapping("/edit")
-	public String edit(@ModelAttribute @Valid User formUser,BindingResult bindingResult,@RequestParam (name="name") String roleName,
+	public ModelAndView edit(@ModelAttribute @Valid User formUser,BindingResult bindingResult,@RequestParam (name="name") String roleName,
 			@RequestParam (name="date") String date , @RequestParam (name="join") String join, @RequestParam (name="company") String company,
 			@RequestParam (name="image")MultipartFile file, @RequestParam (name="position") String position)
 	{
+		ModelAndView mv=null;
 		long id=formUser.getId();
 		Optional<User> user=userService.findByid(id);
 		Optional<UserExtra> userEx=userService.findExtraByid(id);
+		if (bindingResult.hasErrors()) 
+		{
+			if(!formUser.getEmail().contentEquals(user.get().getEmail()))
+			{
+				mv=new ModelAndView("redirect:/editUser");
+				mv.addObject("error",true);
+				mv.addObject("id", id);
+				return mv;
+			}
+		}
+		mv=new ModelAndView("redirect:/userDetails");
+		
 		if(!file.isEmpty()) {
 			try {
 				userEx.get().setImage(file.getBytes());
@@ -838,7 +852,7 @@ public class ControllerResource {
 		userEx.get().setJoiningDate(LocalDate.parse(join));
 		userEx.get().setCompany(company);
 		userEx.get().setPosition(position);
-		
+		mv.addObject("id", id);
 		
 		try {
 			userService.createUser(user.get(),userEx.get());
@@ -847,7 +861,7 @@ public class ControllerResource {
 			e.printStackTrace();
 		}
 		
-		return "redirect:/"; 
+		return mv; 
 	}
 	/**
 	 * get appraisal result of single user
