@@ -296,7 +296,11 @@ public class ControllerResource {
 		 mv.addObject("unreportdays",unreportdays);
 		 
 		 if(success)mv.addObject("success",true);
-		 
+		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		 boolean isAdmin=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+		 boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
+		 if(isAdmin)mv.addObject("isAdmin",true);
+		 if(isUser)mv.addObject("isUser",true);
 		 mv.addObject("lastAction", "entity has been created/updated successfully");
 		 return mv ;  
 	 }
@@ -826,9 +830,9 @@ public class ControllerResource {
 	 * @return
 	 */
 	@PostMapping("/edit")
-	public ModelAndView edit(@ModelAttribute @Valid User formUser,BindingResult bindingResult,@RequestParam (name="name") String roleName,
+	public ModelAndView edit(@ModelAttribute @Valid User formUser,BindingResult bindingResult, @RequestParam (name="position") String position,
 			@RequestParam (name="date") String date , @RequestParam (name="join") String join, @RequestParam (name="company") String company,
-			@RequestParam (name="image")MultipartFile file, @RequestParam (name="position") String position)
+			@RequestParam (name="image")MultipartFile file)
 	{
 		ModelAndView mv=null;
 		long id=formUser.getId();
@@ -1081,11 +1085,26 @@ public class ControllerResource {
 		 mv.addObject("total",total);
 		 mv.addObject("workedHour",workedHour);
 		 mv.addObject("unreportdays",unreportdays);
+		 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		 boolean isAdmin=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
+		 boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
+		 if(isAdmin)mv.addObject("isAdmin",true);
+		 if(isUser)mv.addObject("isUser",true);
 		 return mv ;  
 	}
 	public boolean isWithinRange(LocalDate start1,LocalDate end1,LocalDate Localdate) 
 	{
 		return Localdate.isAfter(start1) && Localdate.isBefore(end1);
+	}
+	@RequestMapping("makeAdmin")
+	public void makeADmin(@RequestParam(name="id")Long id)
+	{
+		
+	}
+	@RequestMapping("makeUser")
+	public void makeUser(@RequestParam(name="id")Long id)
+	{
+		
 	}
 	
 }
