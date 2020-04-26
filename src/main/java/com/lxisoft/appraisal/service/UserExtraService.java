@@ -59,7 +59,7 @@ public class UserExtraService {
      * @param user
      * @param us
      */
-    public void createUser(User user,UserExtra us)
+    public void createUser(User user,UserExtra us) throws Exception
     {
     	 userRepository.save(user);
          userExtraRepository.save(us);

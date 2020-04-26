@@ -16,7 +16,7 @@
 <script src="/js/imageUploadScript.js"></script>
 <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
-<body align="center">
+<body align="center" th:onload="use([[${error}]])" >
 	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -33,30 +33,30 @@
      	   class="img-circle img-responsive" id="profile-" style="width:200px;height:160px;cursor: pointer;"/></div>
       <form th:action="@{/edit}" th:object="${user}" method="post" enctype="multipart/form-data" > 
                
-<div style="color:#999;" >click here to change profile image</div>
+		<div style="color:#999;" >click here to change profile image</div>
 
 					
                     <input type="hidden"  name="id" th:field="*{id}" /><br>
                          				
                     <label>First name</label> <input type="text" name="firstname" th:field="*{firstName}"  required/>
                     <span class="red" th:if="${#fields.hasErrors('firstName')}"
-                    th:errors="*{firstName}"></span><br>
+                    th:errors="*{firstName}"></span><br><br>
                                        
                     <label>Last name</label> <input  type="text" name="lastname" th:field="*{lastName}" required/>
                     <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
-                     <br>
+                     <br><br>
                     
-                     <label>E-mail</label> <input type="text" name="emailID" th:field="*{email}"/>
+                     <label>E-mail</label> <input type="text" name="emailID" th:field="*{email}"/ required>
                       <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                       <br>
-                      
+                      <br>
                       DOB:  <input type="date" th:value="${date}"  name="date" required/><br>
                     
-      
-                    Joined Date:<input type="date"  th:value="${join}" name="join" required/>
+      <br>
+                    Joined Date:<input type="date"  th:value="${join}" name="join" required/><br><br>
                     
                     
-                    <center> <input id="profile-upload"  type="file" name="image"></center>
+                    <center> <input id="profile-upload"  type="file" name="image"></center><br>
                   	 <label >Company</label> 
                     <select  th:value="${company}" name="company" >
    						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
@@ -65,7 +65,7 @@
    						 <option th:value="Felixo" th:text="Felixo"></option>
    						 <option th:value="Illude" th:text="Illude"></option>
 
-                    </select><br>
+                    </select><br><br>
                     <br>
                     <label>Position:</label>
                     <select th:value="${position}" name="position">
@@ -73,7 +73,7 @@
 						<option th:value="employee" th:text="employee "></option>
 						<option th:value="co-founder" th:text="co-founder"> </option>
 						<option th:value="admin" th:text="admin"> </select>
-					</select><br>
+					</select><br><br>
 				
 					
                    
@@ -83,12 +83,22 @@
    						 <option th:value="ROLE_USER" th:text="user"></option>
    						 <option th:value="ROLE_ADMIN" th:text="Admin"></option>
 
-                    </select><br>
+                    </select><br><br>
+                    <div id="alert" class="alertred">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		 Error    email must be unique 
+		</div>
                    
                		<br> <button type="submit" class="btn btn-success">Save</button>
 
                 </form>
-
+ <script >
+   function use(us)
+   {
+	   if(us){
+	   document.getElementById('alert').style.display = "block";}
+   }
+    </script>
 <div sec:authorize="hasRole('ROLE_USER')">
   
 </div>
