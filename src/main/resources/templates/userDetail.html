@@ -259,8 +259,8 @@
 					</form>
 					</div>
 					<div class="Edu-box">
-					<div th:if="${isAdmin}"><a th:href="@{${'makeUser?id='+employee.id}}"><div th:if="${isAdmin}">make as User</div></a>	</div>
-					<div th:if="${isAdmin}"><a th:href="@{${'makeAdmin?id='+employee.id}}"><div th:if="${isUser}">make as Admin</div></a>	</div>
+					<div th:if="${isAdmin}"><a th:href="@{${'makeUser?id='+employee.id}}"><div th:if="${userIsAdmin}">make as User</div></a>	</div>
+					<div th:if="${isAdmin}"><a th:href="@{${'makeAdmin?id='+employee.id}}"><div th:if="${userIsUser}">make as Admin</div></a>	</div>
 					
 					</div>
 					

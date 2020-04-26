@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.lxisoft.appraisal.domain.Appraisal;
+import com.lxisoft.appraisal.domain.Authority;
 import com.lxisoft.appraisal.domain.Git;
 import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.LateArrival;
@@ -63,6 +65,8 @@ public class UserExtraService {
     {
     	 userRepository.save(user);
          userExtraRepository.save(us);
+         userRepository.flush();
+         userExtraRepository.flush();
     }
     /**
      * find userExtra by id
@@ -428,7 +432,7 @@ public class UserExtraService {
 		List<Git> gits=gitServ.findGitOfUserBetween(userEx.get(), one,two);
 		if(!gits.isEmpty()) 
 		{
-			Iterator it=gits.iterator();
+			Iterator<Git> it=gits.iterator();
 			while (it.hasNext()) 
 			{
 				Git object = (Git)it.next();
@@ -440,7 +444,7 @@ public class UserExtraService {
 		List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userEx.get(), one,two);
 		if(!userEx.get().getHackathons().isEmpty()) 
 		{
-			Iterator it=hack.iterator();
+			Iterator<Hackathon> it=hack.iterator();
 			while (it.hasNext())
 			{
 				Hackathon object = (Hackathon) it.next();
@@ -496,5 +500,34 @@ public class UserExtraService {
 			users.add(findByid(u.getId()).get());
 		}
 		return users;
+	}
+	public void makeAsAdmin(Long id) {
+		UserExtra userEx=findExtraByid(id).get();
+		User user=findByid(id).get();
+		Set<Authority> authorities = new HashSet<>();
+		authorities.add(new Authority("ROLE_ADMIN"));
+		user.clearAuthority();
+		user.setAuthorities(authorities);
+		try {
+			createUser(user,userEx);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public void makeAsUser(Long id) {
+		UserExtra userEx=findExtraByid(id).get();
+		User user=findByid(id).get();
+		Set<Authority> authorities = new HashSet<>();
+		authorities.add(new Authority("ROLE_USER"));
+		user.clearAuthority();
+		user.setAuthorities(authorities);
+		try {
+			createUser(user,userEx);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

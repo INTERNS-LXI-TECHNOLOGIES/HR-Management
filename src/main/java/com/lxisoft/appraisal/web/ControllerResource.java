@@ -195,7 +195,7 @@ public class ControllerResource {
      * @return
      */
     @RequestMapping("/userDetails") 
-	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model, 
+	 public ModelAndView userDetail(@RequestParam(name="id") Long id,ModelAndView model, 
 			 @RequestParam (name="start" ,required=false)String aStart,@RequestParam (name="end", required=false)String aLast,
 	 		 @RequestParam(name="success",required=false )boolean success)
 	 {
@@ -301,6 +301,20 @@ public class ControllerResource {
 		 boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 		 if(isAdmin)mv.addObject("isAdmin",true);
 		 if(isUser)mv.addObject("isUser",true);
+		 Set<Authority> authorities=user.get().getAuthorities();
+		 Iterator<Authority> it=authorities.iterator();
+		
+		
+		 while(it.hasNext())
+		 {
+			 Authority au=(Authority) it.next();
+			 System.out.println(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
+			 if(au.toString().equalsIgnoreCase("ROLE_ADMIN"))
+			 {System.out.println(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
+				 mv.addObject("userIsAdmin",true);
+			 }
+			 else mv.addObject("userIsUser",true);
+		 }
 		 mv.addObject("lastAction", "entity has been created/updated successfully");
 		 return mv ;  
 	 }
@@ -1097,14 +1111,34 @@ public class ControllerResource {
 		return Localdate.isAfter(start1) && Localdate.isBefore(end1);
 	}
 	@RequestMapping("makeAdmin")
-	public void makeADmin(@RequestParam(name="id")Long id)
+	public ModelAndView makeADmin(@RequestParam(name="id")Long id)
 	{
-		
+		userService.makeAsAdmin(id);
+		ModelAndView mv=new ModelAndView("redirect:/userDetails");
+		mv.addObject("id",id);
+		return mv;
 	}
 	@RequestMapping("makeUser")
-	public void makeUser(@RequestParam(name="id")Long id)
+	public ModelAndView makeUser(@RequestParam(name="id")Long id)
+	{
+		userService.makeAsUser(id);
+		ModelAndView mv=new ModelAndView("redirect:/userDetails");
+		mv.addObject("id",id);
+		return mv;
+	}
+	@RequestMapping("changePassword")
+	public void changePassword(@RequestParam(name="oldPassword")String oldPassword,@RequestParam(name="newPassword")String newPassword,
+			@RequestParam(name="id")Long id)
+	{
+		
+		
+	}
+	@RequestMapping("changeUsername")
+	public void changeUsername(@RequestParam(name="oldUsername")String oldUsername,@RequestParam(name="newUsername")String newUsername,
+			@RequestParam(name="id")Long id)
 	{
 		
 	}
+	
 	
 }
