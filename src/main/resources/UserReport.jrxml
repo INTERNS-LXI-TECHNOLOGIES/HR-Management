@@ -58,6 +58,9 @@
 	<field name="email" class="java.lang.String">
 		<fieldDescription><![CDATA[email]]></fieldDescription>
 	</field>
+	<field name="image" class="byte[]">
+		<fieldDescription><![CDATA[image]]></fieldDescription>
+	</field>
 	<background>
 		<band height="99" splitType="Stretch">
 			<frame>
@@ -115,6 +118,10 @@
 					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
 			</frame>
+			<image>
+				<reportElement x="470" y="10" width="91" height="103" uuid="648238c1-a570-4bc0-accc-1063ef721d8c"/>
+				<imageExpression><![CDATA["${image}"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageFooter>
