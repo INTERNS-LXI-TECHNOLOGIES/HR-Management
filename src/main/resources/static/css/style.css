@@ -156,6 +156,13 @@ body {
   color: black;
   margin-bottom: 15px;
 }
+.alertred {
+  display: none;
+  padding: 20px;
+  background-color: #FF6347; /*yellow */
+  color: black;
+  margin-bottom: 15px;
+}
 
 /* The close button */
 .closebtn {

@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.Date;
 
+import org.apache.logging.log4j.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -103,7 +104,7 @@ public class ControllerResource {
      * @return
      */
     @RequestMapping(value="/")
-	public ModelAndView index()
+	public ModelAndView index(@RequestParam(name="userAdded",required=false )boolean success)
 	{
     	ModelAndView mv=new ModelAndView(); 
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -111,6 +112,7 @@ public class ControllerResource {
 		boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 		String username = authentication.getName();
 		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
+		if(success)mv.addObject("userAdded",true);
 		if(isAdmin)
 		{
 			mv.addObject("username",username);
@@ -147,7 +149,7 @@ public class ControllerResource {
      * @return
      */
     @RequestMapping("/viewuser")
-	public ModelAndView viewUsers(HttpServletRequest request, HttpServletResponse response)
+	public ModelAndView viewUsers(@RequestParam(name="userAdded",required=false )boolean success)
 	{
     	ModelAndView mv= new ModelAndView("viewAllUser");
     	try {
@@ -156,7 +158,7 @@ public class ControllerResource {
 			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 			String username = authentication.getName();
 			
-			System.out.println("user:...."+username);
+			if(success)mv.addObject("success",true);
 			Optional<User> user=userService.getUserByusername(username);
 			
 			Optional<UserExtra> u=userService.findExtraByid(user.get().getId());
@@ -194,8 +196,8 @@ public class ControllerResource {
      */
     @RequestMapping("/userDetails") 
 	 public ModelAndView userDetail(@RequestParam Long id,ModelAndView model, 
-			 @RequestParam (name="start" ,required=false)String aStart,
-				@RequestParam (name="end", required=false)String aLast) 
+			 @RequestParam (name="start" ,required=false)String aStart,@RequestParam (name="end", required=false)String aLast,
+	 		 @RequestParam(name="success",required=false )boolean success)
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = userService.findByid(id);
@@ -292,6 +294,10 @@ public class ControllerResource {
 		 mv.addObject("total",total);
 		 mv.addObject("workedHour",workedHour);
 		 mv.addObject("unreportdays",unreportdays);
+		 
+		 if(success)mv.addObject("success",true);
+		 
+		 mv.addObject("lastAction", "entity has been created/updated successfully");
 		 return mv ;  
 	 }
    /**
@@ -336,7 +342,8 @@ public class ControllerResource {
     public String add(Model model) {
     	
     	model.addAttribute("user",new User());
-    
+    	model.addAttribute("success", true);
+    	    
     	return "addUser";
     }
     /**
@@ -358,6 +365,7 @@ public class ControllerResource {
 		if (bindingResult.hasErrors()) 
 		{
 			mv=new ModelAndView("addUser");
+			mv.addObject("error",true);
 			
 			if(file.isEmpty())
 			{
@@ -392,9 +400,14 @@ public class ControllerResource {
 		mv=new ModelAndView("redirect:/");
 		try{
 			userService.createUser(user,us);
+			mv.addObject("userAdded",true);
+			
 		}catch(Exception e)
 		{
 			mv=new ModelAndView("addUser");
+			mv.addObject("error",true);
+//			mv.addObject("message",e.getLocalizedMessage());
+			
 		}
 		return mv;
 	}
@@ -510,7 +523,7 @@ public class ControllerResource {
 		Leave leave=new Leave();
 		
 		boolean validUser = false ;
-		boolean msg = true;
+		String msg = "unvalid";
 		LocalDate localDate = LocalDate.now();		
 		ModelAndView mv= new ModelAndView("redirect:/leave");		
 		List<Leave> l=leaveSer.findByDate(localDate);
@@ -521,17 +534,15 @@ public class ControllerResource {
 			{
 				validUser = true;
 				id=user.get(i).getId();
-				msg=false;
+				msg="valid";
 			}
 			else 
 			{
-				System.out.print("3333333############33333##### "+msg);
 			}
 		}
 		if (validUser==false)
 		{
-			System.out.print("444444444444444444444sssssss"+msg);
-			//return mv;
+			
 		}
 		else
 		{
@@ -546,7 +557,7 @@ public class ControllerResource {
 			}
 			else
 			{
-				System.out.print("hey how y'all doing !!!"+msg);
+				System.out.print("checking of user validation!!!"+msg);
 			}
 		}
 		
@@ -556,7 +567,7 @@ public class ControllerResource {
 		}
 		else
 		{ 
-			msg=false;
+			msg="valid";
 			for(int j=0;j<userextra.size();j++)
 			{
 				if(id.equals(userextra.get(j).getId()))
@@ -793,7 +804,7 @@ public class ControllerResource {
 	 * @return
 	 */
 	@RequestMapping("/editUser")
-	public ModelAndView editUser(@RequestParam (name="id") Long id)
+	public ModelAndView editUser(@RequestParam (name="id") Long id,@RequestParam (name="error", required=false) boolean error)
 	{
 		ModelAndView mv=new ModelAndView("editUserPage");
 		Optional<User> user=userService.findByid(id);
@@ -804,7 +815,8 @@ public class ControllerResource {
 		String join=userEx.get().getJoiningDate().toString();
 		mv.addObject("date",date);
 		mv.addObject("join",join);
-		
+		 if(error)
+			 mv.addObject("error",true);
 		
 		return mv;
 	}
@@ -821,13 +833,26 @@ public class ControllerResource {
 	 * @return
 	 */
 	@PostMapping("/edit")
-	public String edit(@ModelAttribute @Valid User formUser,BindingResult bindingResult,@RequestParam (name="name") String roleName,
+	public ModelAndView edit(@ModelAttribute @Valid User formUser,BindingResult bindingResult,@RequestParam (name="name") String roleName,
 			@RequestParam (name="date") String date , @RequestParam (name="join") String join, @RequestParam (name="company") String company,
 			@RequestParam (name="image")MultipartFile file, @RequestParam (name="position") String position)
 	{
+		ModelAndView mv=null;
 		long id=formUser.getId();
 		Optional<User> user=userService.findByid(id);
 		Optional<UserExtra> userEx=userService.findExtraByid(id);
+		if (bindingResult.hasErrors()) 
+		{
+			if(!formUser.getEmail().contentEquals(user.get().getEmail()))
+			{
+				mv=new ModelAndView("redirect:/editUser");
+				mv.addObject("error",true);
+				mv.addObject("id", id);
+				return mv;
+			}
+		}
+		mv=new ModelAndView("redirect:/userDetails");
+		
 		if(!file.isEmpty()) {
 			try {
 				userEx.get().setImage(file.getBytes());
@@ -845,11 +870,17 @@ public class ControllerResource {
 		userEx.get().setJoiningDate(LocalDate.parse(join));
 		userEx.get().setCompany(company);
 		userEx.get().setPosition(position);
+		mv.addObject("id", id);
+		mv.addObject("success",true);
 		
+		try {
+			userService.createUser(user.get(),userEx.get());
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
 		
-		userService.createUser(user.get(),userEx.get());
-		
-		return "redirect:/"; 
+		return mv; 
 	}
 	/**
 	 * get appraisal result of single user

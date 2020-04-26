@@ -18,7 +18,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <title>View All User</title>  
   </head>
-  <body>
+  <body th:onload="use([[${success}]])">
+  
+  
+  
+  
   <div class="topnav" id="myTopnav">
   <a href="/add" th:href="@{/add}">Add User</a>
   <a href="/report" th:href="@{/report}">Appraisal report</a>
@@ -40,10 +44,6 @@
   </a>
 </div><br><br>
     
-    
-    <div th:if="${message}">
-    	<h2 th:text="${message}"/>
-	</div>
 <center>
 <form th:action="@{filter}">
 	<select name="company">
@@ -65,6 +65,21 @@
 	<input type="submit" value="filter">
 </form><br><br>
 
+<div id="alert" class="alert">
+<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  User added Successfully!! 
+</div>	
+
+<script >
+   function use(us)
+   {
+	   if(us){
+	   document.getElementById('alert').style.display = "block";}
+	   
+   }
+    </script>
+    
+    
   <table class="table">
   <tr th:each="employee: ${list}">
   <td>
