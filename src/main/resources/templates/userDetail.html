@@ -31,7 +31,7 @@
   <a href="#home" th:href="@{/}">Home</a>
   <a href="javascript:history.back()">Back</a>
   
-  <a href="/editUser" th:href="@{${'/editUser?id='+employee.id}}"><div sec:authorize="hasRole('ROLE_ADMIN')">Edit</div></a>
+  <a href="/editUser" th:href="@{${'/editUser?id='+employee.id}}"><div th:if="${isAdmin}">Edit</div></a>
   <a href="/logout-success" th:href="@{/logout-success}" onclick="$('#form').submit();">Logout</a>
   <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout-success}"></form>
   <a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -69,6 +69,7 @@
 					<li class="tab-link current" data-tab="Basic-detail">Basic Detail</li>
 					<li class="tab-link" data-tab="Edu-detail">Work Profile</li>
 					<li class="tab-link" data-tab="App-detail">Appraisal Detail</li>
+					<li class="tab-link" data-tab="sec-detail">Security Detail</li>
 					
 				</ul>
 				<div id="Basic-detail" class="tab-content current">
@@ -200,12 +201,7 @@
 				
 				<div id="App-detail" class="tab-content">
 					<div class="Edu-box">								
-							<p><form th:action="@{getPdf}">
-			           	<input type="hidden" name="id" th:value="${employee.id}"/>
-			           	
-			           	<input type="submit" value="Print Appraisal Result" />
-			            
-			           </form>
+							
 			           <form th:action="@{/getPdfBetweenTwoDate}">
 						 <input type="hidden" name="id"  th:value="${employee.id}" ></input>
 						<div class="col-sm-5 col-xs-6 tital " >From
@@ -215,16 +211,22 @@
 						<input type="date" id="aend" name="aend" required>
 						<input type="submit" value="get Appraisal" /></div>
 						</form>
+						<p><form th:action="@{getPdf}">
+			           	<input type="hidden" name="id" th:value="${employee.id}"/>
+			           	
+			           	<input type="submit" value="Print Appraisal Result" />
+			            
+			           </form>
 			        </p></div>
-					<br><br><br><br>
+					
 					<div class="Edu-box">
-						<ul class="ul-first">
+						<ul class="ul-first">						
 							<strong><li>attendance</li><br>
 							<li>punctuality</li><br>
 							<li>meetingTargets</li><br>
 							<li>companyPolicy</li><br>
 							<li>codeQuality</li><br>
-							
+												
 						</ul>
 						<ul class="ul-second">
 							<li><span th:text="${appraisal.attendance}"></li><br>
@@ -236,7 +238,33 @@
 						</ul>
 					</div> 		  			
 				</div>
-			</div>
+				
+				<div id="sec-detail" class="tab-content">
+					<div class="Edu-box">	
+					 <form th:action="@{/changePassword}">
+						 <input type="hidden" name="id"  th:value="${employee.id}" />
+						<label>old password:</label><input type="text" name="oldPassword"  /><br>
+						<label>new password:</label><input type="text" name="newPassword"  />
+						<input type="submit" value="change password" />
+					</form>
+					</div>
+				
+					
+					<div class="Edu-box">	
+					 <form th:action="@{/changeUsername}">
+						 <input type="hidden" name="id"  th:value="${employee.id}" />
+						<label>old Username:</label><input type="text" name="oldUsername"  /><br>
+						<label>new Username:</label><input type="text" name="newUsername"  />
+						<input type="submit" value="change username" />
+					</form>
+					</div>
+					<div class="Edu-box">
+					<div th:if="${isAdmin}"><a th:href="@{${'makeUser?id='+employee.id}}"><div th:if="${userIsAdmin}">make as User</div></a>	</div>
+					<div th:if="${isAdmin}"><a th:href="@{${'makeAdmin?id='+employee.id}}"><div th:if="${userIsUser}">make as Admin</div></a>	</div>
+					
+					</div>
+					
+				</div>
 			</div>
 		</div>
 	</div>
