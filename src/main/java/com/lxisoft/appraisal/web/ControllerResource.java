@@ -98,6 +98,7 @@ public class ControllerResource {
 	UserDataBeanService userDataBeanService;
 	
 
+
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
     /**
      * redirecting based on user or admin
@@ -510,7 +511,7 @@ public class ControllerResource {
 	 * @return
 	 */
 	@RequestMapping("/leave")
-	public ModelAndView Leave(Long id)
+	public ModelAndView Leave(Long id,String msg)
 	{
 		Set<UserExtra> list=new HashSet<UserExtra>();
 		LocalDate localDate = LocalDate.now();
@@ -540,27 +541,29 @@ public class ControllerResource {
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();
 		
-		boolean validUser = false ;
+		boolean validUser = true ;
 		String msg = "unvalid";
 		LocalDate localDate = LocalDate.now();		
-		ModelAndView mv= new ModelAndView("redirect:/leave");		
+		ModelAndView mv= new ModelAndView("/leave");		
 		List<Leave> l=leaveSer.findByDate(localDate);
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
 			if(name.equals(m))
 			{
-				validUser = true;
+				validUser = false;
 				id=user.get(i).getId();
-				msg="valid";
+				msg = "valid";
 			}
 			else 
 			{
+
 			}
 		}
-		if (validUser==false)
+		if (validUser==true)
 		{
-			
+			System.out.print("sssssssss33333333333344444444ssssssss33333333222333333333333");
+			//return mv;
 		}
 		else
 		{
@@ -575,7 +578,7 @@ public class ControllerResource {
 			}
 			else
 			{
-				System.out.print("checking of user validation!!!"+msg);
+				System.out.print("pppppppwwwwwwwwwwwwwqqqqqqqqqqqqq");
 			}
 		}
 		
@@ -584,8 +587,7 @@ public class ControllerResource {
 			//return mv;
 		}
 		else
-		{ 
-			msg="valid";
+		{
 			for(int j=0;j<userextra.size();j++)
 			{
 				if(id.equals(userextra.get(j).getId()))
@@ -599,11 +601,6 @@ public class ControllerResource {
 			}
 		}	
 	}
-		System.out.print("Id And NAme of User in Leave"+id+name);
-		if(name!=null)
-		{
-			System.out.print("the name is nulll nulll!!!"+id+name);
-		}
 		mv.addObject("msg",msg);
 		return mv;
 	}
@@ -744,6 +741,7 @@ public class ControllerResource {
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		LateArrival late=new LateArrival();
+		String msg ="unvalid";
 		ModelAndView mv= new ModelAndView("redirect:/lateArrival");
 		LocalDate localDate = LocalDate.now();
 		LocalTime localtime = LocalTime.parse(ltime);
@@ -756,7 +754,8 @@ public class ControllerResource {
 			Long id=user.get(i).getId();
 			
 			if(name.contains(m))
-			{
+			{ 
+				msg = "valid";
 				for(int j=0;j<userextra.size();j++)
 				{
 					if(id.equals(userextra.get(j).getId()))
@@ -765,10 +764,12 @@ public class ControllerResource {
 						late.setType(subject);
 						late.setReachedTime(instant);
 						lateServ.setLate(late);
+						msg = "valid";
 					}
 				}
 			}
 		}
+		mv.addObject("msg", msg);
 		return mv;
 	}
 	/**
