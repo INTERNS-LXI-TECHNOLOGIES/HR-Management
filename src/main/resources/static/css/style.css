@@ -159,7 +159,7 @@ body {
 .alertred {
   display: none;
   padding: 20px;
-  background-color: #FF6347; /*yellow */
+  background-color: #FF6347; /*red */
   color: black;
   margin-bottom: 15px;
 }

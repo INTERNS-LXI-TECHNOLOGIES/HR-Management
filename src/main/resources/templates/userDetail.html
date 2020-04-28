@@ -23,7 +23,7 @@
 </style>
 <title>User Info</title>
 </head>
-   <body align="center" th:onload="use([[${success}]])" > 
+   <body align="center" th:onload="match([[${mismatch}]]);use([[${success}]]) " > 
    
    
    
@@ -38,17 +38,30 @@
     <i class="fa fa-bars"></i>
   </a>
 </div>
-<div id="alert" class="alert">
+<div id="alertred" class="alert">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 		user modified succesfully...!
-		</div>
+</div>
+<div id="alert" class="alert">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		invalid password !
+</div>
 		<script >
    function use(us)
    {
 	   if(us){
 	   document.getElementById('alert').style.display = "block";}
+	
+		   
    }
+    
+    function match(mi){
+ 	   if(mi){
+ 		   document.getElementById('alertred').style.display = "block";}
+ 		
+ 	   }
     </script>
+    
 	<div class="profile-main">
 		<div class="profile-header">
 			<div class="user-detail">
@@ -75,8 +88,8 @@
 				<div id="Basic-detail" class="tab-content current">
 					<div class="detail-box">
 						
-						<ul class="ul-first">
-							<strong><li>First Name</li><br>
+						<ul class="ul-first"><div th:text="${mismatch}" />
+							<strong><li>First Name</li><br><div th:text="${success}" />
 							<li>Last Name</li><br>
 							<li>Company</li><br>
 							<li>Position</li><br>

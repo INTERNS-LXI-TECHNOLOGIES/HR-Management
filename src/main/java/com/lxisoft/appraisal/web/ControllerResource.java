@@ -29,6 +29,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,6 +61,7 @@ import com.lxisoft.appraisal.repository.AuthorityRepository;
 import com.lxisoft.appraisal.service.AppraisalService;
 import com.lxisoft.appraisal.service.GitService;
 import com.lxisoft.appraisal.service.HackathonService;
+import com.lxisoft.appraisal.service.InvalidPasswordException;
 import com.lxisoft.appraisal.service.JasperService;
 import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
@@ -76,6 +78,8 @@ import net.sf.jasperreports.engine.JRException;
 @Controller
 public class ControllerResource {
 	private static final Object Invalid = null;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	@Autowired
 	UserExtraService userService;
 	@Autowired
@@ -1127,11 +1131,27 @@ public class ControllerResource {
 		return mv;
 	}
 	@RequestMapping("changePassword")
-	public void changePassword(@RequestParam(name="oldPassword")String oldPassword,@RequestParam(name="newPassword")String newPassword,
+	public ModelAndView changePassword(@RequestParam(name="oldPassword")String oldPassword,@RequestParam(name="newPassword")String newPassword,
 			@RequestParam(name="id")Long id)
 	{
+		ModelAndView mv=new ModelAndView("redirect:/userDetails");
+		UserExtra userEx=userService.findExtraByid(id).get();
+		User user=userService.findByid(id).get();
+		String currentEncryptedPassword = user.getPassword();
+		if (!passwordEncoder.matches(oldPassword, currentEncryptedPassword)) {
+			System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrgkkkk");
+			
+		    mv.addObject("mismatch",true);
+		    mv.addObject("id",id);
+		    return mv;
+		}
 		
+			
+	System.out.println("tghjkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+			
+			
 		
+		return mv;
 	}
 	@RequestMapping("changeUsername")
 	public void changeUsername(@RequestParam(name="oldUsername")String oldUsername,@RequestParam(name="newUsername")String newUsername,
