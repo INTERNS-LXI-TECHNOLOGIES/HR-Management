@@ -742,7 +742,7 @@ public class ControllerResource {
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		LateArrival late=new LateArrival();
 		String msg ="unvalid";
-		ModelAndView mv= new ModelAndView("redirect:/lateArrival");
+		ModelAndView mv= new ModelAndView("/lateArrival");
 		LocalDate localDate = LocalDate.now();
 		LocalTime localtime = LocalTime.parse(ltime);
 		Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
