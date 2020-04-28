@@ -617,8 +617,10 @@ public class ControllerResource {
 	 * @return
 	 */
 	@RequestMapping("/setTest")
-	public String setTest(@RequestParam String name,Long num,Long hack )
+	public ModelAndView setTest(@RequestParam String name,Long num,Long hack )
 	{
+		ModelAndView mv = new ModelAndView("evaluation");
+		String msg = "unvalid";
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		for(int i=0;i<user.size();i++)
@@ -630,6 +632,7 @@ public class ControllerResource {
 			LocalDate local=LocalDate.now();
 			if(name.contains(m))
 			{
+				 msg = "valid";
 				for(int j=0;j<userextra.size();j++)
 				{
 					if(id.equals(userextra.get(j).getId()))
@@ -642,11 +645,13 @@ public class ControllerResource {
 						hack1.setDate(local);
 						hack1.setMark(hack);
 						hackServ.setHackathon(hack1);
+						 msg = "valid";
 					}
 				}
 			}
 		}
-		return "evaluation";
+		mv.addObject("msg", msg);
+		return mv;
 	}
 	/**
 	 * view report status page
@@ -667,14 +672,16 @@ public class ControllerResource {
      * @return
      */
 	@RequestMapping("/setReport")
-	public String setReport(@RequestParam String name,String subject,String t)
+	public ModelAndView setReport(@RequestParam String name,String subject,String t)
 	{
+		ModelAndView mv = new ModelAndView("reportStatus");
+		String msg = "unvalid";
 		if(t ==null)
 		{
-			System.out.print("abhiabhiabhiabahihiahfahiahfihf");
-			return "reportStatus";
+			return mv;
 		}
-		else {
+		else
+		{			
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		for(int i=0;i<user.size();i++)
@@ -686,7 +693,8 @@ public class ControllerResource {
 			
 			Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
 			if(name.contains(m))
-			{
+			{    
+				msg = "valid";
 				Long id=user.get(i).getId();
 				for(int j=0;j<userextra.size();j++)
 				{
@@ -696,12 +704,14 @@ public class ControllerResource {
 						status.setUserExtra(userextra.get(j));
 						status.setType(subject);
 						reportServ.setReport(status);
+						msg = "valid";
 					}
 				}
 			}
 		}
-		}
-		return "reportStatus";
+		} mv.addObject("msg", msg);
+		
+		return mv;
 	}
 	/**
 	 * view late arrival page with listing late arrival status on current date
