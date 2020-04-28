@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Date;
+import java.util.Calendar;
 
 import org.apache.logging.log4j.util.Constants;
 import org.slf4j.Logger;
@@ -54,6 +55,7 @@ import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.domain.ReportStatus;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserDataBean;
+import com.lxisoft.appraisal.domain.UsersDataBean;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
@@ -65,6 +67,7 @@ import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
 import com.lxisoft.appraisal.service.UserDataBeanService;
+import com.lxisoft.appraisal.service.UsersDataBeanService;
 import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
 
@@ -96,6 +99,8 @@ public class ControllerResource {
 	AppraisalService appraisalService;
 	@Autowired
 	UserDataBeanService userDataBeanService;
+	@Autowired
+	UsersDataBeanService usersDataBeanService;
 	
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
@@ -108,10 +113,11 @@ public class ControllerResource {
 	{
     	ModelAndView mv=new ModelAndView(); 
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	log.info("authentication detail"+authentication);
 		boolean isAdmin=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 		String username = authentication.getName();
-		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
+		log.info("username:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
 		if(success)mv.addObject("userAdded",true);
 		if(isAdmin)
 		{
@@ -308,9 +314,10 @@ public class ControllerResource {
 		 while(it.hasNext())
 		 {
 			 Authority au=(Authority) it.next();
-			 System.out.println(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
+			 log.info(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
 			 if(au.toString().equalsIgnoreCase("ROLE_ADMIN"))
-			 {System.out.println(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
+			 {
+				 log.info(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
 				 mv.addObject("userIsAdmin",true);
 			 }
 			 else mv.addObject("userIsUser",true);
@@ -542,7 +549,7 @@ public class ControllerResource {
 		
 		boolean validUser = true ;
 		LocalDate localDate = LocalDate.now();		
-		ModelAndView mv= new ModelAndView("redirect:/leave");		
+		ModelAndView mv= new ModelAndView("Leave");		
 		List<Leave> l=leaveSer.findByDate(localDate);
 		for(int i=0;i<user.size();i++)
 		{
@@ -598,6 +605,14 @@ public class ControllerResource {
 			}
 		}	
 	}
+		Set<UserExtra> list=new HashSet<UserExtra>();
+		for(Leave u:l)
+		{
+				list.add(u.getUserExtra());
+		}
+		list.add(leave.getUserExtra());
+		List<UserExtraDTO> dto=getSpecificUser(list);
+		mv.addObject("leavelist",dto);
 		return mv;
 	}
 	@RequestMapping("/evaluation")
@@ -953,10 +968,40 @@ public class ControllerResource {
 	{
 		 LocalDate first=LocalDate.parse(start);
 		 LocalDate second=LocalDate.parse(end);
+		 long days= ChronoUnit.DAYS.between(first,second);
 		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
+//		 List<UsersDataBean> bean=usersDataBeanService.findOneUserDataBeanByDate(id,first,second);
 		 byte[] pdfContents=null;
 			try {
 				pdfContents=jasperService.getPdfUsingJavaBeans(bean);
+			} catch (JRException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			HttpHeaders headers=new HttpHeaders();
+			headers.setContentType(MediaType.parseMediaType("application/pdf"));
+			String fileName="Appraisal.pdf";
+			headers.add("content dis-position","attachment: filename="+fileName);
+			ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
+			return response;
+	}
+	@RequestMapping("/getPdfByMonth")
+	public ResponseEntity<byte[]> pdfByMonth(@RequestParam Long id,@RequestParam (name="month") String month)
+	{
+		System.out.println("month "+month);
+		String[] values = month.split("-");
+		  Calendar calendar = Calendar.getInstance();
+		  int year = Integer.parseInt(values[0]);
+		  int monthValue =Integer.parseInt(values[1]);
+		  int date = 1;
+		  calendar.set(year, monthValue, date);
+		  int days = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+		  long day=Long.valueOf(days);
+		  System.out.println("Number of Days: " + days);
+		List<UserDataBean>list=userDataBeanService.getAllUserDataBeans();
+		 byte[] pdfContents=null;
+			try {
+				pdfContents=jasperService.getPdfUsingJavaBeans(list);
 			} catch (JRException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
