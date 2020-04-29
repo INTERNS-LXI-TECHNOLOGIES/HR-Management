@@ -35,7 +35,7 @@ public class AppraisalService {
 	 * set Appraisal by id
 	 * @param id
 	 */
-	public void setAppraisal(long id) 
+	public Appraisal setAppraisal(long id) 
 	{
 		Appraisal appraisal=new Appraisal();
 		appraisal.setId(id);
@@ -47,6 +47,7 @@ public class AppraisalService {
 		appraisal.setDate(LocalDate.now());
 		appraisal.setUserExtra(service.findExtraByid(id).get());
 		appRepo.save(appraisal);
+		return appraisal;
 		
 	}
 	/**

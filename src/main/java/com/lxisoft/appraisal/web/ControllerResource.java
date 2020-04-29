@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Calendar;
 
 import org.apache.logging.log4j.util.Constants;
@@ -287,9 +288,9 @@ public class ControllerResource {
 				mv.addObject("hack",mark);
 			 }	
 		}	
-		appraisalService.setAppraisal(id);
-		Appraisal appraisal=appraisalService.getOneAppraisal(id);
-		 mv.addObject("appraisal",appraisal);
+//		Appraisal ap=appraisalService.setAppraisal(id);
+//		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+//		 mv.addObject("appraisal",appraisal);
 		
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
@@ -916,10 +917,15 @@ public class ControllerResource {
 	@GetMapping("/getPdf")
 	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id)
 	{
-//		long i=Long.parseLong(id);
+		Appraisal ap=appraisalService.setAppraisal(id);
+		long val=ap.getAttendance();
+		String co=getAttendanceComment(val);
+			 System.out.println("value::::::::"+co);
+		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+		
 		byte[] pdfContents=null;
 		try {
-			pdfContents=jasperService.getReportAsPdfUsingDatabase(id);
+			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,co);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -930,6 +936,31 @@ public class ControllerResource {
 		headers.add("content dis-position","attachment: filename="+fileName);
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
+	}
+	public String getAttendanceComment(long val)
+	{
+		String co=null;
+		if(val==(5))
+		{
+			co="Excellent in attendence";
+		}
+		if(val==(4))
+		{
+			co="good in attendence";
+		}
+		if(val==(3))
+		{
+			co="Average in attendence";
+		}
+		if(val==(2))
+		{
+			co="below average in attendence";
+		}
+		else
+		{
+			co="poor in attendance";
+		}
+		return co;
 	}
 	/**
 	 * getting appraisal form all employees
@@ -990,18 +1021,25 @@ public class ControllerResource {
 	{
 		System.out.println("month "+month);
 		String[] values = month.split("-");
-		  Calendar calendar = Calendar.getInstance();
-		  int year = Integer.parseInt(values[0]);
-		  int monthValue =Integer.parseInt(values[1]);
-		  int date = 1;
-		  calendar.set(year, monthValue, date);
-		  int days = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-		  long day=Long.valueOf(days);
-		  System.out.println("Number of Days: " + days);
-		List<UserDataBean>list=userDataBeanService.getAllUserDataBeans();
+		Calendar calendar = Calendar.getInstance();
+		int year = Integer.parseInt(values[0]);
+		int monthValue =(Integer.parseInt(values[1]))-1;
+		int date = 1;
+		calendar.set(year, monthValue, date);
+		Date one = calendar.getTime();
+		Calendar mycal = new GregorianCalendar(year, monthValue, date);
+		int days = mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		calendar.set(year, monthValue, days);
+		Date two = calendar.getTime();
+		LocalDate first=one.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate second=two.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		System.out.println("date 1: " + first);
+		System.out.println("date 2: " + second);
+		System.out.println("Number of Days: " + days);
+		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
 		 byte[] pdfContents=null;
 			try {
-				pdfContents=jasperService.getPdfUsingJavaBeans(list);
+				pdfContents=jasperService.getPdfUsingJavaBeans(bean);
 			} catch (JRException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1134,7 +1172,7 @@ public class ControllerResource {
 				unreportdays.add(status.get(i));
 			}			 
 		 }
-		appraisalService.setAppraisal(id);
+		 Appraisal ap=appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		mv.addObject("appraisal",appraisal);		
 		 mv.addObject("a",a);

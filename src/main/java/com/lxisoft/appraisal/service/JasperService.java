@@ -43,7 +43,7 @@ public class JasperService {
 	 * @return
 	 * @throws JRException
 	 */
-	public byte[] getReportAsPdfUsingDatabase(long id)throws JRException
+	public byte[] getReportAsPdfUsingDatabase(long id,String co)throws JRException
 	{
 		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/jasper/app.jrxml");
 		
@@ -51,6 +51,8 @@ public class JasperService {
 		Map parameters=new HashMap();
 		parameters.put("head","Appraisal report");
 		parameters.put("id",id);
+		parameters.put("Parameter1",co);
+		
 		Connection con=null;
 		try {
 			con=dataSource.getConnection();
