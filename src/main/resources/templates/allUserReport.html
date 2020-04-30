@@ -20,6 +20,8 @@
 <title>All User Report</title>
 </head>
 <body>
+<div class="topnav" id="myTopnav">
+  <a href="#home" th:href="@{/}">Home</a></div>
 <br>
 <div class="profile-main">
 		<div class="profile-header">
@@ -29,14 +31,16 @@
 					<li class="tab-link current" data-tab="monthly">Monthly Appraisal Details</li>
 					<li class="tab-link" data-tab="random">Random Dates Appraisal Details </li>
 				</ul>
-			</div><div class="Edu-box">	
+			</div>
+			<div class="Edu-box">	
 			<div id="monthly" class="tab-content current">
 				<form th:action="@{getReportByMonth}">
  				<input type="month" id="month" name="month">
    				<input type="submit" value="Monthly Appraisal Result" />
  				</form>
  			</div></div>
-			<div class="Edu-box">	<div id="random" class="tab-content">
+			<div class="Edu-box">	
+			<div id="random" class="tab-content">
 				 <form th:action="@{/getReportBetweenTwoDate}">
 						<div class="col-sm-5 col-xs-6 tital " >From:
 						<input type="date" id="astart" name="astart" required>

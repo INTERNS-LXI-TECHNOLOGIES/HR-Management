@@ -212,7 +212,8 @@ public class ControllerResource {
 			 @RequestParam (name="start" ,required=false)String aStart,@RequestParam (name="end", required=false)String aLast,
 	 		 @RequestParam(name="success",required=false )boolean success,@RequestParam(name="mismatch",required=false )boolean mismatch,
 	 	@RequestParam(name="samePassword",required=false )boolean samePassword,@RequestParam(name="shortPassword",required=false )boolean shortPassword,
-	 	@RequestParam(name="passwordChanged",required=false )boolean passwordChanged)
+	 	@RequestParam(name="passwordChanged",required=false )boolean passwordChanged,
+	 	@RequestParam(name="randomApp",required=false )boolean randomApp)
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = userService.findByid(id);
@@ -296,7 +297,7 @@ public class ControllerResource {
 				mv.addObject("hack",mark);
 			 }	
 		}	
-		Appraisal ap=appraisalService.setAppraisal(id);
+		if(!randomApp) appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		 mv.addObject("appraisal",appraisal);
 		
@@ -1148,31 +1149,24 @@ public class ControllerResource {
 	 * @return
 	 */
 	@RequestMapping("/getPdfBetweenTwoDate")
-	public ResponseEntity<byte[]> pdfBydate(@RequestParam Long id,@RequestParam (name="astart") String start,
+	public ModelAndView pdfBydate(@RequestParam Long id,@RequestParam (name="astart") String start,
 			@RequestParam (name="aend") String end)
 	{
+	     ModelAndView mv= new ModelAndView("redirect:/userDetails"); 	
 		 LocalDate first=LocalDate.parse(start);
 		 LocalDate second=LocalDate.parse(end);
 		 long days= ChronoUnit.DAYS.between(first,second);
-		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
+//		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
 //		 List<UsersDataBean> bean=usersDataBeanService.findOneUserDataBeanByDate(id,first,second);
-		 byte[] pdfContents=null;
-			try {
-				pdfContents=jasperService.getPdfUsingJavaBeans(bean);
-			} catch (JRException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			HttpHeaders headers=new HttpHeaders();
-			headers.setContentType(MediaType.parseMediaType("application/pdf"));
-			String fileName="Appraisal.pdf";
-			headers.add("content dis-position","attachment: filename="+fileName);
-			ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
-			return response;
+		 appraisalService.setAppraisalByDate(id, first, second);
+		 mv.addObject("randomApp",true);
+		 mv.addObject("id",id);
+		return mv;
 	}
 	@RequestMapping("/getPdfByMonth")
-	public ResponseEntity<byte[]> pdfByMonth(@RequestParam Long id,@RequestParam (name="month") String month)
+	public ModelAndView pdfByMonth(@RequestParam Long id,@RequestParam (name="month") String month)
 	{
+		ModelAndView mv= new ModelAndView("redirect:/userDetails"); 	
 		System.out.println("month "+month);
 		String[] values = month.split("-");
 		Calendar calendar = Calendar.getInstance();
@@ -1190,20 +1184,11 @@ public class ControllerResource {
 		System.out.println("date 1: " + first);
 		System.out.println("date 2: " + second);
 		System.out.println("Number of Days: " + days);
-		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
-		 byte[] pdfContents=null;
-			try {
-				pdfContents=jasperService.getPdfUsingJavaBeans(bean);
-			} catch (JRException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			HttpHeaders headers=new HttpHeaders();
-			headers.setContentType(MediaType.parseMediaType("application/pdf"));
-			String fileName="Appraisal.pdf";
-			headers.add("content dis-position","attachment: filename="+fileName);
-			ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
-			return response;
+		
+		appraisalService.setAppraisalByDate(id, first, second);
+		mv.addObject("randomApp",true);
+		mv.addObject("id",id);
+		return mv;
 	}
 	/**
 	 * to get user details between two date
@@ -1326,7 +1311,7 @@ public class ControllerResource {
 				unreportdays.add(status.get(i));
 			}			 
 		 }
-		 Appraisal ap=appraisalService.setAppraisal(id);
+		 
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		mv.addObject("appraisal",appraisal);		
 		 mv.addObject("a",a);
