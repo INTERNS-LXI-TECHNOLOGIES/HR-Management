@@ -115,4 +115,23 @@ public class UserDataBeanService {
 		list.add(bean);
 		return list;
 	}
+	public List<UserDataBean> findAllUserDataBeanByDate(LocalDate first, LocalDate second)
+	{
+		List<UserExtra> users=userExService.getAllExtraUsers();
+		List<UserDataBean> list=new ArrayList<UserDataBean>();
+		for(UserExtra u:users)
+		{
+			
+			User user=userExService.findByid(u.getId()).get();
+			UserExtra userEx=userExService.findExtraByid(u.getId()).get();
+			appraisalService.setAppraisalByDate(u.getId(),first,second);
+			Appraisal appraisal=appraisalService.getOneAppraisal(u.getId());
+			UserDataBean bean=new UserDataBean(user.getFirstName(),user.getLastName(),userEx.getCompany(),
+					userEx.getPosition(),user.getEmail(),appraisal.getAttendance(),appraisal.getPunctuality(),
+					appraisal.getMeetingTargets(),appraisal.getCompanyPolicy(),appraisal.getCodeQuality());
+			list.add(bean);
+			
+		}
+		return list;
+	}
 }
