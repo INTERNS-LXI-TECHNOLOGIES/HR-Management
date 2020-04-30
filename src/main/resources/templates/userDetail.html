@@ -23,7 +23,8 @@
 </style>
 <title>User Info</title>
 </head>
-   <body align="center" th:onload="use([[${success}]])" > 
+   <body align="center" th:onload="match([[${mismatch}]]);use([[${contatcs}]]);shortP([[${shortPassword}]]);same([[${samePassword}]]);
+   changed([[${passwordChange}]]) " > 
    
    
    
@@ -38,17 +39,57 @@
     <i class="fa fa-bars"></i>
   </a>
 </div>
-<div id="alert" class="alert">
+<div id="alert" class="alertgreen">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 		user modified succesfully...!
-		</div>
+</div>
+<div id="mismatch" class="alertred">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		 password mismatch!
+</div>
+<div id="same" class="alertred">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		 same password!
+</div>
+<div id="shortP" class="alertred">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		 password is too small !
+</div>
+<div id="changed" class="alertgreen">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		 password is updated..!!
+</div>
 		<script >
    function use(us)
    {
 	   if(us){
 	   document.getElementById('alert').style.display = "block";}
+	
+		   
    }
+    
+    function match(mi){
+ 	   if(mi){
+ 		   document.getElementById('mismatch').style.display = "block";}
+ 		
+ 	}
+    function same(mi){
+  	   if(mi){
+  		   document.getElementById('same').style.display = "block";}
+  		
+  	}
+    function shortP(mi){
+  	   if(mi){
+  		   document.getElementById('shortP').style.display = "block";}
+  		
+  	}
+    function changed(mi){
+   	   if(mi){
+   		   document.getElementById('changed').style.display = "block";}
+   		
+   	}
     </script>
+    
 	<div class="profile-main">
 		<div class="profile-header">
 			<div class="user-detail">
@@ -258,21 +299,14 @@
 					<div class="Edu-box">	
 					 <form th:action="@{/changePassword}">
 						 <input type="hidden" name="id"  th:value="${employee.id}" />
-						<label>old password:</label><input type="text" name="oldPassword"  /><br>
-						<label>new password:</label><input type="text" name="newPassword"  />
+						<label>old password:</label><input type="password" name="oldPassword"  required/><br>
+						<label>new password:</label><input type="password" name="newPassword"  required/>
 						<input type="submit" value="change password" />
 					</form>
 					</div>
 				
 					
-					<div class="Edu-box">	
-					 <form th:action="@{/changeUsername}">
-						 <input type="hidden" name="id"  th:value="${employee.id}" />
-						<label>old Username:</label><input type="text" name="oldUsername"  /><br>
-						<label>new Username:</label><input type="text" name="newUsername"  />
-						<input type="submit" value="change username" />
-					</form>
-					</div>
+					<br><br>
 					<div class="Edu-box">
 					<div th:if="${isAdmin}"><a th:href="@{${'makeUser?id='+employee.id}}"><div th:if="${userIsAdmin}">make as User</div></a>	</div>
 					<div th:if="${isAdmin}"><a th:href="@{${'makeAdmin?id='+employee.id}}"><div th:if="${userIsUser}">make as Admin</div></a>	</div>

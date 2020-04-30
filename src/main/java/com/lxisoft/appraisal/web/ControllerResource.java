@@ -31,6 +31,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,6 +64,7 @@ import com.lxisoft.appraisal.repository.AuthorityRepository;
 import com.lxisoft.appraisal.service.AppraisalService;
 import com.lxisoft.appraisal.service.GitService;
 import com.lxisoft.appraisal.service.HackathonService;
+import com.lxisoft.appraisal.service.InvalidPasswordException;
 import com.lxisoft.appraisal.service.JasperService;
 import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
@@ -80,6 +82,9 @@ import net.sf.jasperreports.engine.JRException;
 @Controller
 public class ControllerResource {
 	private static final Object Invalid = null;
+	public List<UserDataBean> reportList;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	@Autowired
 	UserExtraService userService;
 	@Autowired
@@ -205,7 +210,9 @@ public class ControllerResource {
     @RequestMapping("/userDetails") 
 	 public ModelAndView userDetail(@RequestParam(name="id") Long id,ModelAndView model, 
 			 @RequestParam (name="start" ,required=false)String aStart,@RequestParam (name="end", required=false)String aLast,
-	 		 @RequestParam(name="success",required=false )boolean success)
+	 		 @RequestParam(name="success",required=false )boolean success,@RequestParam(name="mismatch",required=false )boolean mismatch,
+	 	@RequestParam(name="samePassword",required=false )boolean samePassword,@RequestParam(name="shortPassword",required=false )boolean shortPassword,
+	 	@RequestParam(name="passwordChanged",required=false )boolean passwordChanged)
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = userService.findByid(id);
@@ -309,6 +316,12 @@ public class ControllerResource {
 		 boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 		 if(isAdmin)mv.addObject("isAdmin",true);
 		 if(isUser)mv.addObject("isUser",true);
+		 if(mismatch)mv.addObject("mismatch",true);
+		 if(shortPassword)mv.addObject("shortPassword",true);
+		 if(samePassword)mv.addObject("samePassword",true);
+
+		 if(passwordChanged)mv.addObject("passwordChange",true);
+		 		 
 		 Set<Authority> authorities=user.get().getAuthorities();
 		 Iterator<Authority> it=authorities.iterator();
 		
@@ -316,11 +329,10 @@ public class ControllerResource {
 		 while(it.hasNext())
 		 {
 			 Authority au=(Authority) it.next();
-			 log.info(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
+		
 			 if(au.toString().equalsIgnoreCase("ROLE_ADMIN"))
 			 {
-				 log.info(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
-				 mv.addObject("userIsAdmin",true);
+			 	 mv.addObject("userIsAdmin",true);
 			 }
 			 else mv.addObject("userIsUser",true);
 		 }
@@ -1112,11 +1124,11 @@ public class ControllerResource {
 	public ResponseEntity<byte[]> report()
 	{
 		
-		List<UserDataBean>list=userDataBeanService.getAllUserDataBeans();
+		
 		
 		byte[] pdfContents=null;
 		try {
-			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(list);
+			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(reportList);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1394,18 +1406,104 @@ public class ControllerResource {
 		return mv;
 	}
 	@RequestMapping("changePassword")
-	public void changePassword(@RequestParam(name="oldPassword")String oldPassword,@RequestParam(name="newPassword")String newPassword,
+	public ModelAndView changePassword(@RequestParam(name="oldPassword")String oldPassword,@RequestParam(name="newPassword")String newPassword,
 			@RequestParam(name="id")Long id)
 	{
+		ModelAndView mv=new ModelAndView("redirect:/userDetails");
+		UserExtra userEx=userService.findExtraByid(id).get();
+		User user=userService.findByid(id).get();
+		String currentEncryptedPassword = user.getPassword();
+		if (!passwordEncoder.matches(oldPassword, currentEncryptedPassword)) {
+			
+		    mv.addObject("mismatch",true);
+		    mv.addObject("id",id);
+		    return mv;
+		}
+		if(newPassword.length()<2)
+		{
+			mv.addObject("shortPassword",true);
+		    mv.addObject("id",id);
+		    return mv;
+			
+		}
+		if(newPassword.equalsIgnoreCase(oldPassword))
+		{
+			mv.addObject("samePassword",true);
+		    mv.addObject("id",id);
+		    return mv;
+			
+		}
+		 String encryptedPassword = passwordEncoder.encode(newPassword);	
+		 user.setPassword(encryptedPassword);
+		 try {
+			userService.createUser(user, userEx);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 mv.addObject("passwordChanged",true);
+		    mv.addObject("id",id);
+			
+			
 		
-		
+		return mv;
 	}
 	@RequestMapping("changeUsername")
-	public void changeUsername(@RequestParam(name="oldUsername")String oldUsername,@RequestParam(name="newUsername")String newUsername,
+	public ModelAndView changeUsername(@RequestParam(name="oldUsername")String oldUsername,@RequestParam(name="newUsername")String newUsername,
 			@RequestParam(name="id")Long id)
 	{
+		ModelAndView mv=new ModelAndView("redirect:/userDetails");
+		UserExtra userEx=userService.findExtraByid(id).get();
+		User user=userService.findByid(id).get();
+		
+		
+		
+		return mv;
 		
 	}
+	@RequestMapping("allReport")
+	public ModelAndView allUsersReport()
+	{
+		reportList=userDataBeanService.getAllUserDataBeans();
+		ModelAndView mv=new ModelAndView("allUserReport");
+		
+		mv.addObject("list", reportList);
 	
-	
+		return mv;
+	}
+	@RequestMapping("/getReportByMonth")
+	public ModelAndView reportByMonth(@RequestParam (name="month") String month)
+	{
+		reportList=null;
+		ModelAndView mv=new ModelAndView("allUserReport");
+		String[] values = month.split("-");
+		Calendar calendar = Calendar.getInstance();
+		int year = Integer.parseInt(values[0]);
+		int monthValue =(Integer.parseInt(values[1]))-1;
+		int date = 1;
+		calendar.set(year, monthValue, date);
+		Date one = calendar.getTime();
+		Calendar mycal = new GregorianCalendar(year, monthValue, date);
+		int days = mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		calendar.set(year, monthValue, days);
+		Date two = calendar.getTime();
+		LocalDate first=one.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate second=two.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
+		mv.addObject("list", reportList);
+			return mv;
+	}
+	@RequestMapping("/getReportBetweenTwoDate")
+	public ModelAndView reportBydate(@RequestParam (name="astart") String start,@RequestParam (name="aend") String end)
+	{
+		reportList=null;
+		 ModelAndView mv=new ModelAndView("allUserReport");
+		 LocalDate first=LocalDate.parse(start);
+		 LocalDate second=LocalDate.parse(end);
+		 long days= ChronoUnit.DAYS.between(first,second);
+		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
+//		 List<UsersDataBean> bean=usersDataBeanService.findOneUserDataBeanByDate(id,first,second);
+		 mv.addObject("list", reportList);
+			return mv;
+	}
 }
