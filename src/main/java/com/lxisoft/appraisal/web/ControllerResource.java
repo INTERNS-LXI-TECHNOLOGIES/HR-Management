@@ -289,7 +289,7 @@ public class ControllerResource {
 				mv.addObject("hack",mark);
 			 }	
 		}	
-		Appraisal ap=appraisalService.setAppraisal(id);
+		appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		 mv.addObject("appraisal",appraisal);
 		
@@ -936,21 +936,21 @@ public class ControllerResource {
 	@GetMapping("/getPdf")
 	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id)
 	{
-		Appraisal ap=appraisalService.getOneAppraisal(id);
+		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 //		Appraisal ap=appraisalService.setAppraisal(id);
-		long attVal=ap.getAttendance();
+		long attVal=appraisal.getAttendance();
 		String att=getAttendanceComment(attVal);
 		log.info("attendence:::::::::::::::::::::::::::::::::;; "+att);
-		long punVal=ap.getPunctuality();
+		long punVal=appraisal.getPunctuality();
 		String pun=getPunctualityComment(punVal);
 		log.info("punctuality:::::::::::::::::::::::::::::::::;; "+pun);
-		long codeVal=ap.getCodeQuality();
+		long codeVal=appraisal.getCodeQuality();
 		String code=getCodeComment(codeVal);
 		log.info("code:::::::::::::::::::::::::::::::::;; "+code);
-		long policyVal=ap.getCompanyPolicy();
+		long policyVal=appraisal.getCompanyPolicy();
 		String policy=getPolicyComment(policyVal);
 		log.info("policy:::::::::::::::::::::::::::::::::;; "+policy);
-		long targetVal=ap.getMeetingTargets();
+		long targetVal=appraisal.getMeetingTargets();
 		String target=getTargetComment(targetVal);
 		
 		
@@ -992,7 +992,7 @@ public class ControllerResource {
 		{
 			co="below average in attendence";
 		}
-		if(val==1)
+		else
 		{
 			co="poor in attendance";
 		}
@@ -1022,7 +1022,7 @@ public class ControllerResource {
 		{
 			co="below average in punctuality";
 		}
-		if(val==1)
+		else
 		{
 			co="poor in punctuality";
 		}
@@ -1047,7 +1047,7 @@ public class ControllerResource {
 		{
 			co="below average in code quality";
 		}
-		if(val==1)
+		else
 		{
 			co="poor in code quality";
 		}
@@ -1072,7 +1072,7 @@ public class ControllerResource {
 		{
 			co="below average in company policy";
 		}
-		if(val==1)
+		else
 		{
 			co="poor in company policy";
 		}
@@ -1097,7 +1097,7 @@ public class ControllerResource {
 		{
 			co="below average in meeting target";
 		}
-		if(val==1)
+		else
 		{
 			co="poor in meeting target";
 		}
@@ -1117,6 +1117,48 @@ public class ControllerResource {
 		byte[] pdfContents=null;
 		try {
 			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(list);
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		HttpHeaders headers=new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		String fileName="Appraisal.pdf";
+		headers.add("content dis-position","attachment: filename="+fileName);
+		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
+		return response;
+	}
+	
+	@RequestMapping("/getPdfBetweenTwoDateByDatabase")
+	public ResponseEntity<byte[]> pdfBydateByDatabase(@RequestParam Long id,@RequestParam (name="astart") String start,
+			@RequestParam (name="aend") String end)
+	{
+		 LocalDate first=LocalDate.parse(start);
+		 LocalDate second=LocalDate.parse(end);
+		 appraisalService.setAppraisalByDate(id,first,second);
+		 Appraisal appraisal=appraisalService.getOneAppraisalByDate(id,first,second);
+//		Appraisal ap=appraisalService.setAppraisal(id);
+		long attVal=appraisal.getAttendance();
+		String att=getAttendanceComment(attVal);
+		long punVal=appraisal.getPunctuality();
+		String pun=getPunctualityComment(punVal);
+		long codeVal=appraisal.getCodeQuality();
+
+		String code=getCodeComment(codeVal);
+		long policyVal=appraisal.getCompanyPolicy();
+
+		String policy=getPolicyComment(policyVal);
+		long targetVal=appraisal.getMeetingTargets();
+		String target=getTargetComment(targetVal);
+		log.info("piunctuali::::::::::::::::::::::::::::::::;; "+punVal);
+		log.info("attendence:::::::::::::::::::::::::::::::::;; "+attVal);
+		log.info("policy:::::::::::::::::::::::::::::::::;; "+policyVal);
+		log.info("code:::::::::::::::::::::::::::::::::;; "+codeVal);
+		log.info("attendence:::::::::::::::::::::::::::::::::;; "+pun);
+		
+		byte[] pdfContents=null;
+		try {
+			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1314,7 +1356,7 @@ public class ControllerResource {
 				unreportdays.add(status.get(i));
 			}			 
 		 }
-		 Appraisal ap=appraisalService.setAppraisal(id);
+		 appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		mv.addObject("appraisal",appraisal);		
 		 mv.addObject("a",a);
