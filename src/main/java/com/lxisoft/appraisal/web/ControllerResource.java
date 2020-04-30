@@ -288,9 +288,9 @@ public class ControllerResource {
 				mv.addObject("hack",mark);
 			 }	
 		}	
-//		Appraisal ap=appraisalService.setAppraisal(id);
-//		Appraisal appraisal=appraisalService.getOneAppraisal(id);
-//		 mv.addObject("appraisal",appraisal);
+		Appraisal ap=appraisalService.setAppraisal(id);
+		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+		 mv.addObject("appraisal",appraisal);
 		
 		 mv.addObject("auth",auth);
 		 mv.addObject("unauth",unauth);
@@ -917,15 +917,27 @@ public class ControllerResource {
 	@GetMapping("/getPdf")
 	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id)
 	{
-		Appraisal ap=appraisalService.setAppraisal(id);
-		long val=ap.getAttendance();
-		String co=getAttendanceComment(val);
-			 System.out.println("value::::::::"+co);
-		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+		Appraisal ap=appraisalService.getOneAppraisal(id);
+//		Appraisal ap=appraisalService.setAppraisal(id);
+		long attVal=ap.getAttendance();
+		String att=getAttendanceComment(attVal);
+		log.info("attendence:::::::::::::::::::::::::::::::::;; "+att);
+		long punVal=ap.getPunctuality();
+		String pun=getPunctualityComment(punVal);
+		log.info("punctuality:::::::::::::::::::::::::::::::::;; "+pun);
+		long codeVal=ap.getCodeQuality();
+		String code=getCodeComment(codeVal);
+		log.info("code:::::::::::::::::::::::::::::::::;; "+code);
+		long policyVal=ap.getCompanyPolicy();
+		String policy=getPolicyComment(policyVal);
+		log.info("policy:::::::::::::::::::::::::::::::::;; "+policy);
+		long targetVal=ap.getMeetingTargets();
+		String target=getTargetComment(targetVal);
+		
 		
 		byte[] pdfContents=null;
 		try {
-			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,co);
+			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -937,6 +949,11 @@ public class ControllerResource {
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
 	}
+	/**
+	 * get attendance comment
+	 * @param val
+	 * @return
+	 */
 	public String getAttendanceComment(long val)
 	{
 		String co=null;
@@ -956,12 +973,118 @@ public class ControllerResource {
 		{
 			co="below average in attendence";
 		}
-		else
+		if(val==1)
 		{
 			co="poor in attendance";
 		}
 		return co;
 	}
+	/**
+	 * 
+	 * @param val
+	 * @return
+	 */
+	public String getPunctualityComment(long val)
+	{
+		String co=null;
+		if(val==(5))
+		{
+			co="Excellent in punctuality";
+		}
+		if(val==(4))
+		{
+			co="good in punctuality";
+		}
+		if(val==(3))
+		{
+			co="Average in punctuality";
+		}
+		if(val==(2))
+		{
+			co="below average in punctuality";
+		}
+		if(val==1)
+		{
+			co="poor in punctuality";
+		}
+		return co;
+	}
+	public String getCodeComment(long val)
+	{
+		String co=null;
+		if(val==(5))
+		{
+			co="Excellent in code quality";
+		}
+		if(val==(4))
+		{
+			co="good in code quality";
+		}
+		if(val==(3))
+		{
+			co="Average in code quality";
+		}
+		if(val==(2))
+		{
+			co="below average in code quality";
+		}
+		if(val==1)
+		{
+			co="poor in code quality";
+		}
+		return co;
+	}
+	public String getPolicyComment(long val)
+	{
+		String co=null;
+		if(val==(5))
+		{
+			co="Excellent in company policy";
+		}
+		if(val==(4))
+		{
+			co="good in company policy";
+		}
+		if(val==(3))
+		{
+			co="Average in company policy";
+		}
+		if(val==(2))
+		{
+			co="below average in company policy";
+		}
+		if(val==1)
+		{
+			co="poor in company policy";
+		}
+		return co;
+	}
+	public String getTargetComment(long val)
+	{
+		String co=null;
+		if(val==(5))
+		{
+			co="Excellent in meeting target";
+		}
+		if(val==(4))
+		{
+			co="good in meeting target";
+		}
+		if(val==(3))
+		{
+			co="Average in meeting target";
+		}
+		if(val==(2))
+		{
+			co="below average in meeting target";
+		}
+		if(val==1)
+		{
+			co="poor in meeting target";
+		}
+		return co;
+	}
+	
 	/**
 	 * getting appraisal form all employees
 	 * @return
