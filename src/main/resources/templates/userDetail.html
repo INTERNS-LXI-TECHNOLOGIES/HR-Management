@@ -23,7 +23,8 @@
 </style>
 <title>User Info</title>
 </head>
-   <body align="center" th:onload="match([[${mismatch}]]);use([[${success}]]) " > 
+   <body align="center" th:onload="match([[${mismatch}]]);use([[${contatcs}]]);shortP([[${shortPassword}]]);same([[${samePassword}]]);
+   changed([[${passwordChange}]]) " > 
    
    
    
@@ -38,13 +39,25 @@
     <i class="fa fa-bars"></i>
   </a>
 </div>
-<div id="alertred" class="alert">
+<div id="alert" class="alertgreen">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 		user modified succesfully...!
 </div>
-<div id="alert" class="alert">
+<div id="mismatch" class="alertred">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-		invalid password !
+		 password mismatch!
+</div>
+<div id="same" class="alertred">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		 same password!
+</div>
+<div id="shortP" class="alertred">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		 password is too small !
+</div>
+<div id="changed" class="alertgreen">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		 password is updated..!!
 </div>
 		<script >
    function use(us)
@@ -57,9 +70,24 @@
     
     function match(mi){
  	   if(mi){
- 		   document.getElementById('alertred').style.display = "block";}
+ 		   document.getElementById('mismatch').style.display = "block";}
  		
- 	   }
+ 	}
+    function same(mi){
+  	   if(mi){
+  		   document.getElementById('same').style.display = "block";}
+  		
+  	}
+    function shortP(mi){
+  	   if(mi){
+  		   document.getElementById('shortP').style.display = "block";}
+  		
+  	}
+    function changed(mi){
+   	   if(mi){
+   		   document.getElementById('changed').style.display = "block";}
+   		
+   	}
     </script>
     
 	<div class="profile-main">
@@ -88,8 +116,8 @@
 				<div id="Basic-detail" class="tab-content current">
 					<div class="detail-box">
 						
-						<ul class="ul-first"><div th:text="${mismatch}" />
-							<strong><li>First Name</li><br><div th:text="${success}" />
+						<ul class="ul-first">
+							<strong><li>First Name</li><br><div th:text="${mis}" />
 							<li>Last Name</li><br>
 							<li>Company</li><br>
 							<li>Position</li><br>
@@ -256,8 +284,8 @@
 					<div class="Edu-box">	
 					 <form th:action="@{/changePassword}">
 						 <input type="hidden" name="id"  th:value="${employee.id}" />
-						<label>old password:</label><input type="text" name="oldPassword"  /><br>
-						<label>new password:</label><input type="text" name="newPassword"  />
+						<label>old password:</label><input type="password" name="oldPassword"  required/><br>
+						<label>new password:</label><input type="password" name="newPassword"  required/>
 						<input type="submit" value="change password" />
 					</form>
 					</div>

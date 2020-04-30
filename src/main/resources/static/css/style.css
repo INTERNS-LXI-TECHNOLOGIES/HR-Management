@@ -163,6 +163,13 @@ body {
   color: black;
   margin-bottom: 15px;
 }
+.alertgreen {
+  display: none;
+  padding: 20px;
+  background-color: #00FF00; /*green */
+  color: black;
+  margin-bottom: 15px;
+}
 
 /* The close button */
 .closebtn {

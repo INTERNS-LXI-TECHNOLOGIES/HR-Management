@@ -201,7 +201,9 @@ public class ControllerResource {
     @RequestMapping("/userDetails") 
 	 public ModelAndView userDetail(@RequestParam(name="id") Long id,ModelAndView model, 
 			 @RequestParam (name="start" ,required=false)String aStart,@RequestParam (name="end", required=false)String aLast,
-	 		 @RequestParam(name="success",required=false )boolean success)
+	 		 @RequestParam(name="success",required=false )boolean success,@RequestParam(name="mismatch",required=false )boolean mismatch,
+	 	@RequestParam(name="samePassword",required=false )boolean samePassword,@RequestParam(name="shortPassword",required=false )boolean shortPassword,
+	 	@RequestParam(name="passwordChanged",required=false )boolean passwordChanged)
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = userService.findByid(id);
@@ -305,6 +307,12 @@ public class ControllerResource {
 		 boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 		 if(isAdmin)mv.addObject("isAdmin",true);
 		 if(isUser)mv.addObject("isUser",true);
+		 if(mismatch)mv.addObject("mismatch",true);
+		 if(shortPassword)mv.addObject("shortPassword",true);
+		 if(samePassword)mv.addObject("samePassword",true);
+
+		 if(passwordChanged)mv.addObject("passwordChange",true);
+		 		 
 		 Set<Authority> authorities=user.get().getAuthorities();
 		 Iterator<Authority> it=authorities.iterator();
 		
@@ -312,9 +320,9 @@ public class ControllerResource {
 		 while(it.hasNext())
 		 {
 			 Authority au=(Authority) it.next();
-			 System.out.println(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
+			
 			 if(au.toString().equalsIgnoreCase("ROLE_ADMIN"))
-			 {System.out.println(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
+			 {
 				 mv.addObject("userIsAdmin",true);
 			 }
 			 else mv.addObject("userIsUser",true);
@@ -1139,24 +1147,51 @@ public class ControllerResource {
 		User user=userService.findByid(id).get();
 		String currentEncryptedPassword = user.getPassword();
 		if (!passwordEncoder.matches(oldPassword, currentEncryptedPassword)) {
-			System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrgkkkk");
 			
 		    mv.addObject("mismatch",true);
 		    mv.addObject("id",id);
 		    return mv;
 		}
-		
+		if(newPassword.length()<2)
+		{
+			mv.addObject("shortPassword",true);
+		    mv.addObject("id",id);
+		    return mv;
 			
-	System.out.println("tghjkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+		}
+		if(newPassword.equalsIgnoreCase(oldPassword))
+		{
+			mv.addObject("samePassword",true);
+		    mv.addObject("id",id);
+		    return mv;
+			
+		}
+		 String encryptedPassword = passwordEncoder.encode(newPassword);	
+		 user.setPassword(encryptedPassword);
+		 try {
+			userService.createUser(user, userEx);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 mv.addObject("passwordChanged",true);
+		    mv.addObject("id",id);
 			
 			
 		
 		return mv;
 	}
 	@RequestMapping("changeUsername")
-	public void changeUsername(@RequestParam(name="oldUsername")String oldUsername,@RequestParam(name="newUsername")String newUsername,
+	public ModelAndView changeUsername(@RequestParam(name="oldUsername")String oldUsername,@RequestParam(name="newUsername")String newUsername,
 			@RequestParam(name="id")Long id)
 	{
+		ModelAndView mv=new ModelAndView("redirect:/userDetails");
+		UserExtra userEx=userService.findExtraByid(id).get();
+		User user=userService.findByid(id).get();
+		
+		
+		
+		return mv;
 		
 	}
 	
