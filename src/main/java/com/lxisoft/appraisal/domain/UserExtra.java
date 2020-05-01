@@ -49,23 +49,22 @@ public class UserExtra implements Serializable {
     @JoinColumn(name = "id")
     private User user;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "userExtra")
+    @OneToMany(mappedBy = "userExtra")
     private Set<Git> gits = new HashSet<>();
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "userExtra")
+    @OneToMany(mappedBy = "userExtra")
     private Set<LateArrival> lateArrivals = new HashSet<>();
 
-    @OneToMany(cascade=CascadeType.ALL,mappedBy = "userExtra")
+    @OneToMany(mappedBy = "userExtra")
     private Set<ReportStatus> reportStatuses = new HashSet<>();
 
-    @OneToMany(cascade=CascadeType.ALL,mappedBy = "userExtra")
+    @OneToMany(mappedBy = "userExtra")
     private Set<Hackathon> hackathons = new HashSet<>();
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "userExtra")
+    @OneToMany(mappedBy = "userExtra")
     private Set<Leave> leaves = new HashSet<>();
 
-
-    @OneToMany(cascade=CascadeType.ALL, mappedBy = "userExtra")
+    @OneToMany(mappedBy = "userExtra")
     private Set<Appraisal> appraisals = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -306,7 +305,6 @@ public class UserExtra implements Serializable {
         this.leaves = leaves;
     }
 
-
     public Set<Appraisal> getAppraisals() {
         return appraisals;
     }
@@ -331,7 +329,6 @@ public class UserExtra implements Serializable {
     public void setAppraisals(Set<Appraisal> appraisals) {
         this.appraisals = appraisals;
     }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override

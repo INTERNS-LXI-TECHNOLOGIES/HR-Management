@@ -66,15 +66,14 @@
             "otherEntityName": "leave",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "userExtra"
-<<<<<<< HEAD
+
         },
         {
             "relationshipName": "appraisal",
             "otherEntityName": "appraisal",
             "relationshipType": "one-to-many",
             "otherEntityRelationshipName": "userExtra"
-=======
->>>>>>> cd527ee78d96e0ea9f13b94427657e0db314b07f
+
         }
     ],
     "changelogDate": "20200327064600",
