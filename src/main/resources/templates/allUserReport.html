@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<link type="text/css" th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="/js/responsiveScript.js"></script>
+<script src="/js/imageUploadScript.js"></script>
+<script src="/js/userdetail.js"></script>
+<link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/userdetail.css" type="text/css">
+	<link type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<title>All User Report</title>
+</head>
+<body>
+<div class="topnav" id="myTopnav">
+  <a href="#home" th:href="@{/}">Home</a></div>
+<br>
+<div class="profile-main">
+		<div class="profile-header">
+			<center><font size="250">Appraisal Report-All Employees</font>
+			<div class="tab-panel-main">
+				<ul class="tabs">
+					<li class="tab-link current" data-tab="monthly">Monthly Appraisal Details</li>
+					<li class="tab-link" data-tab="random">Random Dates Appraisal Details </li>
+				</ul>
+			</div>
+			<div class="Edu-box">	
+			<div id="monthly" class="tab-content current">
+				<form th:action="@{getReportByMonth}">
+ 				<input type="month" id="month" name="month">
+   				<input type="submit" value="Monthly Appraisal Result" />
+ 				</form>
+ 			</div></div>
+			<div class="Edu-box">	
+			<div id="random" class="tab-content">
+				 <form th:action="@{/getReportBetweenTwoDate}">
+						<div class="col-sm-5 col-xs-6 tital " >From:
+						<input type="date" id="astart" name="astart" required>
+						</div>
+						<div class="col-sm-5 col-xs-6 tital">To :&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="date" id="aend" name="aend" required><br>
+						<input type="submit" value="Random Appraisal Result" /></div>
+						</form>
+ 			</div></div></center>
+ 			
+			
+		</div>
+</div><br>
+<center><a th:href="@{report}">Print Report</a></center>
+
+<br><br><br><br><br>
+
+<table class="tableReport">
+	<tr><th>Name</th><th>Company</th><th>position</th><th>Email</th><th>Attendance</th><th>Punctuality</th>
+	<th>meeting Target</th><th>Code Quality</th><th>Company Policy</th></tr>
+	<tr th:each="user: ${list}">
+		<td><div th:text="${user.firstName}"></div></td>
+		<td><div th:text="${user.company}"></div></td>
+		<td><div th:text="${user.position}"></div></td>
+		<td><div th:text="${user.email}"></div></td>
+		<td><div th:text="${user.attendance}"></div></td>
+		<td><div th:text="${user.punctuality}"></div></td>
+		<td><div th:text="${user.meetingTargets}"></div></td>
+		<td><div th:text="${user.companyPolicy}"></div></td>
+		<td><div th:text="${user.codeQuality}"></div></td>
+		
+		</tr>
+
+</table>
+</body>
+</html>

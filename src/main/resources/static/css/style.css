@@ -159,7 +159,14 @@ body {
 .alertred {
   display: none;
   padding: 20px;
-  background-color: #FF6347; /*yellow */
+  background-color: #FF6347; /*red */
+  color: black;
+  margin-bottom: 15px;
+}
+.alertgreen {
+  display: none;
+  padding: 20px;
+  background-color: #00FF00; /*green */
   color: black;
   margin-bottom: 15px;
 }
@@ -255,3 +262,9 @@ div.c {
 .c tr:nth-child(even) {
   background-color: #f2f2f2;
 } 
+.c tableReport {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}

@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 
 import org.apache.logging.log4j.util.Constants;
 import org.slf4j.Logger;
@@ -29,6 +31,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,17 +57,20 @@ import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.domain.ReportStatus;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserDataBean;
+import com.lxisoft.appraisal.domain.UsersDataBean;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
 import com.lxisoft.appraisal.service.AppraisalService;
 import com.lxisoft.appraisal.service.GitService;
 import com.lxisoft.appraisal.service.HackathonService;
+import com.lxisoft.appraisal.service.InvalidPasswordException;
 import com.lxisoft.appraisal.service.JasperService;
 import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
 import com.lxisoft.appraisal.service.UserDataBeanService;
+import com.lxisoft.appraisal.service.UsersDataBeanService;
 import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
 
@@ -76,6 +82,9 @@ import net.sf.jasperreports.engine.JRException;
 @Controller
 public class ControllerResource {
 	private static final Object Invalid = null;
+	public List<UserDataBean> reportList;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	@Autowired
 	UserExtraService userService;
 	@Autowired
@@ -96,6 +105,8 @@ public class ControllerResource {
 	AppraisalService appraisalService;
 	@Autowired
 	UserDataBeanService userDataBeanService;
+	@Autowired
+	UsersDataBeanService usersDataBeanService;
 	
 
 
@@ -109,10 +120,11 @@ public class ControllerResource {
 	{
     	ModelAndView mv=new ModelAndView(); 
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	log.info("authentication detail"+authentication);
 		boolean isAdmin=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN"));
 		boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 		String username = authentication.getName();
-		System.out.println("usernaem:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
+		log.info("username:////////////////////"+username+ " is admin: "+ isAdmin+" user: "+isUser);
 		if(success)mv.addObject("userAdded",true);
 		if(isAdmin)
 		{
@@ -198,7 +210,10 @@ public class ControllerResource {
     @RequestMapping("/userDetails") 
 	 public ModelAndView userDetail(@RequestParam(name="id") Long id,ModelAndView model, 
 			 @RequestParam (name="start" ,required=false)String aStart,@RequestParam (name="end", required=false)String aLast,
-	 		 @RequestParam(name="success",required=false )boolean success)
+	 		 @RequestParam(name="success",required=false )boolean success,@RequestParam(name="mismatch",required=false )boolean mismatch,
+	 	@RequestParam(name="samePassword",required=false )boolean samePassword,@RequestParam(name="shortPassword",required=false )boolean shortPassword,
+	 	@RequestParam(name="passwordChanged",required=false )boolean passwordChanged,
+	 	@RequestParam(name="randomApp",required=false )boolean randomApp)
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = userService.findByid(id);
@@ -282,7 +297,7 @@ public class ControllerResource {
 				mv.addObject("hack",mark);
 			 }	
 		}	
-		appraisalService.setAppraisal(id);
+		if(!randomApp) appraisalService.setAppraisal(id);
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		 mv.addObject("appraisal",appraisal);
 		
@@ -302,6 +317,12 @@ public class ControllerResource {
 		 boolean isUser=authentication.getAuthorities().stream().anyMatch(r -> r.getAuthority().equals("ROLE_USER"));
 		 if(isAdmin)mv.addObject("isAdmin",true);
 		 if(isUser)mv.addObject("isUser",true);
+		 if(mismatch)mv.addObject("mismatch",true);
+		 if(shortPassword)mv.addObject("shortPassword",true);
+		 if(samePassword)mv.addObject("samePassword",true);
+
+		 if(passwordChanged)mv.addObject("passwordChange",true);
+		 		 
 		 Set<Authority> authorities=user.get().getAuthorities();
 		 Iterator<Authority> it=authorities.iterator();
 		
@@ -309,10 +330,10 @@ public class ControllerResource {
 		 while(it.hasNext())
 		 {
 			 Authority au=(Authority) it.next();
-			 System.out.println(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
+		
 			 if(au.toString().equalsIgnoreCase("ROLE_ADMIN"))
-			 {System.out.println(au.getName()+" "+au.toString()+"rrrrrrrrrrrrrrrrrrrrrrrrrrr");
-				 mv.addObject("userIsAdmin",true);
+			 {
+			 	 mv.addObject("userIsAdmin",true);
 			 }
 			 else mv.addObject("userIsUser",true);
 		 }
@@ -544,7 +565,7 @@ public class ControllerResource {
 		boolean validUser = true ;
 		String msg = "unvalid";
 		LocalDate localDate = LocalDate.now();		
-		ModelAndView mv= new ModelAndView("/leave");		
+		ModelAndView mv= new ModelAndView("Leave");		
 		List<Leave> l=leaveSer.findByDate(localDate);
 		for(int i=0;i<user.size();i++)
 		{
@@ -601,7 +622,16 @@ public class ControllerResource {
 			}
 		}	
 	}
+		Set<UserExtra> list=new HashSet<UserExtra>();
+		for(Leave u:l)
+		{
+				list.add(u.getUserExtra());
+		}
+		list.add(leave.getUserExtra());
+		List<UserExtraDTO> dto=getSpecificUser(list);
+		mv.addObject("leavelist",dto);
 		mv.addObject("msg",msg);
+
 		return mv;
 	}
 	@RequestMapping("/evaluation")
@@ -919,10 +949,27 @@ public class ControllerResource {
 	@GetMapping("/getPdf")
 	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id)
 	{
-//		long i=Long.parseLong(id);
+		Appraisal ap=appraisalService.getOneAppraisal(id);
+//		Appraisal ap=appraisalService.setAppraisal(id);
+		long attVal=ap.getAttendance();
+		String att=getAttendanceComment(attVal);
+		log.info("attendence:::::::::::::::::::::::::::::::::;; "+att);
+		long punVal=ap.getPunctuality();
+		String pun=getPunctualityComment(punVal);
+		log.info("punctuality:::::::::::::::::::::::::::::::::;; "+pun);
+		long codeVal=ap.getCodeQuality();
+		String code=getCodeComment(codeVal);
+		log.info("code:::::::::::::::::::::::::::::::::;; "+code);
+		long policyVal=ap.getCompanyPolicy();
+		String policy=getPolicyComment(policyVal);
+		log.info("policy:::::::::::::::::::::::::::::::::;; "+policy);
+		long targetVal=ap.getMeetingTargets();
+		String target=getTargetComment(targetVal);
+		
+		
 		byte[] pdfContents=null;
 		try {
-			pdfContents=jasperService.getReportAsPdfUsingDatabase(id);
+			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -935,6 +982,142 @@ public class ControllerResource {
 		return response;
 	}
 	/**
+	 * get attendance comment
+	 * @param val
+	 * @return
+	 */
+	public String getAttendanceComment(long val)
+	{
+		String co=null;
+		if(val==(5))
+		{
+			co="Excellent in attendence";
+		}
+		if(val==(4))
+		{
+			co="good in attendence";
+		}
+		if(val==(3))
+		{
+			co="Average in attendence";
+		}
+		if(val==(2))
+		{
+			co="below average in attendence";
+		}
+		if(val==1)
+		{
+			co="poor in attendance";
+		}
+		return co;
+	}
+	/**
+	 * 
+	 * @param val
+	 * @return
+	 */
+	public String getPunctualityComment(long val)
+	{
+		String co=null;
+		if(val==(5))
+		{
+			co="Excellent in punctuality";
+		}
+		if(val==(4))
+		{
+			co="good in punctuality";
+		}
+		if(val==(3))
+		{
+			co="Average in punctuality";
+		}
+		if(val==(2))
+		{
+			co="below average in punctuality";
+		}
+		if(val==1)
+		{
+			co="poor in punctuality";
+		}
+		return co;
+	}
+	public String getCodeComment(long val)
+	{
+		String co=null;
+		if(val==(5))
+		{
+			co="Excellent in code quality";
+		}
+		if(val==(4))
+		{
+			co="good in code quality";
+		}
+		if(val==(3))
+		{
+			co="Average in code quality";
+		}
+		if(val==(2))
+		{
+			co="below average in code quality";
+		}
+		if(val==1)
+		{
+			co="poor in code quality";
+		}
+		return co;
+	}
+	public String getPolicyComment(long val)
+	{
+		String co=null;
+		if(val==(5))
+		{
+			co="Excellent in company policy";
+		}
+		if(val==(4))
+		{
+			co="good in company policy";
+		}
+		if(val==(3))
+		{
+			co="Average in company policy";
+		}
+		if(val==(2))
+		{
+			co="below average in company policy";
+		}
+		if(val==1)
+		{
+			co="poor in company policy";
+		}
+		return co;
+	}
+	public String getTargetComment(long val)
+	{
+		String co=null;
+		if(val==(5))
+		{
+			co="Excellent in meeting target";
+		}
+		if(val==(4))
+		{
+			co="good in meeting target";
+		}
+		if(val==(3))
+		{
+			co="Average in meeting target";
+		}
+		if(val==(2))
+		{
+			co="below average in meeting target";
+		}
+		if(val==1)
+		{
+			co="poor in meeting target";
+		}
+		return co;
+	}
+	
+	/**
 	 * getting appraisal form all employees
 	 * @return
 	 */
@@ -942,11 +1125,11 @@ public class ControllerResource {
 	public ResponseEntity<byte[]> report()
 	{
 		
-		List<UserDataBean>list=userDataBeanService.getAllUserDataBeans();
+		
 		
 		byte[] pdfContents=null;
 		try {
-			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(list);
+			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(reportList);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -966,25 +1149,46 @@ public class ControllerResource {
 	 * @return
 	 */
 	@RequestMapping("/getPdfBetweenTwoDate")
-	public ResponseEntity<byte[]> pdfBydate(@RequestParam Long id,@RequestParam (name="astart") String start,
+	public ModelAndView pdfBydate(@RequestParam Long id,@RequestParam (name="astart") String start,
 			@RequestParam (name="aend") String end)
 	{
+	     ModelAndView mv= new ModelAndView("redirect:/userDetails"); 	
 		 LocalDate first=LocalDate.parse(start);
 		 LocalDate second=LocalDate.parse(end);
-		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
-		 byte[] pdfContents=null;
-			try {
-				pdfContents=jasperService.getPdfUsingJavaBeans(bean);
-			} catch (JRException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			HttpHeaders headers=new HttpHeaders();
-			headers.setContentType(MediaType.parseMediaType("application/pdf"));
-			String fileName="Appraisal.pdf";
-			headers.add("content dis-position","attachment: filename="+fileName);
-			ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
-			return response;
+		 long days= ChronoUnit.DAYS.between(first,second);
+//		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
+//		 List<UsersDataBean> bean=usersDataBeanService.findOneUserDataBeanByDate(id,first,second);
+		 appraisalService.setAppraisalByDate(id, first, second);
+		 mv.addObject("randomApp",true);
+		 mv.addObject("id",id);
+		return mv;
+	}
+	@RequestMapping("/getPdfByMonth")
+	public ModelAndView pdfByMonth(@RequestParam Long id,@RequestParam (name="month") String month)
+	{
+		ModelAndView mv= new ModelAndView("redirect:/userDetails"); 	
+		System.out.println("month "+month);
+		String[] values = month.split("-");
+		Calendar calendar = Calendar.getInstance();
+		int year = Integer.parseInt(values[0]);
+		int monthValue =(Integer.parseInt(values[1]))-1;
+		int date = 1;
+		calendar.set(year, monthValue, date);
+		Date one = calendar.getTime();
+		Calendar mycal = new GregorianCalendar(year, monthValue, date);
+		int days = mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		calendar.set(year, monthValue, days);
+		Date two = calendar.getTime();
+		LocalDate first=one.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate second=two.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		System.out.println("date 1: " + first);
+		System.out.println("date 2: " + second);
+		System.out.println("Number of Days: " + days);
+		
+		appraisalService.setAppraisalByDate(id, first, second);
+		mv.addObject("randomApp",true);
+		mv.addObject("id",id);
+		return mv;
 	}
 	/**
 	 * to get user details between two date
@@ -1107,7 +1311,7 @@ public class ControllerResource {
 				unreportdays.add(status.get(i));
 			}			 
 		 }
-		appraisalService.setAppraisal(id);
+		 
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		mv.addObject("appraisal",appraisal);		
 		 mv.addObject("a",a);
@@ -1145,18 +1349,104 @@ public class ControllerResource {
 		return mv;
 	}
 	@RequestMapping("changePassword")
-	public void changePassword(@RequestParam(name="oldPassword")String oldPassword,@RequestParam(name="newPassword")String newPassword,
+	public ModelAndView changePassword(@RequestParam(name="oldPassword")String oldPassword,@RequestParam(name="newPassword")String newPassword,
 			@RequestParam(name="id")Long id)
 	{
+		ModelAndView mv=new ModelAndView("redirect:/userDetails");
+		UserExtra userEx=userService.findExtraByid(id).get();
+		User user=userService.findByid(id).get();
+		String currentEncryptedPassword = user.getPassword();
+		if (!passwordEncoder.matches(oldPassword, currentEncryptedPassword)) {
+			
+		    mv.addObject("mismatch",true);
+		    mv.addObject("id",id);
+		    return mv;
+		}
+		if(newPassword.length()<2)
+		{
+			mv.addObject("shortPassword",true);
+		    mv.addObject("id",id);
+		    return mv;
+			
+		}
+		if(newPassword.equalsIgnoreCase(oldPassword))
+		{
+			mv.addObject("samePassword",true);
+		    mv.addObject("id",id);
+		    return mv;
+			
+		}
+		 String encryptedPassword = passwordEncoder.encode(newPassword);	
+		 user.setPassword(encryptedPassword);
+		 try {
+			userService.createUser(user, userEx);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 mv.addObject("passwordChanged",true);
+		    mv.addObject("id",id);
+			
+			
 		
-		
+		return mv;
 	}
 	@RequestMapping("changeUsername")
-	public void changeUsername(@RequestParam(name="oldUsername")String oldUsername,@RequestParam(name="newUsername")String newUsername,
+	public ModelAndView changeUsername(@RequestParam(name="oldUsername")String oldUsername,@RequestParam(name="newUsername")String newUsername,
 			@RequestParam(name="id")Long id)
 	{
+		ModelAndView mv=new ModelAndView("redirect:/userDetails");
+		UserExtra userEx=userService.findExtraByid(id).get();
+		User user=userService.findByid(id).get();
+		
+		
+		
+		return mv;
 		
 	}
+	@RequestMapping("allReport")
+	public ModelAndView allUsersReport()
+	{
+		reportList=userDataBeanService.getAllUserDataBeans();
+		ModelAndView mv=new ModelAndView("allUserReport");
+		
+		mv.addObject("list", reportList);
 	
-	
+		return mv;
+	}
+	@RequestMapping("/getReportByMonth")
+	public ModelAndView reportByMonth(@RequestParam (name="month") String month)
+	{
+		reportList=null;
+		ModelAndView mv=new ModelAndView("allUserReport");
+		String[] values = month.split("-");
+		Calendar calendar = Calendar.getInstance();
+		int year = Integer.parseInt(values[0]);
+		int monthValue =(Integer.parseInt(values[1]))-1;
+		int date = 1;
+		calendar.set(year, monthValue, date);
+		Date one = calendar.getTime();
+		Calendar mycal = new GregorianCalendar(year, monthValue, date);
+		int days = mycal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		calendar.set(year, monthValue, days);
+		Date two = calendar.getTime();
+		LocalDate first=one.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate second=two.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
+		mv.addObject("list", reportList);
+			return mv;
+	}
+	@RequestMapping("/getReportBetweenTwoDate")
+	public ModelAndView reportBydate(@RequestParam (name="astart") String start,@RequestParam (name="aend") String end)
+	{
+		reportList=null;
+		 ModelAndView mv=new ModelAndView("allUserReport");
+		 LocalDate first=LocalDate.parse(start);
+		 LocalDate second=LocalDate.parse(end);
+		 long days= ChronoUnit.DAYS.between(first,second);
+		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
+//		 List<UsersDataBean> bean=usersDataBeanService.findOneUserDataBeanByDate(id,first,second);
+		 mv.addObject("list", reportList);
+			return mv;
+	}
 }
