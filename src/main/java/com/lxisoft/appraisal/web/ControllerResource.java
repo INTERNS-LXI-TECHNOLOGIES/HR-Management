@@ -291,7 +291,8 @@ public class ControllerResource {
 				mv.addObject("hack",mark);
 			 }	
 		}	
-		if(!randomApp) appraisalService.setAppraisal(id);
+		if(!randomApp) {appraisalService.setAppraisal(id);}
+		else {}
 
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		 mv.addObject("appraisal",appraisal);
@@ -1277,10 +1278,10 @@ public class ControllerResource {
 	@RequestMapping("allReport")
 	public ModelAndView allUsersReport()
 	{
-//		reportList=userDataBeanService.getAllUserDataBeans();
+		reportList=userDataBeanService.getAllUserDataBeans();
 		ModelAndView mv=new ModelAndView("allUserReport");
 		
-//		mv.addObject("list", reportList);
+		mv.addObject("list", reportList);
 	
 		return mv;
 	}
@@ -1302,8 +1303,8 @@ public class ControllerResource {
 		Date two = calendar.getTime();
 		LocalDate first=one.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate second=two.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-//		reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
-//		mv.addObject("list", reportList);
+		reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
+		mv.addObject("list", reportList);
 			return mv;
 	}
 	@RequestMapping("/getReportBetweenTwoDate")
@@ -1314,7 +1315,7 @@ public class ControllerResource {
 		 LocalDate first=LocalDate.parse(start);
 		 LocalDate second=LocalDate.parse(end);
 		 long days= ChronoUnit.DAYS.between(first,second);
-//		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
+		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
 		 mv.addObject("list", reportList);
 			return mv;
 	}

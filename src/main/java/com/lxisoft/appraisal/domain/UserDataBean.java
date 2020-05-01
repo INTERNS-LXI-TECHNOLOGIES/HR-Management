@@ -50,11 +50,32 @@ public class UserDataBean implements Serializable {
     private Long codeQuality;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public UserDataBean() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public UserDataBean(String firstName, String lastName, String company, String position, String email,
+			Long attendance, Long punctuality, Long meetingTargets, Long companyPolicy, Long codeQuality) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.company = company;
+		this.position = position;
+		this.email = email;
+		this.attendance = attendance;
+		this.punctuality = punctuality;
+		this.meetingTargets = meetingTargets;
+		this.companyPolicy = companyPolicy;
+		this.codeQuality = codeQuality;
+	}
+
+	public void setId(Long id) {
         this.id = id;
     }
 
