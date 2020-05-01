@@ -79,8 +79,5 @@ public class AppraisalService {
 		appRepo.save(appraisal);
 		
 	}
-	public Appraisal getOneAppraisalByDate(long id,LocalDate first, LocalDate second)
-	{
-		return (appRepo.findByUserExtraAndDateBetween((service.findExtraByid(id).get()),first,second)).get(0);
-	}
+	
 }

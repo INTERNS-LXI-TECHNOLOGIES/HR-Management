@@ -57,36 +57,11 @@ public class UsersDataBean implements Serializable {
     private String imageContentType;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
-    
     public Long getId() {
         return id;
     }
-    
-    public UsersDataBean() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
 
-	public UsersDataBean(Long id, String firstName, String lastName, String company, String position, String email,
-			Long attendence, Long punctuality, Long meetingTargets, Long companyPolicy, Long codeQuality, byte[] image,
-			String imageContentType) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.company = company;
-		this.position = position;
-		this.email = email;
-		this.attendence = attendence;
-		this.punctuality = punctuality;
-		this.meetingTargets = meetingTargets;
-		this.companyPolicy = companyPolicy;
-		this.codeQuality = codeQuality;
-		this.image = image;
-		this.imageContentType = imageContentType;
-	}
-
-	public void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

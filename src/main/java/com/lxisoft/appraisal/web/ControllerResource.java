@@ -57,7 +57,6 @@ import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.domain.ReportStatus;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserDataBean;
-import com.lxisoft.appraisal.domain.UsersDataBean;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
@@ -70,7 +69,6 @@ import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
 import com.lxisoft.appraisal.service.UserDataBeanService;
-import com.lxisoft.appraisal.service.UsersDataBeanService;
 import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
 
@@ -105,10 +103,6 @@ public class ControllerResource {
 	AppraisalService appraisalService;
 	@Autowired
 	UserDataBeanService userDataBeanService;
-	@Autowired
-	UsersDataBeanService usersDataBeanService;
-	
-
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
     /**
@@ -212,7 +206,8 @@ public class ControllerResource {
 			 @RequestParam (name="start" ,required=false)String aStart,@RequestParam (name="end", required=false)String aLast,
 	 		 @RequestParam(name="success",required=false )boolean success,@RequestParam(name="mismatch",required=false )boolean mismatch,
 	 	@RequestParam(name="samePassword",required=false )boolean samePassword,@RequestParam(name="shortPassword",required=false )boolean shortPassword,
-	 	@RequestParam(name="passwordChanged",required=false )boolean passwordChanged)
+	 	@RequestParam(name="passwordChanged",required=false )boolean passwordChanged,
+	 	@RequestParam(name="randomApp",required=false )boolean randomApp)
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = userService.findByid(id);
@@ -296,7 +291,8 @@ public class ControllerResource {
 				mv.addObject("hack",mark);
 			 }	
 		}	
-		appraisalService.setAppraisal(id);
+		if(!randomApp) appraisalService.setAppraisal(id);
+
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		 mv.addObject("appraisal",appraisal);
 		
@@ -949,22 +945,16 @@ public class ControllerResource {
 	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id)
 	{
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
-//		Appraisal ap=appraisalService.setAppraisal(id);
 		long attVal=appraisal.getAttendance();
-		String att=getAttendanceComment(attVal);
-		log.info("attendence:::::::::::::::::::::::::::::::::;; "+att);
 		long punVal=appraisal.getPunctuality();
-		String pun=getPunctualityComment(punVal);
-		log.info("punctuality:::::::::::::::::::::::::::::::::;; "+pun);
 		long codeVal=appraisal.getCodeQuality();
-		String code=getCodeComment(codeVal);
-		log.info("code:::::::::::::::::::::::::::::::::;; "+code);
 		long policyVal=appraisal.getCompanyPolicy();
-		String policy=getPolicyComment(policyVal);
-		log.info("policy:::::::::::::::::::::::::::::::::;; "+policy);
 		long targetVal=appraisal.getMeetingTargets();
-		String target=getTargetComment(targetVal);
-		
+		String att=getComment(attVal);
+		String pun=getComment(punVal);
+		String code=getComment(codeVal);
+		String policy=getComment(policyVal);
+		String target=getComment(targetVal);		
 		
 		byte[] pdfContents=null;
 		try {
@@ -981,137 +971,23 @@ public class ControllerResource {
 		return response;
 	}
 	/**
-	 * get attendance comment
+	 * get comment for appraisal
 	 * @param val
 	 * @return
 	 */
-	public String getAttendanceComment(long val)
+	public String getComment(long val)
 	{
 		String co=null;
-		if(val==(5))
+		int v=(int)val;
+		switch(v)
 		{
-			co="Excellent in attendence";
-		}
-		if(val==(4))
-		{
-			co="good in attendence";
-		}
-		if(val==(3))
-		{
-			co="Average in attendence";
-		}
-		if(val==(2))
-		{
-			co="below average in attendence";
-		}
-		else
-		{
-			co="poor in attendance";
-		}
-		return co;
-	}
-	/**
-	 * 
-	 * @param val
-	 * @return
-	 */
-	public String getPunctualityComment(long val)
-	{
-		String co=null;
-		if(val==(5))
-		{
-			co="Excellent in punctuality";
-		}
-		if(val==(4))
-		{
-			co="good in punctuality";
-		}
-		if(val==(3))
-		{
-			co="Average in punctuality";
-		}
-		if(val==(2))
-		{
-			co="below average in punctuality";
-		}
-		else
-		{
-			co="poor in punctuality";
-		}
-		return co;
-	}
-	public String getCodeComment(long val)
-	{
-		String co=null;
-		if(val==(5))
-		{
-			co="Excellent in code quality";
-		}
-		if(val==(4))
-		{
-			co="good in code quality";
-		}
-		if(val==(3))
-		{
-			co="Average in code quality";
-		}
-		if(val==(2))
-		{
-			co="below average in code quality";
-		}
-		else
-		{
-			co="poor in code quality";
-		}
-		return co;
-	}
-	public String getPolicyComment(long val)
-	{
-		String co=null;
-		if(val==(5))
-		{
-			co="Excellent in company policy";
-		}
-		if(val==(4))
-		{
-			co="good in company policy";
-		}
-		if(val==(3))
-		{
-			co="Average in company policy";
-		}
-		if(val==(2))
-		{
-			co="below average in company policy";
-		}
-		else
-		{
-			co="poor in company policy";
-		}
-		return co;
-	}
-	public String getTargetComment(long val)
-	{
-		String co=null;
-		if(val==(5))
-		{
-			co="Excellent in meeting target";
-		}
-		if(val==(4))
-		{
-			co="good in meeting target";
-		}
-		if(val==(3))
-		{
-			co="Average in meeting target";
-		}
-		if(val==(2))
-		{
-			co="below average in meeting target";
-		}
-		else
-		{
-			co="poor in meeting target";
+			case 0: co="Very Poor"; break;
+			case 1: co="Poor"; break;
+			case 2: co="Below Average"; break;
+			case 3: co="Average"; break;
+			case 4: co="Good"; break;
+			case 5: co="Excellent"; break;
+			
 		}
 		return co;
 	}
@@ -1123,54 +999,9 @@ public class ControllerResource {
 	@GetMapping("/report")
 	public ResponseEntity<byte[]> report()
 	{
-		
-		
-		
 		byte[] pdfContents=null;
 		try {
 			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(reportList);
-		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		HttpHeaders headers=new HttpHeaders();
-		headers.setContentType(MediaType.parseMediaType("application/pdf"));
-		String fileName="Appraisal.pdf";
-		headers.add("content dis-position","attachment: filename="+fileName);
-		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
-		return response;
-	}
-	
-	@RequestMapping("/getPdfBetweenTwoDateByDatabase")
-	public ResponseEntity<byte[]> pdfBydateByDatabase(@RequestParam Long id,@RequestParam (name="astart") String start,
-			@RequestParam (name="aend") String end)
-	{
-		 LocalDate first=LocalDate.parse(start);
-		 LocalDate second=LocalDate.parse(end);
-		 appraisalService.setAppraisalByDate(id,first,second);
-		 Appraisal appraisal=appraisalService.getOneAppraisalByDate(id,first,second);
-//		Appraisal ap=appraisalService.setAppraisal(id);
-		long attVal=appraisal.getAttendance();
-		String att=getAttendanceComment(attVal);
-		long punVal=appraisal.getPunctuality();
-		String pun=getPunctualityComment(punVal);
-		long codeVal=appraisal.getCodeQuality();
-
-		String code=getCodeComment(codeVal);
-		long policyVal=appraisal.getCompanyPolicy();
-
-		String policy=getPolicyComment(policyVal);
-		long targetVal=appraisal.getMeetingTargets();
-		String target=getTargetComment(targetVal);
-		log.info("piunctuali::::::::::::::::::::::::::::::::;; "+punVal);
-		log.info("attendence:::::::::::::::::::::::::::::::::;; "+attVal);
-		log.info("policy:::::::::::::::::::::::::::::::::;; "+policyVal);
-		log.info("code:::::::::::::::::::::::::::::::::;; "+codeVal);
-		log.info("attendence:::::::::::::::::::::::::::::::::;; "+pun);
-		
-		byte[] pdfContents=null;
-		try {
-			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1190,31 +1021,22 @@ public class ControllerResource {
 	 * @return
 	 */
 	@RequestMapping("/getPdfBetweenTwoDate")
-	public ResponseEntity<byte[]> pdfBydate(@RequestParam Long id,@RequestParam (name="astart") String start,
+	public ModelAndView pdfBydate(@RequestParam Long id,@RequestParam (name="astart") String start,
 			@RequestParam (name="aend") String end)
 	{
+	     ModelAndView mv= new ModelAndView("redirect:/userDetails"); 	
 		 LocalDate first=LocalDate.parse(start);
 		 LocalDate second=LocalDate.parse(end);
 		 long days= ChronoUnit.DAYS.between(first,second);
-		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
-//		 List<UsersDataBean> bean=usersDataBeanService.findOneUserDataBeanByDate(id,first,second);
-		 byte[] pdfContents=null;
-			try {
-				pdfContents=jasperService.getPdfUsingJavaBeans(bean);
-			} catch (JRException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			HttpHeaders headers=new HttpHeaders();
-			headers.setContentType(MediaType.parseMediaType("application/pdf"));
-			String fileName="Appraisal.pdf";
-			headers.add("content dis-position","attachment: filename="+fileName);
-			ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
-			return response;
+		 appraisalService.setAppraisalByDate(id, first, second);
+		 mv.addObject("randomApp",true);
+		 mv.addObject("id",id);
+		return mv;
 	}
 	@RequestMapping("/getPdfByMonth")
-	public ResponseEntity<byte[]> pdfByMonth(@RequestParam Long id,@RequestParam (name="month") String month)
+	public ModelAndView pdfByMonth(@RequestParam Long id,@RequestParam (name="month") String month)
 	{
+		ModelAndView mv= new ModelAndView("redirect:/userDetails"); 	
 		System.out.println("month "+month);
 		String[] values = month.split("-");
 		Calendar calendar = Calendar.getInstance();
@@ -1232,20 +1054,11 @@ public class ControllerResource {
 		System.out.println("date 1: " + first);
 		System.out.println("date 2: " + second);
 		System.out.println("Number of Days: " + days);
-		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
-		 byte[] pdfContents=null;
-			try {
-				pdfContents=jasperService.getPdfUsingJavaBeans(bean);
-			} catch (JRException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			HttpHeaders headers=new HttpHeaders();
-			headers.setContentType(MediaType.parseMediaType("application/pdf"));
-			String fileName="Appraisal.pdf";
-			headers.add("content dis-position","attachment: filename="+fileName);
-			ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
-			return response;
+		
+		appraisalService.setAppraisalByDate(id, first, second);
+		mv.addObject("randomApp",true);
+		mv.addObject("id",id);
+		return mv;
 	}
 	/**
 	 * to get user details between two date
@@ -1368,7 +1181,7 @@ public class ControllerResource {
 				unreportdays.add(status.get(i));
 			}			 
 		 }
-		 appraisalService.setAppraisal(id);
+
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		mv.addObject("appraisal",appraisal);		
 		 mv.addObject("a",a);
@@ -1464,10 +1277,10 @@ public class ControllerResource {
 	@RequestMapping("allReport")
 	public ModelAndView allUsersReport()
 	{
-		reportList=userDataBeanService.getAllUserDataBeans();
+//		reportList=userDataBeanService.getAllUserDataBeans();
 		ModelAndView mv=new ModelAndView("allUserReport");
 		
-		mv.addObject("list", reportList);
+//		mv.addObject("list", reportList);
 	
 		return mv;
 	}
@@ -1489,8 +1302,8 @@ public class ControllerResource {
 		Date two = calendar.getTime();
 		LocalDate first=one.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate second=two.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
-		mv.addObject("list", reportList);
+//		reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
+//		mv.addObject("list", reportList);
 			return mv;
 	}
 	@RequestMapping("/getReportBetweenTwoDate")
@@ -1501,8 +1314,7 @@ public class ControllerResource {
 		 LocalDate first=LocalDate.parse(start);
 		 LocalDate second=LocalDate.parse(end);
 		 long days= ChronoUnit.DAYS.between(first,second);
-		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
-//		 List<UsersDataBean> bean=usersDataBeanService.findOneUserDataBeanByDate(id,first,second);
+//		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
 		 mv.addObject("list", reportList);
 			return mv;
 	}
