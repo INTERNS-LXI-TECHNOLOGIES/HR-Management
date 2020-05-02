@@ -556,76 +556,52 @@ public class ControllerResource {
 		Long id=null;
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
-		Leave leave=new Leave();
-		
-		boolean validUser = true ;
+		Leave leave=new Leave();	
+		boolean isExist = false;
 		String msg = "unvalid";
-		LocalDate localDate = LocalDate.now();		
-		ModelAndView mv= new ModelAndView("Leave");		
-		List<Leave> l=leaveSer.findByDate(localDate);
+		LocalDate localDate = LocalDate.now();			
+		List<Leave> l=leaveSer.findByDate(localDate);	
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
-			if(name.equals(m))
-			{
-				validUser = false;
-				id=user.get(i).getId();
+			User u=user.get(i);
+			id=user.get(i).getId();
+			if(name.contains(m))
+			{ 
 				msg = "valid";
-			}
-			else 
-			{
-
-			}
-		}
-		if (validUser==true)
-		{
-			System.out.print("sssssssss33333333333344444444ssssssss33333333222333333333333");
-			//return mv;
-		}
-		else
-		{
-		boolean isExist = false;
-		
-		for(Leave u:l)
-		{
-			
-			if(id.equals(u.getUserExtra().getId()))
-			{
-				isExist=true;
-			}
-			else
-			{
-				System.out.print("pppppppwwwwwwwwwwwwwqqqqqqqqqqqqq");
-			}
-		}
-		
-		if(isExist)
-		{
-			//return mv;
-		}
-		else
-		{
-			for(int j=0;j<userextra.size();j++)
-			{
-				if(id.equals(userextra.get(j).getId()))
+				for(Leave le:l)
 				{
-					UserExtra u=userextra.get(j);
-					leave.setDate(localDate);
-					leave.setUserExtra(u);
-					leave.setType(subject);
-					leaveSer.setLeave(leave);
+					if(id.equals(le.getUserExtra().getId()))
+					{
+						isExist=true;
+					}
+					else
+					{
+						for(int j=0;j<userextra.size();j++)
+						{
+							if(id.equals(userextra.get(j).getId()))
+							{
+								leave.setUserExtra(userextra.get(j));
+								leave.setDate(localDate);
+								leave.setType(subject);
+								leaveSer.setLeave(leave);
+								msg = "valid";
+							}
+						}
+					}
 				}
+				
 			}
-		}	
-	}
+		}
 		Set<UserExtra> list=new HashSet<UserExtra>();
-		for(Leave u:l)
+		List<Leave> leav=leaveSer.findByDate(localDate);
+		for(Leave u:leav)
 		{
 				list.add(u.getUserExtra());
 		}
-		list.add(leave.getUserExtra());
+		ModelAndView mv= new ModelAndView("Leave");
 		List<UserExtraDTO> dto=getSpecificUser(list);
-		mv.addObject("leavelist",dto);
+		mv.addObject("leavelist",dto);	
 		mv.addObject("msg",msg);
 
 		return mv;
@@ -778,7 +754,7 @@ public class ControllerResource {
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		LateArrival late=new LateArrival();
 		String msg ="unvalid";
-		ModelAndView mv= new ModelAndView("/lateArrival");
+		ModelAndView mv= new ModelAndView("redirect:/lateArrival");
 		LocalDate localDate = LocalDate.now();
 		LocalTime localtime = LocalTime.parse(ltime);
 		Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
@@ -803,6 +779,7 @@ public class ControllerResource {
 						msg = "valid";
 					}
 				}
+				
 			}
 		}
 		mv.addObject("msg", msg);

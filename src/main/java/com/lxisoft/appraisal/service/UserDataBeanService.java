@@ -1,10 +1,11 @@
 package com.lxisoft.appraisal.service;
+
 import com.lxisoft.appraisal.domain.Appraisal;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserDataBean;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.UserDataBeanRepository;
-
+import java.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
@@ -94,4 +95,40 @@ public class UserDataBeanService {
 		return list;
 		
 	}
+    /**
+	 * get user data beans between two date
+	 */
+	public List<UserDataBean> findOneUserDataBeanByDate(Long id, LocalDate first, LocalDate second)
+	{
+		List<UserDataBean> list=new ArrayList<UserDataBean>();
+		User user=userExService.findByid(id).get();
+		UserExtra userEx=userExService.findExtraByid(id).get();
+		appraisalService.setAppraisalByDate(id,first,second);
+		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+		UserDataBean bean=new UserDataBean(user.getFirstName(),user.getLastName(),userEx.getCompany(),
+				userEx.getPosition(),user.getEmail(),appraisal.getAttendance(),appraisal.getPunctuality(),
+				appraisal.getMeetingTargets(),appraisal.getCompanyPolicy(),appraisal.getCodeQuality());
+		list.add(bean);
+		return list;
+	}
+	public List<UserDataBean> findAllUserDataBeanByDate(LocalDate first, LocalDate second)
+	{
+		List<UserExtra> users=userExService.getAllExtraUsers();
+		List<UserDataBean> list=new ArrayList<UserDataBean>();
+		for(UserExtra u:users)
+		{
+			
+			User user=userExService.findByid(u.getId()).get();
+			UserExtra userEx=userExService.findExtraByid(u.getId()).get();
+			appraisalService.setAppraisalByDate(u.getId(),first,second);
+			Appraisal appraisal=appraisalService.getOneAppraisal(u.getId());
+			UserDataBean bean=new UserDataBean(user.getFirstName(),user.getLastName(),userEx.getCompany(),
+					userEx.getPosition(),user.getEmail(),appraisal.getAttendance(),appraisal.getPunctuality(),
+					appraisal.getMeetingTargets(),appraisal.getCompanyPolicy(),appraisal.getCodeQuality());
+			list.add(bean);
+			
+		}
+		return list;
+	}
+
 }
