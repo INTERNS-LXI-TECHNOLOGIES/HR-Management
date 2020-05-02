@@ -15,10 +15,11 @@
 <script src="/js/imageUploadScript.js"></script>
 
 <link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/addUser.css" type="text/css">
     <title>Add User</title>
 </head>
 
-<body align="center" th:onload="use([[${error}]])" >
+<body  th:onload="use([[${error}]])" >
 		
 
 <div class="topnav" id="myTopnav">
@@ -28,28 +29,20 @@
   </a>
 </div>
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-
-              
-
-                <h1>User Info</h1>
+                       <h1>User Info</h1>
               	   <form th:action="@{/addU}" th:object="${user}" enctype="multipart/form-data" method="post">
-              
-                    <label>First name</label> <input type="text" th:field="*{firstName}" class="form-control" />
-                     <font color="red" class="red" th:if="${#fields.hasErrors('firstName')}"th:errors="*{firstName}"></font><br><br>                  
-                    <label>Last name</label> <input  type="text" th:field="*{lastName}" class="form-control" /> 
-                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p><br><br>
-                    <label>E-mail</label> <input type="text" th:field="*{email}" class="form-control"/><br><br>
+              		<label for="firstName"><b>First Name</b></label><br>
+                    <input type="text" placeholder="first name" th:field="*{firstName}" class="form-control" />
+                     <font color="red" class="red" th:if="${#fields.hasErrors('firstName')}"th:errors="*{firstName}"></font><br>                  
+                   <label for="lastName"><b>Last Name</b></label> <br><input  type="text" placeholder="last name" th:field="*{lastName}" class="form-control" />
+                    <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p><br>
+                   <label for="email"><b>Email</b></label> <br><input type="text" placeholder="email" th:field="*{email}" class="form-control"/><br>
                     <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                   
-                    <label>DOB: </label> <input type ="date" name="dob"  required /><br><br>
-                
-                    <label>Joined Date:</label><input type="date" name="joinDate" required /><br><br>
+                   <label for="dob"><b>DOB</b></label> <br><input type="text" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')" name="dob"  required /><br>
+                    <label for="joiningDate"><b>Joining Date</b></label> <br><input type="text" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')" name="joinDate" required /><br>
+                   <label for="profilePic"><b>Profile Pic</b></label> <br><input type="file" name="picture" required /><br>
                     
-                  	<label>pick a profile picture</label> <input type="file" name="picture"  required/><br><br>
-                    
-                    <label >Company:</label> 
+                    <label for="company"><b>Company</b></label> :&nbsp;&nbsp;&nbsp;&nbsp;
                     <select  name="company">
    						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
    						 <option th:value="Bytatech" th:text="Bytatech"></option>
@@ -57,18 +50,18 @@
    						 <option th:value="Felixo" th:text="Felixo"></option>
    						 <option th:value="Illude" th:text="Illude"></option>
                     </select><br><br>
-                    <label>Position:</label>
+                    <label for="position"><b>Position</b></label>   :&nbsp;&nbsp;&nbsp;&nbsp;
                     <select name="position">
 						<option th:value="intern" th:text="intern"></option>
 						<option th:value="employee" th:text="employee "></option>
 						<option th:value="co-founder" th:text="co-founder"> </option>
 						<option th:value="admin" th:text="admin"> </select>
 					</select><br><br>
-                    <label for="username" class="control-label">User Name</label> <input type="text" th:field="*{login}" class="form-control" required/>
-                    		<span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span><br><br>
-                    <label for="password" class="control-label">Password</label> <input type="password" th:field="*{password}" class="form-control" required/>
-                    		<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span><br><br>
-					 <label>Role Type: </label><select name="authority">
+                    <label for="username" class="control-label"><b>User Name</b></label> <br> <input type="text" th:field="*{login}" class="form-control" required/>
+                    		<span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></span><br>
+                    <label for="password" class="control-label"><b>Password</b></label> <br> <input type="password" th:field="*{password}" class="form-control" required/>
+                    		<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span><br>
+					 <label for="company"><b>Role</b></label> :&nbsp;&nbsp;&nbsp;&nbsp;<select name="authority">
    						 <option th:value="ROLE_USER" th:text="user"></option>
    						 <option th:value="ROLE_ADMIN" th:text="Admin"></option>
    						
@@ -79,7 +72,7 @@
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 		 Error    #hint: email & username must be unique 
 		</div>
-						<br> <button type="submit" class="btn btn-success">Save</button>	 
+						<br> <button type="submit" class="registerbtn">Save</button>	 
                 </form>
             </div>
         </div>

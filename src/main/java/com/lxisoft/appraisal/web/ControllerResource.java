@@ -593,17 +593,17 @@ public class ControllerResource {
 				
 			}
 		}
-		Set<UserExtra> list=new HashSet<UserExtra>();
-		List<Leave> leav=leaveSer.findByDate(localDate);
-		for(Leave u:leav)
-		{
-				list.add(u.getUserExtra());
-		}
-		ModelAndView mv= new ModelAndView("Leave");
-		List<UserExtraDTO> dto=getSpecificUser(list);
-		mv.addObject("leavelist",dto);	
+//		Set<UserExtra> list=new HashSet<UserExtra>();
+//		List<Leave> leav=leaveSer.findByDate(localDate);
+//		for(Leave u:leav)
+//		{
+//				list.add(u.getUserExtra());
+//		}
+//		ModelAndView mv= new ModelAndView("Leave");
+//		List<UserExtraDTO> dto=getSpecificUser(list);
+//		mv.addObject("leavelist",dto);	
+		ModelAndView mv= new ModelAndView("redirect:/leave");
 		mv.addObject("msg",msg);
-
 		return mv;
 	}
 	@RequestMapping("/evaluation")
@@ -754,7 +754,7 @@ public class ControllerResource {
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		LateArrival late=new LateArrival();
 		String msg ="unvalid";
-		ModelAndView mv= new ModelAndView("redirect:/lateArrival");
+		
 		LocalDate localDate = LocalDate.now();
 		LocalTime localtime = LocalTime.parse(ltime);
 		Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
@@ -782,6 +782,7 @@ public class ControllerResource {
 				
 			}
 		}
+		ModelAndView mv= new ModelAndView("redirect:/lateArrival");
 		mv.addObject("msg", msg);
 		return mv;
 	}

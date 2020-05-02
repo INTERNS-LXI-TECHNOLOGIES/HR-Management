@@ -15,8 +15,9 @@
 <script src="/js/responsiveScript.js"></script>
 <script src="/js/imageUploadScript.js"></script>
 <link rel="stylesheet" href="/css/style.css" type="text/css">
+<link rel="stylesheet" href="/css/addUser.css" type="text/css">
 </head>
-<body align="center" th:onload="use([[${error}]])" >
+<body th:onload="use([[${error}]])" >
 	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -28,36 +29,34 @@
     <i class="fa fa-bars"></i>
   </a>
 </div>
-	
-     <div  align="center"><img th:src="*{'data:image/jpg;base64,'+image}" 
-     	   class="img-circle img-responsive" id="profile-" style="width:200px;height:160px;cursor: pointer;"/></div>
+	<div class="container">
+     <img th:src="*{'data:image/jpg;base64,'+image}" 
+     	   class="img-circle img-responsive" id="profile-" style="width:200px;height:160px;cursor: pointer;"/>
       <form th:action="@{/edit}" th:object="${user}" method="post" enctype="multipart/form-data" > 
-               
 		<div style="color:#999;" >click here to change profile image</div>
 
 					
                     <input type="hidden"  name="id" th:field="*{id}" /><br>
                          				
-                    <label>First name</label> <input type="text" name="firstname" th:field="*{firstName}"  required/>
+                   <label for="firstName"><b>First Name</b></label><br>
+                    <input type="text" name="firstname" th:field="*{firstName}"  required/>
                     <span class="red" th:if="${#fields.hasErrors('firstName')}"
                     th:errors="*{firstName}"></span><br><br>
                                        
-                    <label>Last name</label> <input  type="text" name="lastname" th:field="*{lastName}" required/>
+                    <label for="lastName"><b>Last Name</b></label> <br><input  type="text" name="lastname" th:field="*{lastName}" required/>
                     <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
                      <br><br>
                     
-                     <label>E-mail</label> <input type="text" name="emailID" th:field="*{email}"/ required>
+                    <label for="email"><b>Email</b></label> <br><input type="text" name="emailID" th:field="*{email}"/ required>
                       <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                       <br>
                       <br>
-                      DOB:  <input type="date" th:value="${date}"  name="date" required/><br>
-                    
-      <br>
-                    Joined Date:<input type="date"  th:value="${join}" name="join" required/><br><br>
+                      <label for="dob"><b>DOB</b></label><br><input type="date" th:value="${date}"  name="date" required/><br>
+                     <label for="joiningDate"><b>Joining Date</b></label><br><input type="date"  th:value="${join}" name="join" required/><br><br>
                     
                     
-                    <center> <input id="profile-upload"  type="file" name="image"></center><br>
-                  	 <label >Company</label> 
+                    <label for="profilePic"><b>Profile Pic</b></label><br><input id="profile-upload"  type="file" name="image"></center><br>
+                  	<label for="company"><b>Company</b></label> :&nbsp;&nbsp;&nbsp;&nbsp;
                     <select  th:value="${company}" name="company" >
    						 <option th:value="Lxisoft" th:text="Lxisoft"></option>
    						 <option th:value="Bytatech" th:text="Bytatech"></option>
@@ -67,17 +66,13 @@
 
                     </select><br><br>
                     <br>
-                    <label>Position:</label>
+                     <label for="position"><b>Position</b></label>   :&nbsp;&nbsp;&nbsp;&nbsp;
                     <select th:value="${position}" name="position">
 						<option th:value="intern" th:text="intern"></option>
 						<option th:value="employee" th:text="employee "></option>
 						<option th:value="co-founder" th:text="co-founder"> </option>
 						<option th:value="admin" th:text="admin"> </select>
 					</select><br><br>
-				
-					
-                   
-                    
                     <br>
                   
                     <div id="alert" class="alertred">
@@ -85,9 +80,10 @@
 		 Error    email must be unique 
 		</div>
                    
-               		<br> <button type="submit" class="btn btn-success">Save</button>
+               		<br> <button type="submit"  class="registerbtn">Save</button>
 
                 </form>
+                </div>
  <script >
    function use(us)
    {
