@@ -38,12 +38,14 @@ public class JasperService {
 	/**
 	 * get report as pdf of single user using database
 	 * @param id
+	 * @param end 
+	 * @param start 
 	 * @return
 	 * @throws JRException
 	 */
-	public byte[] getReportAsPdfUsingDatabase(long id,String att,String pun,String code,String policy,String target)throws JRException
+	public byte[] getReportAsPdfUsingDatabase(long id,String att,String pun,String code,String policy,String target, String start, String end)throws JRException
 	{
-		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/jasper/app.jrxml");
+		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/jasper/UserReport.jrxml");
 		
 		//preparing parameteres
 		Map parameters=new HashMap();
@@ -54,6 +56,8 @@ public class JasperService {
 		parameters.put("Parameter3",code);
 		parameters.put("Parameter4",policy);
 		parameters.put("Parameter5",target);
+		parameters.put("start", start);
+		parameters.put("end", end);
 		
 		Connection con=null;
 		try {

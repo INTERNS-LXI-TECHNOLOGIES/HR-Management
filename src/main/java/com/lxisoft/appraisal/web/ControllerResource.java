@@ -207,7 +207,9 @@ public class ControllerResource {
 	 		 @RequestParam(name="success",required=false )boolean success,@RequestParam(name="mismatch",required=false )boolean mismatch,
 	 	@RequestParam(name="samePassword",required=false )boolean samePassword,@RequestParam(name="shortPassword",required=false )boolean shortPassword,
 	 	@RequestParam(name="passwordChanged",required=false )boolean passwordChanged,
-	 	@RequestParam(name="randomApp",required=false )boolean randomApp)
+	 	@RequestParam(name="randomApp",required=false )boolean randomApp,
+	 	@RequestParam(name="errorInApp",required=false )boolean errorInApp,
+	 	@RequestParam (name="astart" ,required=false)String appStart,@RequestParam (name="aend", required=false)String appEnd)
 	 {
 		 ModelAndView mv= new ModelAndView("userDetail"); 
 		 Optional <User> user = userService.findByid(id);
@@ -292,7 +294,7 @@ public class ControllerResource {
 			 }	
 		}	
 		if(!randomApp) {appraisalService.setAppraisal(id);}
-		else {}
+		
 
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		 mv.addObject("appraisal",appraisal);
@@ -316,8 +318,20 @@ public class ControllerResource {
 		 if(mismatch)mv.addObject("mismatch",true);
 		 if(shortPassword)mv.addObject("shortPassword",true);
 		 if(samePassword)mv.addObject("samePassword",true);
+		 if(errorInApp)mv.addObject("errorInApp",true);
 
 		 if(passwordChanged)mv.addObject("passwordChange",true);
+		
+		 if(appStart!=null)
+		 {
+			 mv.addObject("start",appStart);
+			 mv.addObject("end",appEnd);
+		 }
+		 else
+		 {
+			 mv.addObject("start",userEx.get().getJoiningDate().toString());
+			 mv.addObject("end",second); 
+		 }
 		 		 
 		 Set<Authority> authorities=user.get().getAuthorities();
 		 Iterator<Authority> it=authorities.iterator();
@@ -930,9 +944,16 @@ public class ControllerResource {
 	 * @return
 	 */
 	@GetMapping("/getPdf")
-	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id)
+	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id,
+			@RequestParam (name="start")String start,@RequestParam (name="end")String end)
 	{
-		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+		Appraisal appraisal=null;
+		try{
+			appraisal=appraisalService.getOneAppraisal(id);
+		}catch(Exception e)
+		{
+			error();
+		}
 		long attVal=appraisal.getAttendance();
 		long punVal=appraisal.getPunctuality();
 		long codeVal=appraisal.getCodeQuality();
@@ -942,11 +963,10 @@ public class ControllerResource {
 		String pun=getComment(punVal);
 		String code=getComment(codeVal);
 		String policy=getComment(policyVal);
-		String target=getComment(targetVal);		
-		
+		String target=getComment(targetVal);
 		byte[] pdfContents=null;
 		try {
-			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target);
+			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target,start,end);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -957,6 +977,11 @@ public class ControllerResource {
 		headers.add("content dis-position","attachment: filename="+fileName);
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
+	}
+	public ModelAndView error() {
+		ModelAndView mv=new ModelAndView("redirect:/userDetails");
+		mv.addObject("errorInApp", true);
+		return mv;
 	}
 	/**
 	 * get comment for appraisal
@@ -1019,6 +1044,9 @@ public class ControllerResource {
 		 appraisalService.setAppraisalByDate(id, first, second);
 		 mv.addObject("randomApp",true);
 		 mv.addObject("id",id);
+		 mv.addObject("astart",start.toString());
+		 mv.addObject("aend",end.toString());
+		 
 		return mv;
 	}
 	@RequestMapping("/getPdfByMonth")
@@ -1046,6 +1074,10 @@ public class ControllerResource {
 		appraisalService.setAppraisalByDate(id, first, second);
 		mv.addObject("randomApp",true);
 		mv.addObject("id",id);
+		 mv.addObject("astart",first.toString());
+		 mv.addObject("aend",second.toString());
+		 
+		 
 		return mv;
 	}
 	/**

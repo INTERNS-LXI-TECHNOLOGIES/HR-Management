@@ -24,7 +24,7 @@
 <title>User Info</title>
 </head>
    <body align="center" th:onload="match([[${mismatch}]]);use([[${contatcs}]]);shortP([[${shortPassword}]]);same([[${samePassword}]]);
-   changed([[${passwordChange}]]) " > 
+   changed([[${passwordChange}]]); errorInApp([[${errorInApp}]]) " > 
    
    
    
@@ -59,6 +59,10 @@
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 		 password is updated..!!
 </div>
+<div id="errorInApp" class="alertred">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		enter details properly..!!
+</div>
 		<script >
    function use(us)
    {
@@ -88,6 +92,11 @@
    		   document.getElementById('changed').style.display = "block";}
    		
    	}
+    function errorInApp(mi){
+    	   if(mi){
+    		   document.getElementById('errorInApp').style.display = "block";}
+    		
+    	}
     </script>
     
 	<div class="profile-main">
@@ -257,8 +266,10 @@
 			           	<input type="submit" value="monthly Appraisal Result" />
 			            
 			           </form>
-						<p><form th:action="@{getPdf}">
+						<p><form th:action="@{getPdf }">
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
+			           	<input type="hidden" name="start" th:value="${start}"/>
+			           	<input type="hidden" name="end" th:value="${end}"/>
 			           	
 			           	<input type="submit" value="Print Appraisal Result" />
 			            
