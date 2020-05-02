@@ -40,10 +40,11 @@ public class JasperService {
 	 * @param id
 	 * @param end 
 	 * @param start 
+	 * @param month 
 	 * @return
 	 * @throws JRException
 	 */
-	public byte[] getReportAsPdfUsingDatabase(long id,String att,String pun,String code,String policy,String target, String start, String end)throws JRException
+	public byte[] getReportAsPdfUsingDatabase(long id,String att,String pun,String code,String policy,String target, String start, String end, String month)throws JRException
 	{
 		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/jasper/UserReport.jrxml");
 		
@@ -58,6 +59,7 @@ public class JasperService {
 		parameters.put("Parameter5",target);
 		parameters.put("start", start);
 		parameters.put("end", end);
+		parameters.put("type",month);
 		
 		Connection con=null;
 		try {

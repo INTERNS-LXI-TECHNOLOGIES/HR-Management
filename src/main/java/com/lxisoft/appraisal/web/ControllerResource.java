@@ -1,6 +1,7 @@
 package com.lxisoft.appraisal.web;
 
 import java.io.IOException;
+import java.text.DateFormatSymbols;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -207,7 +208,7 @@ public class ControllerResource {
 	 		 @RequestParam(name="success",required=false )boolean success,@RequestParam(name="mismatch",required=false )boolean mismatch,
 	 	@RequestParam(name="samePassword",required=false )boolean samePassword,@RequestParam(name="shortPassword",required=false )boolean shortPassword,
 	 	@RequestParam(name="passwordChanged",required=false )boolean passwordChanged,
-	 	@RequestParam(name="randomApp",required=false )boolean randomApp,
+	 	@RequestParam(name="randomApp",required=false )boolean randomApp,@RequestParam(name="period",required=false ,defaultValue="0")int  period,
 	 	@RequestParam(name="errorInApp",required=false )boolean errorInApp,
 	 	@RequestParam (name="astart" ,required=false)String appStart,@RequestParam (name="aend", required=false)String appEnd)
 	 {
@@ -319,7 +320,7 @@ public class ControllerResource {
 		 if(shortPassword)mv.addObject("shortPassword",true);
 		 if(samePassword)mv.addObject("samePassword",true);
 		 if(errorInApp)mv.addObject("errorInApp",true);
-
+		 if(period>0)mv.addObject("period",period);
 		 if(passwordChanged)mv.addObject("passwordChange",true);
 		
 		 if(appStart!=null)
@@ -945,7 +946,8 @@ public class ControllerResource {
 	 */
 	@GetMapping("/getPdf")
 	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id,
-			@RequestParam (name="start")String start,@RequestParam (name="end")String end)
+			@RequestParam (name="start")String start,@RequestParam (name="end")String end,
+			@RequestParam (name="period", required=false,defaultValue="0") int period)
 	{
 		Appraisal appraisal=null;
 		try{
@@ -964,9 +966,12 @@ public class ControllerResource {
 		String code=getComment(codeVal);
 		String policy=getComment(policyVal);
 		String target=getComment(targetVal);
+		
+		String month="Random Days";
+		if(period>0)month=new DateFormatSymbols().getMonths()[period-1]+" Month";
 		byte[] pdfContents=null;
 		try {
-			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target,start,end);
+			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target,start,end,month);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1069,13 +1074,15 @@ public class ControllerResource {
 		LocalDate second=two.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		System.out.println("date 1: " + first);
 		System.out.println("date 2: " + second);
-		System.out.println("Number of Days: " + days);
+		System.out.println("Number of Days: " + days+" "+monthValue);
 		
 		appraisalService.setAppraisalByDate(id, first, second);
 		mv.addObject("randomApp",true);
 		mv.addObject("id",id);
 		 mv.addObject("astart",first.toString());
 		 mv.addObject("aend",second.toString());
+		 mv.addObject("period",monthValue+1);
+		 
 		 
 		 
 		return mv;

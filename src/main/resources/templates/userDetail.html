@@ -262,11 +262,12 @@
 						</form>
 						<form th:action="@{getPdfByMonth}">
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
-			           	<input type="month" id="month" name="month">
+			           	<input type="month" id="month" name="month" required>
 			           	<input type="submit" value="monthly Appraisal Result" />
 			            
 			           </form>
 						<p><form th:action="@{getPdf }">
+						<div th:if="${period>0}"><input type="hidden" name="period" th:value="${period}" /></div>
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
 			           	<input type="hidden" name="start" th:value="${start}"/>
 			           	<input type="hidden" name="end" th:value="${end}"/>
