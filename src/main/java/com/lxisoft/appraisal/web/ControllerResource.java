@@ -641,12 +641,22 @@ public class ControllerResource {
 					{
 						git.setUserExtra(userextra.get(j));
 						git.setDate(local);
-						git.setMark(num);
-						gitServ.setGit(git);
 						hack1.setUserExtra(userextra.get(j));
-						hack1.setDate(local);
-						hack1.setMark(hack);
-						hackServ.setHackathon(hack1);
+						hack1.setDate(local);			
+						if(num!=null) 
+						{
+							git.setMark(num);
+							gitServ.setGit(git);
+						}	
+						else {							
+							 }
+						if(hack!=null)
+						{
+							hack1.setMark(hack);
+							hackServ.setHackathon(hack1);
+						}
+						else {							   
+							 }						
 						 msg = "valid";
 					}
 				}
