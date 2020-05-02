@@ -242,15 +242,14 @@
 				
 				<div id="App-detail" class="tab-content">
 					<div class="Edu-box">								
-							
-			           <form th:action="@{/getPdfBetweenTwoDate}">
+						<form th:action="@{/getPdfBetweenTwoDate}">
 						 <input type="hidden" name="id"  th:value="${employee.id}" ></input>
 						<div class="col-sm-5 col-xs-6 tital " >From
 						<input type="date" id="astart" name="astart" required>
 						</div>
 						<div class="col-sm-5 col-xs-6 tital">To
 						<input type="date" id="aend" name="aend" required>
-						<input type="submit" value="get Appraisal" /></div>
+						<input type="submit" value=" Appraisal" /></div>
 						</form>
 						<form th:action="@{getPdfByMonth}">
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
@@ -283,7 +282,7 @@
 							<li><span th:text="${appraisal.codeQuality}" ></li><br>
 							
 						</ul> 
-					</div> 		  			
+					</div>		
 				</div>
 				
 				<div id="sec-detail" class="tab-content">

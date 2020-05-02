@@ -57,7 +57,6 @@ import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.domain.ReportStatus;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserDataBean;
-import com.lxisoft.appraisal.domain.UsersDataBean;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
@@ -70,7 +69,6 @@ import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
 import com.lxisoft.appraisal.service.UserDataBeanService;
-import com.lxisoft.appraisal.service.UsersDataBeanService;
 import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
 
@@ -105,10 +103,6 @@ public class ControllerResource {
 	AppraisalService appraisalService;
 	@Autowired
 	UserDataBeanService userDataBeanService;
-	@Autowired
-	UsersDataBeanService usersDataBeanService;
-	
-
 
     private final Logger log = LoggerFactory.getLogger(ControllerResource.class);
     /**
@@ -297,7 +291,9 @@ public class ControllerResource {
 				mv.addObject("hack",mark);
 			 }	
 		}	
-		if(!randomApp) appraisalService.setAppraisal(id);
+		if(!randomApp) {appraisalService.setAppraisal(id);}
+		else {}
+
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		 mv.addObject("appraisal",appraisal);
 		
@@ -560,76 +556,52 @@ public class ControllerResource {
 		Long id=null;
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
-		Leave leave=new Leave();
-		
-		boolean validUser = true ;
+		Leave leave=new Leave();	
+		boolean isExist = false;
 		String msg = "unvalid";
-		LocalDate localDate = LocalDate.now();		
-		ModelAndView mv= new ModelAndView("Leave");		
-		List<Leave> l=leaveSer.findByDate(localDate);
+		LocalDate localDate = LocalDate.now();			
+		List<Leave> l=leaveSer.findByDate(localDate);	
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
-			if(name.equals(m))
-			{
-				validUser = false;
-				id=user.get(i).getId();
+			User u=user.get(i);
+			id=user.get(i).getId();
+			if(name.contains(m))
+			{ 
 				msg = "valid";
-			}
-			else 
-			{
-
-			}
-		}
-		if (validUser==true)
-		{
-			System.out.print("sssssssss33333333333344444444ssssssss33333333222333333333333");
-			//return mv;
-		}
-		else
-		{
-		boolean isExist = false;
-		
-		for(Leave u:l)
-		{
-			
-			if(id.equals(u.getUserExtra().getId()))
-			{
-				isExist=true;
-			}
-			else
-			{
-				System.out.print("pppppppwwwwwwwwwwwwwqqqqqqqqqqqqq");
-			}
-		}
-		
-		if(isExist)
-		{
-			//return mv;
-		}
-		else
-		{
-			for(int j=0;j<userextra.size();j++)
-			{
-				if(id.equals(userextra.get(j).getId()))
+				for(Leave le:l)
 				{
-					UserExtra u=userextra.get(j);
-					leave.setDate(localDate);
-					leave.setUserExtra(u);
-					leave.setType(subject);
-					leaveSer.setLeave(leave);
+					if(id.equals(le.getUserExtra().getId()))
+					{
+						isExist=true;
+					}
+					else
+					{
+						for(int j=0;j<userextra.size();j++)
+						{
+							if(id.equals(userextra.get(j).getId()))
+							{
+								leave.setUserExtra(userextra.get(j));
+								leave.setDate(localDate);
+								leave.setType(subject);
+								leaveSer.setLeave(leave);
+								msg = "valid";
+							}
+						}
+					}
 				}
+				
 			}
-		}	
-	}
+		}
 		Set<UserExtra> list=new HashSet<UserExtra>();
-		for(Leave u:l)
+		List<Leave> leav=leaveSer.findByDate(localDate);
+		for(Leave u:leav)
 		{
 				list.add(u.getUserExtra());
 		}
-		list.add(leave.getUserExtra());
+		ModelAndView mv= new ModelAndView("Leave");
 		List<UserExtraDTO> dto=getSpecificUser(list);
-		mv.addObject("leavelist",dto);
+		mv.addObject("leavelist",dto);	
 		mv.addObject("msg",msg);
 
 		return mv;
@@ -792,7 +764,7 @@ public class ControllerResource {
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		LateArrival late=new LateArrival();
 		String msg ="unvalid";
-		ModelAndView mv= new ModelAndView("/lateArrival");
+		ModelAndView mv= new ModelAndView("redirect:/lateArrival");
 		LocalDate localDate = LocalDate.now();
 		LocalTime localtime = LocalTime.parse(ltime);
 		Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
@@ -817,6 +789,7 @@ public class ControllerResource {
 						msg = "valid";
 					}
 				}
+				
 			}
 		}
 		mv.addObject("msg", msg);
@@ -959,23 +932,17 @@ public class ControllerResource {
 	@GetMapping("/getPdf")
 	public ResponseEntity<byte[]>  getPdf(@RequestParam (name="id")long id)
 	{
-		Appraisal ap=appraisalService.getOneAppraisal(id);
-//		Appraisal ap=appraisalService.setAppraisal(id);
-		long attVal=ap.getAttendance();
-		String att=getAttendanceComment(attVal);
-		log.info("attendence:::::::::::::::::::::::::::::::::;; "+att);
-		long punVal=ap.getPunctuality();
-		String pun=getPunctualityComment(punVal);
-		log.info("punctuality:::::::::::::::::::::::::::::::::;; "+pun);
-		long codeVal=ap.getCodeQuality();
-		String code=getCodeComment(codeVal);
-		log.info("code:::::::::::::::::::::::::::::::::;; "+code);
-		long policyVal=ap.getCompanyPolicy();
-		String policy=getPolicyComment(policyVal);
-		log.info("policy:::::::::::::::::::::::::::::::::;; "+policy);
-		long targetVal=ap.getMeetingTargets();
-		String target=getTargetComment(targetVal);
-		
+		Appraisal appraisal=appraisalService.getOneAppraisal(id);
+		long attVal=appraisal.getAttendance();
+		long punVal=appraisal.getPunctuality();
+		long codeVal=appraisal.getCodeQuality();
+		long policyVal=appraisal.getCompanyPolicy();
+		long targetVal=appraisal.getMeetingTargets();
+		String att=getComment(attVal);
+		String pun=getComment(punVal);
+		String code=getComment(codeVal);
+		String policy=getComment(policyVal);
+		String target=getComment(targetVal);		
 		
 		byte[] pdfContents=null;
 		try {
@@ -992,137 +959,23 @@ public class ControllerResource {
 		return response;
 	}
 	/**
-	 * get attendance comment
+	 * get comment for appraisal
 	 * @param val
 	 * @return
 	 */
-	public String getAttendanceComment(long val)
+	public String getComment(long val)
 	{
 		String co=null;
-		if(val==(5))
+		int v=(int)val;
+		switch(v)
 		{
-			co="Excellent in attendence";
-		}
-		if(val==(4))
-		{
-			co="good in attendence";
-		}
-		if(val==(3))
-		{
-			co="Average in attendence";
-		}
-		if(val==(2))
-		{
-			co="below average in attendence";
-		}
-		if(val==1)
-		{
-			co="poor in attendance";
-		}
-		return co;
-	}
-	/**
-	 * 
-	 * @param val
-	 * @return
-	 */
-	public String getPunctualityComment(long val)
-	{
-		String co=null;
-		if(val==(5))
-		{
-			co="Excellent in punctuality";
-		}
-		if(val==(4))
-		{
-			co="good in punctuality";
-		}
-		if(val==(3))
-		{
-			co="Average in punctuality";
-		}
-		if(val==(2))
-		{
-			co="below average in punctuality";
-		}
-		if(val==1)
-		{
-			co="poor in punctuality";
-		}
-		return co;
-	}
-	public String getCodeComment(long val)
-	{
-		String co=null;
-		if(val==(5))
-		{
-			co="Excellent in code quality";
-		}
-		if(val==(4))
-		{
-			co="good in code quality";
-		}
-		if(val==(3))
-		{
-			co="Average in code quality";
-		}
-		if(val==(2))
-		{
-			co="below average in code quality";
-		}
-		if(val==1)
-		{
-			co="poor in code quality";
-		}
-		return co;
-	}
-	public String getPolicyComment(long val)
-	{
-		String co=null;
-		if(val==(5))
-		{
-			co="Excellent in company policy";
-		}
-		if(val==(4))
-		{
-			co="good in company policy";
-		}
-		if(val==(3))
-		{
-			co="Average in company policy";
-		}
-		if(val==(2))
-		{
-			co="below average in company policy";
-		}
-		if(val==1)
-		{
-			co="poor in company policy";
-		}
-		return co;
-	}
-	public String getTargetComment(long val)
-	{
-		String co=null;
-		if(val==(5))
-		{
-			co="Excellent in meeting target";
-		}
-		if(val==(4))
-		{
-			co="good in meeting target";
-		}
-		if(val==(3))
-		{
-			co="Average in meeting target";
-		}
-		if(val==(2))
-		{
-			co="below average in meeting target";
-		}
-		if(val==1)
-		{
-			co="poor in meeting target";
+			case 0: co="Very Poor"; break;
+			case 1: co="Poor"; break;
+			case 2: co="Below Average"; break;
+			case 3: co="Average"; break;
+			case 4: co="Good"; break;
+			case 5: co="Excellent"; break;
+			
 		}
 		return co;
 	}
@@ -1134,9 +987,6 @@ public class ControllerResource {
 	@GetMapping("/report")
 	public ResponseEntity<byte[]> report()
 	{
-		
-		
-		
 		byte[] pdfContents=null;
 		try {
 			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(reportList);
@@ -1166,8 +1016,6 @@ public class ControllerResource {
 		 LocalDate first=LocalDate.parse(start);
 		 LocalDate second=LocalDate.parse(end);
 		 long days= ChronoUnit.DAYS.between(first,second);
-//		 List<UserDataBean> bean=userDataBeanService.findOneUserDataBeanByDate(id,first,second);
-//		 List<UsersDataBean> bean=usersDataBeanService.findOneUserDataBeanByDate(id,first,second);
 		 appraisalService.setAppraisalByDate(id, first, second);
 		 mv.addObject("randomApp",true);
 		 mv.addObject("id",id);
@@ -1321,7 +1169,7 @@ public class ControllerResource {
 				unreportdays.add(status.get(i));
 			}			 
 		 }
-		 
+
 		Appraisal appraisal=appraisalService.getOneAppraisal(id);
 		mv.addObject("appraisal",appraisal);		
 		 mv.addObject("a",a);
@@ -1455,7 +1303,6 @@ public class ControllerResource {
 		 LocalDate second=LocalDate.parse(end);
 		 long days= ChronoUnit.DAYS.between(first,second);
 		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
-//		 List<UsersDataBean> bean=usersDataBeanService.findOneUserDataBeanByDate(id,first,second);
 		 mv.addObject("list", reportList);
 			return mv;
 	}

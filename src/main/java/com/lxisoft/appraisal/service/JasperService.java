@@ -18,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.UserDataBean;
-import com.lxisoft.appraisal.domain.UsersDataBean;
 import com.lxisoft.appraisal.jasper.UserDataBeanList;
-import com.lxisoft.appraisal.jasper.UsersDataBeanList;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -80,16 +78,6 @@ public class JasperService {
 		JRBeanCollectionDataSource collectionDataSource=new JRBeanCollectionDataSource(list);
 		Map < String , Object > parameters = new HashMap < String ,	Object >();
 		JasperPrint jp=JasperFillManager.fillReport(jr,parameters,collectionDataSource);
-		return JasperExportManager.exportReportToPdf(jp);
-		
-	}
-	public byte[] getPdfUsingJavaBeans(List<UserDataBean> list)throws JRException
-	{
-		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/jasper/UserReport.jrxml");
-//		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/jasper/UserAppraisal.jrxml");
-		JRBeanCollectionDataSource dataSource=new JRBeanCollectionDataSource(list, false);
-		Map < String , Object > parameters = new HashMap < String ,	Object >();
-		JasperPrint jp=JasperFillManager.fillReport(jr,parameters,dataSource);
 		return JasperExportManager.exportReportToPdf(jp);
 		
 	}
