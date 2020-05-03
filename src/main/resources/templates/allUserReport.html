@@ -25,43 +25,50 @@
 <br>
 <div class="profile-main">
 		<div class="profile-header">
-			<center><font size="250">Appraisal Report-All Employees</font>
+			<div class="user-detail">
+			<br><br><br>
+			<center><font size="250"><b>Appraisal Report-All Employees</b></font>
+			
+			</div>
+			</div>
 			<div class="tab-panel-main">
 				<ul class="tabs">
 					<li class="tab-link current" data-tab="monthly">Monthly Appraisal Details</li>
 					<li class="tab-link" data-tab="random">Random Dates Appraisal Details </li>
 				</ul>
-			</div>
-			<div class="Edu-box">	
+			
 			<div id="monthly" class="tab-content current">
+			<div class="Edu-box">	
 				<form th:action="@{getReportByMonth}">
- 				<input type="month" id="month" name="month">
-   				<input type="submit" value="Monthly Appraisal Result" />
+				<p>Select month & year</p><br>
+ 				<input type="text" placeholder="month,year" class="textbox-n" onfocus="(this.type='month')" id="month" name="month">
+   				<button type="submit" class="btn2">Monthly Appraisal Result</button>
  				</form>
  			</div></div>
-			<div class="Edu-box">	
+				
 			<div id="random" class="tab-content">
+			<div class="Edu-box">
 				 <form th:action="@{/getReportBetweenTwoDate}">
-						<div class="col-sm-5 col-xs-6 tital " >From:
-						<input type="date" id="astart" name="astart" required>
-						</div>
-						<div class="col-sm-5 col-xs-6 tital">To :&nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="date" id="aend" name="aend" required><br>
-						<!-- <input type="submit" value="Random Appraisal Result" /></div> -->
-						<button type="submit" class="btn2">Random Appraisal Result</button>
-						</form>
+				<div class="col-sm-5 col-xs-6 tital " >&nbsp;&nbsp;&nbsp;&nbsp;From:
+				<input type="text" id="astart" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')" name="astart"  required>
+				</div>
+				<div class="col-sm-5 col-xs-6 tital">&nbsp;&nbsp;&nbsp;&nbsp;To :&nbsp;&nbsp;&nbsp;&nbsp;
+				<input type="text" id="aend" name="aend" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')" required><br><br>
+				<!-- <input type="submit" value="Random Appraisal Result" /></div> -->
+				<button type="submit" class="btn2">&nbsp;&nbsp;&nbsp;&nbsp;Random Appraisal Result</button>
+				</form>
  			</div></div></center>
  			
 			
-		</div>
-</div><br>
-<center><a th:href="@{report}">Print Report</a></center>
+		</div></div>
+<br>
 
-<br><br>
+
+<br><br><br>
 <div class="t">
 <table class="tableReport">
 	<tr><th>Name</th><th>Company</th><th>position</th><th>Email</th><th>Attendance</th><th>Punctuality</th>
-	<th>meeting Target</th><th>Code Quality</th><th>Company Policy</th></tr>
+	<th>meeting Target</th><th>Company Policy</th><th>Code Quality</th></tr>
 	<tr th:each="user: ${list}">
 		<td><div th:text="${user.firstName}"></div></td>
 		<td><div th:text="${user.company}"></div></td>
@@ -76,6 +83,7 @@
 		</tr>
 
 </table>
+<center><button type="submit" class="btn2" th:href="@{report}">&nbsp;&nbsp;&nbsp;&nbsp;Print Report</button></center>
 </div>
 </body>
 </html>

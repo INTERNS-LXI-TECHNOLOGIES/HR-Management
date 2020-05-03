@@ -4,20 +4,20 @@ body{
   margin-top: 50px;
 }
 .profile-main{
-  width: 750px;
+  width: 830px;
   margin: 0 auto;
   border: 1px solid #aed5e2;
   padding-bottom: 10px;
 }
 .profile-header{
   height: 200px;
-  width: 100%;
+  width: 830px;
   background-color: #EBF6FA;
   border-bottom: 2px solid #E2F3FB;
 }
 .user-detail{
   position: relative;
-  width: 75%;
+  width: 80%;
   margin: 0 auto;
   height: 100%;
 }
@@ -87,7 +87,7 @@ body{
 
 /*tab*/
 .tab-panel-main{
-  width: 75%;
+  width: 80%;
   margin: 0 auto;
 }
 ul.tabs{
@@ -121,7 +121,7 @@ ul.tabs li.current{
 }
 .tab-content{
   display: none;
-  padding: 15px 5px;
+  padding: 20px 5px;
 }
 .tab-content.current{
   display: inherit;
