@@ -233,8 +233,8 @@ body {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+  font-size: 12px;
+  margin: 6px 2px;
   cursor: pointer;
   border-radius: 10px;
   padding: 10px 20px;
@@ -268,3 +268,16 @@ div.c {
   width: 100%;
   border: 1px solid #ddd;
 }
+div.t
+{}
+.t table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.t th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+.t tr:nth-child(even) {background-color: #f2f2f2;}
