@@ -955,7 +955,7 @@ public class ControllerResource {
 			appraisal=appraisalService.getOneAppraisal(id);
 		}catch(Exception e)
 		{
-			error();
+			error(id);
 		}
 		long attVal=appraisal.getAttendance();
 		long punVal=appraisal.getPunctuality();
@@ -984,9 +984,11 @@ public class ControllerResource {
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
 	}
-	public ModelAndView error() {
+	public ModelAndView error(long id) {
 		ModelAndView mv=new ModelAndView("redirect:/userDetails");
+		System.out.println("month ///////////////////////////////////////////");
 		mv.addObject("errorInApp", true);
+		mv.addObject("id",id);
 		return mv;
 	}
 	/**
@@ -1047,7 +1049,11 @@ public class ControllerResource {
 		 LocalDate first=LocalDate.parse(start);
 		 LocalDate second=LocalDate.parse(end);
 		 long days= ChronoUnit.DAYS.between(first,second);
-		 appraisalService.setAppraisalByDate(id, first, second);
+		 if(days>1)	 appraisalService.setAppraisalByDate(id, first, second);
+		 else {
+			 mv.addObject("errorInApp", true);
+			 error(id);
+		 }
 		 mv.addObject("randomApp",true);
 		 mv.addObject("id",id);
 		 mv.addObject("astart",start.toString());
@@ -1059,7 +1065,7 @@ public class ControllerResource {
 	public ModelAndView pdfByMonth(@RequestParam Long id,@RequestParam (name="month") String month)
 	{
 		ModelAndView mv= new ModelAndView("redirect:/userDetails"); 	
-		System.out.println("month "+month);
+		
 		String[] values = month.split("-");
 		Calendar calendar = Calendar.getInstance();
 		int year = Integer.parseInt(values[0]);
@@ -1102,6 +1108,16 @@ public class ControllerResource {
 		 ModelAndView mv= new ModelAndView("userDetail"); 	
 		 LocalDate start1=LocalDate.parse(start);
 		 LocalDate end1=LocalDate.parse(end);		
+		 
+		 long daysBetween= ChronoUnit.DAYS.between(start1,end1);
+		 if(daysBetween<2)
+		 {
+			 mv= new ModelAndView("redirect:/userDetails"); 	
+			 mv.addObject("errorInApp",true);
+			 mv.addObject("id",id);
+			 return mv;
+		 }
+		 
 		 
 		 Optional <User> user = userService.findByid(id);
 		 Optional <UserExtra> userEx = userService.findExtraByid(id);
@@ -1171,10 +1187,9 @@ public class ControllerResource {
 		 }
 		
 		  UserExtraDTO dto=getUser(user.get(),userEx.get());
-		  mv.addObject("employee",dto);		
-		
-		 long days= ChronoUnit.DAYS.between(start1,end1);
-		 long total=(days*7);
+		  mv.addObject("employee",dto);	
+		  long days= ChronoUnit.DAYS.between(start1,end1);
+		  long total=(days*7);
 		
 		 List<LateArrival> a=new ArrayList<LateArrival>();
 		 List<LateArrival> un=new ArrayList<LateArrival>();
