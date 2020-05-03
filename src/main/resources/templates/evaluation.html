@@ -17,7 +17,7 @@
 <title>Evaluation</title>
     
 </head>
-<body align="center">
+<body align="center" th:onload="userScore([[${done}]])">
 	
 <div class="topnav" id="myTopnav">
   <a href="#home"  th:href="@{/}">Home</a>
@@ -47,7 +47,7 @@
 						 Scores updated  
 		</div>
 		<center>	
-            <button  class="button btn2" type="submit" onclick="userScore()">Update</button><br> <br>
+            <button  class="button btn2" type="submit" >Update</button><br> <br>
         </form>
         
          </center>
@@ -55,9 +55,13 @@
 	</div>
 	</div>
 	<script >
-	 function userScore()
+	 function userScore(done)
 	   {
-		   document.getElementById('alert').style.display = "block";
+		 if(done)
+			 {
+			 document.getElementById('alert').style.display = "block";
+			 }
+		   
 	   }
 	</script>
 </body>

@@ -18,7 +18,7 @@
  <title>Leave</title>
     
 </head>
-<body>
+<body align="centre"   th:onload="userLeave([[${done}]])">
 	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -56,11 +56,11 @@
 		
 		<div id="alert" class="alert">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-						 Leave updated  
+						           Leave updated  
 		</div>	
-         <center>  <button  class="button btn2" type="submit" onclick="userLeave()">Update</button><br><br>
+         <center>  <button  class="button btn2" type="submit">Update</button><br><br>
         </form>
-        
+     
         </center>
 	</div>
 	</div>
@@ -68,9 +68,12 @@
 	
         
 	<script>
-	 function userLeave()
+	 function userLeave(done)
    {
+		 if (done==true)
+	   {
 	   document.getElementById('alert').style.display = "block";
+	   }			 
    }
 	 </script>
 </body>

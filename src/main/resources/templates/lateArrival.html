@@ -17,7 +17,7 @@
     <title>late Arrival</title>
     
 </head>
-<body align="center">
+<body align="center" th:onload="userLate([[${done}]])">
 	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -54,7 +54,7 @@
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 						 LateArrival updated  
 		</div>	
-            <center>  <button  class="button btn2" type="submit" onclick="userLate()">Update</button><br><br>
+            <center>  <button  class="button btn2" type="submit">Update</button><br><br>
         </form>
         
         </center>  
@@ -62,9 +62,13 @@
 	</div>
 	</div>
 	<script >
-	 function userLate()
+	 function userLate(done)
 	   {
-		   document.getElementById('alert').style.display = "block";
+			if(done)
+				{
+				 document.getElementById('alert').style.display = "block";
+				}
+		
 	   }
 	</script>
 </body>

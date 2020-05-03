@@ -568,11 +568,13 @@ public class ControllerResource {
 	@RequestMapping("/setLeave")
 	public ModelAndView setLeave(@RequestParam String name,@RequestParam (name="subject",required=false, defaultValue="NonAuthorized")String subject)
 	{
+		ModelAndView mv= new ModelAndView("Leave");
 		Long id=null;
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		Leave leave=new Leave();	
 		boolean isExist = false;
+		boolean done = false;
 		String msg = "unvalid";
 		LocalDate localDate = LocalDate.now();			
 		List<Leave> l=leaveSer.findByDate(localDate);	
@@ -584,6 +586,7 @@ public class ControllerResource {
 			if(name.contains(m))
 			{ 
 				msg = "valid";
+			    done = true;
 				for(Leave le:l)
 				{
 					if(id.equals(le.getUserExtra().getId()))
@@ -601,6 +604,7 @@ public class ControllerResource {
 								leave.setType(subject);
 								leaveSer.setLeave(leave);
 								msg = "valid";
+								done = true;
 							}
 						}
 					}
@@ -614,10 +618,11 @@ public class ControllerResource {
 		{
 				list.add(u.getUserExtra());
 		}
-		ModelAndView mv= new ModelAndView("Leave");
+
 		List<UserExtraDTO> dto=getSpecificUser(list);
 		mv.addObject("leavelist",dto);	
 		mv.addObject("msg",msg);
+		mv.addObject("done", done);
 
 		return mv;
 	}
@@ -638,6 +643,7 @@ public class ControllerResource {
 	{
 		ModelAndView mv = new ModelAndView("evaluation");
 		String msg = "unvalid";
+		boolean done = false;
 		ArrayList<User> user=(ArrayList<User>) userService.getAllUsers();
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		for(int i=0;i<user.size();i++)
@@ -650,6 +656,7 @@ public class ControllerResource {
 			if(name.contains(m))
 			{
 				 msg = "valid";
+				 done = true;
 				for(int j=0;j<userextra.size();j++)
 				{
 					if(id.equals(userextra.get(j).getId()))
@@ -673,11 +680,13 @@ public class ControllerResource {
 						else {							   
 							 }						
 						 msg = "valid";
+						 done = true;
 					}
 				}
 			}
 		}
 		mv.addObject("msg", msg);
+		mv.addObject("done",done);
 		return mv;
 	}
 	/**
@@ -703,6 +712,7 @@ public class ControllerResource {
 	{
 		ModelAndView mv = new ModelAndView("reportStatus");
 		String msg = "unvalid";
+		boolean done = false;
 		if(t ==null)
 		{
 			return mv;
@@ -722,6 +732,7 @@ public class ControllerResource {
 			if(name.contains(m))
 			{    
 				msg = "valid";
+				done = true;
 				Long id=user.get(i).getId();
 				for(int j=0;j<userextra.size();j++)
 				{
@@ -732,11 +743,14 @@ public class ControllerResource {
 						status.setType(subject);
 						reportServ.setReport(status);
 						msg = "valid";
+						done = true;
 					}
 				}
 			}
 		}
-		} mv.addObject("msg", msg);
+		}
+		mv.addObject("msg", msg);
+		mv.addObject("done",done);
 		
 		return mv;
 	}
@@ -779,6 +793,7 @@ public class ControllerResource {
 		ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userService.getAllExtraUsers();
 		LateArrival late=new LateArrival();
 		String msg ="unvalid";
+		boolean done = false;
 		ModelAndView mv= new ModelAndView("lateArrival");
 		LocalDate localDate = LocalDate.now();
 		LocalTime localtime = LocalTime.parse(ltime);
@@ -793,6 +808,7 @@ public class ControllerResource {
 			if(name.contains(m))
 			{ 
 				msg = "valid";
+				done = true;
 				for(int j=0;j<userextra.size();j++)
 				{
 					if(id.equals(userextra.get(j).getId()))
@@ -802,12 +818,14 @@ public class ControllerResource {
 						late.setReachedTime(instant);
 						lateServ.setLate(late);
 						msg = "valid";
+						done = true;
 					}
 				}
 				
 			}
 		}
 		mv.addObject("msg", msg);
+		mv.addObject("done",done);
 		return mv;
 	}
 	/**

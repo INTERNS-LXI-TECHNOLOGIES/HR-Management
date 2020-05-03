@@ -17,7 +17,7 @@
     <title>report status</title>
     
 </head>
-<body align="center">
+<body align="center" th:onload="report([[${done}]])">
   	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -49,16 +49,20 @@
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 						Status Report updated  
 		</div>	
-            <center><button class="button btn2" type="submit" onclick="report()">Update</button><br><br>
+            <center><button class="button btn2" type="submit">Update</button><br><br>
         </form>
         </center>
 	</div>
 	</div>
 	</div>
 	<script >
-	 function report()
+	 function report(done)
 	   {
-		   document.getElementById('alert').style.display = "block";
+		 if(done)
+			 {
+			 document.getElementById('alert').style.display = "block";
+			 }
+		   
 	   }
 	</script>
 </body>

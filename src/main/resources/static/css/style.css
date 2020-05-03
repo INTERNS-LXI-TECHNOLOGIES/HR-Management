@@ -152,7 +152,7 @@ body {
 .alert {
   display: none;
   padding: 20px;
-  background-color: #FEFF00; /*yellow */
+  background-color: #228B22; /*green */
   color: black;
   margin-bottom: 15px;
 }
