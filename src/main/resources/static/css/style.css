@@ -268,3 +268,16 @@ div.c {
   width: 100%;
   border: 1px solid #ddd;
 }
+div.t
+{}
+.t table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.t th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+.t tr:nth-child(even) {background-color: #f2f2f2;}
