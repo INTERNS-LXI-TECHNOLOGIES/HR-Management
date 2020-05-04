@@ -566,7 +566,7 @@ public class ControllerResource {
 	 * @return
 	 */
 	@RequestMapping("/setLeave")
-	public ModelAndView setLeave(@RequestParam String name,@RequestParam (name="subject",required=false, defaultValue="NonAuthorized")String subject)
+	public ModelAndView setLeave(@RequestParam(name="name") String name,@RequestParam (name="subject",required=false, defaultValue="NonAuthorized")String subject)
 	{
 		ModelAndView mv= new ModelAndView("/leave");
 		Long id=null;
@@ -582,59 +582,46 @@ public class ControllerResource {
 		{
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
-			id=user.get(i).getId();
-			if(name.contains(m))
+			
+			if(name.equals(m))
 			{ 
+				id=user.get(i).getId();
 				msg = "valid";
-			    done = true;
-				for(Leave le:l)
+			   
+			}
+		}
+		if(msg.equals("valid"))
+		{	for(Leave le:l)
+			{
+				if(id.equals(le.getUserExtra().getId()))
 				{
-					if(id.equals(le.getUserExtra().getId()))
-					{
-						isExist=true;
-					}
-					else
-					{
-						for(int j=0;j<userextra.size();j++)
-						{
-							if(id.equals(userextra.get(j).getId()))
-							{
-								leave.setUserExtra(userextra.get(j));
-								leave.setDate(localDate);
-								leave.setType(subject);
-								leaveSer.setLeave(leave);
-								msg = "valid";
-								done = true;
-							}
-						}
-					}
+					isExist=true;
 				}
 				
 			}
-		}
+			if(!isExist)
+			{
+				leave.setUserExtra(userService.findExtraByid(id).get());
+				leave.setDate(localDate);
+				leave.setType(subject);
+				leaveSer.setLeave(leave);
+				done = true;
+			}
+				
+				
+		}		
 		Set<UserExtra> list=new HashSet<UserExtra>();
 		List<Leave> leav=leaveSer.findByDate(localDate);
-		for(Leave u:leav)
+		for(Leave us:leav)
 		{
-				list.add(u.getUserExtra());
+				list.add(us.getUserExtra());
 		}
 
 		List<UserExtraDTO> dto=getSpecificUser(list);
+		if(isExist)mv.addObject("exist",true);
 		mv.addObject("leavelist",dto);	
 		mv.addObject("msg",msg);
 		mv.addObject("done", done);
-
-
-//		Set<UserExtra> list=new HashSet<UserExtra>();
-//		List<Leave> leav=leaveSer.findByDate(localDate);
-//		for(Leave u:leav)
-//		{
-//				list.add(u.getUserExtra());
-//		}
-//		ModelAndView mv= new ModelAndView("Leave");
-//		List<UserExtraDTO> dto=getSpecificUser(list);
-//		mv.addObject("leavelist",dto);	
-		
 		mv.addObject("msg",msg);
 		return mv;
 	}

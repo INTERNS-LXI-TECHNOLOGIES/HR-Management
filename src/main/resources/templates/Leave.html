@@ -18,7 +18,7 @@
  <title>Leave</title>
     
 </head>
-<body align="centre"   th:onload="userLeave([[${done}]])">
+<body align="centre"   th:onload="userLeave([[${done}]]);userExist([[${exist}]])">
 	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -31,6 +31,14 @@
             <div class="col-md-6 col-md-offset-3">
 <form th:action="@{/setLeave}" th:object="${newLeave}">
 		 <div class="form-group">
+		 <div id="alert" class="alert">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+						          Leave updated  
+		</div>	
+		<div id="exist" class="alertred">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+										Already updated				          
+		</div>	
 		 	<center><h2>Leave</h2></center>	
 		 	<div class="c">
 		 	<table>
@@ -54,10 +62,7 @@
    							
 		</div><br><br>
 		
-		<div id="alert" class="alert">
-		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-						           Leave updated  
-		</div>	
+		
          <center>  <button  class="button btn2" type="submit">Update</button><br><br>
         </form>
      
@@ -75,6 +80,13 @@
 	   document.getElementById('alert').style.display = "block";
 	   }			 
    }
+	 function userExist(done)
+	   {
+			 if (done==true)
+		   {
+		   document.getElementById('exist').style.display = "block";
+		   }			 
+	   }
 	 </script>
 </body>
 </html>
