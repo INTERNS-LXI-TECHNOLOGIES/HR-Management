@@ -83,7 +83,11 @@
 		</tr>
 
 </table>
-<center><button type="submit" class="btn2" th:href="@{report}">&nbsp;&nbsp;&nbsp;&nbsp;Print Report</button></center>
+<center><form th:action="@{report}">
+		<input type="hidden" th:value="${month}" name="month"/>
+		<button type="submit" class="btn2">Print Report</button>
+		</form>
+
 </div>
 </body>
 </html>

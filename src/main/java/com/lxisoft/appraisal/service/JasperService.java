@@ -75,14 +75,16 @@ public class JasperService {
 	/**
 	 * get report as pdf of all user using javabeans
 	 * @param list
+	 * @param month 
 	 * @return
 	 * @throws JRException
 	 */
-	public byte[] getReportAsPdfUsingJavaBeans(List<UserDataBean> list)throws JRException
+	public byte[] getReportAsPdfUsingJavaBeans(List<UserDataBean> list, String month)throws JRException
 	{
 		JasperReport jr=JasperCompileManager.compileReport("src/main/resources/jasper/C.jrxml");
 		JRBeanCollectionDataSource collectionDataSource=new JRBeanCollectionDataSource(list);
 		Map < String , Object > parameters = new HashMap < String ,	Object >();
+		parameters.put("month", month);
 		JasperPrint jp=JasperFillManager.fillReport(jr,parameters,collectionDataSource);
 		return JasperExportManager.exportReportToPdf(jp);
 		
