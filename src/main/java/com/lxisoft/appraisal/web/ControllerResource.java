@@ -1049,11 +1049,11 @@ public class ControllerResource {
 	 * @return
 	 */
 	@GetMapping("/report")
-	public ResponseEntity<byte[]> report()
+	public ResponseEntity<byte[]> report(@RequestParam (name="month")String month)
 	{
 		byte[] pdfContents=null;
 		try {
-			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(reportList);
+			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(reportList,month);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1355,6 +1355,7 @@ public class ControllerResource {
 		ModelAndView mv=new ModelAndView("allUserReport");
 		
 		mv.addObject("list", reportList);
+		mv.addObject("month","Till today");
 	
 		return mv;
 	}
@@ -1378,6 +1379,7 @@ public class ControllerResource {
 		LocalDate second=two.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
 		mv.addObject("list", reportList);
+		mv.addObject("month",new DateFormatSymbols().getMonths()[monthValue]);
 			return mv;
 	}
 	@RequestMapping("/getReportBetweenTwoDate")
@@ -1390,6 +1392,7 @@ public class ControllerResource {
 		 long days= ChronoUnit.DAYS.between(first,second);
 		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
 		 mv.addObject("list", reportList);
+		 mv.addObject("month","from :"+first.toString()+"   To:"+second.toString());
 			return mv;
 	}
 }

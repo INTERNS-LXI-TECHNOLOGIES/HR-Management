@@ -390,7 +390,8 @@ public class UserExtraService {
 		 
 
 //		System.out.println("leaves between:::::::::::::::::::"+leaveService.findLeavesOfUserBetween(userEx.get(),second,first));
-		 Set<Leave> leaves= userEx.get().getLeaves();
+		 List<Leave> leaves= leaveService.findLeave(id);
+		 if(!leaves.isEmpty()) {
 		 for (Leave l:leaves)
 		 {
 			if (l.getType().contentEquals("NonAuthorized")) {
@@ -398,20 +399,23 @@ public class UserExtraService {
 				
 			}
 		 }
-		 
-		 Set<LateArrival> lates1= userEx.get().getLateArrivals();
+		 }
+		 List<LateArrival> lates1= lateServ.findLate(id);
+		 if(!lates1.isEmpty()) {
 		 for (LateArrival l:lates1)
-		 {
-			 if (l.getType().contentEquals("NonAuthorized"))
-				 count++;
+			 {
+				 if (l.getType().contentEquals("NonAuthorized"))
+					 count++;
+			 }
 		 }
 		 Set<ReportStatus> status=userEx.get().getReportStatuses();
-		 for(ReportStatus s:status)
-		 {
-			 if(s.getType().contentEquals("NonAuthorized"))
-				 count++;
-		 }
-		 
+		if(!status.isEmpty()){
+			for(ReportStatus s:status)
+			 {
+				 if(s.getType().contentEquals("NonAuthorized"))
+					 count++;
+			 }
+		}
 		 int policy=(int) (count*5/total);
 		 System.out.println(count+" l "+policy);
 		
