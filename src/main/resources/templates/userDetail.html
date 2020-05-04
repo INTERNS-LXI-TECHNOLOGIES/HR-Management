@@ -250,32 +250,38 @@
 				</div>
 				
 				<div id="App-detail" class="tab-content">
-					<div class="Edu-box">								
+					<div class="Edu-box-main">	
+					<div class="Edu-box">						
 						<form th:action="@{/getPdfBetweenTwoDate}">
 						 <input type="hidden" name="id"  th:value="${employee.id}" ></input>
 						<div class="col-sm-5 col-xs-6 tital " >From
-						<input type="date" id="astart" name="astart" required>
-						</div>
+						<input type="text" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')" id="astart" name="astart" required>
+						</div><br>
 						<div class="col-sm-5 col-xs-6 tital">To
-						<input type="date" id="aend" name="aend" required>
-						<input type="submit" value=" Appraisal" /></div>
+						<input type="text" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')"  id="aend" name="aend" required>
+						<button type="submit" class="btn2"> Appraisal</button>
+						</div>
 						</form>
+					</div>	
+					<div class="Edu-box">
 						<form th:action="@{getPdfByMonth}">
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
-			           	<input type="month" id="month" name="month" required>
-			           	<input type="submit" value="monthly Appraisal Result" />
+			           <input type="text" placeholder="month,year" class="textbox-n" onfocus="(this.type='month')" id="month" name="month" required>
+			           	
+			           	<button type="submit" class="btn2">Monthly Appraisal Result</button>
 			            
 			           </form>
-						<p><form th:action="@{getPdf }">
+			           </div>
+						<form th:action="@{getPdf }">
 						<div th:if="${period>0}"><input type="hidden" name="period" th:value="${period}" /></div>
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
 			           	<input type="hidden" name="start" th:value="${start}"/>
 			           	<input type="hidden" name="end" th:value="${end}"/>
 			           	
-			           	<input type="submit" value="Print Appraisal Result" />
+			           	<button type="submit" class="btn2">Print Appraisal Result</button>
 			            
 			           </form>
-			        </p></div>
+			        </div>
 					
 					<div class="Edu-box">
 						<ul class="ul-first">						
