@@ -145,18 +145,17 @@
 				</div>
 				<div id="Edu-detail" class="tab-content">
 					<div class="Edu-box-main">
-						 <h2>
-						
+						 
 						<form th:action="@{/sortDate}">
 						 <input type="hidden" name="id"  th:value="${employee.id}" ></input>
-						<div class="col-sm-5 col-xs-6 tital " >From
-						<input type="date" id="start" name="start" required>
-						</div>
-						<div class="col-sm-5 col-xs-6 tital">To
-						<input type="date" id="end" name="end" required>
-						<input type="submit" value="get status" /></div>
+						<div class="col-sm-5 col-xs-6 tital " ><strong>From</strong>
+						<input type="text" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')"  id="start" name="start" required>
+						</div><br>
+						<div class="col-sm-5 col-xs-6 tital"><strong>To</strong>&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="text" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')"  id="end" name="end" required><br>
+						<button type="submit" class="btn2">Get Status</button></div>
 						</form>
-						</h2>
+						
 						 <div class="Edu-box">
 						 	<strong><h5><span>Leave</span></h5></strong>
 						 	<p>
@@ -254,22 +253,23 @@
 					<div class="Edu-box">						
 						<form th:action="@{/getPdfBetweenTwoDate}">
 						 <input type="hidden" name="id"  th:value="${employee.id}" ></input>
-						<div class="col-sm-5 col-xs-6 tital " >From
+						<div class="col-sm-5 col-xs-6 tital " ><strong>From</strong>
 						<input type="text" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')" id="astart" name="astart" required>
 						</div><br>
-						<div class="col-sm-5 col-xs-6 tital">To
+						<div class="col-sm-5 col-xs-6 tital"><strong>To</strong>
 						<input type="text" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')"  id="aend" name="aend" required>
-						<button type="submit" class="btn2"> Appraisal</button>
+						<button type="submit" class="btn2">Random Appraisal Result</button>
 						</div>
 						</form>
 					</div>	
 					<div class="Edu-box">
 						<form th:action="@{getPdfByMonth}">
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
+			           	<strong><label>Select month & year:</label></strong>
 			           <input type="text" placeholder="month,year" class="textbox-n" onfocus="(this.type='month')" id="month" name="month" required>
-			           	
+			           	<br><br>
 			           	<button type="submit" class="btn2">Monthly Appraisal Result</button>
-			            
+			            <br>
 			           </form>
 			           </div>
 						<form th:action="@{getPdf }">
@@ -277,50 +277,57 @@
 			           	<input type="hidden" name="id" th:value="${employee.id}"/>
 			           	<input type="hidden" name="start" th:value="${start}"/>
 			           	<input type="hidden" name="end" th:value="${end}"/>
-			           	
-			           	<button type="submit" class="btn2">Print Appraisal Result</button>
-			            
-			           </form>
+			           <div class="t">
+			           <table>
+			           <tr>
+			           <td><strong>attendance</td>
+			           <td><span th:text="${appraisal.attendance}"></span></td>
+			           </tr>
+			           <tr>
+			           <td><strong>punctuality</td>
+			           <td><span th:text="${appraisal.punctuality}"></span></td>
+			           </tr>
+			           <tr>
+			           <td><strong>meetingTargets</td>
+			           <td><span th:text="${appraisal.meetingTargets}"></td>
+			           </tr>
+			            <tr>
+			           <td><strong>companyPolicy</td>
+			           <td><span th:text="${appraisal.companyPolicy}" ></td>
+			           </tr>
+			            <tr>
+			           <td><strong>codeQuality</td>
+			           <td><span th:text="${appraisal.codeQuality}" ></td>
+			           </tr>
+						</table>
+						</div>
+						<button type="submit" class="btn2">Print Appraisal Result</button>
+						</form>
 			        </div>
-					
-					<div class="Edu-box">
-						<ul class="ul-first">						
-							<strong><li>attendance</li><br>
-							<li>punctuality</li><br>
-							<li>meetingTargets</li><br>
-							<li>companyPolicy</li><br>
-							<li>codeQuality</li><br>
-												
-						</ul>
-						 <ul class="ul-second">
-							<li><span th:text="${appraisal.attendance}"></li><br>
-							<li><span th:text="${appraisal.punctuality}"></li><br>
-							<li><span th:text="${appraisal.meetingTargets}"></li><br>
-							<li><span th:text="${appraisal.companyPolicy}" ></li><br>
-							<li><span th:text="${appraisal.codeQuality}" ></li><br>
-							
-						</ul> 
-					</div>		
+					</div>
 				</div>
-				
 				<div id="sec-detail" class="tab-content">
+				<div class="Edu-box-main">
 					<div class="Edu-box">	
 					 <form th:action="@{/changePassword}">
 						 <input type="hidden" name="id"  th:value="${employee.id}" />
-						<label>old password:</label><input type="password" name="oldPassword"  required/><br>
-						<label>new password:</label><input type="password" name="newPassword"  required/>
-						<input type="submit" value="change password" />
+						<strong><label>old password:</label><br> <input type="password" name="oldPassword"  required/><br>
+						<label>new password:</label><br><input type="password" name="newPassword"  required/><br></strong>
+						<button type="submit" class="btn2">change password</button>
 					</form>
 					</div>
 				
 					
-					<br><br>
+				
 					<div class="Edu-box">
+					<strong>
+					<label>Change Role</label><br><br>
 					<div th:if="${isAdmin}"><a th:href="@{${'makeUser?id='+employee.id}}"><div th:if="${userIsAdmin}">make as User</div></a>	</div>
 					<div th:if="${isAdmin}"><a th:href="@{${'makeAdmin?id='+employee.id}}"><div th:if="${userIsUser}">make as Admin</div></a>	</div>
-					
+					</strong>
+					<br><br><br>
 					</div>
-					
+				</div>	
 				</div>
 			</div>
 		</div>

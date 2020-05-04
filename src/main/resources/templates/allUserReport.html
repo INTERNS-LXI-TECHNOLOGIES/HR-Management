@@ -40,9 +40,9 @@
 			<div id="monthly" class="tab-content current">
 			<div class="Edu-box">	
 				<form th:action="@{getReportByMonth}">
-				<p>Select month & year</p><br>
- 				<input type="text" placeholder="month,year" class="textbox-n" onfocus="(this.type='month')" id="month" name="month">
-   				<button type="submit" class="btn2">Monthly Appraisal Result</button>
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;Select month & year</p><br>
+ 				&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="month,year" class="textbox-n" onfocus="(this.type='month')" id="month" name="month">
+   				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="btn2">Monthly Appraisal Result</button>
  				</form>
  			</div></div>
 				
@@ -51,7 +51,7 @@
 				 <form th:action="@{/getReportBetweenTwoDate}">
 				<div class="col-sm-5 col-xs-6 tital " >&nbsp;&nbsp;&nbsp;&nbsp;From:
 				<input type="text" id="astart" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')" name="astart"  required>
-				</div>
+				</div><br>
 				<div class="col-sm-5 col-xs-6 tital">&nbsp;&nbsp;&nbsp;&nbsp;To :&nbsp;&nbsp;&nbsp;&nbsp;
 				<input type="text" id="aend" name="aend" placeholder="date-month-year" class="textbox-n" onfocus="(this.type='date')" required><br><br>
 				<!-- <input type="submit" value="Random Appraisal Result" /></div> -->
