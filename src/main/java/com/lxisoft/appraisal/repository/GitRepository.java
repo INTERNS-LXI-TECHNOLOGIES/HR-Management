@@ -6,12 +6,14 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Spring Data  repository for the Git entity.
  */
 @SuppressWarnings("unused")
 @Repository
+@Transactional
 public interface GitRepository extends JpaRepository<Git, Long> {
 	List<Git> findByUserExtraId(Long userex);
 	List<Git> findByUserExtraAndDateBetween(UserExtra userEx,LocalDate second ,LocalDate first);

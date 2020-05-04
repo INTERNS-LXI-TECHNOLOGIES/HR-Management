@@ -837,7 +837,7 @@ public class ControllerResource {
 				
 			}
 		}
-		ModelAndView mv= new ModelAndView("/lateArrival");
+		ModelAndView mv= new ModelAndView("redirect:/lateArrival");
 		mv.addObject("msg", msg);
 		mv.addObject("done",done);
 		return mv;

@@ -28,6 +28,7 @@ public class Leave implements Serializable {
     private String type;
 
     @ManyToOne
+    @JoinColumn
     @JsonIgnoreProperties("leaves")
     private UserExtra userExtra;
 
