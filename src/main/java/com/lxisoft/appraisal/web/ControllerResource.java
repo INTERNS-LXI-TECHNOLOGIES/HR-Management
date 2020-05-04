@@ -1017,7 +1017,7 @@ public class ControllerResource {
 	}
 	public ModelAndView error(long id) {
 		ModelAndView mv=new ModelAndView("redirect:/userDetails");
-		System.out.println("month ///////////////////////////////////////////");
+		
 		mv.addObject("errorInApp", true);
 		mv.addObject("id",id);
 		return mv;
@@ -1051,6 +1051,7 @@ public class ControllerResource {
 	@GetMapping("/report")
 	public ResponseEntity<byte[]> report(@RequestParam (name="month")String month)
 	{
+		System.out.println(month+" ///////////////////////////////////////////");
 		byte[] pdfContents=null;
 		try {
 			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(reportList,month);
