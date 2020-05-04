@@ -65,7 +65,7 @@
 				<text><![CDATA[EVALUATION PERIOD:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="188" y="60" width="110" height="30" forecolor="#FFFFFF" uuid="32b3c8b1-5f76-491d-975f-2b7cf5db25e7"/>
+				<reportElement x="188" y="60" width="242" height="30" forecolor="#FFFFFF" uuid="32b3c8b1-5f76-491d-975f-2b7cf5db25e7"/>
 				<textElement>
 					<font size="15"/>
 				</textElement>

@@ -1380,7 +1380,7 @@ public class ControllerResource {
 		 long days= ChronoUnit.DAYS.between(first,second);
 		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
 		 mv.addObject("list", reportList);
-		 mv.addObject("month","from :"+first.toString()+"   To:"+second.toString());
+		 mv.addObject("month","From :"+first.toString()+"   To:"+second.toString());
 			return mv;
 	}
 }
