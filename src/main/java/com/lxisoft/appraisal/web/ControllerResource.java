@@ -758,7 +758,8 @@ public class ControllerResource {
 	 * @return
 	 */
 	@RequestMapping("/lateArrival")
-	public ModelAndView LateArrival()
+	public ModelAndView LateArrival(@RequestParam(name="msg",required=false)String msg,@RequestParam(name="done",required=false)boolean done,
+			@RequestParam(name="exist",required=false)boolean isExist)
 	{
 		Set<UserExtra> list=new HashSet<UserExtra>();
 		List<LateArrival> l=lateServ.findAll();
@@ -776,6 +777,10 @@ public class ControllerResource {
 		ModelAndView mv= new ModelAndView("lateArrival");
 		List<UserExtraDTO> dto=getSpecificUser(list);
 		mv.addObject("latelist",dto);	
+		
+		if(msg!=null)mv.addObject("msg", msg);
+		if(done)mv.addObject("done",done);
+		if(isExist)mv.addObject("exist",isExist);
 		return mv;
 	}
 	/**
@@ -795,21 +800,47 @@ public class ControllerResource {
 
 		boolean done = false;
 		//ModelAndView mv= new ModelAndView("lateArrival");
+		Long id=null;
 		LocalDate localDate = LocalDate.now();
 		LocalTime localtime = LocalTime.parse(ltime);
 		Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
+		boolean isExist=false;
 		for(int i=0;i<user.size();i++)
 		{
 			String m=user.get(i).getFirstName();
 			User u=user.get(i);
 			
-			Long id=user.get(i).getId();
 			
-			if(name.contains(m))
+			if(name.equals(m))
 			{ 
 				msg = "valid";
-				done = true;
-				for(int j=0;j<userextra.size();j++)
+
+				id=user.get(i).getId();
+				
+				Set<UserExtra> list=new HashSet<UserExtra>();
+				List<LateArrival> l=lateServ.findAll();
+				LocalDate local= LocalDate.now();
+				for(int o=0;o<l.size();o++)
+				{
+					Instant in=l.get(o).getReachedTime();
+					LocalDate localD = in.atZone(ZoneId.systemDefault()).toLocalDate();
+					if(local.equals(localD))
+					{
+						list.add(l.get(o).getUserExtra());
+					}
+				}
+				List<UserExtraDTO> dto=getSpecificUser(list);
+				for(UserExtraDTO dt:dto)
+				{
+					if(dt.getFirstName().equalsIgnoreCase(name))
+						isExist=true;
+							
+				}
+				
+				
+			}
+			if(!isExist)
+			{	for(int j=0;j<userextra.size();j++)
 				{
 					if(id.equals(userextra.get(j).getId()))
 					{
@@ -821,12 +852,14 @@ public class ControllerResource {
 						done = true;
 					}
 				}
+			
 				
 			}
 		}
-		ModelAndView mv= new ModelAndView("/lateArrival");
+		ModelAndView mv= new ModelAndView("redirect:/lateArrival");
 		mv.addObject("msg", msg);
 		mv.addObject("done",done);
+		mv.addObject("exist",isExist);
 		return mv;
 	}
 	/**

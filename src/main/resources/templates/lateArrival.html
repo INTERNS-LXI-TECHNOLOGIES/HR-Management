@@ -17,7 +17,8 @@
     <title>late Arrival</title>
     
 </head>
-<body align="center" th:onload="userLate([[${done}]])">
+<body align="center" th:onload="userLate([[${done}]]);userExist([[${exist}]])">
+	
 	
 <div class="topnav" id="myTopnav">
   <a href="#home" th:href="@{/}">Home</a>
@@ -54,6 +55,10 @@
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 						 LateArrival updated  
 		</div>	
+		<div id="exist" class="alertred">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+										Already updated				          
+		</div>	
             <center>  <button  class="button btn2" type="submit">Update</button><br><br>
         </form>
         
@@ -69,6 +74,13 @@
 				 document.getElementById('alert').style.display = "block";
 				}
 		
+	   }
+	 function userExist(done)
+	   {
+			 if (done==true)
+		   {
+		   document.getElementById('exist').style.display = "block";
+		   }			 
 	   }
 	</script>
 </body>
