@@ -74,14 +74,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
-            .csrf()
-            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-        .and()
-            .addFilterBefore(corsFilter, CsrfFilter.class)
-            .exceptionHandling()
-                .authenticationEntryPoint(problemSupport)
-                .accessDeniedHandler(problemSupport)
-        .and()
+            .csrf().disable()
+//            .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+//        .and()
+//            .addFilterBefore(corsFilter, CsrfFilter.class)
+//            .exceptionHandling()
+//                .authenticationEntryPoint(problemSupport)
+//                .accessDeniedHandler(problemSupport)
+//        .and()
             .rememberMe()
             .rememberMeServices(rememberMeServices)
             .rememberMeParameter("remember-me")
@@ -89,14 +89,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
             .formLogin()
             .loginPage("/login")
-            .loginProcessingUrl("/api/authentication")
-
             .permitAll()
         .and()
-            .logout().clearAuthentication(true).logoutRequestMatcher(new AntPathRequestMatcher("/logout-success"))
-            .logoutUrl("/api/logout")
-            .logoutSuccessHandler(ajaxLogoutSuccessHandler())
-            .permitAll()
+	        .logout()
+	        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+	        .permitAll()
         .and()
             .headers()
             .contentSecurityPolicy("default-src 'self'; frame-src 'self' data:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://storage.googleapis.com; script-src-elem * 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:")
@@ -109,21 +106,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .deny()
         .and()
             .authorizeRequests()
-            .antMatchers("/login",
-    				"/js/**",
-                    "/css/**",
-                    "/img/**",
-                    "/webjars/**").permitAll()
             .antMatchers("/api/authenticate").permitAll()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
+            
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/info").permitAll()
             .antMatchers("/management/prometheus").permitAll()
-            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN);
+            .antMatchers("/app/*").permitAll()
+            .antMatchers("/register").permitAll()
+            .antMatchers("/save").permitAll()
+            .antMatchers("/*").authenticated()
+            .antMatchers("/management/**").permitAll();
         // @formatter:on
     }
 }
