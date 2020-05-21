@@ -13,6 +13,11 @@ export class AppComponent implements OnInit {
   public selectedIndex = 0;
   public appPages = [
     {
+      title: 'Home',
+      url: '/home',
+      icon: 'home'
+    },
+    {
       title: 'Inbox',
       url: '/folder/Inbox',
       icon: 'mail'
@@ -44,7 +49,7 @@ export class AppComponent implements OnInit {
     }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-
+  user:any;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -61,6 +66,11 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    this.user=this.http.get('http://localhost:8080/api/appraisal-controller-resource/',{responseType: 'text'}).pipe(map(data => {
+  console.log('raw ::'+data);
+    return data;}));
+
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
       this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
