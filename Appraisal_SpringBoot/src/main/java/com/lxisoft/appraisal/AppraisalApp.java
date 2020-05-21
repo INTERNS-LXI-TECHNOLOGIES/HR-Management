@@ -53,7 +53,7 @@ public class AppraisalApp {
     }
 
     /**
-     * Main method, used to run the application.
+     *method, used to run the application.
      *
      * @param args the command line arguments.
      */

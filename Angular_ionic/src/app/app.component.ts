@@ -15,11 +15,11 @@ export class AppComponent implements OnInit {
     {
       title: 'Inbox',
       url: '/folder/Inbox',
-      icon: 'mail'
+      icon: 'star'
     },
     
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  //public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
   constructor(
     private platform: Platform,
