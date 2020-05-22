@@ -21,15 +21,13 @@
         </ion-list> -->
 
           
-          <p>text:= {{user|async}}</p> 
+          <p>text:=text:= {{user|async}}</p> 
 
 
-          <ion-item  *ngFor="let p of (questions | async)">
-          <p>{{p.id}}<p> 
-          <ion-label>{{p.qstn}}</ion-label>  
-          <ion-label>{{p.level}}</ion-label><br>  
-          <ion-label *ngFor="let opt of p.qstnOptions">{{opt.option}}</ion-label>
-          </ion-item> 
+          <!-- <ion-item  *ngFor="let p of (user | async)"> -->
+          <!-- <p>{{p.id}}<p>  -->
+          
+          <!-- </ion-item>  -->
         
       </ion-content>
     <!-- </ion-menu>
