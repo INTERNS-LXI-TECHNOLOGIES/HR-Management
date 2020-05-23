@@ -24,10 +24,12 @@
           <p>text:=text:= {{user|async}}</p> 
 
 
-          <!-- <ion-item  *ngFor="let p of (user | async)"> -->
-          <!-- <p>{{p.id}}<p>  -->
+          <ion-item  *ngFor="let p of (users | async)"> 
+           <p>{{p.id}}<p> 
+           <p>{{p.firstName}}</p>
+           <p>{{p.lastName}}</p>
           
-          <!-- </ion-item>  -->
+          </ion-item> 
         
       </ion-content>
     <!-- </ion-menu>

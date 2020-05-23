@@ -51,6 +51,7 @@ export class AppComponent implements OnInit {
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   user:any;
+  users:any;
   constructor(private http:HttpClient,
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -72,9 +73,9 @@ export class AppComponent implements OnInit {
       console.log('raw ::'+data);
         return data;}));
 
-  //   this.user=this.http.get('http://localhost:8080/api/users/').pipe(map(data => {
-  // console.log('raw ::'+data);
-  //   return data;}));
+    this.users=this.http.get('http://localhost:8080/api/users/').pipe(map(data => {
+  console.log('users ::'+data);
+    return data;}));
 
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
