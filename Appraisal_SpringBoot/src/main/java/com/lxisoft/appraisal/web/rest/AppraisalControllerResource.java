@@ -18,7 +18,7 @@ import java.util.*;
 public class AppraisalControllerResource {
 	@Autowired
 	UserResource userRes;
-	
+
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
 
     /**
