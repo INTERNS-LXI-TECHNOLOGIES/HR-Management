@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { map } from 'rxjs/operators';
+import { AppraisalService } from './appraisal.service';
 
 @Component({
   selector: 'app-root',
@@ -23,43 +22,20 @@ export class AppComponent implements OnInit {
       url: '/folder/Inbox',
       icon: 'mail'
     },
-    {
-      title: 'Outbox',
-      url: '/folder/Outbox',
-      icon: 'paper-plane'
-    },
-    {
-      title: 'Favorites',
-      url: '/folder/Favorites',
-      icon: 'heart'
-    },
-    {
-      title: 'Archived',
-      url: '/folder/Archived',
-      icon: 'archive'
-    },
-    {
-      title: 'Trash',
-      url: '/folder/Trash',
-      icon: 'trash'
-    },
-    {
-      title: 'Spam',
-      url: '/folder/Spam',
-      icon: 'warning'
-    }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  user:any;
-  users:any;
-  constructor(private http:HttpClient,
+  
+  constructor(private appservice: AppraisalService,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar
   ) {
     this.initializeApp();
   }
-
+  
+  user:any=this.appservice.getUsers();
+  value:any=this.appservice.getString();
+  
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
@@ -68,14 +44,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.user=this.http.get('http://localhost:8080/api/appraisal-controller-resource/',{responseType: 'text'}).pipe(map(data => {
-      console.log('raw ::'+data);
-        return data;}));
-
-    this.users=this.http.get('http://localhost:8080/api/users/').pipe(map(data => {
-  console.log('users ::'+data);
-    return data;}));
 
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
