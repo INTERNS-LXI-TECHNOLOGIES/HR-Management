@@ -21,6 +21,13 @@ public class AppraisalControllerResource {
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
 
+    
+    @RequestMapping(value="/")
+   	public String index()
+   	{
+       	return "value";
+   	}
+    
     /**
     * GET defaultAction
     */
@@ -30,5 +37,8 @@ public class AppraisalControllerResource {
     	Pageable pageable=null;
     	return userRes.getAllUsers(pageable);
     }
+    
+   
+	
 
 }
