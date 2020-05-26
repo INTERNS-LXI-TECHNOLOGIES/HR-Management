@@ -24,7 +24,11 @@ export class AppComponent implements OnInit {
     },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  
+
+  url:string='http://localhost:8080/api/appraisal-controller-resource/';
+  // users:any=this.appservice.getUsers();
+  value:any=this.appservice.getString('http://localhost:8080/api/appraisal-controller-resource/');
+
   constructor(private appservice: AppraisalService,
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -33,8 +37,7 @@ export class AppComponent implements OnInit {
     this.initializeApp();
   }
   
-  user:any=this.appservice.getUsers();
-  value:any=this.appservice.getString();
+  
   
   initializeApp() {
     this.platform.ready().then(() => {
