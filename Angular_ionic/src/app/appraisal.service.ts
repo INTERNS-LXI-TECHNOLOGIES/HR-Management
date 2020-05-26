@@ -17,12 +17,12 @@ export class AppraisalService {
       console.log('accessing data from '+url+' is'+data);
         return data;}));
   }
-  // public  getUsers()
-  // {
-  //   return  this.http.get(this.baseUrl + '/api/users/').pipe(map(data => {
-  //     console.log('users ::'+data);
-  //       return data;}));
-  //   }
+  public  getUsers(urlvalue:string)
+  {
+    return  this.http.get(urlvalue).pipe(map(data => {
+      console.log('users ::'+data);
+        return data;}));
+    }
   constructor(private  http : HttpClient) { }
     
 }

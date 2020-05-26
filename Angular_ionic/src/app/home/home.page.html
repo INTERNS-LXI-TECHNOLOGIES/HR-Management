@@ -5,5 +5,11 @@
 </ion-header>
 
 <ion-content>
-  <p>text:=text:= {{value|async}}</p> 
+  <p>Users</p> 
+  <ion-item  *ngFor="let p of (users | async)"> 
+    <p>{{p.id}}<p> 
+    <p>{{p.firstName}}</p>
+    <p>{{p.lastName}}</p>
+   
+   </ion-item> 
 </ion-content>
