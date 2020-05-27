@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AppraisalService } from '../appraisal.service';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
   
-  constructor(){
+  users:any=this.appservice.getUsers('http://localhost:8080/api/users/');
+  constructor(private appservice: AppraisalService){
 
   }
   // constructor(public navCtrl: NavController, public dataprovider: DataProviderService ) { }

@@ -25,8 +25,12 @@ export class AppComponent implements OnInit {
     },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+  
   http: any;
   
+  url:string='http://localhost:8080/api/appraisal-controller-resource/';
+  value:any=this.appservice.getString('http://localhost:8080/api/appraisal-controller-resource/');
+
   constructor(private appservice: AppraisalService,
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -35,8 +39,9 @@ export class AppComponent implements OnInit {
     this.initializeApp();
   }
   
-  user:any=this.appservice.getUsers();
-  users:any=this.appservice.getString();
+ // user:any=this.appservice.getUsers();
+  //users:any=this.appservice.getString(string);
+
   
   initializeApp() {
     this.platform.ready().then(() => {
@@ -46,15 +51,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
-    this.user=this.http.get('http://localhost:8080/api/appraisal-controller-resource/',{responseType: 'text'}).pipe(map((data: string) => {
-      console.log('raw ::'+data);
-        return data;}));
-
-    this.users=this.http.get('http://localhost:8080/api/users/').pipe(map(data => {
-  console.log('users ::'+data);
-    return data;}));
 
     const path = window.location.pathname.split('folder/')[1];
     if (path !== undefined) {
