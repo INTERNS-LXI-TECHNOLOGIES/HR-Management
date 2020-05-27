@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppraisalService } from '../appraisal.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -9,15 +10,13 @@ import { AppraisalService } from '../appraisal.service';
 export class HomePage implements OnInit {
   
   users:any=this.appservice.getUsers('http://localhost:8080/api/users/');
-  constructor(private appservice: AppraisalService){
+  constructor(private appservice: AppraisalService,private router: Router){
 
   }
-  // constructor(public navCtrl: NavController, public dataprovider: DataProviderService ) { }
-
-  // getValue()
-  // {
-  //   this.dataprovider.getLocalData();
-  // }
+  
+  navigate(){
+    this.router.navigate(['/detail'])
+  }
   ngOnInit() {
   }
 
