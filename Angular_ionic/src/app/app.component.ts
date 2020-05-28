@@ -17,16 +17,11 @@ export class AppComponent implements OnInit {
       url: '/home',
       icon: 'home'
     },
-    {
-      title: 'Inbox',
-      url: '/folder/Inbox',
-      icon: 'mail'
-    },
+   
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
+
 
   url:string='http://localhost:8080/api/appraisal-controller-resource/';
-  // users:any=this.appservice.getUsers();
   value:any=this.appservice.getString('http://localhost:8080/api/appraisal-controller-resource/');
 
   constructor(private appservice: AppraisalService,
