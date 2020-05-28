@@ -12,9 +12,9 @@ export class UserService {
   {
     return  this.http.get(url);
   }
-  getUserExtra(url:string)
-  {
-    return  this.http.get(url);
-  }
+  // getUserExtra(url:string)
+  // {
+  //   return  this.http.get(url);
+  // }
   constructor(private  http : HttpClient) { }
 }

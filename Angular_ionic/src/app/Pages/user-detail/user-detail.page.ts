@@ -9,7 +9,7 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class UserDetailPage implements OnInit {
    user;
-   userExtra;
+  //  userExtra;
   constructor(private route: ActivatedRoute,
     private userService: UserService) { }
 
@@ -17,11 +17,11 @@ export class UserDetailPage implements OnInit {
 
     this.route.params.subscribe(params => {
       const username = params['username'];
-      const id= params['id'];
+      // const id= params['id'];
       this.userService.getUser('http://localhost:8080/api/users/'+username)
                                 .subscribe(user => this.user = user);
-      this.userService.getUserExtra('http://localhost:8080/api/user-extras/'+id)
-                                .subscribe(userExtra => this.userExtra = userExtra);    
+      // this.userService.getUserExtra('http://localhost:8080/api/user-extras/'+id)
+      //                           .subscribe(userExtra => this.userExtra = userExtra);    
          
     });
   }
