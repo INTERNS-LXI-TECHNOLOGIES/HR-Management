@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AppraisalService } from '../appraisal.service';
+import { AppraisalService } from 'src/app/appraisal.service';
+
 
 @Component({
   selector: 'app-home',
@@ -10,14 +11,8 @@ export class HomePage implements OnInit {
   
   users:any=this.appservice.getUsers('http://localhost:8080/api/users/');
   constructor(private appservice: AppraisalService){
-
   }
-  // constructor(public navCtrl: NavController, public dataprovider: DataProviderService ) { }
-
-  // getValue()
-  // {
-  //   this.dataprovider.getLocalData();
-  // }
+  
   ngOnInit() {
   }
 
