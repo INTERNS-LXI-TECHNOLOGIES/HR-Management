@@ -29,7 +29,13 @@ const routes: Routes = [
   {
     path: 'user-detail',
     loadChildren: () => import('./pages/user-detail/user-detail.module').then( m => m.UserDetailPageModule)
-  }
+  },
+  {
+    path: 'status',
+    loadChildren: () => import('./Pages/status/status.module').then( m => m.StatusPageModule)
+  },
+
+  
 ];
 
 @NgModule({
