@@ -1,19 +1,51 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>userDetail</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-navbar  color="primary">
+      <ion-title>
+      <span ion-text>User profile</span>
+    </ion-title>
+  </ion-navbar>
   </ion-toolbar>
 </ion-header>
+  
 
 <ion-content>
-  <h2>value</h2>
-  <section class="section">
-    <div class="container">
-    
-      <div class="card" *ngIf="user">
-        
-        <h2>{{ user.login }}</h2>
-      </div>
-    
+<div class="card round"  *ngIf="user" margin-top>
+
+  <ion-list no-margin>
+    <ion-item class="primary-bg">
+      <h2 ion-text class="text-white bold">{{ user.firstName }} {{ user.lastName }}</h2>
+      <p ion-text class="text-secondary bold">{{user.position}}</p>
+    </ion-item>
+  </ion-list>
+
+  <div padding>
+    <h5 ion-text color="secondary">Details</h5>
+    <ion-item no-padding>
+      <ion-label color="dark" stacked>First Name:  {{user.firstName}}</ion-label>
+    </ion-item>
+    <ion-item no-padding>
+      <ion-label color="dark" stacked>Last Name:   {{ user.lastName }}</ion-label>
+    </ion-item>
+    <ion-item no-padding>
+      <ion-label color="dark" stacked>Email:   {{ user.email }}</ion-label>
+    </ion-item>
+    <div *ngIf="userExtra">
+    <ion-item no-padding>
+      <ion-label color="dark" stacked>Position:   {{ userExtra.position }}</ion-label>
+    </ion-item>
+    <ion-item no-padding>
+      <ion-label color="dark" stacked>DOB:   {{ userExtra.dob }}</ion-label>
+    </ion-item>
+    <ion-item no-padding>
+      <ion-label color="dark" stacked>Joining Date:   {{ userExtra.joiningDate }}</ion-label>
+    </ion-item>
     </div>
-    </section>
+  </div>
+</div>
+
+
 </ion-content>

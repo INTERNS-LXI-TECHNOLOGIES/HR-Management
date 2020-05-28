@@ -11,9 +11,10 @@ export class UserService {
   getUser(url:string) 
   {
     return  this.http.get(url);
-    // .pipe(map(data => {
-    //   console.log('users ::'+data);
-    //     return data;})); 
+  }
+  getUserExtra(url:string)
+  {
+    return  this.http.get(url);
   }
   constructor(private  http : HttpClient) { }
 }
