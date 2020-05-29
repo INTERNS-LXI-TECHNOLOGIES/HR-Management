@@ -34,6 +34,15 @@ const routes: Routes = [
     path: 'status',
     loadChildren: () => import('./Pages/status/status.module').then( m => m.StatusPageModule)
   },
+  {
+    path: 'leave',
+    loadChildren: () => import('./pages/leave/leave.module').then( m => m.LeavePageModule)
+  },
+  {
+    path: 'evaluation',
+    loadChildren: () => import('./Pages/evaluation/evaluation.module').then( m => m.EvaluationPageModule)
+  },
+
 
   
 ];
