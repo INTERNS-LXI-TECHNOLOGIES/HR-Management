@@ -9,16 +9,19 @@
 
 <ion-content>
   <p>Users</p> 
-  <ion-item  *ngFor="let user of (users | async)"> 
-    <ion-card>
+  <ion-item *ngFor="let user of (users | async)">
+  <!-- <ion-item *ngFor="let user of (users | async)" (click)="test(user)">  -->
+    <ion-card >
       <ion-card-header>
         <p>{{user.firstName}} {{user.lastName}}</p>
       </ion-card-header>
       <ion-card-content>
-        <a routerLink="/user-detail/{{ user.login}}">{{ user.login}}</a>
+        <a routerLink="/user-detail/{{user.login}}">{{ user.login}}</a>
+        <!-- <button class="take-a-tour-btn" [routerLink]="['/user-detail/{{user.login}}', {'id':'{{user.id}}', skipLocationChange: true}]">profile</button>   -->
+        <!-- <button ion-button id="btn" (click)="goToDetails(item.id, item.title)">profile</button>-->
+          <!-- <ion-item button [routerLink]="['/', 'page1', id1,id2]" >Go to Page1 </ion-item> -->
       </ion-card-content>
     </ion-card>
-<!--<ion-button [routerLink]="['/user-detail']">Go to detail</ion-button> -->
-    
+
    </ion-item> 
 </ion-content>
