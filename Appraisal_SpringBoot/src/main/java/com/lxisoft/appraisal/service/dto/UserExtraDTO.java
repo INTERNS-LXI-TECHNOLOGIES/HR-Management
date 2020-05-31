@@ -46,7 +46,7 @@ public class UserExtraDTO {
     private String imageContentType;
 
 
-
+    public UserExtraDTO(){}
 	public UserExtraDTO(User user,UserExtra userExtra) {
 		super();
 		this.id = user.getId();

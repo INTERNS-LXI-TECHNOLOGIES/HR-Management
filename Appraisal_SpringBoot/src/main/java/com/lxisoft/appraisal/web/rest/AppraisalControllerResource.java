@@ -18,9 +18,11 @@ import com.lxisoft.appraisal.config.Constants;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
 import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.service.RestService;
 import com.lxisoft.appraisal.service.UserService;
 import com.lxisoft.appraisal.service.dto.UserDTO;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
+import com.lxisoft.appraisal.service.dto.UserViewDTO;
 
 import io.github.jhipster.web.util.ResponseUtil;
 
@@ -36,7 +38,9 @@ public class AppraisalControllerResource {
 	@Autowired
 	UserService userService;
 	@Autowired
-	UserExtraRepository userExtraRepository;
+    UserExtraRepository userExtraRepository;
+    @Autowired
+    RestService restService;
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
 
@@ -58,11 +62,11 @@ public class AppraisalControllerResource {
     }
 
     @PostMapping("/addUser")
-    public ResponseEntity<List<UserDTO>> addUser(@RequestBody UserExtraDTO ob)
+    public ResponseEntity<List<UserDTO>> addUser(@RequestBody UserViewDTO userDTO)
     {
         Pageable pageable=null;
-        log.info("getn value from server----------"+ob);
-
+        log.info("getn value from server----------");
+        restService.addUser(userDTO);
 
     	return userRes.getAllUsers(pageable);
     }

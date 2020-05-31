@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/User';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-adduser',
@@ -24,7 +25,8 @@ export class AdduserPage implements OnInit {
 
   }
   user: Object;
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,
+              private router:Router) { }
 
   ngOnInit() {
   }
@@ -34,13 +36,14 @@ export class AdduserPage implements OnInit {
     // alert(this.model.name);
     this.http.post(Url,this.model).subscribe(data => {
       alert("user added");
+
     },
     err=> {
       alert("something went wrong"+console.error() );
     });
       
 
-    
+    this.router.navigateByUrl('/home');
 
   }
 }
