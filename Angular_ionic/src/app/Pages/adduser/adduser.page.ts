@@ -10,9 +10,17 @@ import { User } from 'src/app/model/User';
 })
 export class AdduserPage implements OnInit {
   model:userViewModel={
-    name:'',
-    email:'',
-    feedback:''
+    firstName:"",
+    lastName:"",
+    company:"",
+    email:"",
+    position:"",
+    authorities:"",  
+    joiningDate:"",
+    dob:"",
+    image:"",
+    login:"",
+    password:""
 
   }
   user: Object;
@@ -22,9 +30,14 @@ export class AdduserPage implements OnInit {
   }
   sendFeedback():void{
     
-    let Url:string = "http://localhost:8080/api/addUser";
-    alert(this.model.name);
-    this.http.post(Url,this.model).subscribe(user =>this.user=user)
+    let Url:string = "http://localhost:8080/api/appraisal-controller-resource/addUser";
+    // alert(this.model.name);
+    this.http.post(Url,this.model).subscribe(data => {
+      alert("user added");
+    },
+    err=> {
+      alert("something went wrong"+console.error() );
+    });
       
 
     
@@ -33,8 +46,16 @@ export class AdduserPage implements OnInit {
 }
 export interface userViewModel{
 
-  name:string;
+  firstName:string;
+  lastName:string;
+  company:string;
   email:string;
-  feedback:string;
+  position:string;
+  authorities:string;  
+  joiningDate:string;
+  dob:string;
+  image;
+  login:string;
+  password:string;
 
 }

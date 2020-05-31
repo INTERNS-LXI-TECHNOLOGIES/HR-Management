@@ -5,11 +5,25 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.lxisoft.appraisal.config.Constants;
+import com.lxisoft.appraisal.domain.UserExtra;
+import com.lxisoft.appraisal.repository.UserExtraRepository;
+import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.service.UserService;
 import com.lxisoft.appraisal.service.dto.UserDTO;
+import com.lxisoft.appraisal.service.dto.UserExtraDTO;
+
+import io.github.jhipster.web.util.ResponseUtil;
+
 import java.util.*;
 /**
  * AppraisalControllerResource controller
@@ -19,6 +33,10 @@ import java.util.*;
 public class AppraisalControllerResource {
 	@Autowired
 	UserResource userRes;
+	@Autowired
+	UserService userService;
+	@Autowired
+	UserExtraRepository userExtraRepository;
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
 
@@ -38,13 +56,29 @@ public class AppraisalControllerResource {
     	Pageable pageable=null;
     	return userRes.getAllUsers(pageable);
     }
+
     @PostMapping("/addUser")
-    public ResponseEntity<List<UserDTO>> addUser(UserDTO ob)
+    public ResponseEntity<List<UserDTO>> addUser(@RequestBody User ob)
     {
         Pageable pageable=null;
         log.info("getn value from server----------"+ob.getEmail());
         log.info("...........................");
+        System.out.println("000000000000000000000000000000000"+ob.getEmail());
     	return userRes.getAllUsers(pageable);
+    }
+
+
+
+    @GetMapping("/user-extras/{user}")
+    @Transactional(readOnly = true)
+    public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable User us) {
+    	log.debug("REST request to get User : {}", us.getLogin());
+    	Optional<User> user=userService.getUserWithAuthoritiesByLogin(us.getLogin());
+        log.debug("REST request to get UserExtra : {}", us.getId());
+        Optional<UserExtra> userExtra = userExtraRepository.findById(us.getId());
+        UserExtraDTO u=new UserExtraDTO(user.get(),userExtra.get());
+        Optional<UserExtraDTO> dto=Optional.of(u);
+        return ResponseUtil.wrapOrNotFound(dto);
     }
 
 

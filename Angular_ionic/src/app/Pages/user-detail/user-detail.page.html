@@ -13,12 +13,12 @@
   
 
 <ion-content>
-<div class="card round"  *ngIf="user" margin-top>
+<div class="card round"  *ngIf="(user)" margin-top>
 
   <ion-list no-margin>
     <ion-item class="primary-bg">
       <h2 ion-text class="text-white bold">{{ user.firstName }} {{ user.lastName }}</h2>
-      <p ion-text class="text-secondary bold">{{user.position}}</p>
+      <!-- <p ion-text class="text-secondary bold">{{user.position}}</p> -->
     </ion-item>
   </ion-list>
 
@@ -33,8 +33,8 @@
     <ion-item no-padding>
       <ion-label color="dark" stacked>Email:   {{ user.email }}</ion-label>
     </ion-item>
-    <!-- <div *ngIf="userExtra">
-    <ion-item no-padding>
+    <!-- <div *ngIf="(userExtra | async)"> -->
+    <!-- <ion-item no-padding>
       <ion-label color="dark" stacked>Position:   {{ userExtra.position }}</ion-label>
     </ion-item>
     <ion-item no-padding>
@@ -42,8 +42,8 @@
     </ion-item>
     <ion-item no-padding>
       <ion-label color="dark" stacked>Joining Date:   {{ userExtra.joiningDate }}</ion-label>
-    </ion-item>
-    </div> -->
+    </ion-item> -->
+    <!-- </div> -->
   </div>
 </div>
 

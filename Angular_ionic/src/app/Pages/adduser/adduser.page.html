@@ -10,15 +10,25 @@
       <div class="offset-3"></div>
       <div class="col-md-6">
         <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendFeedback()" novalidate class="feedback-form">
-          <!-- Name -->
+          <!-- FirstName -->
           <div class="form-group">
-            <label for="name">First Name</label>
+            <label for="firstName">First Name</label>
             <input type="text"
-                   id="name"
+                   id="firstName"
                    class="form-control"
-                   name="name"
-                   placeholder="Your name"
-                   [(ngModel)]="model.name" />
+                   name="firstName"
+                   placeholder="Your First name"
+                   [(ngModel)]="model.firstName" />
+          </div>
+          <!-- LastName -->
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text"
+                   id="lastName"
+                   class="form-control"
+                   name="lastName"
+                   placeholder="Your Last name"
+                   [(ngModel)]="model.lastName" />
           </div>
           <!-- Email -->
           <div class="form-group">
@@ -30,9 +40,77 @@
                    placeholder="Your email"
                    [(ngModel)]="model.email"/>
           </div>
-                  
-  
-          <!-- Feedback -->
+            <!-- company -->
+          <div class="form-group">
+            <label for="company">company</label>
+            <input type="text"
+                   id="company"
+                   class="form-control"
+                   name="company"
+                   placeholder="Your company"
+                   [(ngModel)]="model.company" />
+          </div>      
+            <!-- position -->
+            <div class="form-group">
+              <label for="position">position</label>
+              <input type="text"
+                     id="position"
+                     class="form-control"
+                     name="position"
+                     placeholder="Your position"
+                     [(ngModel)]="model.position" />
+            </div>  
+              <!-- joiningDate -->
+          <div class="form-group">
+            <label for="joiningDate">joiningDate</label>
+            <input type="date"
+                   id="joiningDate"
+                   class="form-control"
+                   name="joiningDate"
+                   placeholder="Your joiningDate"
+                   [(ngModel)]="model.joiningDate" />
+          </div>  
+            <!-- dob -->
+            <div class="form-group">
+              <label for="dob">date of Birth</label>
+              <input type="date"
+                     id="dob"
+                     class="form-control"
+                     name="dob"
+                     placeholder="Your Date of birth"
+                     [(ngModel)]="model.dob" />
+            </div>  
+              <!-- login -->
+          <div class="form-group">
+            <label for="login">login ID</label>
+            <input type="text"
+                   id="login"
+                   class="form-control"
+                   name="login"
+                   placeholder="Your login ID"
+                   [(ngModel)]="model.login" />
+          </div>  
+            <!-- password -->
+            <div class="form-group">
+              <label for="password">password</label>
+              <input type="text"
+                     id="password"
+                     class="form-control"
+                     name="password"
+                     placeholder="Your password"
+                     [(ngModel)]="model.password" />
+            </div>  
+              <!-- company
+          <div class="form-group">
+            <label for="company">company</label>
+            <input type="text"
+                   id="company"
+                   class="form-control"
+                   name="company"
+                   placeholder="Your company"
+                   [(ngModel)]="model.company" />
+          </div>  -->
+          <!-- Feedback 
           <div class="form-group">
             <label for="feedback">Feedback</label>
             <input type="text"
@@ -42,7 +120,7 @@
                    placeholder="Your feedback"
                    [(ngModel)]="model.feedback"/>
              
-          </div>
+          </div> -->
           <button type="submit" class="btn btn-info pull-right">
             <i class="fa fa-envelope-o"></i>
             <span> Send Feedback</span>
