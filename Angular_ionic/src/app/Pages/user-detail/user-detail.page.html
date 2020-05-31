@@ -33,17 +33,21 @@
     <ion-item no-padding>
       <ion-label color="dark" stacked>Email:   {{ user.email }}</ion-label>
     </ion-item>
-    <!-- <div *ngIf="(userExtra | async)"> -->
-    <!-- <ion-item no-padding>
-      <ion-label color="dark" stacked>Position:   {{ userExtra.position }}</ion-label>
+    <ion-item no-padding>
+      <ion-label color="dark" stacked>Position:   {{user.company }}</ion-label>
     </ion-item>
     <ion-item no-padding>
-      <ion-label color="dark" stacked>DOB:   {{ userExtra.dob }}</ion-label>
+      <ion-label color="dark" stacked>Position:   {{ user.position }}</ion-label>
     </ion-item>
     <ion-item no-padding>
-      <ion-label color="dark" stacked>Joining Date:   {{ userExtra.joiningDate }}</ion-label>
-    </ion-item> -->
-    <!-- </div> -->
+      <ion-label color="dark" stacked>DOB:   {{ user.dob }}</ion-label>
+    </ion-item>
+    <ion-item no-padding>
+      <ion-label color="dark" stacked>Joining Date:   {{ user.joiningDate }}</ion-label>
+    </ion-item>
+    <ion-thumbnail slot="start">
+      <ion-img [src]="user.image"></ion-img>
+    </ion-thumbnail>
   </div>
 </div>
 

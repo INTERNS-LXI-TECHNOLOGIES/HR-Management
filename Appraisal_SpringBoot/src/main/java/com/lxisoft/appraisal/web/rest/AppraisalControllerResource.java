@@ -18,7 +18,11 @@ import com.lxisoft.appraisal.config.Constants;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
 import com.lxisoft.appraisal.domain.User;
+
 import com.lxisoft.appraisal.service.RestService;
+
+import com.lxisoft.appraisal.service.UserExtraService;
+
 import com.lxisoft.appraisal.service.UserService;
 import com.lxisoft.appraisal.service.dto.UserDTO;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
@@ -41,6 +45,8 @@ public class AppraisalControllerResource {
     UserExtraRepository userExtraRepository;
     @Autowired
     RestService restService;
+	UserExtraService userexService;
+
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
 
@@ -61,6 +67,7 @@ public class AppraisalControllerResource {
     	return userRes.getAllUsers(pageable);
     }
 
+
     @PostMapping("/addUser")
     public ResponseEntity<List<UserDTO>> addUser(@RequestBody UserViewDTO userDTO)
     {
@@ -73,13 +80,15 @@ public class AppraisalControllerResource {
 
 
 
-    @GetMapping("/user-extras/{user}")
+
+    @GetMapping("/user-extras/{id}")
     @Transactional(readOnly = true)
-    public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable User us) {
-    	log.debug("REST request to get User : {}", us.getLogin());
-    	Optional<User> user=userService.getUserWithAuthoritiesByLogin(us.getLogin());
-        log.debug("REST request to get UserExtra : {}", us.getId());
-        Optional<UserExtra> userExtra = userExtraRepository.findById(us.getId());
+    public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id) {
+//    	log.debug("REST request to get User : {}", us.getLogin());
+//    	Optional<User> user=userService.getUserWithAuthoritiesByLogin(us.getLogin());
+    	Optional <User> user = userexService.findByid(id);
+        log.debug("REST request to get UserExtra : {}", id);
+        Optional<UserExtra> userExtra = userExtraRepository.findById(id);
         UserExtraDTO u=new UserExtraDTO(user.get(),userExtra.get());
         Optional<UserExtraDTO> dto=Optional.of(u);
         return ResponseUtil.wrapOrNotFound(dto);
