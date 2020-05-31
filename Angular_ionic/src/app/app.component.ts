@@ -24,6 +24,11 @@ export class AppComponent implements OnInit {
       url: '/logout',
       icon: 'log-out'
     },
+    {
+      title: 'Add user',
+      url: '/adduser',
+      icon: 'add'
+    },
   ];
 
 
