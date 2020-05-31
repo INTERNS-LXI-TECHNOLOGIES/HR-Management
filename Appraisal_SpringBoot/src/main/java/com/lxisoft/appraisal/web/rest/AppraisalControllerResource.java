@@ -58,12 +58,12 @@ public class AppraisalControllerResource {
     }
 
     @PostMapping("/addUser")
-    public ResponseEntity<List<UserDTO>> addUser(@RequestBody User ob)
+    public ResponseEntity<List<UserDTO>> addUser(@RequestBody UserExtraDTO ob)
     {
         Pageable pageable=null;
-        log.info("getn value from server----------"+ob.getEmail());
-        log.info("...........................");
-        System.out.println("000000000000000000000000000000000"+ob.getEmail());
+        log.info("getn value from server----------"+ob);
+
+
     	return userRes.getAllUsers(pageable);
     }
 

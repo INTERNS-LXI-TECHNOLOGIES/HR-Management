@@ -52,8 +52,8 @@ export interface userViewModel{
   email:string;
   position:string;
   authorities:string;  
-  joiningDate:string;
-  dob:string;
+  joiningDate;
+  dob;
   image;
   login:string;
   password:string;
