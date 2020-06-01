@@ -84,8 +84,9 @@ public class AppraisalControllerResource {
     @GetMapping("/user-extras/{id}")
     @Transactional(readOnly = true)
     public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id) {
-//    	log.debug("REST request to get User : {}", us.getLogin());
-//    	Optional<User> user=userService.getUserWithAuthoritiesByLogin(us.getLogin());
+//    	log.debug("REST request to get User : {}", login);
+//    	Optional<User> users=userService.getUserWithAuthoritiesByLogin(login);
+//    	Long id=users.get().getId();
     	Optional <User> user = userexService.findByid(id);
         log.debug("REST request to get UserExtra : {}", id);
         Optional<UserExtra> userExtra = userExtraRepository.findById(id);
