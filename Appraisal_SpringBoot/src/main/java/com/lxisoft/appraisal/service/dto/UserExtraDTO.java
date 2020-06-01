@@ -13,7 +13,7 @@ import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
 
 public class UserExtraDTO {
-	
+
 	private Long id;
 
     @NotBlank
@@ -32,7 +32,7 @@ public class UserExtraDTO {
     private String email;
 
     private Set<String> authorities;
-    
+
     private String company;
 
     private String position;
@@ -45,8 +45,8 @@ public class UserExtraDTO {
 
     private String imageContentType;
 
-    
-    
+
+    public UserExtraDTO(){}
 	public UserExtraDTO(User user,UserExtra userExtra) {
 		super();
 		this.id = user.getId();
@@ -157,8 +157,8 @@ public class UserExtraDTO {
 	public void setImageContentType(String imageContentType) {
 		this.imageContentType = imageContentType;
 	}
-    
-    
+
+
 
 
 }

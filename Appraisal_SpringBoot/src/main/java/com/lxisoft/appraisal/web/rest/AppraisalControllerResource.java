@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,10 +18,15 @@ import com.lxisoft.appraisal.config.Constants;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
 import com.lxisoft.appraisal.domain.User;
+
+import com.lxisoft.appraisal.service.RestService;
+
 import com.lxisoft.appraisal.service.UserExtraService;
+
 import com.lxisoft.appraisal.service.UserService;
 import com.lxisoft.appraisal.service.dto.UserDTO;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
+import com.lxisoft.appraisal.service.dto.UserViewDTO;
 
 import io.github.jhipster.web.util.ResponseUtil;
 
@@ -34,28 +42,45 @@ public class AppraisalControllerResource {
 	@Autowired
 	UserService userService;
 	@Autowired
+    UserExtraRepository userExtraRepository;
+    @Autowired
+    RestService restService;
 	UserExtraService userexService;
-	@Autowired
-	UserExtraRepository userExtraRepository;
+
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
 
-    
+
     @RequestMapping(value="/")
    	public String index()
    	{
        	return "value";
    	}
-    
+
     /**
     * GET defaultAction
     */
     @GetMapping("/all")
-    public ResponseEntity<List<UserDTO>> getAllUser() 
-    { 
+    public ResponseEntity<List<UserDTO>> getAllUser()
+    {
     	Pageable pageable=null;
     	return userRes.getAllUsers(pageable);
     }
+
+
+    @PostMapping("/addUser")
+    public ResponseEntity<List<UserDTO>> addUser(@RequestBody UserViewDTO userDTO)
+    {
+        Pageable pageable=null;
+        log.info("getn value from server----------");
+        restService.addUser(userDTO);
+
+    	return userRes.getAllUsers(pageable);
+    }
+
+
+
+
     @GetMapping("/user-extras/{id}")
     @Transactional(readOnly = true)
     public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id) {
@@ -68,7 +93,8 @@ public class AppraisalControllerResource {
         Optional<UserExtraDTO> dto=Optional.of(u);
         return ResponseUtil.wrapOrNotFound(dto);
     }
-   
-	
+
+
+
 
 }
