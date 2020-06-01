@@ -20,12 +20,12 @@
           <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendFeedback()" novalidate class="feedback-form">
            
             <div class="form-group">
-              <label for="firstName">First Name</label>
+              <label for="firstName">Name of Employee</label>
               <input type="text"
                     id="firstName"
                     class="form-control"
                     name="firstName"
-                    placeholder="name of employee"
+                    placeholder="enter valid name"
                     [(ngModel)]="model.name" />
             </div>
           
@@ -39,7 +39,9 @@
                       placeholder="date of absent"
                       [(ngModel)]="model.leaveDate" />
               </div>  
-               
+              <input value="Authorized"  name="subject" class="auth" type="checkbox">Authorized
+              &nbsp;<input value="NonAuthorized" name="subject" class="auth" type="checkbox">Non Authorized <br><br>
+
             <button type="submit" class="btn btn-info pull-right">
               <em class="fa fa-envelope-o"></em>
               <span>UPDATE LEAVE</span>
