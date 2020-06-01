@@ -1,22 +1,53 @@
 <ion-header [translucent]="true">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Leave Updation</ion-title>
+    <ion-title>Leave</ion-title>
   </ion-toolbar>
 </ion-header>
-<br><br>
-<centre>
-<form>
-<label for="status">Name </label>
-      <input type="text"  id="leave" name="name" class="autocomplete"><br><br><br>
-      <input value="Authorized"  name="subject" class="auth" type="checkbox">Authorized
-      &nbsp;<input value="NonAuthorized" name="subject" class="auth" type="checkbox">Non Authorized <br><br>
-      <button class="btn btn-primary" type="submit">Update</button>
-</form>
-</centre>
 
 <ion-content>
-
+  <ion-card >
+    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">Leave updation</ion-card-header>
+    <div class="container">
+      <div class="row">
+        <div class="offset-3"></div>
+        <div class="col-md-6">
+          <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendFeedback()" novalidate class="feedback-form">
+           
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text"
+                    id="firstName"
+                    class="form-control"
+                    name="firstName"
+                    placeholder="name of employee"
+                    [(ngModel)]="model.name" />
+            </div>
+          
+            
+              <div class="form-group">
+                <label for="leaveDate">date of absent</label>
+                <input type="date"
+                      id="leaveDate"
+                      class="form-control"
+                      name="leaveDate"
+                      placeholder="date of absent"
+                      [(ngModel)]="model.leaveDate" />
+              </div>  
+               
+            <button type="submit" class="btn btn-info pull-right">
+              <em class="fa fa-envelope-o"></em>
+              <span>UPDATE LEAVE</span>
+            </button>
+          </form>
+        </div>
+        <div class="offset-3"></div>
+      </div>
+    </div>
+  </ion-card>
 </ion-content>

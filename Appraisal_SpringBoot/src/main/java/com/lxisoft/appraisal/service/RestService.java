@@ -43,7 +43,13 @@ public class RestService {
 		user.setAuthorities(authorities);
             userService.createUser(user, userEx);
 
-	}
+    }
+    
+    public void setLeave(UserViewDTO userDTO)
+    {
+
+        LeaveService.setLeave();
+    }
 
 
 }
