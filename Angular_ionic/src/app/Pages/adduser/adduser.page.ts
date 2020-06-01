@@ -36,6 +36,7 @@ export class AdduserPage implements OnInit {
     // alert(this.model.name);
     this.http.post(Url,this.model).subscribe(data => {
       alert("user added");
+      this.router.navigateByUrl('/home');
 
     },
     err=> {
@@ -43,7 +44,7 @@ export class AdduserPage implements OnInit {
     });
       
 
-    this.router.navigateByUrl('/home');
+    
 
   }
 }

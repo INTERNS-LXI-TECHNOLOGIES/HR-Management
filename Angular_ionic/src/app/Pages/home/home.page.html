@@ -17,7 +17,7 @@
           <ion-col size-md="6" offset-md="3">
             <ion-card-header color="primary">
               <ion-header ><p>Users</p></ion-header>
-              <ion-item  *ngFor="let user of (users | async)" [routerLink]="['/user-detail/',user.login]"> 
+              <ion-item  *ngFor="let user of (users | async)" [routerLink]="['/user-detail/',user.id]"> 
                 <p>{{user.firstName}} {{user.lastName}}</p>
                 
               
