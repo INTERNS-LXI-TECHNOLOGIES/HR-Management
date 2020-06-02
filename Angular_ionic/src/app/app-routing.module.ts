@@ -31,10 +31,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/user-detail/user-detail.module').then( m => m.UserDetailPageModule)
   },
   {
-    path: 'status',
-    loadChildren: () => import('./Pages/status/status.module').then( m => m.StatusPageModule)
-  },
-  {
     path: 'leave',
     loadChildren: () => import('./pages/leave/leave.module').then( m => m.LeavePageModule)
   },
@@ -49,7 +45,6 @@ const routes: Routes = [
 
 
 
-  
 ];
 
 @NgModule({

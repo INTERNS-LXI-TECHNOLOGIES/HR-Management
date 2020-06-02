@@ -95,6 +95,15 @@ public class AppraisalControllerResource {
         return ResponseUtil.wrapOrNotFound(dto);
     }
 
+    @PostMapping("/setLeave")
+    public ResponseEntity<List<UserDTO>> leaves(@RequestBody UserViewDTO userDTO)
+    {
+        Pageable pageable=null;
+        log.info("getn value from server----------");
+        restService.setLeave(userDTO);
+
+    	return userRes.getAllUsers(pageable);
+    }
 
 
 
