@@ -36,12 +36,19 @@ export class AdduserPage implements OnInit {
     let Url:string = "http://localhost:8080/api/appraisal-controller-resource/addUser";
     // alert(this.model.name);
     this.http.post(Url,this.model).subscribe(data => {
-      alert("user added");
+      this.user=data;
+      
+      if(this.user==true)
+      {alert("login ID is already used" );}
+      else{
+        alert("user added");
       this.router.navigateByUrl('/home');
+
+      }
 
     },
     err=> {
-      alert("something went wrong"+console.error() );
+      alert("something went wromg..!" );
     });
       
 

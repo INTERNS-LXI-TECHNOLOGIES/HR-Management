@@ -158,6 +158,17 @@
                     <div *ngIf="dob.errors?.required">Date of Birth is required</div>
                   </div>
               </div>  
+              <!-- image-->
+            <div class="form-group">
+              <label for="image">image</label>
+              <input type="file"
+                    id="image"
+                    class="form-control"
+                    name="image"
+                    placeholder="Your image"
+                    [(ngModel)]="model.image"/>
+              
+            </div> 
                 <!-- login -->
             <div class="form-group">
               <label for="login">login ID</label>
@@ -179,7 +190,7 @@
               <!-- password -->
               <div class="form-group">
                 <label for="password">password</label>
-                <input type="text"
+                <input type="password"
                       id="password"
                       class="form-control"
                       name="password"
@@ -217,17 +228,7 @@
                     <div *ngIf="authorities.errors?.required">authority is required</div>
                   </div>
             </div>  
-            <!-- Feedback 
-            <div class="form-group">
-              <label for="feedback">Feedback</label>
-              <input type="text"
-                    id="feedback"
-                    class="form-control"
-                    name="feedback"
-                    placeholder="Your feedback"
-                    [(ngModel)]="model.feedback"/>
-              
-            </div> -->
+            
             <button type="submit" class="btn btn-info pull-right">
               <i class="fa fa-envelope-o"></i>
               <span> create new user</span>

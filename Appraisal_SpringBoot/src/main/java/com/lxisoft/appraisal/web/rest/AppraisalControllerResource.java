@@ -45,6 +45,7 @@ public class AppraisalControllerResource {
     UserExtraRepository userExtraRepository;
     @Autowired
     RestService restService;
+    @Autowired
 	UserExtraService userexService;
 
 
@@ -69,13 +70,14 @@ public class AppraisalControllerResource {
 
 
     @PostMapping("/addUser")
-    public ResponseEntity<List<UserDTO>> addUser(@RequestBody UserViewDTO userDTO)
+    public  boolean addUser(@RequestBody UserViewDTO userDTO)
     {
-        Pageable pageable=null;
-        log.info("getn value from server----------");
-        restService.addUser(userDTO);
+        boolean isUsed=false;
 
-    	return userRes.getAllUsers(pageable);
+        log.info("getn value from server----------");
+        isUsed= restService.addUser(userDTO);
+
+    	return isUsed;
     }
 
 
@@ -90,6 +92,7 @@ public class AppraisalControllerResource {
     	Optional <User> user = userexService.findByid(id);
         log.debug("REST request to get UserExtra : {}", id);
         Optional<UserExtra> userExtra = userExtraRepository.findById(id);
+        log.debug("REST  get UserExtra : {}", userExtra);
         UserExtraDTO u=new UserExtraDTO(user.get(),userExtra.get());
         Optional<UserExtraDTO> dto=Optional.of(u);
         return ResponseUtil.wrapOrNotFound(dto);
