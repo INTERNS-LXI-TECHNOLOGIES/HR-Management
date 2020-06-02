@@ -45,9 +45,9 @@
     <ion-item no-padding>
       <ion-label color="dark" stacked>Joining Date:   {{ user.joiningDate }}</ion-label>
     </ion-item>
-    <ion-thumbnail slot="start">
-      <img class="logo" src="{{user.image}}">
-    </ion-thumbnail>
+    <!-- <ion-thumbnail slot="start"> -->
+      <img [src]="_DomSanitizationService.bypassSecurityTrustUrl('data:image/jpg;base64,'+alarms.image)"width="50%" height="50%" alt="Image"/>
+    <!-- </ion-thumbnail> -->
   </div>
 </div>
 

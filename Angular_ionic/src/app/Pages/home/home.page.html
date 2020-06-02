@@ -6,11 +6,8 @@
     <ion-title>home</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <ion-content>
-  
-  
     <ion-card no-padding color-md="orange">
       <ion-grid>
         <ion-row>
@@ -19,20 +16,13 @@
               <ion-header ><p>Users</p></ion-header>
               <ion-item  *ngFor="let user of (users | async)" [routerLink]="['/user-detail/',user.id]"> 
                 <p>{{user.firstName}} {{user.lastName}}</p>
-                
-              
-                
               </ion-item> 
             </ion-card-header>
                     
           </ion-col>
         </ion-row>
       </ion-grid>
-      
     </ion-card>
-<!--<ion-button [routerLink]="['/user-detail']">Go to detail</ion-button> -->
-    
-  
 </ion-content>
 
 

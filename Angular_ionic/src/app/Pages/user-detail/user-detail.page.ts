@@ -10,6 +10,7 @@ import { UserService } from 'src/app/service/user.service';
 export class UserDetailPage implements OnInit {
    user;
    userExtra;
+   image;
   //  value:any;
 
    
@@ -31,7 +32,15 @@ export class UserDetailPage implements OnInit {
       const id= params['id'];
       this.userService.getUser('http://localhost:8080/api/appraisal-controller-resource/user-extras/'+id)
                                 .subscribe(user => this.user = user);  
+      this.userService.getImage('http://localhost:8080/api/appraisal-controller-resource/files/'+id).subscribe(image => this.image =image);
+      //   const reader = new FileReader();
+      //   reader.onload = (e) => this.image = e.target.result;
+      //   reader.readAsDataURL(new Blob([]));  
+      //   console.log(this.image);
+      // });
     });
+
+    
   }
 
 }
