@@ -37,7 +37,7 @@ public class RestService {
         userEx.setUser(user);
 
         Set<Authority> authorities = new HashSet<>();
-		String auth="ROLE_ADMIN";
+		String auth=userDTO.getAuthorities();
 		authorities.add(new Authority(auth));
 
 		user.setAuthorities(authorities);

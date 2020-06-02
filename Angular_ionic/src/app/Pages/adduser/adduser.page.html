@@ -26,7 +26,15 @@
                     class="form-control"
                     name="firstName"
                     placeholder="Your First name"
-                    [(ngModel)]="model.firstName" />
+                    [(ngModel)]="model.firstName"
+                    #firstName="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }"
+                    required/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && firstName.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="firstName.errors?.required">FirstName is required</div>
+                  </div>
             </div>
             <!-- LastName -->
             <div class="form-group">
@@ -36,7 +44,15 @@
                     class="form-control"
                     name="lastName"
                     placeholder="Your Last name"
-                    [(ngModel)]="model.lastName" />
+                    [(ngModel)]="model.lastName"
+                    #lastName="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }"
+                    required/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && lastName.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="lastName.errors?.required">lastName is required</div>
+                  </div>
             </div>
             <!-- Email -->
             <div class="form-group">
@@ -46,27 +62,65 @@
                     class="form-control"
                     name="email"
                     placeholder="Your email"
-                    [(ngModel)]="model.email"/>
+                    [(ngModel)]="model.email"
+                    #email="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
+                    required email/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && email.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="email.errors?.required">email is required</div>
+                    <div *ngIf="email.errors?.email">email is not valid</div>
+                  </div>
             </div>
               <!-- company -->
             <div class="form-group">
               <label for="company">company</label>
-              <input type="text"
+                  <select 
                     id="company"
                     class="form-control"
                     name="company"
                     placeholder="Your company"
-                    [(ngModel)]="model.company" />
+                    [(ngModel)]="model.company" 
+                    #company="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && company.invalid }"
+                    required>
+                     <option value="" disabled>choose your company</option>
+                     <option value="Lxisoft" >Lxisoft</option>
+                    <option value="Bytatech">Bytatech</option>
+                    <option value="Divixo" >Divixo</option>
+                    <option value="Felixo" >Felixo</option>
+                    <option value="Illude">Illude</option>
+                    </select>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && company.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="company.errors?.required">company is required</div>
+                  </div>
             </div>      
               <!-- position -->
               <div class="form-group">
                 <label for="position">position</label>
-                <input type="text"
+                <select
                       id="position"
                       class="form-control"
                       name="position"
                       placeholder="Your position"
-                      [(ngModel)]="model.position" />
+                      [(ngModel)]="model.position" 
+                      #position="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && position.invalid }"
+                    required>
+                    <option value="" disabled>choose your position</option>
+                    <option value="intern">intern</option>
+                    <option value="employee">employee </option>
+                    <option value="co-founder">co-founder</option>
+                    <option value="admin" >admin </option>
+                    </select>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && position.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="position.errors?.required">position is required</div>
+                  </div>
               </div>  
                 <!-- joiningDate -->
             <div class="form-group">
@@ -76,7 +130,15 @@
                     class="form-control"
                     name="joiningDate"
                     placeholder="Your joiningDate"
-                    [(ngModel)]="model.joiningDate" />
+                    [(ngModel)]="model.joiningDate" 
+                    #joiningDate="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && joiningDate.invalid }"
+                    required/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && joiningDate.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="joiningDate.errors?.required">joiningDate is required</div>
+                  </div>
             </div>  
               <!-- dob -->
               <div class="form-group">
@@ -86,7 +148,15 @@
                       class="form-control"
                       name="dob"
                       placeholder="Your Date of birth"
-                      [(ngModel)]="model.dob" />
+                      [(ngModel)]="model.dob" 
+                      #dob="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && dob.invalid }"
+                    required/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && dob.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="dob.errors?.required">Date of Birth is required</div>
+                  </div>
               </div>  
                 <!-- login -->
             <div class="form-group">
@@ -96,7 +166,15 @@
                     class="form-control"
                     name="login"
                     placeholder="Your login ID"
-                    [(ngModel)]="model.login" />
+                    [(ngModel)]="model.login" 
+                    #login="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && login.invalid }"
+                    required />
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && login.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="login.errors?.required">login is required</div>
+                  </div>
             </div>  
               <!-- password -->
               <div class="form-group">
@@ -106,18 +184,39 @@
                       class="form-control"
                       name="password"
                       placeholder="Your password"
-                      [(ngModel)]="model.password" />
+                      [(ngModel)]="model.password" 
+                      #password="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && password.invalid }"
+                    required minlength=4/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && password.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="password.errors?.required">password is required</div>
+                    <div *ngIf="password.errors?.minlength">password must have min 4 char</div>
+                  </div>
               </div>  
-                <!-- company
+               <!-- login -->
             <div class="form-group">
-              <label for="company">company</label>
-              <input type="text"
-                    id="company"
+              <label for="authorities">login ID</label>
+              <select
+                    id="authorities"
                     class="form-control"
-                    name="company"
-                    placeholder="Your company"
-                    [(ngModel)]="model.company" />
-            </div>  -->
+                    name="authorities"
+                    
+                    [(ngModel)]="model.authorities" 
+                    #authorities="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && authorities.invalid }"
+                    required >
+                    <option value="" disabled>choose your authority</option>
+                    <option value="ROLE_USER" >User</option>
+   					    	 <option value="ROLE_ADMIN" >Admin</option>
+                    </select>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && authorities.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="authorities.errors?.required">authority is required</div>
+                  </div>
+            </div>  
             <!-- Feedback 
             <div class="form-group">
               <label for="feedback">Feedback</label>
