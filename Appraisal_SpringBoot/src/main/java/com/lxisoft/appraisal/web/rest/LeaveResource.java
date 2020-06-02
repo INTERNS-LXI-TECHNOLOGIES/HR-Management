@@ -52,6 +52,7 @@ public class LeaveResource {
         if (leave.getId() != null) {
             throw new BadRequestAlertException("A new leave cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
         Leave result = leaveRepository.save(leave);
         return ResponseEntity.created(new URI("/api/leaves/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
