@@ -103,7 +103,7 @@ public class AppraisalControllerResource {
     {
         Pageable pageable=null;
         log.info("getn value from server----------");
-        restService.setLeave(userDTO);
+       // restService.setLeave(userDTO);
 
     	return userRes.getAllUsers(pageable);
     }
