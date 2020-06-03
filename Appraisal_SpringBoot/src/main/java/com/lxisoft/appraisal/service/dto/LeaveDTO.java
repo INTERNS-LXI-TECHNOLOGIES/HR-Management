@@ -17,17 +17,11 @@ public class LeaveDTO
 
 
     @Size(max=50)
-    private LocalDate leaveDate;
+    private String leaveDate;
 
     public LeaveDTO() {
         // Empty constructor needed for Jackson.
     }
-    public LeaveDTO(Leave leave)
-        {
-
-            this.leaveDate= leave.getDate();
-            this.type= leave.getType();
-        }
 
         // public Long getuserExtraId() {
         //     return userExtraId;
@@ -36,10 +30,10 @@ public class LeaveDTO
         // public void setuserExtraId(Long userExtraId) {
         //     this.userExtraId = userExtraId;
         // }
-        public LocalDate getleaveDate() {
+        public String getleaveDate() {
             return leaveDate;
         }
-        public void setleaveDate(LocalDate leaveDate) {
+        public void setleaveDate(String leaveDate) {
             this.leaveDate = leaveDate;
         }
         public String getType() {
@@ -51,7 +45,7 @@ public class LeaveDTO
 
         @Override
     public String toString() {
-        return "UserDTO{" +
+        return "LeaveDTO{" +
             "type='" + type + '\'' +
             ", leaveDate='" + leaveDate + '\'' +
 

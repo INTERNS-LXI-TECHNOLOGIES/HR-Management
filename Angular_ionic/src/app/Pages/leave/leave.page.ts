@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import {leaveModel } from 'src/app/model/Leave';
+import { type } from 'os';
 @Component({
   selector: 'app-leave',
   templateUrl: './leave.page.html',
@@ -10,7 +11,7 @@ import {leaveModel } from 'src/app/model/Leave';
 })
 export class LeavePage implements OnInit {
   model:leaveModel={
-    type:"",
+    type:"Authorized",
     leaveDate:"",
     
   }
@@ -22,6 +23,8 @@ export class LeavePage implements OnInit {
   ngOnInit() {
   }
   sendFeedback():void{
+
+    console.log("COnsole test for leave Model"+this.model.type);
     
     let Url:string = "http://localhost:8080/api/leaves";
    
