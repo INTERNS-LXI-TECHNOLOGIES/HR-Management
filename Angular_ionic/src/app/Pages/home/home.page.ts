@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
 import { NgZone } from '@angular/core';
+import { userViewModel } from 'src/app/model/User';
 
 
 
@@ -17,28 +18,20 @@ import { NgZone } from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  private counter = 0;
   
-  users:any=this.appservice.getUsers('http://localhost:8080/api/users/');
+  
+  users:userViewModel[]=this.appservice.getUsers('http://localhost:8080/api/users/');
   constructor(private appservice: AppraisalService,private router: Router,private httpClient: HttpClient,
-    private navCtrl:NavController,private zone: NgZone){
+    private userService:UserService){
     
   }
   
   public deleteUser(id:string){
     event.stopImmediatePropagation();
-    this.counter += 1;
-    let url:string = "http://localhost:8080/api/user-extras/"+id;
-    this.httpClient.delete(url).subscribe(data=>{
-      alert("User removed Succesfully..!" );
-      
     
-     
-    },
-    err=> {
-      alert("something went wromg..!" ); 
-    });
-    this.router.navigate(['/home/',this.counter]);
+    this.appservice.deleteUser(id);
+    // this.users=this.appservice.getUsers('http://localhost:8080/api/users/');
+    
   }
   public editUser(id:string){
     event.stopImmediatePropagation();
