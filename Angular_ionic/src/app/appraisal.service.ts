@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { userViewModel } from './model/User';
 
 @Injectable({
@@ -31,11 +32,13 @@ export class AppraisalService {
       let url:string = "http://localhost:8080/api/user-extras/"+id;
       this.http.delete(url).subscribe(data=>{
         alert("User removed Succesfully..!" );
+        this.router.navigate(['/home']);
        },
       err=> {
         alert("something went wromg..!" ); 
       });
+      
     }
-  constructor(private  http : HttpClient) { }
+  constructor(private  http : HttpClient, private router:Router) { }
     
 }

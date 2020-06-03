@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
 import { NgZone } from '@angular/core';
 import { userViewModel } from 'src/app/model/User';
+import { Observable } from 'rxjs';
 
 
 
@@ -20,7 +21,7 @@ import { userViewModel } from 'src/app/model/User';
 export class HomePage implements OnInit {
   
   
-  users:userViewModel[]=this.appservice.getUsers('http://localhost:8080/api/users/');
+  users:Observable<userViewModel>=this.appservice.getUsers('http://localhost:8080/api/users/');
   constructor(private appservice: AppraisalService,private router: Router,private httpClient: HttpClient,
     private userService:UserService){
     
@@ -30,7 +31,10 @@ export class HomePage implements OnInit {
     event.stopImmediatePropagation();
     
     this.appservice.deleteUser(id);
-    // this.users=this.appservice.getUsers('http://localhost:8080/api/users/');
+    setTimeout(() => {
+      this.users=this.appservice.getUsers('http://localhost:8080/api/users/');
+    }, 2000);
+    
     
   }
   public editUser(id:string){
