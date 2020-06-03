@@ -93,7 +93,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-  
+
 
 	public void clearAuthority() {
 		authorities=null;
@@ -245,5 +245,5 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", activationKey='" + activationKey + '\'' +
             "}";
     }
-   
+
 }

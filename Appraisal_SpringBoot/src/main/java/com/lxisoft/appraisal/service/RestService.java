@@ -2,9 +2,11 @@ package com.lxisoft.appraisal.service;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.lxisoft.appraisal.domain.Authority;
+import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.service.dto.UserViewDTO;
@@ -20,7 +22,7 @@ public class RestService {
     @Autowired
     UserExtraService userService;
 
-    public void addUser(UserViewDTO userDTO) {
+    public boolean addUser(UserViewDTO userDTO) {
         User user = new User();
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
@@ -37,19 +39,27 @@ public class RestService {
         userEx.setUser(user);
 
         Set<Authority> authorities = new HashSet<>();
-		String auth="ROLE_ADMIN";
+		String auth=userDTO.getAuthorities();
 		authorities.add(new Authority(auth));
+        user.setAuthorities(authorities);
 
-		user.setAuthorities(authorities);
-            userService.createUser(user, userEx);
-
+        List<User> users=userService.getAllUsers();
+        boolean isUsed=false;
+        for(User u:users)
+        {
+            if(u.getLogin().equalsIgnoreCase(user.getLogin()))
+            isUsed=true;
+        }
+        if(!isUsed)
+        userService.createUser(user, userEx);
+        return isUsed;
     }
-    
-    public void setLeave(UserViewDTO userDTO)
-    {
 
-        LeaveService.setLeave();
-    }
+    // public void setLeave(UserViewDTO userDTO)
+    // {
+
+    //     LeaveService.setLeave(leave);
+    // }
 
 
 }

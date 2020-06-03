@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/model/User';
 import { Router } from '@angular/router';
+import { userViewModel } from '../../model/User';
 
 @Component({
   selector: 'app-adduser',
@@ -35,12 +36,19 @@ export class AdduserPage implements OnInit {
     let Url:string = "http://localhost:8080/api/appraisal-controller-resource/addUser";
     // alert(this.model.name);
     this.http.post(Url,this.model).subscribe(data => {
-      alert("user added");
+      this.user=data;
+      
+      if(this.user==true)
+      {alert("login ID is already used" );}
+      else{
+        alert("user added");
       this.router.navigateByUrl('/home');
+
+      }
 
     },
     err=> {
-      alert("something went wrong"+console.error() );
+      alert("something went wromg..!" );
     });
       
 
@@ -48,18 +56,4 @@ export class AdduserPage implements OnInit {
 
   }
 }
-export interface userViewModel{
 
-  firstName:string;
-  lastName:string;
-  company:string;
-  email:string;
-  position:string;
-  authorities:string;  
-  joiningDate;
-  dob;
-  image;
-  login:string;
-  password:string;
-
-}
