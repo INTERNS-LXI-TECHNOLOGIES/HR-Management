@@ -26,7 +26,7 @@
                     class="form-control"
                     name="firstName"
                     placeholder="enter valid name"
-                    [(ngModel)]="model.Name" />
+                    [(ngModel)]="model.name" />
             </div>
           
             
@@ -37,12 +37,13 @@
                       class="form-control"
                       name="leaveDate"
                       placeholder="date of absent"
-                      [(ngModel)]="model.leaveDate" />
+                      [(ngModel)]="model.leaveDate"/>
               </div>  
-              
-              <input value="Authorized"  name="subject" class="auth" type="checkbox">Authorized
-              &nbsp;<input value="NonAuthorized" name="subject" class="auth" type="checkbox">Non Authorized <br><br>
-           
+             <br><br>
+             <div>
+             <input value="Authorized"  name="type" class="auth" type="checkbox"[(ngModel)]="model.type" >Authorized &nbsp;        
+          <input value="NonAuthorized" name="type" class="auth" type="checkbox">Non Authorized <br><br>
+         </div>
             <button type="submit" class="btn btn-info pull-right">
               <em class="fa fa-envelope-o"></em>
               <span>UPDATE LEAVE</span>

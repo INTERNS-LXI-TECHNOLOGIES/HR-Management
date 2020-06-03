@@ -10,7 +10,7 @@ import io.github.jhipster.config.JHipsterDefaults.Cache.Infinispan.Local;
 public class LeaveDTO
 {
 
-    private long userExtraId;
+
 
     @Size(max = 50)
     private String type;
@@ -24,18 +24,18 @@ public class LeaveDTO
     }
     public LeaveDTO(Leave leave)
         {
-            this.userExtraId=leave.getId();
+
             this.leaveDate= leave.getDate();
             this.type= leave.getType();
         }
 
-        public Long getuserExtraId() {
-            return userExtraId;
-        }
+        // public Long getuserExtraId() {
+        //     return userExtraId;
+        // }
 
-        public void setuserExtraId(Long userExtraId) {
-            this.userExtraId = userExtraId;
-        }
+        // public void setuserExtraId(Long userExtraId) {
+        //     this.userExtraId = userExtraId;
+        // }
         public LocalDate getleaveDate() {
             return leaveDate;
         }
@@ -54,7 +54,7 @@ public class LeaveDTO
         return "UserDTO{" +
             "type='" + type + '\'' +
             ", leaveDate='" + leaveDate + '\'' +
-            ",userExtraId='" + userExtraId + '\'' +
+
             "}";
     }
 }

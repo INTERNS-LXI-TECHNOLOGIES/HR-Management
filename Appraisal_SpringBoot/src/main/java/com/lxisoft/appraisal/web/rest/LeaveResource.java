@@ -47,7 +47,9 @@ public class LeaveResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/leaves")
-    public ResponseEntity<Leave> createLeave(@RequestBody Leave leave) throws URISyntaxException {
+    public ResponseEntity<Leave> createLeave(@RequestBody Leave leave) throws URISyntaxException
+     {
+
         log.debug("REST request to save Leave : {}", leave);
         if (leave.getId() != null) {
             throw new BadRequestAlertException("A new leave cannot already have an ID", ENTITY_NAME, "idexists");

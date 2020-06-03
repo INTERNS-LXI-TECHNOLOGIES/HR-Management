@@ -12,31 +12,38 @@ import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.LeaveRepository;
+import com.lxisoft.appraisal.service.dto.LeaveDTO;
 /**
  * Service Implementation for managing {@link Leave}.
  */
 @Service
 @Transactional
 public class LeaveService {
-	
+
 	@Autowired
 	LeaveRepository leaveRepo;
 	/**
 	 * find all leaves
 	 * @return List: list of Leave
 	 */
-	public List<Leave> getAllLeave() 
+	public List<Leave> getAllLeave()
 	{
 		 List<Leave> list=leaveRepo.findAll();
 		return list;
 	}
 	/**
 	 * for saving leave
-	 * @param leave
+	 * @param leaveDTO
 	 */
 	public void setLeave(Leave leave)
-	{
-		leaveRepo.save(leave);
+	{   try{
+                leaveRepo.save(leave);
+                leaveRepo.flush();
+             }
+             catch(Exception e)
+             {
+                    e.printStackTrace();
+             }
 	}
 	/**
 	 * find leave by UserExtra id
@@ -54,11 +61,11 @@ public class LeaveService {
 	 * @param localDate
 	 * @return List: list of Leave
 	 */
-	public List<Leave> findByDate(LocalDate localDate) 
+	public List<Leave> findByDate(LocalDate localDate)
 	{
-		
+
 		return leaveRepo.findAllByDate(localDate);
-	}	
+	}
 	/**
 	 * find leave of UserExtra between two date
 	 * @param userEx
@@ -68,10 +75,10 @@ public class LeaveService {
 	 */
 	public List<Leave> findLeavesOfUserBetween(UserExtra userEx, LocalDate second, LocalDate first)
 	{
-		
+
 		return leaveRepo.findByUserExtraAndDateBetween(userEx, second, first);
 	}
-	
-	
+
+
 
 }
