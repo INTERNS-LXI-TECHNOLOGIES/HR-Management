@@ -6,23 +6,40 @@
     <ion-title>home</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
   <ion-content>
+  
+  
     <ion-card no-padding color-md="orange">
       <ion-grid>
         <ion-row>
+        
           <ion-col size-md="6" offset-md="3">
             <ion-card-header color="primary">
               <ion-header ><p>Users</p></ion-header>
-              <ion-item  *ngFor="let user of (users | async)" [routerLink]="['/user-detail/',user.id]"> 
-                <p>{{user.firstName}} {{user.lastName}}</p>
+              <ion-item-sliding  *ngFor="let user of (users | async)" (click)="select(user.id)" > 
+               <ion-item>
+                 <p>{{user.firstName}} {{user.lastName}}</p>
               </ion-item> 
+              <ion-item-options side="end">
+                <ion-item-option >
+              <button primary (click)="editUser(user.id)">Edit</button>
+              <button danger (click)="deleteUser(user.id)"><ion-icon trash></ion-icon> Delete</button>
+            </ion-item-option> 
+            </ion-item-options>
+              </ion-item-sliding>
             </ion-card-header>
                     
           </ion-col>
+        
         </ion-row>
       </ion-grid>
+      
     </ion-card>
+<!--<ion-button [routerLink]="['/user-detail']">Go to detail</ion-button> -->
+    
+  
 </ion-content>
 
 

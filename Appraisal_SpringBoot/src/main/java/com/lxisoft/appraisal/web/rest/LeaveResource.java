@@ -2,7 +2,6 @@ package com.lxisoft.appraisal.web.rest;
 
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.LeaveRepository;
-import com.lxisoft.appraisal.service.dto.LeaveDTO;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,13 +47,7 @@ public class LeaveResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/leaves")
-    public ResponseEntity<Leave> createLeave(@RequestBody LeaveDTO leaveDTO) throws URISyntaxException
-     {
-         Leave leave = new Leave();
-         System.out.print("5555 THE DATE OF LEAVE THAKEN 5555"+leaveDTO.getleaveDate());
-         leave.setDate(LocalDate.parse(leaveDTO.getleaveDate()));
-         leave.setType(leaveDTO.getType());
-
+    public ResponseEntity<Leave> createLeave(@RequestBody Leave leave) throws URISyntaxException {
         log.debug("REST request to save Leave : {}", leave);
         if (leave.getId() != null) {
             throw new BadRequestAlertException("A new leave cannot already have an ID", ENTITY_NAME, "idexists");
