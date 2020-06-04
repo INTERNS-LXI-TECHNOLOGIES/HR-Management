@@ -8,9 +8,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.time.LocalDate;
 
-/**
- * A Leave.
- */
 @Entity
 @Table(name = "jhi_leave")
 public class Leave implements Serializable {

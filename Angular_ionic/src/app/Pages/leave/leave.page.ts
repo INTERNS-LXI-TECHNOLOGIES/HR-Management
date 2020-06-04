@@ -11,9 +11,10 @@ import { type } from 'os';
 })
 export class LeavePage implements OnInit {
   model:leaveModel={
+    name:"",  
     type:"Authorized",
     leaveDate:"",
-    name:"",    
+     
   }
 
   user: Object;
@@ -24,7 +25,7 @@ export class LeavePage implements OnInit {
   }
   sendFeedback():void{
 
-    console.log("COnsole test for leave Model"+this.model.type+this.model.leaveDate);
+    console.log("COnsole test for leave Model"+this.model.type+this.model.leaveDate+"NAme of user ="+this.model.name);
     
     let Url:string = "http://localhost:8080/api/leaves";
    

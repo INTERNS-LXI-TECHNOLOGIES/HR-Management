@@ -6,13 +6,13 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Late-Arrival</ion-title>
+    <ion-title>Report status</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card >
-    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">Late-Arrival updation</ion-card-header>
+    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">ReportStatus updation</ion-card-header>
     <div class="container">
       <div class="row">
         <div class="offset-3"></div>
@@ -31,13 +31,13 @@
           
             
               <div class="form-group">
-                <label for="lateArrival">Arrival Time</label>
+                <label for="reportStatus">Reported Time</label>
                 <input type="time"
-                      id="lateArrival"
+                      id="reportStatus"
                       class="form-control"
-                      name="lateArrival"
+                      name="reportStatus"
                       placeholder="insert time"
-                      [(ngModel)]="model.reached_time"/>
+                      [(ngModel)]="model.report_time"/>
               </div>  
              <br><br>
              <div>

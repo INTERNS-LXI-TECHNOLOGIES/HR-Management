@@ -2,6 +2,7 @@ package com.lxisoft.appraisal.web.rest;
 
 import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.repository.LateArrivalRepository;
+import com.lxisoft.appraisal.service.dto.LateDTO;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +49,11 @@ public class LateArrivalResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/late-arrivals")
-    public ResponseEntity<LateArrival> createLateArrival(@RequestBody LateArrival lateArrival) throws URISyntaxException {
+    public ResponseEntity<LateArrival> createLateArrival(@RequestBody LateDTO lateDTO) throws URISyntaxException
+    {
+        LateArrival lateArrival = new LateArrival();
+        lateArrival.setReachedTime(Instant.parse(lateDTO.getReachedTime()));
+        lateArrival.setType(lateDTO.getType());
         log.debug("REST request to save LateArrival : {}", lateArrival);
         if (lateArrival.getId() != null) {
             throw new BadRequestAlertException("A new lateArrival cannot already have an ID", ENTITY_NAME, "idexists");

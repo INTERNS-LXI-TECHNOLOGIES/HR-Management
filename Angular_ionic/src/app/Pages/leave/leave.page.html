@@ -20,11 +20,11 @@
           <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendFeedback()" novalidate class="feedback-form">
            
             <div class="form-group">
-              <label for="name of Employee</label>
+              <label for="firstName">Name of Employee</label>
               <input type="text"
-                    id="name"
+                    id="firstName"
                     class="form-control"
-                    name="name"
+                    name="firstName"
                     placeholder="enter valid name"
                     [(ngModel)]="model.name" />
             </div>
