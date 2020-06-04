@@ -24,6 +24,11 @@ export class UserDetailPage implements OnInit {
       const id= params['id'];
       this.userService.getUser('http://localhost:8080/api/appraisal-controller-resource/user-extras/'+id)
                                 .subscribe(user => this.user = user); 
+    // var bytes = [this.user.image]; // get from server
+    // var uints = new Uint8Array(bytes);
+    // var base64 = btoa(String.fromCharCode(null, uints));
+    // var url = 'data:image/jpeg;base64,' + base64; // u
+    
     });
     
   }

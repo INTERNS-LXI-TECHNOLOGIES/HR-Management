@@ -41,7 +41,11 @@ const routes: Routes = [
   {
     path: 'adduser',
     loadChildren: () => import('./Pages/adduser/adduser.module').then( m => m.AdduserPageModule)
+  },  {
+    path: 'appraisal-details',
+    loadChildren: () => import('./Pages/appraisal-details/appraisal-details.module').then( m => m.AppraisalDetailsPageModule)
   },
+
 
 
 
