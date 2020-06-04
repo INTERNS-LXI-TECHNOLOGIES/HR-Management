@@ -1,6 +1,6 @@
 package com.lxisoft.appraisal.service.dto;
 
-import java.util.Set;
+import java.io.File;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -39,7 +39,7 @@ public class UserViewDTO {
 
     private String dob;
 
-    private String image;
+    private File image;
 
     private String password;
 
@@ -115,11 +115,11 @@ public class UserViewDTO {
         this.dob = dob;
     }
 
-    public String getImage() {
+    public File getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(File image) {
         this.image = image;
     }
 

@@ -165,8 +165,8 @@
                     id="image"
                     class="form-control"
                     name="image"
-                    placeholder="Your image"
-                    [(ngModel)]="model.image"/>
+                    (change)="setFile($event.target.files)"
+                    required/>
               
             </div> 
                 <!-- login -->

@@ -1,5 +1,6 @@
 package com.lxisoft.appraisal.service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
@@ -22,7 +23,7 @@ public class RestService {
     @Autowired
     UserExtraService userService;
 
-    public boolean addUser(UserViewDTO userDTO) {
+    public boolean addUser(UserViewDTO userDTO) throws IOException {
         User user = new User();
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
@@ -42,6 +43,14 @@ public class RestService {
 		String auth=userDTO.getAuthorities();
 		authorities.add(new Authority(auth));
         user.setAuthorities(authorities);
+
+        // if(!userDTO.getImage().isEmpty())
+        // {
+        //     byte[] bytes = userDTO.getImage().getBytes();
+        //     userEx.setImage(bytes);
+        //     userEx.setImageContentType(userDTO.getImage().getContentType());
+
+        // }
 
         List<User> users=userService.getAllUsers();
         boolean isUsed=false;
