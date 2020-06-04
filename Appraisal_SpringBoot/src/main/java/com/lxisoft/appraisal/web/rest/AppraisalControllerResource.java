@@ -30,52 +30,53 @@ import com.lxisoft.appraisal.service.dto.UserViewDTO;
 
 import io.github.jhipster.web.util.ResponseUtil;
 
+import java.io.IOException;
 import java.util.*;
+
 /**
  * AppraisalControllerResource controller
  */
 @RestController
 @RequestMapping("/api/appraisal-controller-resource")
 public class AppraisalControllerResource {
-	@Autowired
-	UserResource userRes;
-	@Autowired
-	UserService userService;
-	@Autowired
+    @Autowired
+    UserResource userRes;
+    @Autowired
+    UserService userService;
+    @Autowired
     UserExtraRepository userExtraRepository;
     @Autowired
     RestService restService;
     @Autowired
-	UserExtraService userexService;
-
+    UserExtraService userexService;
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
 
-
-    @RequestMapping(value="/")
-   	public String index()
-   	{
-       	return "value";
-   	}
-
-    /**
-    * GET defaultAction
-    */
-    @GetMapping("/all")
-    public ResponseEntity<List<UserDTO>> getAllUser()
-    {
-    	Pageable pageable=null;
-    	return userRes.getAllUsers(pageable);
+    @RequestMapping(value = "/")
+    public String index() {
+        return "value";
     }
 
+    /**
+     * GET defaultAction
+     */
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDTO>> getAllUser() {
+        Pageable pageable = null;
+        return userRes.getAllUsers(pageable);
+    }
 
     @PostMapping("/addUser")
-    public  boolean addUser(@RequestBody UserViewDTO userDTO)
-    {
-        boolean isUsed=false;
+    public boolean addUser(@RequestBody UserViewDTO userDTO) {
+        boolean isUsed = false;
 
-        log.info("getn value from server "+userDTO.getImage()+"----------:{}",userDTO);
-        isUsed= restService.addUser(userDTO);
+        log.info("getn value from server ----------:{}", userDTO);
+        try {
+            isUsed = restService.addUser(userDTO);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     	return isUsed;
     }

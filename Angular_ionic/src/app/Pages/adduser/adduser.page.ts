@@ -19,7 +19,7 @@ export class AdduserPage implements OnInit {
     authorities:"",  
     joiningDate:"",
     dob:"",
-    image:"",
+    image:null,
     login:"",
     password:""
 
@@ -49,10 +49,10 @@ export class AdduserPage implements OnInit {
     err=> {
       alert("something went wromg..!" );
     });
-      
-
-    
-
+  }
+  setFile(file:FileList)
+  {
+    this.model.image=file.item(0);
   }
 }
 

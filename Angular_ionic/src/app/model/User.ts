@@ -9,7 +9,7 @@ export interface userViewModel{
     authorities:string;  
     joiningDate;
     dob;
-    image;
+    image:File;
     login:string;
     password:string;
   
