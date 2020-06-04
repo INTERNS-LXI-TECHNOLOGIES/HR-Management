@@ -1,7 +1,9 @@
 import { logging } from 'protractor';
 
-export interface Leave 
-{
-    name :string;
-    type :string;
-}
+export interface leaveModel{
+
+    type:string,
+    leaveDate;
+ 
+ }
+ 

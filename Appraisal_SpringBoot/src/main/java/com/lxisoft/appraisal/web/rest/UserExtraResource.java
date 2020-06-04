@@ -3,12 +3,14 @@ package com.lxisoft.appraisal.web.rest;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
 import com.lxisoft.appraisal.repository.UserRepository;
+import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,8 @@ public class UserExtraResource {
     private final UserExtraRepository userExtraRepository;
 
     private final UserRepository userRepository;
+    @Autowired
+    UserExtraService userExService;
 
     public UserExtraResource(UserExtraRepository userExtraRepository, UserRepository userRepository) {
         this.userExtraRepository = userExtraRepository;
@@ -122,9 +126,10 @@ public class UserExtraResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/user-extras/{id}")
-    public ResponseEntity<Void> deleteUserExtra(@PathVariable Long id) {
-        log.debug("REST request to delete UserExtra : {}", id);
-        userExtraRepository.deleteById(id);
+    public ResponseEntity<Void> deleteUserExtra(@PathVariable String id) {
+        log.debug("REST request to delete UserExtra : {}"+ id);
+        Long id1=Long.parseLong(id);
+        userExService.deleteUser(id1);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 }

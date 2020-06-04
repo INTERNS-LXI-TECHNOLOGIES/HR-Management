@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
+ 
 
   apiUrl:string ="http://localhost:8080"
   getUser(url:string) 
@@ -16,6 +17,7 @@ export class UserService {
   {
     return  this.http.get(url);
   }
+  
 
   constructor(private  http : HttpClient) { }
 }

@@ -74,7 +74,7 @@ public class AppraisalControllerResource {
     {
         boolean isUsed=false;
 
-        log.info("getn value from server----------");
+        log.info("getn value from server "+userDTO.getImage()+"----------:{}",userDTO);
         isUsed= restService.addUser(userDTO);
 
     	return isUsed;
@@ -86,14 +86,13 @@ public class AppraisalControllerResource {
     @GetMapping("/user-extras/{id}")
     @Transactional(readOnly = true)
     public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id) {
+//    	log.debug("REST request to get User : {}", login);
+//    	Optional<User> users=userService.getUserWithAuthoritiesByLogin(login);
+//    	Long id=users.get().getId();
     	Optional <User> user = userexService.findByid(id);
         log.debug("REST request to get UserExtra : {}", id);
         Optional<UserExtra> userExtra = userExtraRepository.findById(id);
         log.debug("REST  get UserExtra : {}", userExtra);
-        UserExtra us=userExtra.get();
-        String image=(Base64.getEncoder().encodeToString(us.getImage()));
-        us.setImageContentType(Base64.getEncoder().encodeToString(us.getImage()));
-        log.info("imageeee:::::::"+image);
         UserExtraDTO u=new UserExtraDTO(user.get(),userExtra.get());
         Optional<UserExtraDTO> dto=Optional.of(u);
         return ResponseUtil.wrapOrNotFound(dto);
@@ -108,14 +107,7 @@ public class AppraisalControllerResource {
 
     	return userRes.getAllUsers(pageable);
     }
-//    @GetMapping("/image/{id}")
-//    public String getImage(@PathVariable Long id)
-//    {
-//    	Pageable pageable=null;
-//    	Optional<UserExtra> userExtra = userExtraRepository.findById(id);
-//    	String image=Base64.getEncoder().encodeToString(userExtra.get().getImage());
-//    	return image;
-//    }
+
 
 
 }
