@@ -2,7 +2,6 @@ package com.lxisoft.appraisal.web.rest;
 
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.LeaveRepository;
-import com.lxisoft.appraisal.service.dto.LeaveDTO;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

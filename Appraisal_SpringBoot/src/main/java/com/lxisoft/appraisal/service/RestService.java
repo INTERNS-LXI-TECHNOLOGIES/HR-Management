@@ -9,7 +9,6 @@ import com.lxisoft.appraisal.domain.Authority;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
-import com.lxisoft.appraisal.service.dto.LeaveDTO;
 import com.lxisoft.appraisal.service.dto.UserViewDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class RestService {
     @Autowired
     UserExtraService userService;
-    @Autowired
-    LeaveService leaveService;
-
 
     public boolean addUser(UserViewDTO userDTO) {
         User user = new User();
@@ -59,13 +55,11 @@ public class RestService {
         return isUsed;
     }
 
-    public boolean setLeave(Leave leave)
-     {
-        boolean isUsed=false;
-        leaveService.setLeave(leave);
-        return isUsed;
-	}
+    // public void setLeave(UserViewDTO userDTO)
+    // {
 
+    //     LeaveService.setLeave(leave);
+    // }
 
 
 }

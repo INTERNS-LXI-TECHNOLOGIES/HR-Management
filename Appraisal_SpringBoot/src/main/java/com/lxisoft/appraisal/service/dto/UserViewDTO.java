@@ -39,7 +39,7 @@ public class UserViewDTO {
 
     private String dob;
 
-    private byte[] image;
+    private String image;
 
     private String password;
 
@@ -115,11 +115,11 @@ public class UserViewDTO {
         this.dob = dob;
     }
 
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

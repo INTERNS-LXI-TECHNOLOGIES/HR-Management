@@ -2,8 +2,6 @@ package com.lxisoft.appraisal.repository;
 
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.UserExtra;
-import com.lxisoft.appraisal.service.dto.LeaveDTO;
-
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.data.jpa.repository.*;
