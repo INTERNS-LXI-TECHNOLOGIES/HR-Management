@@ -17,19 +17,25 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lxisoft.appraisal.config.Constants;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
+import com.lxisoft.appraisal.domain.LateArrival;
+import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.User;
-
+import com.lxisoft.appraisal.service.LateArrivalService;
+import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.RestService;
-
 import com.lxisoft.appraisal.service.UserExtraService;
-
 import com.lxisoft.appraisal.service.UserService;
 import com.lxisoft.appraisal.service.dto.UserDTO;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
 import com.lxisoft.appraisal.service.dto.UserViewDTO;
 
 import io.github.jhipster.web.util.ResponseUtil;
-
+import java.util.stream.Collectors;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 /**
  * AppraisalControllerResource controller
@@ -47,6 +53,10 @@ public class AppraisalControllerResource {
     RestService restService;
     @Autowired
 	UserExtraService userexService;
+    @Autowired
+	LeaveService leaveSer;
+	@Autowired
+	LateArrivalService lateServ;
 
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
@@ -67,8 +77,6 @@ public class AppraisalControllerResource {
     	Pageable pageable=null;
     	return userRes.getAllUsers(pageable);
     }
-
-
     @PostMapping("/addUser")
     public  boolean addUser(@RequestBody UserViewDTO userDTO)
     {
@@ -79,16 +87,9 @@ public class AppraisalControllerResource {
 
     	return isUsed;
     }
-
-
-
-
     @GetMapping("/user-extras/{id}")
     @Transactional(readOnly = true)
     public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id) {
-//    	log.debug("REST request to get User : {}", login);
-//    	Optional<User> users=userService.getUserWithAuthoritiesByLogin(login);
-//    	Long id=users.get().getId();
     	Optional <User> user = userexService.findByid(id);
         log.debug("REST request to get UserExtra : {}", id);
         Optional<UserExtra> userExtra = userExtraRepository.findById(id);
@@ -104,8 +105,57 @@ public class AppraisalControllerResource {
         Pageable pageable=null;
         log.info("getn value from server----------");
        // restService.setLeave(userDTO);
-
     	return userRes.getAllUsers(pageable);
+    }
+    @GetMapping("/status/{id}")
+    public List<Integer> getUserStatus(@PathVariable Long id)
+    {
+    	Optional <User> user = userexService.findByid(id);
+        log.debug("REST request to get UserExtra : {}", id);
+        Optional<UserExtra> userExtra = userExtraRepository.findById(id);
+        log.debug("REST  get UserExtra : {}", userExtra);
+        List<Leave> leave = leaveSer.findLeave(id);
+        List<Integer> number=new ArrayList<Integer>();
+		 List<LateArrival> late =lateServ.findLate(id);
+		 List<LocalDateTime> time=new ArrayList<LocalDateTime>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 Instant in=late.get(i).getReachedTime();
+			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
+			 time.add(t);
+		 }
+		 List<Leave> auth=new ArrayList<Leave>();
+		 List<Leave> unauth=new ArrayList<Leave>();
+		 for(int i=0;i<leave.size();i++)
+		 {
+			 if(leave.get(i).getType().equals("Authorized"))
+			 {
+				 auth.add(leave.get(i));
+				 number.add(auth.size());
+			 }
+			 if(leave.get(i).getType().equals("NonAuthorized"))
+			 {
+				 unauth.add(leave.get(i));
+				 number.add(unauth.size());
+			 }
+		 }
+		 List<LateArrival> a=new ArrayList<LateArrival>();
+		 List<LateArrival> un=new ArrayList<LateArrival>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 if(late.get(i).getType().equals("Authorized"))
+			 {
+				 a.add(late.get(i));
+				 number.add(a.size());
+			 }
+			 if(late.get(i).getType().equals("NonAuthorized"))
+			 {
+				 un.add(late.get(i));
+				 number.add(un.size());
+			 }
+		 }
+		 List<Optional<Integer>> value=number.stream().map(Optional::ofNullable).collect(Collectors.toList);
+        return number;
     }
 
 
