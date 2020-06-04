@@ -19,17 +19,18 @@ public class LeaveDTO
     @Size(max=50)
     private String leaveDate;
 
+    private String name;
     public LeaveDTO() {
         // Empty constructor needed for Jackson.
     }
 
-        // public Long getuserExtraId() {
-        //     return userExtraId;
-        // }
+        public String getName() {
+            return name;
+        }
 
-        // public void setuserExtraId(Long userExtraId) {
-        //     this.userExtraId = userExtraId;
-        // }
+        public void setName(String name) {
+            this.name = name;
+        }
         public String getleaveDate() {
             return leaveDate;
         }

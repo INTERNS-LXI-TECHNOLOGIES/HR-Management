@@ -20,11 +20,11 @@
           <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendFeedback()" novalidate class="feedback-form">
            
             <div class="form-group">
-              <label for="firstName">Name of Employee</label>
+              <label for="name of Employee</label>
               <input type="text"
-                    id="firstName"
+                    id="name"
                     class="form-control"
-                    name="firstName"
+                    name="name"
                     placeholder="enter valid name"
                     [(ngModel)]="model.name" />
             </div>
@@ -41,7 +41,7 @@
               </div>  
              <br><br>
              <div>
-             <input value="Authorized"  name="type" class="auth" type="checkbox"[(ngModel)]="model.type" >Authorized &nbsp;        
+             <input value="Authorized"  name="type" class="auth" type="checkbox" >Authorized &nbsp;        
           <input value="NonAuthorized" name="type" class="auth" type="checkbox">Non Authorized <br><br>
          </div>
             <button type="submit" class="btn btn-info pull-right">

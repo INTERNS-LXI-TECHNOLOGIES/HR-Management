@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 public interface LeaveRepository extends JpaRepository<Leave, Long> {
 	List<Leave> findByUserExtraId(Long id);
 	List<Leave> findByUserExtraAndDateBetween(UserExtra userExtra, LocalDate second, LocalDate first);
-	List<Leave> findAllByDate(LocalDate localDate);
+    List<Leave> findAllByDate(LocalDate localDate);
+   long findUserExtraIdByName(String name);
 	Leave save(Leave leave);
 }

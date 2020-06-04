@@ -52,9 +52,17 @@ public class LeaveResource {
     public ResponseEntity<Leave> createLeave(@RequestBody LeaveDTO leaveDTO) throws URISyntaxException
      {
          Leave leave = new Leave();
-         System.out.print("5555 THE DATE OF LEAVE THAKEN 5555"+leaveDTO.getleaveDate());
+         System.out.print("5555 THE DATE OF LEAVE THAKEN 5555"+leaveDTO.getleaveDate()+"55 TYPE OF LEAVE55"+leaveDTO.getType());
          leave.setDate(LocalDate.parse(leaveDTO.getleaveDate()));
          leave.setType(leaveDTO.getType());
+        //  if(leaveDTO.getType()=="true")
+        //  {
+        //     leave.setType("Authorized");
+        //  }
+        //  else if(leaveDTO.getType()=="false"){
+        //     leave.setType("Non-Authorized");
+        //  }
+
 
         log.debug("REST request to save Leave : {}", leave);
         if (leave.getId() != null) {
