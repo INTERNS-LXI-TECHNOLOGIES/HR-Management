@@ -61,7 +61,7 @@ export class AdduserPage implements OnInit {
 
     },
     err => {
-      alert('something went wrong..!');
+      alert('something went wrong..!' + this.model.image.name+ " nn  " + this.model.company );
     });
     
   }
@@ -69,7 +69,6 @@ export class AdduserPage implements OnInit {
   setFile(event: Event)
   {
     this.model.image = (<HTMLInputElement> event.target).files[0];
-    console.log(this.model.image.type);
   }
 }
 
