@@ -5,12 +5,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +35,8 @@ import io.github.jhipster.web.util.ResponseUtil;
 
 import java.io.IOException;
 import java.util.*;
+
+import javax.ws.rs.Consumes;
 
 /**
  * AppraisalControllerResource controller
@@ -65,12 +70,12 @@ public class AppraisalControllerResource {
         Pageable pageable = null;
         return userRes.getAllUsers(pageable);
     }
-
+    @Consumes("multipart/form-data")
     @PostMapping("/addUser")
-    public boolean addUser(@RequestBody UserViewDTO userDTO) {
+    public boolean addUser(@ModelAttribute UserViewDTO userDTO) {
         boolean isUsed = false;
-
-        log.info("getn value from server ----------:{}", userDTO);
+        log.info("get value from server ----------:{}", userDTO.getEmail());
+        log.info("get file from server ----------:{}", userDTO.getImage().getContentType());
         try {
             isUsed = restService.addUser(userDTO);
         } catch (IOException e) {
@@ -80,6 +85,14 @@ public class AppraisalControllerResource {
 
     	return isUsed;
     }
+    // @Consumes("multipart/form-data")
+    // @PutMapping("/addUser")
+    // public void addUserImage(@ModelAttribute MultipartFile file)
+    // {
+    //     log.info("get file from server ----------:{}", file.getContentType());
+
+    //     return ;
+    // }
 
 
 

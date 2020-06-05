@@ -165,8 +165,8 @@
                     id="image"
                     class="form-control"
                     name="image"
-                    (change)="setFile($event.target.files)"
-                    required/>
+                    (change)= "setFile($event)"
+                    required #fileInput/>
               
             </div> 
                 <!-- login -->

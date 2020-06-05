@@ -6,12 +6,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.Multipart;
+
 import com.lxisoft.appraisal.domain.Authority;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.service.dto.UserViewDTO;
 
+import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class RestService {
+    private final Logger log = LoggerFactory.getLogger(RestService.class);
+
     @Autowired
     UserExtraService userService;
 
@@ -30,6 +37,7 @@ public class RestService {
         user.setEmail(userDTO.getEmail());
         user.setLogin(userDTO.getLogin());
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+
         user.setPassword(encode.encode(userDTO.getPassword()));
 
         UserExtra userEx = new UserExtra();
