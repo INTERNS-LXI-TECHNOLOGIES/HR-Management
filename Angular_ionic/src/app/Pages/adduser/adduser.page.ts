@@ -69,6 +69,7 @@ export class AdduserPage implements OnInit {
   setFile(event: Event)
   {
     this.model.image = (<HTMLInputElement> event.target).files[0];
+    console.log(this.model.image.type);
   }
 }
 
