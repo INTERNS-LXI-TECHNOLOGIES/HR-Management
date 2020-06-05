@@ -2,6 +2,9 @@ package com.lxisoft.appraisal.web.rest;
 
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.repository.LeaveRepository;
+import com.lxisoft.appraisal.repository.UserExtraRepository;
+import com.lxisoft.appraisal.repository.UserRepository;
+import com.lxisoft.appraisal.service.dto.LeaveDTO;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +37,7 @@ public class LeaveResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+    private UserExtraRepository userExtraRep;
     private final LeaveRepository leaveRepository;
 
     public LeaveResource(LeaveRepository leaveRepository) {
@@ -47,7 +52,24 @@ public class LeaveResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/leaves")
-    public ResponseEntity<Leave> createLeave(@RequestBody Leave leave) throws URISyntaxException {
+    public ResponseEntity<Leave> createLeave(@RequestBody LeaveDTO leaveDTO) throws URISyntaxException
+     {
+        System.out.print("5555 THE NAME OF USER"+leaveDTO.getName());
+        System.out.print("5555 THE DATE OF LEAVE THAKEN 5555"+leaveDTO.getleaveDate()+"55 TYPE OF LEAVE55"+leaveDTO.getType());
+         //long id = userExtraRep.findIdByName(leaveDTO.getName());
+         Leave leave = new Leave();
+         leave.setDate(LocalDate.parse(leaveDTO.getleaveDate()));
+         leave.setType(leaveDTO.getType());
+         //leave.setId(id);
+        //  if(leaveDTO.getType()=="true")
+        //  {
+        //     leave.setType("Authorized");
+        //  }
+        //  else if(leaveDTO.getType()=="false"){
+        //     leave.setType("Non-Authorized");
+        //  }
+
+
         log.debug("REST request to save Leave : {}", leave);
         if (leave.getId() != null) {
             throw new BadRequestAlertException("A new leave cannot already have an ID", ENTITY_NAME, "idexists");
@@ -69,7 +91,7 @@ public class LeaveResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/leaves")
-    public ResponseEntity<Leave> updateLeave(@RequestBody Leave leave) throws URISyntaxException {
+    public ResponseEntity<Leave> updateLeave(@RequestBody LeaveDTO leave) throws URISyntaxException {
         log.debug("REST request to update Leave : {}", leave);
         if (leave.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

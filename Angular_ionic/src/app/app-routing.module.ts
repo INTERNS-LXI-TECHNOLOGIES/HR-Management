@@ -42,6 +42,15 @@ const routes: Routes = [
     path: 'adduser',
     loadChildren: () => import('./Pages/adduser/adduser.module').then( m => m.AdduserPageModule)
   },
+  {
+    path: 'late-arrival',
+    loadChildren: () => import('./Pages/late-arrival/late-arrival.module').then( m => m.LateArrivalPageModule)
+  },
+  {
+    path: 'report-status',
+    loadChildren: () => import('./Pages/report-status/report-status.module').then( m => m.ReportStatusPageModule)
+  },
+
 
 
 

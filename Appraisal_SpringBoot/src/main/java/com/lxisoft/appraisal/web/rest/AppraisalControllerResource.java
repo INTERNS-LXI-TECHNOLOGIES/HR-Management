@@ -94,8 +94,13 @@ public class AppraisalControllerResource {
     //     return ;
     // }
 
-
-
+    // @PostMapping("/setLeave")
+    // public boolean leaves(@RequestBody  Leave leave) {
+    //     boolean isUsed = false;
+    //     log.info("getn value from server----------");
+    //    isUsed= restService.setLeave(leave);
+    //     return isUsed;
+    // }
 
     @GetMapping("/user-extras/{id}")
     @Transactional(readOnly = true)

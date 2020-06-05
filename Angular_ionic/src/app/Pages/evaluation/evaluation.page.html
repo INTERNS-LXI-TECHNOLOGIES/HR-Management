@@ -1,23 +1,69 @@
 <ion-header [translucent]="true">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+  
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Evaluation Updation</ion-title>
+    <ion-title>Evaluation</ion-title>
   </ion-toolbar>
 </ion-header>
-<br><br>
-<centre>
-<form>
-<label for="status">Name </label>
-      <input type="text"  id="test" name="name" class="autocomplete"><br><br><br>
-      <label for="mark">Git Mark  : </label>
-			<input type="number" id="num" name="num" min="0" max="5">
-			<label for="hackathon">Hackathon :</label>
-			<input type="number" id="hack" name="hack" min="0" max="30"> <br><br>
-      <button class="btn btn-primary" type="submit">Update</button>
-</form>
-</centre>
-<ion-content>
 
+<ion-content>
+  <ion-card >
+    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">Evaluation updation</ion-card-header>
+    <div class="container">
+      <div class="row">
+        <div class="offset-3"></div>
+        <div class="col-md-6">
+          <!-- <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendFeedback()" novalidate class="feedback-form">
+            -->
+            <form>
+
+              <div class="form-group">
+              <label for="firstName">Name of Employee</label>
+              <input type="text"
+                    id="firstName"
+                    class="form-control"
+                    name="firstName"
+                    placeholder="enter valid name"
+                     />
+            </div>
+           <div class="form-group">
+                <label for="hack">Hackathon</label>
+                <input type="number"
+                      id="hack"
+                      class="form-control"
+                      name="hack"
+                      placeholder="insert Hackathon score"
+                      />
+           </div>
+          
+            
+              <div class="form-group">
+                <label for="git">Git</label>
+                <input type="number"
+                      id="git"
+                      class="form-control"
+                      name="git"
+                      placeholder="insert git score"
+                      />
+              </div>  
+              
+             <br><br>
+             <div>
+        
+            </div>
+            
+            <button type="submit" class="btn btn-info pull-right">
+              <em class="fa fa-envelope-o"></em>
+              <span>UPDATE SCORES</span>
+            </button>
+          </form>
+        </div>
+        <div class="offset-3"></div>
+      </div>
+    </div>
+  </ion-card>
 </ion-content>
