@@ -4,12 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,11 +39,13 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+
 /**
  * AppraisalControllerResource controller
  */
 @RestController
 @RequestMapping("/api/appraisal-controller-resource")
+@CrossOrigin("*")
 public class AppraisalControllerResource {
 	@Autowired
 	UserResource userRes;
@@ -111,9 +115,9 @@ public class AppraisalControllerResource {
     public List<Integer> getUserStatus(@PathVariable Long id)
     {
     	Optional <User> user = userexService.findByid(id);
-        log.debug("REST request to get UserExtra : {}", id);
+        log.debug("REST request to get UserExtra for status : {}", id);
         Optional<UserExtra> userExtra = userExtraRepository.findById(id);
-        log.debug("REST  get UserExtra : {}", userExtra);
+        log.debug("REST  get UserExtra  for status: {}", userExtra);
         List<Leave> leave = leaveSer.findLeave(id);
         List<Integer> number=new ArrayList<Integer>();
 		 List<LateArrival> late =lateServ.findLate(id);
@@ -131,14 +135,14 @@ public class AppraisalControllerResource {
 			 if(leave.get(i).getType().equals("Authorized"))
 			 {
 				 auth.add(leave.get(i));
-				 number.add(auth.size());
 			 }
 			 if(leave.get(i).getType().equals("NonAuthorized"))
 			 {
 				 unauth.add(leave.get(i));
-				 number.add(unauth.size());
 			 }
 		 }
+		 number.add(auth.size());
+		 number.add(unauth.size());
 		 List<LateArrival> a=new ArrayList<LateArrival>();
 		 List<LateArrival> un=new ArrayList<LateArrival>();
 		 for(int i=0;i<late.size();i++)
@@ -146,15 +150,17 @@ public class AppraisalControllerResource {
 			 if(late.get(i).getType().equals("Authorized"))
 			 {
 				 a.add(late.get(i));
-				 number.add(a.size());
 			 }
 			 if(late.get(i).getType().equals("NonAuthorized"))
 			 {
 				 un.add(late.get(i));
-				 number.add(un.size());
 			 }
 		 }
-		 List<Optional<Integer>> value=number.stream().map(Optional::ofNullable).collect(Collectors.toList);
+		 number.add(a.size());
+		 number.add(un.size());
+//		 Integer[] num=new Integer[4];
+//		 number.toArray(num);
+//		 
         return number;
     }
 

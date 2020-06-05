@@ -52,9 +52,25 @@
     <ion-item no-padding>
       <ion-label color="dark" stacked>Joining Date:   {{ user.joiningDate }}</ion-label>
     </ion-item>
+  </div>
+  </div>
+  <p>Work-Profile</p>
+  <div *ngFor="let sta of status ; let i = index;">
+    <div *ngIf="i==0">
+      <p>Leaves</p>
+    <p>Authorized  {{ status[0] }}</p>
+    </div>
+    <div *ngIf="i==1">
+      <p>Un Authorized  {{ status[1] }}</p>
+    </div>
+    <div *ngIf="i==2">
+      <p>Late Arrival</p>
+    <p>Authorized  {{ status[2] }}</p>
+    </div>
+    <div *ngIf="i==3">
+      <p>Un Authorized  {{ status[3] }}</p>
+    </div>
 
   </div>
   <app-work-status></app-work-status>
-</div>
-
 </ion-content>

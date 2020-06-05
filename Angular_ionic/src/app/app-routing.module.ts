@@ -45,6 +45,10 @@ const routes: Routes = [
     path: 'appraisal-details',
     loadChildren: () => import('./Pages/appraisal-details/appraisal-details.module').then( m => m.AppraisalDetailsPageModule)
   },
+  {
+    path: 'work-profile',
+    loadChildren: () => import('./Pages/work-profile/work-profile.module').then( m => m.WorkProfilePageModule)
+  },
 
 
 

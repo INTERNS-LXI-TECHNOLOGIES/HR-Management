@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 })
 export class UserDetailPage implements OnInit {
    user;
-   status; 
+   status:any; 
+   id;
 
   constructor(private route: ActivatedRoute,private router: Router,
     private userService: UserService,private httpClient: HttpClient) {    }
@@ -23,14 +24,16 @@ export class UserDetailPage implements OnInit {
   ngOnInit() {
     
     this.route.params.subscribe(params => {
-      const id= params['id'];
-      this.userService.getUser('http://localhost:8080/api/appraisal-controller-resource/user-extras/'+id)
+      this.id= params['id'];
+      this.userService.getUser('http://localhost:8080/api/appraisal-controller-resource/user-extras/'+this.id)
                                 .subscribe(user => this.user = user); 
-    this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/'+id)
-    .subscribe(status => this.status = status); 
+    
 });
+this.route.params.subscribe(params => {
+  this.id= params['id'];
+this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/'+this.id)
+.subscribe(status => this.status= status); 
     
-    
-  }
-
+  });
+}
 }
