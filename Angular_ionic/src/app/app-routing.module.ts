@@ -39,10 +39,6 @@ const routes: Routes = [
     loadChildren: () => import('./Pages/evaluation/evaluation.module').then( m => m.EvaluationPageModule)
   },
   {
-    path: 'adduser',
-    loadChildren: () => import('./Pages/adduser/adduser.module').then( m => m.AdduserPageModule)
-  },
-  {
     path: 'late-arrival',
     loadChildren: () => import('./Pages/late-arrival/late-arrival.module').then( m => m.LateArrivalPageModule)
   },
@@ -50,12 +46,20 @@ const routes: Routes = [
     path: 'report-status',
     loadChildren: () => import('./Pages/report-status/report-status.module').then( m => m.ReportStatusPageModule)
   },
-
-
-
-
+  {
+    path: 'adduser',
+    loadChildren: () => import('./Pages/adduser/adduser.module').then( m => m.AdduserPageModule)
+  },
+  {
+    path: 'appraisal-details',
+    loadChildren: () => import('./Pages/appraisal-details/appraisal-details.module').then( m => m.AppraisalDetailsPageModule)
+  },
+  {
+    path: 'work-profile',
+    loadChildren: () => import('./Pages/work-profile/work-profile.module').then( m => m.WorkProfilePageModule)
+  },
+  
 ];
-
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })

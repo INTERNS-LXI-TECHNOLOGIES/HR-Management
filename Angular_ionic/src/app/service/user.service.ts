@@ -13,7 +13,7 @@ export class UserService {
   {
     return  this.http.get(url);
   }
-  getImage(url:string) 
+  getStatus(url:string) : Observable<any>
   {
     return  this.http.get(url);
   }

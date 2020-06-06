@@ -42,6 +42,7 @@ public class LateDTO
             "type='" + type + '\'' +
             ", reachedTime='" + reachedTime + '\'' +
             "}";
+    }
 
 }
 }
