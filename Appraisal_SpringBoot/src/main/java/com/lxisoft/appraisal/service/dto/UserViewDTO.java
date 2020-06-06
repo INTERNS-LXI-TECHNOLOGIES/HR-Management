@@ -1,7 +1,5 @@
 package com.lxisoft.appraisal.service.dto;
 
-import java.util.Set;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -9,6 +7,7 @@ import javax.validation.constraints.Size;
 
 import com.lxisoft.appraisal.config.Constants;
 
+import org.springframework.web.multipart.MultipartFile;
 
 public class UserViewDTO {
 
@@ -39,7 +38,7 @@ public class UserViewDTO {
 
     private String dob;
 
-    private String image;
+    private MultipartFile image;
 
     private String password;
 
@@ -115,11 +114,11 @@ public class UserViewDTO {
         this.dob = dob;
     }
 
-    public String getImage() {
+    public MultipartFile getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(MultipartFile image) {
         this.image = image;
     }
 

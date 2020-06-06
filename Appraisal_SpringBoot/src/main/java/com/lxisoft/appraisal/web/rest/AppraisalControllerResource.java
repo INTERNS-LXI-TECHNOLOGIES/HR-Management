@@ -6,13 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +48,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.io.IOException;
+import javax.ws.rs.Consumes;
 
 /**
  * AppraisalControllerResource controller
@@ -53,11 +58,11 @@ import java.util.*;
 @RequestMapping("/api/appraisal-controller-resource")
 @CrossOrigin("*")
 public class AppraisalControllerResource {
-	@Autowired
-	UserResource userRes;
-	@Autowired
-	UserService userService;
-	@Autowired
+    @Autowired
+    UserResource userRes;
+    @Autowired
+    UserService userService;
+    @Autowired
     UserExtraRepository userExtraRepository;
     @Autowired
     RestService restService;
@@ -74,35 +79,55 @@ public class AppraisalControllerResource {
 	@Autowired
 	HackathonService hackServ;
 
-
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
 
-
-    @RequestMapping(value="/")
-   	public String index()
-   	{
-       	return "value";
-   	}
+    @RequestMapping(value = "/")
+    public String index() {
+        return "value";
+    }
 
     /**
-    * GET defaultAction
-    */
+     * GET defaultAction
+     */
     @GetMapping("/all")
-    public ResponseEntity<List<UserDTO>> getAllUser()
-    {
-    	Pageable pageable=null;
-    	return userRes.getAllUsers(pageable);
+    public ResponseEntity<List<UserDTO>> getAllUser() {
+        Pageable pageable = null;
+        return userRes.getAllUsers(pageable);
     }
-    @PostMapping("/addUser")
-    public  boolean addUser(@RequestBody UserViewDTO userDTO)
-    {
-        boolean isUsed=false;
 
-        log.info("getn value from server "+userDTO.getImage()+"----------:{}",userDTO);
-        isUsed= restService.addUser(userDTO);
+    @Consumes("multipart/form-data")
+    @PostMapping("/addUser")
+    public boolean addUser(@ModelAttribute UserViewDTO userDTO) {
+        boolean isUsed = false;
+        log.info("get value from server ----------:{}", userDTO.getEmail());
+        log.info("get file from server ----------:{}", userDTO.getImage().getContentType());
+        try {
+            isUsed = restService.addUser(userDTO);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     	return isUsed;
     }
+    // @Consumes("multipart/form-data")
+    // @PutMapping("/addUser")
+    // public void addUserImage(@ModelAttribute MultipartFile file)
+    // {
+    //     log.info("get file from server ----------:{}", file.getContentType());
+
+    //     return ;
+    // }
+
+    // @PostMapping("/setLeave")
+    // public boolean leaves(@RequestBody  Leave leave) {
+    //     boolean isUsed = false;
+    //     log.info("getn value from server----------");
+    //    isUsed= restService.setLeave(leave);
+    //     return isUsed;
+    // }
+
+
     @GetMapping("/user-extras/{id}")
     @Transactional(readOnly = true)
     public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id) {
@@ -126,7 +151,7 @@ public class AppraisalControllerResource {
     /**
      * for getting leaves and late arrival status
      * @param id- id of user
-     * @return 
+     * @return num of authorized and un authorized leaves and late arrival
      */
     @GetMapping("/status/{id}")
     public List<Integer> getUserStatus(@PathVariable Long id)
@@ -170,7 +195,14 @@ public class AppraisalControllerResource {
 		 List<Integer> value=getMarks(id,num);
         return value;
     }
-
+    /**
+     * to get work profile of user
+     * @param id  - id of user
+     * @param auth  - authorized leaves list
+     * @param unauth - un authorized leaves list
+     * @param number - list to store workin status
+     * @return - list of work status
+     */
     public List<Integer> getUserWorkingStatus(Long id,List<Leave> auth,List<Leave> unauth,List<Integer> number)
     {
     	Optional <UserExtra> userEx = userexService.findExtraByid(id);
@@ -196,6 +228,12 @@ public class AppraisalControllerResource {
 		 number.add(unreportdays.size());
 		 return number;
     }
+    /**
+     * to get git and hackathon mark
+     * @param id  - id of user
+     * @param num - list to store remaining work status
+     * @return - list of work status.
+     */
     public List<Integer> getMarks(Long id,List<Integer> num)
     {
     	 List<Git> git=gitServ.findGit(userexService.findExtraByid(id).get().getId());

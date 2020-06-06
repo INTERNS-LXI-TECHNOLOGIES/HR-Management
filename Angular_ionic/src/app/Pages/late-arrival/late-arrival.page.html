@@ -6,13 +6,13 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Leave</ion-title>
+    <ion-title>Late-Arrival</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card >
-    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">Leave updation</ion-card-header>
+    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">Late-Arrival updation</ion-card-header>
     <div class="container">
       <div class="row">
         <div class="offset-3"></div>
@@ -31,22 +31,22 @@
           
             
               <div class="form-group">
-                <label for="leaveDate">date of absent</label>
-                <input type="date"
-                      id="leaveDate"
+                <label for="lateArrival">Arrival Time</label>
+                <input type="time"
+                      id="lateArrival"
                       class="form-control"
-                      name="leaveDate"
-                      placeholder="date of absent"
-                      [(ngModel)]="model.leaveDate"/>
+                      name="lateArrival"
+                      placeholder="insert time"
+                      [(ngModel)]="model.reached_time"/>
               </div>  
              <br><br>
              <div>
-             <input value="Authorized"  name="type" class="auth" type="checkbox" >Authorized &nbsp;        
+             <input value="Authorized"  name="type" class="auth" type="checkbox"[(ngModel)]="model.type" >Authorized &nbsp;        
           <input value="NonAuthorized" name="type" class="auth" type="checkbox">Non Authorized <br><br>
          </div>
             <button type="submit" class="btn btn-info pull-right">
               <em class="fa fa-envelope-o"></em>
-              <span>UPDATE LEAVE</span>
+              <span>UPDATE LATE-ARRIVAL</span>
             </button>
           </form>
         </div>
