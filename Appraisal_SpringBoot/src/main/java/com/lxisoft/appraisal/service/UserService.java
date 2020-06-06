@@ -2,6 +2,7 @@ package com.lxisoft.appraisal.service;
 
 import com.lxisoft.appraisal.config.Constants;
 import com.lxisoft.appraisal.domain.Authority;
+import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
@@ -97,6 +98,7 @@ public class UserService {
     }
             public ArrayList<User> getAllUsers()
             {
+
                 ArrayList<User> user = userRepository.findAll();
                 return user;
             }
@@ -347,4 +349,10 @@ public class UserService {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
         }
     }
+
+	public Optional<UserExtra> findExtraByid(long id) {
+
+        Optional<UserExtra> userExtra = userExtraRepository.findById(id);
+    	return userExtra;
+	}
 }

@@ -35,7 +35,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByLogin(String login);
 
-       List<User> findAll();
+       ArrayList<User> findAll();
 
 
 
@@ -54,5 +54,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Page<User> findAllByLoginNot(Pageable pageable, String login);
 
-	//ArrayList<User> findAllUsers();
+
 }

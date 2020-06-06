@@ -43,7 +43,7 @@ public class LeaveDTO
         return "LeaveDTO{" +
             "type='" + type + '\'' +
             ", leaveDate='" + leaveDate + '\'' +
-
+            ", name='" + name + '\'' +
             "}";
     }
 

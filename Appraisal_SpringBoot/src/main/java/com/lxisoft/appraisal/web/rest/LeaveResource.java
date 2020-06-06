@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.constraints.Null;
+
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
@@ -47,6 +49,8 @@ public class LeaveResource {
 
     private static final String ENTITY_NAME = "leave";
 
+
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
    @Autowired
@@ -69,12 +73,28 @@ public class LeaveResource {
     @PostMapping("/leaves")
     public ResponseEntity<Leave> createLeave(@RequestBody LeaveDTO leaveDTO) throws URISyntaxException
      {
+        System.out.println("555  HELLO *****");
+         System.out.println("555  HELLO !!!NAME OF USER 555= "+leaveDTO.getName());
         ArrayList<User> user=(ArrayList<User>) userSer.getAllUsers();
-        ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userExSer.getAllExtraUsers();
+        ArrayList<UserExtra> userExtra=(ArrayList<UserExtra>) userExSer.getAllExtraUsers();
+        String name = leaveDTO.getName();
+        long id= 0;
+        for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+
+			if(name.equals(m))
+			{
+				 id=user.get(i).getId();
+
+			}
+        }
 
          Leave leave = new Leave();
          leave.setDate(LocalDate.parse(leaveDTO.getleaveDate()));
          leave.setType(leaveDTO.getType());
+        leave.setUserExtra(userSer.findExtraByid(id).get());
 
         log.debug("REST request to save Leave : {}", leave);
         if (leave.getId() != null) {
