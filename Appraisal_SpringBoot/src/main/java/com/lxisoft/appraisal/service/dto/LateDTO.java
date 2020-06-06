@@ -41,7 +41,7 @@ public class LateDTO
         return "LateDTO{" +
             "type='" + type + '\'' +
             ", reachedTime='" + reachedTime + '\'' +
-
             "}";
 
+}
 }

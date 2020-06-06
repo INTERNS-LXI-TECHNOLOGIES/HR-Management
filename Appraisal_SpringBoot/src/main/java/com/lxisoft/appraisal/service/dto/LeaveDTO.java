@@ -1,12 +1,6 @@
 package com.lxisoft.appraisal.service.dto;
 
-import java.time.LocalDate;
-
 import javax.validation.constraints.Size;
-
-import com.lxisoft.appraisal.domain.Leave;
-
-import io.github.jhipster.config.JHipsterDefaults.Cache.Infinispan.Local;
 public class LeaveDTO
 {
 
@@ -52,6 +46,10 @@ public class LeaveDTO
 
             "}";
     }
+
+		public Object getId() {
+			return null;
+		}
 
 
 }
