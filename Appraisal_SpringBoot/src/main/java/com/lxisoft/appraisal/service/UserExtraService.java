@@ -232,7 +232,7 @@ public class UserExtraService {
 		int attendance=((int)((worked*5/total)));
 
 		return attendance;
-	}
+    }
 	/**
 	 * get punctuality between two date out of 5.
 	 * @param id
@@ -538,5 +538,7 @@ public class UserExtraService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+    }
+
+
 }

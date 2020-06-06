@@ -3,17 +3,23 @@ package com.lxisoft.appraisal.web.rest;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.lxisoft.appraisal.domain.Leave;
+import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.LeaveRepository;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
+import com.lxisoft.appraisal.service.UserExtraService;
+import com.lxisoft.appraisal.service.UserService;
 import com.lxisoft.appraisal.service.dto.LeaveDTO;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,10 +49,12 @@ public class LeaveResource {
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private UserExtraRepository userExtraRep;
+   @Autowired
     private final LeaveRepository leaveRepository;
-
+    @Autowired
+    UserExtraService userExSer;
+    @Autowired
+    UserService userSer;
     public LeaveResource(LeaveRepository leaveRepository) {
         this.leaveRepository = leaveRepository;
     }
@@ -61,21 +69,12 @@ public class LeaveResource {
     @PostMapping("/leaves")
     public ResponseEntity<Leave> createLeave(@RequestBody LeaveDTO leaveDTO) throws URISyntaxException
      {
-        System.out.print("5555 THE NAME OF USER"+leaveDTO.getName());
-        System.out.print("5555 THE DATE OF LEAVE THAKEN 5555"+leaveDTO.getleaveDate()+"55 TYPE OF LEAVE55"+leaveDTO.getType());
-         //long id = userExtraRep.findIdByName(leaveDTO.getName());
+        ArrayList<User> user=(ArrayList<User>) userSer.getAllUsers();
+        ArrayList<UserExtra> userextra=(ArrayList<UserExtra>) userExSer.getAllExtraUsers();
+
          Leave leave = new Leave();
          leave.setDate(LocalDate.parse(leaveDTO.getleaveDate()));
          leave.setType(leaveDTO.getType());
-         //leave.setId(id);
-        //  if(leaveDTO.getType()=="true")
-        //  {
-        //     leave.setType("Authorized");
-        //  }
-        //  else if(leaveDTO.getType()=="false"){
-        //     leave.setType("Non-Authorized");
-        //  }
-
 
         log.debug("REST request to save Leave : {}", leave);
         if (leave.getId() != null) {
@@ -98,7 +97,10 @@ public class LeaveResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/leaves")
-    public ResponseEntity<Leave> updateLeave(@RequestBody Leave leave) throws URISyntaxException {
+    public ResponseEntity<Leave> updateLeave(@RequestBody LeaveDTO leaveDTO) throws URISyntaxException {
+
+        Leave leave = new Leave();
+
         log.debug("REST request to update Leave : {}", leave);
         if (leave.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
