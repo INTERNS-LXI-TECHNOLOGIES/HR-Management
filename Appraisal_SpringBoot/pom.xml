@@ -99,6 +99,7 @@
     </dependencyManagement>
 
     <dependencies>
+  
         <dependency>
             <groupId>io.github.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
