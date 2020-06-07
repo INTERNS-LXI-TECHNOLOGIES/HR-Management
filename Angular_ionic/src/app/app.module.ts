@@ -11,8 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { MenuPage } from './Pages/menu/menu.page';
 
 @NgModule({
-  declarations: [AppComponent, MenuPage],
-  entryComponents: [MenuPage],
+  declarations: [AppComponent],
+  entryComponents: [],
   imports: [
     BrowserModule,
     HttpClientModule,

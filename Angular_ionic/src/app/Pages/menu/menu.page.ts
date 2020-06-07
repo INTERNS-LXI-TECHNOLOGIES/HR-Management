@@ -20,6 +20,7 @@ export class MenuPage implements OnInit {
       icon: 'add'
     },
     
+    
   ];
   selectedPath='';
   constructor(private router:Router) {

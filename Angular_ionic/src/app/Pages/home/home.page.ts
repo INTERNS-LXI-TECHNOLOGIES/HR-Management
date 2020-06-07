@@ -10,9 +10,6 @@ import { NgZone } from '@angular/core';
 import { userViewModel } from 'src/app/model/User';
 import { Observable } from 'rxjs';
 
-
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',

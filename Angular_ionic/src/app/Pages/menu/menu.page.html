@@ -9,7 +9,7 @@
     <ion-content>
       <ion-list id="inbox-list">
         <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
-          <ion-item routerDirection="root" [routerLink]="[p.url]" [class.active-item]="selectedPath.startsWith(p.url)">
+          <ion-item [routerLink]="[p.url]" routerDirection="root" [class.active-item]="selectedPath.startsWith(p.url)">
             <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
             <ion-label>{{ p.title }}</ion-label>
           </ion-item>
@@ -27,22 +27,22 @@
   
         <ion-menu-toggle auto-hide="false">
           <ion-list lines="none">
-            <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/leave']"
+            <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/leave']"
               [queryParams]="{ type: 'Leave' }" menuClose class="sub-menu">
               <ion-icon name="calendar" slot="start"></ion-icon>
              Leave Updation
             </ion-item>
-            <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/evaluation']"
+            <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/evaluation']"
               [queryParams]="{ type: 'Evaluation' }" menuClose class="sub-menu">
               <ion-icon name="book" slot="start"></ion-icon>
             Evaluation Updation
             </ion-item>
-            <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/late-arrival']"
+            <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/late-arrival']"
               [queryParams]="{ type: 'LateArrival' }" menuClose class="sub-menu">
               <ion-icon name="alarm" slot="start"></ion-icon>
            LateArrival
             </ion-item>
-            <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/report-status']"
+            <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/report-status']"
               [queryParams]="{ type: 'ReportStatus' }" menuClose class="sub-menu">
               <ion-icon name="clipboard-outline" slot="start"></ion-icon>
            ReportStatus
