@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserExtraRepository extends JpaRepository<UserExtra, Long>
  {
-     Optional<UserExtra> findById(long id);
-    // long findIdByName(String name);
+    Optional<UserExtra> findById(long id);
+    Optional<UserExtra>findByusername(String name);
+
 }

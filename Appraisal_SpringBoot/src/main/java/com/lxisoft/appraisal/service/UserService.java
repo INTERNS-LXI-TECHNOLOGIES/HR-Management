@@ -2,6 +2,7 @@ package com.lxisoft.appraisal.service;
 
 import com.lxisoft.appraisal.config.Constants;
 import com.lxisoft.appraisal.domain.Authority;
+import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.AuthorityRepository;
@@ -95,8 +96,13 @@ public class UserService {
                 return user;
             });
     }
+            public ArrayList<User> getAllUsers()
+            {
 
-    public User registerUser(UserDTO userDTO, String password,String company,String position,LocalDate joiningDate,LocalDate dob,byte[] image,String imageContentType,String username) 
+                ArrayList<User> user = userRepository.findAll();
+                return user;
+            }
+    public User registerUser(UserDTO userDTO, String password,String company,String position,LocalDate joiningDate,LocalDate dob,byte[] image,String imageContentType,String username)
     {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {
             boolean removed = removeNonActivatedUser(existingUser);
@@ -132,7 +138,7 @@ public class UserService {
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
-        
+
         UserExtra newUserExtra = new UserExtra();
         newUserExtra.setUser(newUser);
         newUserExtra.setCompany(company);
@@ -343,4 +349,10 @@ public class UserService {
             Objects.requireNonNull(cacheManager.getCache(UserRepository.USERS_BY_EMAIL_CACHE)).evict(user.getEmail());
         }
     }
+
+	public Optional<UserExtra> findExtraByid(long id) {
+
+        Optional<UserExtra> userExtra = userExtraRepository.findById(id);
+    	return userExtra;
+	}
 }

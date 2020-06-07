@@ -11,17 +11,17 @@ import { userViewModel } from '../../model/User';
 })
 export class AdduserPage implements OnInit {
   model: userViewModel = {
-    firstName: "",
-    lastName: "",
-    company: "",
-    email: "",
-    position: "",
-    authorities: "",  
-    joiningDate: "",
-    dob: "",
+    firstName: '',
+    lastName: '',
+    company: '',
+    email: '',
+    position: '',
+    authorities: '',  
+    joiningDate: '',
+    dob: '',
     image: null,
-    login: "",
-    password: ""
+    login: '',
+    password: ''
 
   }
   user;
@@ -34,13 +34,31 @@ export class AdduserPage implements OnInit {
   }
   sendFeedback(): void{
     const url = 'http://localhost:8080/api/appraisal-controller-resource/addUser';
-    let httpOptions = {
-      headers: new HttpHeaders({
-          'enctype': 'multipart/form-data; boundary=----WebKitFormBoundaryuL67FWkv1CA'
-      })
-  };
+    // const tempToken = this.getToken();
+    const headers = {
+      'enctype': 'multipart/form-data;',
+      'Accept': 'plain/text',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
+      'Access-Control-Allow-Headers': 'Authorization, Origin, Content-Type, X-CSRF-Token',
+    };
+    const formData = new FormData();
+    // const data = JSON.stringify(this.model);
+    formData.append( 'firstName', this.model.firstName );
+    formData.append( 'lastName', this.model.lastName );
+    formData.append( 'company', this.model.company );
+    formData.append( 'email', this.model.email );
+    formData.append( 'position', this.model.position );
+    formData.append( 'authorities', this.model.authorities );
+    formData.append( 'joiningDate', this.model.joiningDate );
+    formData.append( 'dob', this.model.dob );
+    formData.append( 'image', this.model.image );
+    formData.append( 'login', this.model.login );
+    formData.append( 'password', this.model.password );
+    // formData.append( 'firstName', this.model.firstName );
     // alert(this.model.name);
-    this.http.post(url,  this.model, httpOptions).subscribe(data => {
+    console.log('formData: ', formData.getAll('data'));
+    this.http.post(url,  formData).subscribe(data => {
       this.user = data;
       if (this.user === true)
       {
@@ -61,14 +79,12 @@ export class AdduserPage implements OnInit {
 
     },
     err => {
-      alert('something went wrong..!' + this.model.image.name+ " nn  " + this.model.company );
+      alert('something went wrong..!' + this.model.image.type+ ' nn  ' + this.model.company );
     });
-    
   }
-  
-  setFile(event: Event)
+  setFile(event)
   {
-    this.model.image = (<HTMLInputElement> event.target).files[0];
+    this.model.image = event.target.files[0];
   }
 }
 

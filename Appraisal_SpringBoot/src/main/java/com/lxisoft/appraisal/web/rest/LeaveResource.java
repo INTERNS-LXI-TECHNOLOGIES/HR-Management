@@ -1,26 +1,41 @@
 package com.lxisoft.appraisal.web.rest;
 
-import com.lxisoft.appraisal.domain.Leave;
-import com.lxisoft.appraisal.repository.LeaveRepository;
-import com.lxisoft.appraisal.repository.UserExtraRepository;
-import com.lxisoft.appraisal.repository.UserRepository;
-import com.lxisoft.appraisal.service.dto.LeaveDTO;
-import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
-
-import io.github.jhipster.web.util.HeaderUtil;
-import io.github.jhipster.web.util.ResponseUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.constraints.Null;
+
+import com.lxisoft.appraisal.domain.Leave;
+import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.domain.UserExtra;
+import com.lxisoft.appraisal.repository.LeaveRepository;
+import com.lxisoft.appraisal.repository.UserExtraRepository;
+import com.lxisoft.appraisal.service.UserExtraService;
+import com.lxisoft.appraisal.service.UserService;
+import com.lxisoft.appraisal.service.dto.LeaveDTO;
+import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing {@link com.lxisoft.appraisal.domain.Leave}.
@@ -34,12 +49,16 @@ public class LeaveResource {
 
     private static final String ENTITY_NAME = "leave";
 
+
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
-
-    private UserExtraRepository userExtraRep;
+   @Autowired
     private final LeaveRepository leaveRepository;
-
+    @Autowired
+    UserExtraService userExSer;
+    @Autowired
+    UserService userSer;
     public LeaveResource(LeaveRepository leaveRepository) {
         this.leaveRepository = leaveRepository;
     }
@@ -54,21 +73,28 @@ public class LeaveResource {
     @PostMapping("/leaves")
     public ResponseEntity<Leave> createLeave(@RequestBody LeaveDTO leaveDTO) throws URISyntaxException
      {
-        System.out.print("5555 THE NAME OF USER"+leaveDTO.getName());
-        System.out.print("5555 THE DATE OF LEAVE THAKEN 5555"+leaveDTO.getleaveDate()+"55 TYPE OF LEAVE55"+leaveDTO.getType());
-         //long id = userExtraRep.findIdByName(leaveDTO.getName());
+        System.out.println("555  HELLO *****");
+         System.out.println("555  HELLO !!!NAME OF USER 555= "+leaveDTO.getName());
+        ArrayList<User> user=(ArrayList<User>) userSer.getAllUsers();
+        ArrayList<UserExtra> userExtra=(ArrayList<UserExtra>) userExSer.getAllExtraUsers();
+        String name = leaveDTO.getName();
+        long id= 0;
+        for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+
+			if(name.equals(m))
+			{
+				 id=user.get(i).getId();
+
+			}
+        }
+
          Leave leave = new Leave();
          leave.setDate(LocalDate.parse(leaveDTO.getleaveDate()));
          leave.setType(leaveDTO.getType());
-         //leave.setId(id);
-        //  if(leaveDTO.getType()=="true")
-        //  {
-        //     leave.setType("Authorized");
-        //  }
-        //  else if(leaveDTO.getType()=="false"){
-        //     leave.setType("Non-Authorized");
-        //  }
-
+        leave.setUserExtra(userSer.findExtraByid(id).get());
 
         log.debug("REST request to save Leave : {}", leave);
         if (leave.getId() != null) {
@@ -91,7 +117,10 @@ public class LeaveResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/leaves")
-    public ResponseEntity<Leave> updateLeave(@RequestBody LeaveDTO leave) throws URISyntaxException {
+    public ResponseEntity<Leave> updateLeave(@RequestBody LeaveDTO leaveDTO) throws URISyntaxException {
+
+        Leave leave = new Leave();
+
         log.debug("REST request to update Leave : {}", leave);
         if (leave.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

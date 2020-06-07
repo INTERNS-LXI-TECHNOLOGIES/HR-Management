@@ -11,7 +11,7 @@ export class LateArrivalPage implements OnInit {
   model:lateArrival={
     name:"",
     type:"Authorized",
-    reached_time:"",
+    lateTime:"",
      
   }
   user: Object;
@@ -21,7 +21,7 @@ export class LateArrivalPage implements OnInit {
   }
   sendFeedback():void{
 
-    console.log("COnsole test for late Model"+this.model.type+this.model.reached_time+"NAme of user ="+this.model.name);
+    console.log("COnsole test for late Model TYPE = "+this.model.type+" REACHED TIME = "+this.model.lateTime+"NAme of user ="+this.model.name);
     
     let Url:string = "http://localhost:8080/api/late-arrivals";
    

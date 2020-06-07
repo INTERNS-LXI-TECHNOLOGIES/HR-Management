@@ -37,7 +37,6 @@ public class RestService {
         user.setEmail(userDTO.getEmail());
         user.setLogin(userDTO.getLogin());
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-
         user.setPassword(encode.encode(userDTO.getPassword()));
 
         UserExtra userEx = new UserExtra();
@@ -46,6 +45,9 @@ public class RestService {
         userEx.setDob(LocalDate.parse(userDTO.getDob()));
         userEx.setJoiningDate(LocalDate.parse(userDTO.getJoiningDate()));
         userEx.setUser(user);
+        byte[] bytes=userDTO.getImage().getBytes();
+        userEx.setImage(bytes);
+        userEx.setImageContentType(userDTO.getImage().getContentType());
 
         Set<Authority> authorities = new HashSet<>();
 		String auth=userDTO.getAuthorities();
