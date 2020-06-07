@@ -6,7 +6,11 @@ const routes: Routes = [
   
   {    path: '', redirectTo: 'login', pathMatch: 'full'  },
   {    path: 'login', loadChildren: () => import('./Pages/login/login.module').then( m => m.LoginPageModule) },
-  {    path: 'menu',  loadChildren: () => import('./Pages/menu/menu.module').then( m => m.MenuPageModule)  },
+  {    path: 'menu',  loadChildren: () => import('./Pages/menu/menu.module').then( m => m.MenuPageModule)  },  {
+    path: 'user-info',
+    loadChildren: () => import('./Pages/user-info/user-info.module').then( m => m.UserInfoPageModule)
+  },
+
 ];
 @NgModule({
   imports: [

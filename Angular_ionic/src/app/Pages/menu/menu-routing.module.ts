@@ -9,6 +9,9 @@ import { LateArrivalPageModule } from '../late-arrival/late-arrival.module';
 import { ReportStatusPageModule} from '../report-status/report-status.module';
 import { EvaluationPageModule } from '../evaluation/evaluation.module';
   import { from } from 'rxjs';
+import { UserInfoPageModule } from '../user-info/user-info.module';
+import { UserDetailPageModule } from '../user-detail/user-detail.module';
+import { WorkProfilePageModule } from '../work-profile/work-profile.module';
 
 const routes: Routes = [
   {
@@ -39,6 +42,19 @@ const routes: Routes = [
         path: 'evaluation',
         loadChildren:  ()=> EvaluationPageModule
       },
+      {
+        path: 'home/user-info',
+        loadChildren: ()=> UserInfoPageModule
+      },
+      {
+        path: 'home/user-info/user-detail',
+        loadChildren: ()=> UserDetailPageModule
+      },
+      {
+        path: 'home/user-info/user-detail/work-profile',
+        loadChildren: ()=> WorkProfilePageModule
+      },
+
     ]
   }
 ];

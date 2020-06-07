@@ -7,17 +7,6 @@ const routes: Routes = [
   {
   path: ':id',
   component: UserDetailPage,
- children: [
-  {
-    path: 'work-profile',
-    children: [
-      {
-        path: 'work-profile',
-        loadChildren: () => import('src/app/Pages/work-profile/work-profile.module').then( m => m.WorkProfilePageModule)
-      },
-    ]
-  },
-]
 }
 
 ];

@@ -42,7 +42,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
   select(id:string){
-    this.router.navigate(['/user-detail',id]);
+    this.router.navigate(['/menu/home/user-info/user-detail',id]);
 
   }
 

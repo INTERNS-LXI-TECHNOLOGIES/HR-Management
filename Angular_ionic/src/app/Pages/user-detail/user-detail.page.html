@@ -1,13 +1,9 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-navbar  color="primary">
-      <ion-title>
-      <span ion-text>User profile</span>
-    </ion-title>
-  </ion-navbar>
+    <ion-title>User Info</ion-title>
   </ion-toolbar>
 </ion-header>
   
@@ -54,6 +50,7 @@
     </ion-item>
   </div>
   </div>
+
   <p>Work-Profile</p>
   <div *ngFor="let sta of status ; let i = index;">
     <div *ngIf="i==0">
@@ -98,12 +95,3 @@
   </div>
   
 </ion-content>
-<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="work-profile" (click)="selected(user.id)">
-      <ion-icon name="calendar"></ion-icon>
-      <ion-label>Schedule</ion-label>
-      <ion-badge>6</ion-badge>
-    </ion-tab-button>
-    </ion-tab-bar>
-    </ion-tabs>

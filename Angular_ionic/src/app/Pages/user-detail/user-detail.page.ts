@@ -17,14 +17,6 @@ export class UserDetailPage implements OnInit {
   constructor(private route: ActivatedRoute,private router: Router,
     private userService: UserService,private httpClient: HttpClient) {    }
 
-    value:any=this.route.queryParams.subscribe((res)=>{
-      console.log(res);});
-    
-      selected(id:string){
-        this.router.navigateByUrl('/user-detail/'+id+'/work-profile');
-    
-      }  
-     
   ngOnInit() {
     
     this.route.params.subscribe(params => {
