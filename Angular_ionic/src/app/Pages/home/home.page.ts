@@ -43,9 +43,6 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    // this.router.navigate(['/user-detail'])
-
-    // 
   }
   select(id:string){
     this.router.navigate(['/user-detail',id]);

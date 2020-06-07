@@ -10,6 +10,7 @@ export class WorkProfilePage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }

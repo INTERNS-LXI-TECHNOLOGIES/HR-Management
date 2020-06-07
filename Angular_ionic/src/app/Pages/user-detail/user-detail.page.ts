@@ -16,10 +16,14 @@ export class UserDetailPage implements OnInit {
 
   constructor(private route: ActivatedRoute,private router: Router,
     private userService: UserService,private httpClient: HttpClient) {    }
+
     value:any=this.route.queryParams.subscribe((res)=>{
       console.log(res);});
-
-  
+    
+      selected(id:string){
+        this.router.navigateByUrl('/user-detail/'+id+'/work-profile');
+    
+      }  
      
   ngOnInit() {
     
@@ -28,12 +32,12 @@ export class UserDetailPage implements OnInit {
       this.userService.getUser('http://localhost:8080/api/appraisal-controller-resource/user-extras/'+this.id)
                                 .subscribe(user => this.user = user); 
     
-});
-this.route.params.subscribe(params => {
-  this.id= params['id'];
-this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/'+this.id)
-.subscribe(status => this.status= status); 
-    
-  });
+    });
+    this.route.params.subscribe(params => {
+      this.id= params['id'];
+    this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/'+this.id)
+    .subscribe(status => this.status= status); 
+        
+      });
 }
 }

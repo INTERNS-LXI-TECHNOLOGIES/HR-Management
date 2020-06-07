@@ -11,29 +11,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
-  public selectedIndex = 0;
-  public appPages = [
-    {
-      title: 'Home',
-      url: '/home',
-      icon: 'home'
-    },
-    {
-      title: 'Add user',
-      url: '/adduser',
-      icon: 'add'
-    },
-    {
-      title: 'Logout',
-      url: '/logout',
-      icon: 'log-out'
-    },
-    
-  ];
 
-
-  url:string='http://localhost:8080/api/appraisal-controller-resource/';
-  value:any=this.appservice.getString('http://localhost:8080/api/appraisal-controller-resource/');
 
   constructor(private appservice: AppraisalService,
     private platform: Platform,
@@ -42,10 +20,6 @@ export class AppComponent implements OnInit {
   ) {
     this.initializeApp();
   }
-  
- // user:any=this.appservice.getUsers();
-  //users:any=this.appservice.getString(string);
-
   
   initializeApp() {
     this.platform.ready().then(() => {
@@ -56,9 +30,5 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
 
-    const path = window.location.pathname.split('folder/')[1];
-    if (path !== undefined) {
-      this.selectedIndex = this.appPages.findIndex(page => page.title.toLowerCase() === path.toLowerCase());
-    }
   }
 }
