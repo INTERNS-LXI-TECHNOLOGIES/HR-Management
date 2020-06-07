@@ -34,7 +34,7 @@ export class LateArrivalPage implements OnInit {
     });
       
 
-    this.router.navigateByUrl('/home');
+    this.router.navigateByUrl('/menu/home');
 
   }
 
