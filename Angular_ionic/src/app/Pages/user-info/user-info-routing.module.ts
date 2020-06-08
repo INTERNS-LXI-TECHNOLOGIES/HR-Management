@@ -7,7 +7,7 @@ import { WorkProfilePageModule } from '../work-profile/work-profile.module';
 
 const routes: Routes = [
   {
-    path: 'user-info',
+    path: '',
     component: UserInfoPage,
     children:[
       {

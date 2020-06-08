@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppraisalService } from 'src/app/appraisal.service';
 import { UserDetailPage } from '../user-detail/user-detail.page';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { UserService }from '../../service/user.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -17,10 +17,10 @@ import { Observable } from 'rxjs';
 })
 export class HomePage implements OnInit {
   
-  
+  id;
   users:Observable<userViewModel>=this.appservice.getUsers('http://localhost:8080/api/users/');
   constructor(private appservice: AppraisalService,private router: Router,private httpClient: HttpClient,
-    private userService:UserService){
+    private userService:UserService,private route: ActivatedRoute){
     
   }
   
@@ -45,5 +45,4 @@ export class HomePage implements OnInit {
     this.router.navigate(['/menu/home/user-info/user-detail',id]);
 
   }
-
 }

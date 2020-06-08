@@ -46,14 +46,14 @@ const routes: Routes = [
         path: 'home/user-info',
         loadChildren: ()=> UserInfoPageModule
       },
-      {
-        path: 'home/user-info/user-detail',
-        loadChildren: ()=> UserDetailPageModule
-      },
-      {
-        path: 'home/user-info/user-detail/work-profile',
-        loadChildren: ()=> WorkProfilePageModule
-      },
+      // {
+      //   path: 'home/user-info/user-detail',
+      //   loadChildren: ()=> UserDetailPageModule
+      // },
+      // {
+      //   path: 'home/user-info/user-detail/work-profile',
+      //   loadChildren: ()=> WorkProfilePageModule
+      // },
 
     ]
   }
