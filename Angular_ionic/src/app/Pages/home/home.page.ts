@@ -16,33 +16,27 @@ import { Observable } from 'rxjs';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-  
   id;
-  users:Observable<userViewModel>=this.appservice.getUsers('http://localhost:8080/api/users/');
-  constructor(private appservice: AppraisalService,private router: Router,private httpClient: HttpClient,
-    private userService:UserService,private route: ActivatedRoute){
-    
+  users: Observable<userViewModel> = this.appservice.getUsers('http://localhost:8080/api/users/');
+  constructor(private appservice: AppraisalService, private router: Router, private httpClient: HttpClient,
+    private userService: UserService, private route: ActivatedRoute){
   }
-  
-  public deleteUser(id:string){
+  public deleteUser(id: string){
     event.stopImmediatePropagation();
-    
     this.appservice.deleteUser(id);
     setTimeout(() => {
-      this.users=this.appservice.getUsers('http://localhost:8080/api/users/');
+      this.users = this.appservice.getUsers('http://localhost:8080/api/users/');
     }, 2000);
-    
-    
   }
-  public editUser(id:string){
+  public editUser(id: string){
     event.stopImmediatePropagation();
-    this.router.navigate(['/edit-user',id]);
+    this.router.navigate(['menu/edit-user', id]);
   }
 
   ngOnInit() {
   }
-  select(id:string){
-    this.router.navigate(['/menu/home/user-info/user-detail',id]);
+  select(id: string){
+    this.router.navigate(['/menu/home/user-info/user-detail', id]);
 
   }
 }

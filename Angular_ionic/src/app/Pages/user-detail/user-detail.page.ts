@@ -18,18 +18,12 @@ export class UserDetailPage implements OnInit {
     private userService: UserService,private httpClient: HttpClient) {    }
 
   ngOnInit() {
-    
     this.route.params.subscribe(params => {
-      this.id= params['id'];
-      this.userService.getUser('http://localhost:8080/api/appraisal-controller-resource/user-extras/'+this.id)
-                                .subscribe(user => this.user = user); 
-    
+      this.id = params['id'];
+      this.userService.getUser('http://localhost:8080/api/appraisal-controller-resource/user-extras/' + this.id)
+                                .subscribe(user => this.user = user);
     });
-    this.route.params.subscribe(params => {
-      this.id= params['id'];
-    this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/'+this.id)
-    .subscribe(status => this.status= status); 
-        
-      });
+    this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/' + this.id)
+    .subscribe(status => this.status = status);
 }
 }
