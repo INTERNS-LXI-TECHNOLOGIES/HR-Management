@@ -94,7 +94,7 @@ public class LeaveResource {
          Leave leave = new Leave();
          leave.setDate(LocalDate.parse(leaveDTO.getleaveDate()));
          leave.setType(leaveDTO.getType());
-        leave.setUserExtra(userSer.findExtraByid(id).get());
+         leave.setUserExtra(userSer.findExtraByid(id));
 
         log.debug("REST request to save Leave : {}", leave);
         if (leave.getId() != null) {
