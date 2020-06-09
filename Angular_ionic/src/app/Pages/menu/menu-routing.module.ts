@@ -48,7 +48,7 @@ const routes: Routes = [
         loadChildren: () => UserInfoPageModule
       },
       {
-        path: 'edit-user/:{id}',
+        path: 'edit-user',
         loadChildren: () => EditUserPageModule
       },
       // {
