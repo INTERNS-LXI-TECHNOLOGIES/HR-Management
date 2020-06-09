@@ -1,9 +1,9 @@
+import { AdduserPageModule } from './../adduser/adduser.module';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MenuPage } from './menu.page';
 import { HomePageModule } from '../home/home.module';
-import { AdduserPageModule } from '../adduser/adduser.module';
 import { LeavePageModule } from '../leave/leave.module';
 import { LateArrivalPageModule } from '../late-arrival/late-arrival.module';
 import { ReportStatusPageModule} from '../report-status/report-status.module';
@@ -51,15 +51,6 @@ const routes: Routes = [
         path: 'edit-user',
         loadChildren: () => EditUserPageModule
       },
-      // {
-      //   path: 'home/user-info/user-detail',
-      //   loadChildren: ()=> UserDetailPageModule
-      // },
-      // {
-      //   path: 'home/user-info/user-detail/work-profile',
-      //   loadChildren: ()=> WorkProfilePageModule
-      // },
-
     ]
   }
 ];

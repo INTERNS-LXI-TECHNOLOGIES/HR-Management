@@ -5,7 +5,7 @@ import { WorkProfilePage } from './work-profile.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':id',
     component: WorkProfilePage
   }
 ];

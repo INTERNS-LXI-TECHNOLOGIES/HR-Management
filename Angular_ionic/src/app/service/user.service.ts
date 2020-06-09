@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
  
-
+  id:any;
   apiUrl:string ="http://localhost:8080"
   getUser(url:string) 
   {
@@ -17,7 +17,14 @@ export class UserService {
   {
     return  this.http.get(url);
   }
-  
+  setId(id)
+  {
+    this.id = id;
+  }
+  getId()
+  {
+    return this.id;
+  }
 
-  constructor(private  http : HttpClient) { }
+  constructor(private  http: HttpClient) { }
 }

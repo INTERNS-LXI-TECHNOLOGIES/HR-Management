@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AppraisalService } from 'src/app/appraisal.service';
-import { UserDetailPage } from '../user-detail/user-detail.page';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
-import { UserService }from '../../service/user.service';
-import { Injectable } from '@angular/core';
+import { UserService } from '../../service/user.service';
 import { HttpClient } from '@angular/common/http';
-import { NavController } from '@ionic/angular';
-import { NgZone } from '@angular/core';
 import { userViewModel } from 'src/app/model/User';
 import { Observable } from 'rxjs';
 
@@ -17,10 +13,9 @@ import { Observable } from 'rxjs';
 })
 export class HomePage implements OnInit {
   id;
-  users: Observable<userViewModel> = this.appservice.getUsers('http://localhost:8080/api/users/');
   constructor(private appservice: AppraisalService, private router: Router, private httpClient: HttpClient,
-    private userService: UserService, private route: ActivatedRoute){
-  }
+              private userService: UserService, private route: ActivatedRoute){  }
+  users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/users/');
   public deleteUser(id: string){
     event.stopImmediatePropagation();
     this.appservice.deleteUser(id);
@@ -36,6 +31,7 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
   select(id: string){
+    this.userService.setId(id);
     this.router.navigate(['/menu/home/user-info/user-detail', id]);
 
   }

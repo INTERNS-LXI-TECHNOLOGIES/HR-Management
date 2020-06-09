@@ -9,35 +9,27 @@ import { Router } from '@angular/router';
   styleUrls: ['./report-status.page.scss'],
 })
 export class ReportStatusPage implements OnInit {
-  model:reportStatus={
-    name:"",  
-    type:"Authorized",
-    report_time:"",
-     
-  }
+    model: reportStatus = {
+    name: '',
+    type: 'Authorized',
+    report_time: '',
+    };
 
-  user: Object;
-  constructor(private http:HttpClient,
-              private router:Router) { }
+  user: object;
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
   }
-  sendFeedback():void{
+  sendFeedback(): void{
 
-    console.log("COnsole test for late Model"+this.model.type+this.model.report_time+"NAme of user ="+this.model.name);
-    
-    let Url:string = "http://localhost:8080/api/report-statuses";
-   
-    this.http.post(Url,this.model).subscribe(data => {
-      alert("ReportStatus Updated successfully");
-
+    console.log ( 'COnsole test for late Model' + this.model.type + this.model.report_time + 'NAme of user=' + this.model.name);
+    const Url = 'http://localhost:8080/api/report-statuses';
+    this.http.post(Url, this.model).subscribe(data => {
+      alert('ReportStatus Updated successfully');
     },
-    err=> {
-      alert("ReportStatus Updation failed"+console.error() );
+    err => {
+      alert('ReportStatus Updation failed' + console.error() );
     });
-      
-
     this.router.navigateByUrl('/menu/home');
-
   }
 }

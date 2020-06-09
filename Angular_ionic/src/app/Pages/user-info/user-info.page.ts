@@ -7,14 +7,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./user-info.page.scss'],
 })
 export class UserInfoPage implements OnInit {
-  
   id: any;
-  constructor(private route: ActivatedRoute){}
+  constructor(private route: ActivatedRoute, private router: Router){}
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      this.id= params['id'];
+      this.id = params ['id'];
     });
   }
-
 }

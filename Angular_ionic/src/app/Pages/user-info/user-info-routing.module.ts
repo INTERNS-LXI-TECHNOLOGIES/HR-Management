@@ -9,15 +9,15 @@ const routes: Routes = [
   {
     path: '',
     component: UserInfoPage,
-    children:[
+    children: [
       {
         path: 'user-detail',
-        loadChildren: ()=> UserDetailPageModule
+        loadChildren: () => UserDetailPageModule
       },
       {
         path: 'work-profile',
-        loadChildren: ()=> WorkProfilePageModule
-      }
+        loadChildren: () => WorkProfilePageModule
+      },
     ]
   },
   {
