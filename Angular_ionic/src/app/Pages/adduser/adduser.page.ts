@@ -11,6 +11,7 @@ import { userViewModel } from '../../model/User';
 })
 export class AdduserPage implements OnInit {
   model: userViewModel = {
+    id: '',
     firstName: '',
     lastName: '',
     company: '',

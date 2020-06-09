@@ -1,9 +1,182 @@
 <ion-header>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
   <ion-toolbar>
     <ion-title>editUser</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-{{ id }}
+  <ion-card >
+    <ion-card-header  style="text-align: center; color: chocolate; ">User Information</ion-card-header>
+    <div class="container">
+      <div class="row">
+        <div class="offset-3"></div>
+        <div class="col-md-6">
+          <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendFeedback()" novalidate class="feedback-form">
+            <!-- FirstName -->
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text"
+                    id="firstName"
+                    class="form-control"
+                    name="firstName"
+                    placeholder="Your First name"
+                    [(ngModel)]="model.firstName"
+                    #firstName="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }"
+                    required/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && firstName.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="firstName.errors?.required">FirstName is required</div>
+                  </div>
+            </div>
+            <!-- LastName -->
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text"
+                    id="lastName"
+                    class="form-control"
+                    name="lastName"
+                    placeholder="Your Last name"
+                    [(ngModel)]="model.lastName"
+                    #lastName="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }"
+                    required/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && lastName.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="lastName.errors?.required">lastName is required</div>
+                  </div>
+            </div>
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text"
+                    id="email"
+                    class="form-control"
+                    name="email"
+                    placeholder="Your email"
+                    [(ngModel)]="model.email"
+                    #email="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
+                    required email/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && email.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="email.errors?.required">email is required</div>
+                    <div *ngIf="email.errors?.email">email is not valid</div>
+                  </div>
+            </div>
+              <!-- company -->
+            <div class="form-group">
+              <label for="company">company</label>
+                  <select 
+                    id="company"
+                    class="form-control"
+                    name="company"
+                    placeholder="Your company"
+                    [(ngModel)]="model.company" 
+                    #company="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && company.invalid }"
+                    required>
+                     <option value="" disabled>choose your company</option>
+                     <option value="Lxisoft" >Lxisoft</option>
+                    <option value="Bytatech">Bytatech</option>
+                    <option value="Divixo" >Divixo</option>
+                    <option value="Felixo" >Felixo</option>
+                    <option value="Illude">Illude</option>
+                    </select>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && company.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="company.errors?.required">company is required</div>
+                  </div>
+            </div>      
+              <!-- position -->
+              <div class="form-group">
+                <label for="position">position</label>
+                <select
+                      id="position"
+                      class="form-control"
+                      name="position"
+                      placeholder="Your position"
+                      [(ngModel)]="model.position" 
+                      #position="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && position.invalid }"
+                    required>
+                    <option value="" disabled>choose your position</option>
+                    <option value="intern">intern</option>
+                    <option value="employee">employee </option>
+                    <option value="co-founder">co-founder</option>
+                    <option value="admin" >admin </option>
+                    </select>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && position.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="position.errors?.required">position is required</div>
+                  </div>
+              </div>  
+                <!-- joiningDate -->
+            <div class="form-group">
+              <label for="joiningDate">joiningDate</label>
+              <input type="date"
+                    id="joiningDate"
+                    class="form-control"
+                    name="joiningDate"
+                    placeholder="Your joiningDate"
+                    [(ngModel)]="model.joiningDate" 
+                    #joiningDate="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && joiningDate.invalid }"
+                    required/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && joiningDate.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="joiningDate.errors?.required">joiningDate is required</div>
+                  </div>
+            </div>  
+              <!-- dob -->
+              <div class="form-group">
+                <label for="dob">date of Birth</label>
+                <input type="date"
+                      id="dob"
+                      class="form-control"
+                      name="dob"
+                      placeholder="Your Date of birth"
+                      [(ngModel)]="model.dob" 
+                      #dob="ngModel"
+                    [ngClass]="{ 'is-invalid': f.submitted && dob.invalid }"
+                    required/>
+                    <!-- input validation group -->
+                  <div *ngIf="f.submitted && dob.invalid" class="invalid-input">
+                    <!-- individual validation errors -->
+                    <div *ngIf="dob.errors?.required">Date of Birth is required</div>
+                  </div>
+              </div>  
+              <!-- image-->
+            <div class="form-group">
+              <label for="image">image</label>
+              <input type="file"
+                    id="image"
+                    class="form-control"
+                    name="image"
+                    (change)= "setFile($event)"
+                    required #fileInput/>
+              
+            </div> 
+                
+               <!-- login -->
+            
+            
+            <button type="submit" class="btn btn-info pull-right">
+              <i class="fa fa-envelope-o"></i>
+              <span> edit use details</span>
+            </button>
+          </form>
+        </div>
+        <div class="offset-3"></div>
+      </div>
+    </div>
+  </ion-card>
 </ion-content>
