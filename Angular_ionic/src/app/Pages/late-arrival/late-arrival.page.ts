@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class LateArrivalPage implements OnInit {
   model:lateArrival={
     name:"",
-    type:"Authorized",
+    type:"",
     reachedTime:"",
      
   }

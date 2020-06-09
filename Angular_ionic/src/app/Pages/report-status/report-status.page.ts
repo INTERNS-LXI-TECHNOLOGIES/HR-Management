@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class ReportStatusPage implements OnInit {
   model:reportStatus={
     name:"",  
-    type:"Authorized",
+    type:"",
     reportTime:"",
      
   }
