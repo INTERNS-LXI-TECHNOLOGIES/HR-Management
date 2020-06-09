@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,14 +64,15 @@ public class LateArrivalResource {
     public ResponseEntity<LateArrival> createLateArrival(@RequestBody LateDTO lateDTO) throws URISyntaxException
     {
          LateArrival lateArrival = new LateArrival();
-      //  LocalDateTime dateTime = LocalDateTime.parse(lateDTO.getReachedTime());
-        // System.out.print(" 555 LAte arrival dateTime 555 "+localDate);
-         lateArrival.setReachedTime(Instant.parse(lateDTO.getReachedTime()));
-         //Instant instant = Instant.now();
-        // lateArrival.setReachedTime(instant);
-         // log.info(" 555 LAte arrival dateTime 555 "+instant);
-         lateArrival.setType(lateDTO.getType());
-        log.debug("REST request to save LateArrival : {}", lateArrival);
+        // System.out.print(" 555 LAte arrival userName 555 "+lateDTO.getName());
+        // System.out.print(" 555 LAte arrival dateTime 555 "+lateDTO.getReachedTime());
+      // lateArrival.setReachedTime(Instant.parse(lateDTO.getReachedTime()));
+      LocalDate localDate = LocalDate.now();
+      LocalTime localtime = LocalTime.parse(lateDTO.getReachedTime());
+      Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
+	lateArrival.setReachedTime(instant);
+     lateArrival.setType(lateDTO.getType());
+    log.debug("REST request to save LateArrival : {}", lateArrival);
         if (lateArrival.getId() != null) {
             throw new BadRequestAlertException("A new lateArrival cannot already have an ID", ENTITY_NAME, "idexists");
         }
