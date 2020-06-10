@@ -1,6 +1,6 @@
 export interface lateArrival
 {
     name:string,
-    lateTime:string,
+    reachedTime:string,
     type;
 }

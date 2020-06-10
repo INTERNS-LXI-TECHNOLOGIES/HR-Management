@@ -12,7 +12,7 @@ import { type } from 'os';
 export class LeavePage implements OnInit {
   model:leaveModel={
     name:"",  
-    type:"Authorized",
+    type:"",
     leaveDate:"",
      
   }

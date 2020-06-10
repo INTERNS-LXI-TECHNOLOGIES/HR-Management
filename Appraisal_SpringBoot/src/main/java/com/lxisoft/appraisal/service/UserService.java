@@ -350,9 +350,9 @@ public class UserService {
         }
     }
 
-	public Optional<UserExtra> findExtraByid(long id) {
+	public UserExtra findExtraByid(long id) {
 
-        Optional<UserExtra> userExtra = userExtraRepository.findById(id);
+        UserExtra userExtra = userExtraRepository.getOne(id);
     	return userExtra;
 	}
 }

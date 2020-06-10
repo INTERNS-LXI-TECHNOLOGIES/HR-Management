@@ -37,12 +37,12 @@
                       class="form-control"
                       name="reportStatus"
                       placeholder="insert time"
-                      [(ngModel)]="model.report_time"/>
+                      [(ngModel)]="model.reportTime"/>
               </div>  
              <br><br>
              <div>
-             <input value="Authorized"  name="type" class="auth" type="checkbox"[(ngModel)]="model.type" >Authorized &nbsp;        
-          <input value="NonAuthorized" name="type" class="auth" type="checkbox">Non Authorized <br><br>
+              <input value="Authorized"  name="Authorized" class="auth" type="radio" id="Authorized"  [(ngModel)]="model.type">Authorized &nbsp;        
+              <input value="NonAuthorized" name="NonAuthorized" class="unauth" type="radio" id="NonAuthorized" [(ngModel)]="model.type">Non Authorized <br><br>
          </div>
             <button type="submit" class="btn btn-info pull-right">
               <em class="fa fa-envelope-o"></em>

@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 export class LateArrivalPage implements OnInit {
   model:lateArrival={
     name:"",
-    type:"Authorized",
-    lateTime:"",
+    type:"",
+    reachedTime:"",
      
   }
   user: Object;
@@ -21,7 +21,7 @@ export class LateArrivalPage implements OnInit {
   }
   sendFeedback():void{
 
-    console.log("COnsole test for late Model TYPE = "+this.model.type+" REACHED TIME = "+this.model.lateTime+"NAme of user ="+this.model.name);
+    console.log("COnsole test for late Model TYPE = "+this.model.type+" REACHED TIME = "+this.model.reachedTime+"NAme of user ="+this.model.name);
     
     let Url:string = "http://localhost:8080/api/late-arrivals";
    

@@ -77,6 +77,7 @@ public class LeaveResource {
          System.out.println("555  HELLO !!!NAME OF USER 555= "+leaveDTO.getName());
         ArrayList<User> user=(ArrayList<User>) userSer.getAllUsers();
         ArrayList<UserExtra> userExtra=(ArrayList<UserExtra>) userExSer.getAllExtraUsers();
+        //  System.out.println("555  HELLO !!!NAME OF USER 555= "+leaveDTO.getName());
         String name = leaveDTO.getName();
         long id= 0;
         for(int i=0;i<user.size();i++)
@@ -94,7 +95,7 @@ public class LeaveResource {
          Leave leave = new Leave();
          leave.setDate(LocalDate.parse(leaveDTO.getleaveDate()));
          leave.setType(leaveDTO.getType());
-        leave.setUserExtra(userSer.findExtraByid(id).get());
+         leave.setUserExtra(userSer.findExtraByid(id));
 
         log.debug("REST request to save Leave : {}", leave);
         if (leave.getId() != null) {

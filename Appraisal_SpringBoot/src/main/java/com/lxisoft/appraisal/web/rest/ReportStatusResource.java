@@ -2,6 +2,7 @@ package com.lxisoft.appraisal.web.rest;
 
 import com.lxisoft.appraisal.domain.ReportStatus;
 import com.lxisoft.appraisal.repository.ReportStatusRepository;
+import com.lxisoft.appraisal.service.dto.ReportDTO;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -15,6 +16,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +53,14 @@ public class ReportStatusResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/report-statuses")
-    public ResponseEntity<ReportStatus> createReportStatus(@RequestBody ReportStatus reportStatus) throws URISyntaxException {
+    public ResponseEntity<ReportStatus> createReportStatus(@RequestBody ReportDTO reportDTO) throws URISyntaxException {
+
+        ReportStatus reportStatus = new ReportStatus();
+        reportStatus.setType(reportDTO.getType());
+        LocalDate localDate = LocalDate.now();
+        LocalTime localTime = LocalTime.parse(reportDTO.getReportTime());
+        Instant instant=LocalDateTime.of(localDate,localTime).atZone(ZoneId.systemDefault()).toInstant();
+        reportStatus.setReportingTime(instant);
         log.debug("REST request to save ReportStatus : {}", reportStatus);
         if (reportStatus.getId() != null) {
             throw new BadRequestAlertException("A new reportStatus cannot already have an ID", ENTITY_NAME, "idexists");
