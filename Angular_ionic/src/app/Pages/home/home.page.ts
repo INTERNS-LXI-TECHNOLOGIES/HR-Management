@@ -25,7 +25,7 @@ export class HomePage implements OnInit {
   }
   public editUser(id: string){
     event.stopImmediatePropagation();
-    this.router.navigate(['/edit-user', id]);
+    this.router.navigate(['menu/edit-user', id]);
   }
 
   ngOnInit() {

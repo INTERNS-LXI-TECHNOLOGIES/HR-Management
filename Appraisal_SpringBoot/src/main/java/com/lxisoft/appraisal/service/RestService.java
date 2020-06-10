@@ -74,6 +74,33 @@ public class RestService {
         return isUsed;
     }
 
+	public void editUser(UserViewDTO userDTO) throws IOException {
+        User user = userService.findByid(userDTO.getId()).get();
+        user.setId(userDTO.getId());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        // user.setLogin(userDTO.getLogin());
+        // BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+        // user.setPassword(encode.encode(userDTO.getPassword()));
+
+        UserExtra userEx = userService.findExtraByid(userDTO.getId()).get();
+        userEx.setId(userDTO.getId());
+        userEx.setCompany(userDTO.getCompany());
+        userEx.setPosition(userDTO.getPosition());
+        userEx.setDob(LocalDate.parse(userDTO.getDob()));
+        userEx.setJoiningDate(LocalDate.parse(userDTO.getJoiningDate()));
+        userEx.setUser(user);
+        if(userDTO.getImage()!= null)
+        {
+            byte[] bytes=userDTO.getImage().getBytes();
+            userEx.setImage(bytes);
+            userEx.setImageContentType(userDTO.getImage().getContentType());
+        }
+        userService.createUser(user, userEx);
+
+	}
+
     // public void setLeave(UserViewDTO userDTO)
     // {
 

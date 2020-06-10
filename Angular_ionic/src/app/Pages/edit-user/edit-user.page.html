@@ -1,12 +1,8 @@
-<ion-header [translucent]="true">
+<ion-header>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
-  
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>ADD USER</ion-title>
+  <ion-toolbar>
+    <ion-title>editUser</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -169,69 +165,13 @@
                     required #fileInput/>
               
             </div> 
-                <!-- login -->
-            <div class="form-group">
-              <label for="login">login ID</label>
-              <input type="text"
-                    id="login"
-                    class="form-control"
-                    name="login"
-                    placeholder="Your login ID"
-                    [(ngModel)]="model.login" 
-                    #login="ngModel"
-                    [ngClass]="{ 'is-invalid': f.submitted && login.invalid }"
-                    required />
-                    <!-- input validation group -->
-                  <div *ngIf="f.submitted && login.invalid" class="invalid-input">
-                    <!-- individual validation errors -->
-                    <div *ngIf="login.errors?.required">login is required</div>
-                  </div>
-            </div>  
-              <!-- password -->
-              <div class="form-group">
-                <label for="password">password</label>
-                <input type="password"
-                      id="password"
-                      class="form-control"
-                      name="password"
-                      placeholder="Your password"
-                      [(ngModel)]="model.password" 
-                      #password="ngModel"
-                    [ngClass]="{ 'is-invalid': f.submitted && password.invalid }"
-                    required minlength=4/>
-                    <!-- input validation group -->
-                  <div *ngIf="f.submitted && password.invalid" class="invalid-input">
-                    <!-- individual validation errors -->
-                    <div *ngIf="password.errors?.required">password is required</div>
-                    <div *ngIf="password.errors?.minlength">password must have min 4 char</div>
-                  </div>
-              </div>  
+                
                <!-- login -->
-            <div class="form-group">
-              <label for="authorities">Authority</label>
-              <select
-                    id="authorities"
-                    class="form-control"
-                    name="authorities"
-                    
-                    [(ngModel)]="model.authorities" 
-                    #authorities="ngModel"
-                    [ngClass]="{ 'is-invalid': f.submitted && authorities.invalid }"
-                    required >
-                    <option value="" disabled>choose your authority</option>
-                    <option value="ROLE_USER" >User</option>
-   					    	 <option value="ROLE_ADMIN" >Admin</option>
-                    </select>
-                    <!-- input validation group -->
-                  <div *ngIf="f.submitted && authorities.invalid" class="invalid-input">
-                    <!-- individual validation errors -->
-                    <div *ngIf="authorities.errors?.required">authority is required</div>
-                  </div>
-            </div>  
+            
             
             <button type="submit" class="btn btn-info pull-right">
               <i class="fa fa-envelope-o"></i>
-              <span> create new user</span>
+              <span> edit use details</span>
             </button>
           </form>
         </div>

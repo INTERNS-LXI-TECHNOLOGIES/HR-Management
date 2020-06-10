@@ -8,7 +8,12 @@ import { LeavePageModule } from '../leave/leave.module';
 import { LateArrivalPageModule } from '../late-arrival/late-arrival.module';
 import { ReportStatusPageModule} from '../report-status/report-status.module';
 import { EvaluationPageModule } from '../evaluation/evaluation.module';
+
 import { UserInfoPageModule } from '../user-info/user-info.module';
+import { UserDetailPageModule } from '../user-detail/user-detail.module';
+import { WorkProfilePageModule } from '../work-profile/work-profile.module';
+import { EditUserPageModule } from '../edit-user/edit-user.module';
+
 const routes: Routes = [
   {
     path: '',
@@ -20,7 +25,7 @@ const routes: Routes = [
       },
       {
         path: 'adduser',
-        loadChildren:  () => AdduserPageModule
+        loadChildren: () => AdduserPageModule
       },
       {
         path: 'leave',
@@ -41,6 +46,10 @@ const routes: Routes = [
       {
         path: 'home/user-info',
         loadChildren: () => UserInfoPageModule
+      },
+      {
+        path: 'edit-user',
+        loadChildren: () => EditUserPageModule
       },
     ]
   }
