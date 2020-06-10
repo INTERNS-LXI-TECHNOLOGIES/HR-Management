@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./user-info.page.scss'],
 })
 export class UserInfoPage implements OnInit {
-  id: any;
+  id;
   constructor(private route: ActivatedRoute, private router: Router){}
   ngOnInit() {
 

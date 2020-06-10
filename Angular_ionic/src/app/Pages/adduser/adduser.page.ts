@@ -16,13 +16,12 @@ export class AdduserPage implements OnInit {
     company: '',
     email: '',
     position: '',
-    authorities: '',  
+    authorities: '',
     joiningDate: '',
     dob: '',
     image: null,
     login: '',
     password: ''
-
   }
   user;
   file: File;
@@ -73,7 +72,7 @@ export class AdduserPage implements OnInit {
       //   });
 
       // }
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/menu/home');
 
       }
 

@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class UserDetailPage implements OnInit {
    user;
    id;
+   base64image: string;
   constructor(private route: ActivatedRoute, private router: Router,
               private userService: UserService , private httpClient: HttpClient) {    }
   ngOnInit(){
@@ -25,4 +26,5 @@ export class UserDetailPage implements OnInit {
   {
     this.router.navigate(['/menu/home/user-info/work-profile', id]);
   }
+  value: any=console.log(this.user.imageContentType);
 }
