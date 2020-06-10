@@ -30,7 +30,7 @@ export class ReportStatusPage implements OnInit {
     this.http.post(Url,this.model).subscribe(data => {
       alert("ReportStatus Updated successfully");
 
-    console.log ( 'COnsole test for late Model' + this.model.type + this.model.report_time + 'NAme of user=' + this.model.name);
+    console.log ( 'COnsole test for late Model' + this.model.type + this.model.reportTime + 'NAme of user=' + this.model.name);
     const Url = 'http://localhost:8080/api/report-statuses';
     this.http.post(Url, this.model).subscribe(data => {
       alert('ReportStatus Updated successfully');
@@ -40,4 +40,6 @@ export class ReportStatusPage implements OnInit {
     });
     this.router.navigateByUrl('/menu/home');
   }
+    )
+}
 }
