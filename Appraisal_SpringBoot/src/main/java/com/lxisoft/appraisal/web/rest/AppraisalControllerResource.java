@@ -190,7 +190,7 @@ public class AppraisalControllerResource {
 			 }
 		 }
 		 number.add(a.size());
-		 number.add(un.size());	 
+		 number.add(un.size());
 		 List<Integer> num=getUserWorkingStatus(id,auth,unauth,number);
 		 List<Integer> value=getMarks(id,num);
         return value;
@@ -238,7 +238,7 @@ public class AppraisalControllerResource {
     {
     	 List<Git> git=gitServ.findGit(userexService.findExtraByid(id).get().getId());
 		 List<Hackathon> hack=hackServ.findHack(userexService.findExtraByid(id).get().getId());
-		 if(git.size()!=0) 
+		 if(git.size()!=0)
 		 {
 			Iterator it=git.iterator();
 			while (it.hasNext())
@@ -246,8 +246,8 @@ public class AppraisalControllerResource {
 				Git object = (Git)it.next();
 				long gits= object.getMark();
 				num.add((int)gits);
-			 }	
-		}	
+			 }
+		}
 		else { num.add(git.size());}
 		if(hack.size()!=0)
 		{
@@ -257,11 +257,24 @@ public class AppraisalControllerResource {
 				Hackathon object = (Hackathon)i.next();
 				long hacks= object.getMark();
 				num.add((int)hacks);
-			 }	
+			 }
 		}
 		else { num.add(git.size());}
 		return num;
-		
+
+    }
+    @Consumes("multipart/form-data")
+    @PostMapping("/editUser")
+    public boolean editUser(@ModelAttribute UserViewDTO userView)
+    {
+        log.info("get model from server ----------:{}", userView);
+        try {
+            restService.editUser(userView);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return true;
     }
 
 

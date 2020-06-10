@@ -1,6 +1,6 @@
 
 export interface userViewModel{
-
+    id;
     firstName: string;
     lastName: string;
     company: string;
@@ -12,5 +12,4 @@ export interface userViewModel{
     image: Blob;
     login: string;
     password: string;
-  
   }

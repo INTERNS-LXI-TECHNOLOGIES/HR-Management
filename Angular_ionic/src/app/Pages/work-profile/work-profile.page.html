@@ -1,9 +1,54 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>work-profile</ion-title>
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <!-- <ion-menu-button></ion-menu-button> -->
+      <ion-back-button defaultHref='/user-detail'></ion-back-button>
+    </ion-buttons>
+    <ion-title>Work Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <h2>The selected id is: {{ id }}</h2>
+  <div *ngFor="let sta of status ; let i = index;">
+    <div *ngIf="i==0">
+      <p>Leaves</p>
+    <p>Authorized  {{ status[0] }}</p>
+    </div>
+    <div *ngIf="i==1">
+      <p>Un Authorized  {{ status[1] }}</p>
+    </div>
+    <div *ngIf="i==2">
+      <p>Late Arrival</p>
+      <p>Authorized  {{ status[2] }}</p>
+    </div>
+    <div *ngIf="i==3">
+      <p>Un Authorized  {{ status[3] }}</p>
+    </div>
+    <div *ngIf="i==4">
+      <p>Total Working days  {{ status[4] }}</p>
+    </div>
+    <div *ngIf="i==5">
+      <p>TOtal Worked days  {{ status[5] }}</p>
+    </div>
+    <div *ngIf="i==6">
+      <p>Working Hours  {{ status[6] }}</p>
+    </div>
+    <div *ngIf="i==7">
+      <p>Worked Hours  {{ status[7] }}</p>
+    </div>
+    <div *ngIf="i==8">
+      <p>Absence  {{ status[8] }}</p>
+    </div>
+    <div *ngIf="i==9">
+      <p>UnReported days  {{ status[9] }}</p>
+    </div>
+    <div *ngIf="i==10">
+      <p>Git Mark  {{ status[10] }}</p>
+    </div>
+    <div *ngIf="i==11">
+      <p>Hackathon Mark  {{ status[11] }}</p>
+    </div>
 
+  </div>
 </ion-content>

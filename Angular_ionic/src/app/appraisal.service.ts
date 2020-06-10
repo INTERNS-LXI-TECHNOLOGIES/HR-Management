@@ -15,7 +15,6 @@ export class AppraisalService {
 
   public  getString(url:string): Observable<string>
   {
-
     return this.http.get(url,{responseType: 'text'}).pipe(map(data => {
       console.log('accessing data from '+url+' is'+data);
         return data;}));
@@ -25,20 +24,20 @@ export class AppraisalService {
     return  this.http.get<userViewModel>(urlvalue).pipe(map(data => {
       console.log('users ::'+data);
         return data;}));
-    }
-    deleteUser(id:string)
-    {
-      this.counter += 1;
-      let url:string = "http://localhost:8080/api/user-extras/"+id;
-      this.http.delete(url).subscribe(data=>{
-        alert("User removed Succesfully..!" );
-        this.router.navigate(['/home']);
-       },
-      err=> {
-        alert("something went wromg..!" ); 
-      });
-      
-    }
+  }
+  deleteUser(id:string)
+  {
+    this.counter += 1;
+    let url:string = "http://localhost:8080/api/user-extras/"+id;
+    this.http.delete(url).subscribe(data=>{
+      alert("User removed Succesfully..!" );
+      this.router.navigate(['/home']);
+    },
+    err=> {
+      alert("something went wromg..!" ); 
+    });
+    
+  }
   constructor(private  http : HttpClient, private router:Router) { }
     
 }
