@@ -26,10 +26,6 @@ export class UserService {
   {
     return  this.http.get<string>(url, { responseType: 'text' });
   }
-  // getImage(url:string): Observable<any>
-  // {
-  //   return  this.http.get(url).map(rsp => this.sanitizer.bypassSecurityTrustUrl(rsp.text()));
-  // }
   setId(id)
   {
     this.id = id;

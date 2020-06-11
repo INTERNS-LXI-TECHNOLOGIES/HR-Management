@@ -82,7 +82,11 @@ public class AppraisalControllerResource {
         Pageable pageable = null;
         return userRes.getAllUsers(pageable);
     }
-
+    /**
+     * for adding user 
+     * @param userDTO
+     * @return
+     */
     @Consumes("multipart/form-data")
     @PostMapping("/addUser")
     public boolean addUser(@ModelAttribute UserViewDTO userDTO) {
@@ -98,24 +102,7 @@ public class AppraisalControllerResource {
 
     	return isUsed;
     }
-    // @Consumes("multipart/form-data")
-    // @PutMapping("/addUser")
-    // public void addUserImage(@ModelAttribute MultipartFile file)
-    // {
-    //     log.info("get file from server ----------:{}", file.getContentType());
-
-    //     return ;
-    // }
-
-    // @PostMapping("/setLeave")
-    // public boolean leaves(@RequestBody  Leave leave) {
-    //     boolean isUsed = false;
-    //     log.info("getn value from server----------");
-    //    isUsed= restService.setLeave(leave);
-    //     return isUsed;
-    // }
-
-    /**
+     /**
      * to get single user details
      * @param id
      * @return
@@ -150,7 +137,7 @@ public class AppraisalControllerResource {
     {
         Pageable pageable=null;
         log.info("getn value from server----------");
-       // restService.setLeave(userDTO);
+//        restService.setLeave(userDTO);
     	return userRes.getAllUsers(pageable);
     }
     /**

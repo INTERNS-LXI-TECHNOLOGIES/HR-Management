@@ -18,7 +18,7 @@ export class WorkProfilePage implements OnInit {
     this.route.params.subscribe(params => {
       this.id = params['id'];
     this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/' + this.id)
-                                .subscribe(status => this.status = status);
+                               .subscribe(status => this.status = status);
     });
   }
 }

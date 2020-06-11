@@ -1,54 +1,90 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-      <!-- <ion-back-button defaultHref='/user-detail'></ion-back-button> -->
+      <ion-back-button defaultHref="'/menu/home/user-info/'+id"></ion-back-button>
     </ion-buttons>
     <ion-title>Work Profile</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <h2>The selected id is: {{ id }}</h2>
-  <div *ngFor="let sta of status ; let i = index;">
-    <div *ngIf="i==0">
-      <p>Leaves</p>
-    <p>Authorized  {{ status[0] }}</p>
-    </div>
-    <div *ngIf="i==1">
-      <p>Un Authorized  {{ status[1] }}</p>
-    </div>
-    <div *ngIf="i==2">
-      <p>Late Arrival</p>
-      <p>Authorized  {{ status[2] }}</p>
-    </div>
-    <div *ngIf="i==3">
-      <p>Un Authorized  {{ status[3] }}</p>
-    </div>
-    <div *ngIf="i==4">
-      <p>Total Working days  {{ status[4] }}</p>
-    </div>
-    <div *ngIf="i==5">
-      <p>TOtal Worked days  {{ status[5] }}</p>
-    </div>
-    <div *ngIf="i==6">
-      <p>Working Hours  {{ status[6] }}</p>
-    </div>
-    <div *ngIf="i==7">
-      <p>Worked Hours  {{ status[7] }}</p>
-    </div>
-    <div *ngIf="i==8">
-      <p>Absence  {{ status[8] }}</p>
-    </div>
-    <div *ngIf="i==9">
-      <p>UnReported days  {{ status[9] }}</p>
-    </div>
-    <div *ngIf="i==10">
-      <p>Git Mark  {{ status[10] }}</p>
-    </div>
-    <div *ngIf="i==11">
-      <p>Hackathon Mark  {{ status[11] }}</p>
-    </div>
-
+   
+  <ion-card>
+  <div no-padding *ngFor="let sta of status ; let i = index;"> 
+    <ion-card-header *ngIf="i==0">
+      <ion-card-title>Leaves</ion-card-title>
+    </ion-card-header>
+    <ion-item no-padding *ngIf="i==0">
+      <ion-label color="dark" stacked>Authorized &nbsp;&nbsp; {{ status[0] }}</ion-label>
+    </ion-item>
+    <ion-item no-padding *ngIf="i==1">
+      <ion-label color="dark" stacked>Un Authorized &nbsp;&nbsp;  {{ status[1] }}</ion-label>
+    </ion-item>
   </div>
+  </ion-card>
+  <ion-card>
+    <div no-padding *ngFor="let sta of status ; let i = index;"> 
+      <ion-card-header *ngIf="i==2">
+        <ion-card-title>Late Arrival</ion-card-title>
+      </ion-card-header>
+      <ion-item no-padding *ngIf="i==2">
+        <ion-label color="dark" stacked>Authorized &nbsp;&nbsp; {{ status[2] }}</ion-label>
+      </ion-item>
+      <ion-item no-padding *ngIf="i==3">
+        <ion-label color="dark" stacked>Un Authorized &nbsp;&nbsp;  {{ status[3] }}</ion-label>
+      </ion-item>
+    </div>
+    </ion-card>
+    <ion-card>
+      <div no-padding *ngFor="let sta of status ; let i = index;"> 
+        <ion-card-header *ngIf="i==6">
+          <ion-card-title>Work Status</ion-card-title>
+        </ion-card-header>
+        <ion-item no-padding *ngIf="i==6">
+          <ion-label color="dark" stacked>Working Hours &nbsp;&nbsp; {{ status[6] }}</ion-label>
+        </ion-item>
+        <ion-item no-padding *ngIf="i==7">
+          <ion-label color="dark" stacked>Worked Hours &nbsp;&nbsp;  {{ status[7] }}</ion-label>
+        </ion-item>
+      </div>
+      </ion-card>
+      <ion-card>
+        <div no-padding *ngFor="let sta of status ; let i = index;"> 
+          <ion-card-header *ngIf="i==10">
+            <ion-card-title>Evaluation</ion-card-title>
+          </ion-card-header>
+          <ion-item no-padding *ngIf="i==10">
+            <ion-label color="dark" stacked>Git Mark &nbsp;&nbsp; {{ status[10] }}</ion-label>
+          </ion-item>
+          <ion-item no-padding *ngIf="i==11">
+            <ion-label color="dark" stacked>Hackathon &nbsp;&nbsp;  {{ status[11] }}</ion-label>
+          </ion-item>
+        </div>
+      </ion-card>
+      <ion-card>
+        <div no-padding *ngFor="let sta of status ; let i = index;"> 
+          <ion-card-header *ngIf="i==4">
+            <ion-card-title>Attendence</ion-card-title>
+          </ion-card-header>
+          <ion-item no-padding *ngIf="i==4">
+            <ion-label color="dark" stacked>Total Working days &nbsp;&nbsp; {{ status[4] }}</ion-label>
+          </ion-item>
+          <ion-item no-padding *ngIf="i==8">
+            <ion-label color="dark" stacked>Absence &nbsp;&nbsp;  {{ status[8] }}</ion-label>
+          </ion-item>
+        </div>
+      </ion-card>
+      <ion-card>
+        <div no-padding *ngFor="let sta of status ; let i = index;"> 
+          <ion-card-header *ngIf="i==5">
+            <ion-card-title>Reporting status</ion-card-title>
+          </ion-card-header>
+          <ion-item no-padding *ngIf="i==5">
+            <ion-label color="dark" stacked>Total Worked days &nbsp;&nbsp; {{ status[5] }}</ion-label>
+          </ion-item>
+          <ion-item no-padding *ngIf="i==9">
+            <ion-label color="dark" stacked>UnReported days &nbsp;&nbsp;  {{ status[9] }}</ion-label>
+          </ion-item>
+        </div>
+      </ion-card>
 </ion-content>

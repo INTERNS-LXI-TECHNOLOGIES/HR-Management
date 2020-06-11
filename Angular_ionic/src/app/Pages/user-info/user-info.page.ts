@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserService } from 'src/app/service/user.service';
 
 @Component({
   selector: 'app-user-info',
@@ -7,12 +8,23 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./user-info.page.scss'],
 })
 export class UserInfoPage implements OnInit {
-  id;
-  constructor(private route: ActivatedRoute, private router: Router){}
+  public id;
+  image;
+  user;
+  constructor(private route: ActivatedRoute, private router: Router, private userService: UserService){}
   ngOnInit() {
-
     this.route.params.subscribe(params => {
-      this.id = params ['id'];
+      this.id = params['id'];
+      this.userService.getUser('http://localhost:8080/api/appraisal-controller-resource/user-extras/' + this.id)
+                                .subscribe(user => this.user = user);
+      this.userService.getImage('http://localhost:8080/api/appraisal-controller-resource/image/' + this.id)
+                                .subscribe(image => {this.image = image; },
+                                  (error: any) => {console.log(error); } );
+      console.log(this.image);
     });
+  }
+  getWorkProfile(id: string)
+  {
+    this.router.navigate(['/menu/home/work-profile', id]);
   }
 }

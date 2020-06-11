@@ -11,15 +11,13 @@ import { type } from 'os';
 })
 export class LeavePage implements OnInit {
   model:leaveModel={
-    name:"",  
+    name:"",
     type:"",
     leaveDate:"",
-     
   }
 
   user: Object;
-  constructor(private http:HttpClient,
-              private router:Router) { }
+  constructor(private http: HttpClient , private router: Router) { }
 
   ngOnInit() {
   }
@@ -33,12 +31,9 @@ export class LeavePage implements OnInit {
       alert("Leave Updated successfully");
 
     },
-    err=> {
+    err => {
       alert("Leave Updation failed"+console.error() );
     });
-      
-
-    this.router.navigateByUrl('/menu/home');
-
+   this.router.navigateByUrl('/menu/home');
   }
 }

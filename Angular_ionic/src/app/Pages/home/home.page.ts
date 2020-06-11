@@ -32,7 +32,7 @@ export class HomePage implements OnInit {
   }
   select(id: string){
     this.userService.setId(id);
-    this.router.navigate(['/menu/home/user-info/user-detail', id]);
+    this.router.navigate(['/menu/home/user-info', id]);
 
   }
 }
