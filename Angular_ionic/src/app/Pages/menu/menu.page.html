@@ -32,11 +32,7 @@
               <ion-icon name="calendar" slot="start"></ion-icon>
              Leave Updation
             </ion-item>
-            <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/evaluation']"
-              [queryParams]="{ type: 'Evaluation' }" menuClose class="sub-menu">
-              <ion-icon name="book" slot="start"></ion-icon>
-            Evaluation Updation
-            </ion-item>
+           
             <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/late-arrival']"
               [queryParams]="{ type: 'LateArrival' }" menuClose class="sub-menu">
               <ion-icon name="alarm" slot="start"></ion-icon>
@@ -47,6 +43,11 @@
               <ion-icon name="clipboard-outline" slot="start"></ion-icon>
            ReportStatus
             </ion-item>
+            <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/evaluation']"
+            [queryParams]="{ type: 'Evaluation' }" menuClose class="sub-menu">
+            <ion-icon name="book" slot="start"></ion-icon>
+          Evaluation Updation
+          </ion-item>
           </ion-list>
         </ion-menu-toggle>
     </ion-content>

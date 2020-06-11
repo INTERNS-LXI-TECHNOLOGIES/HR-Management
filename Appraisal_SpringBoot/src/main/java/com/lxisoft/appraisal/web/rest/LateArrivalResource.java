@@ -7,16 +7,23 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.lxisoft.appraisal.domain.LateArrival;
+import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.LateArrivalRepository;
+import com.lxisoft.appraisal.repository.UserExtraRepository;
+import com.lxisoft.appraisal.service.UserExtraService;
+import com.lxisoft.appraisal.service.UserService;
 import com.lxisoft.appraisal.service.dto.LateDTO;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +44,7 @@ import io.github.jhipster.web.util.ResponseUtil;
  */
 @RestController
 @RequestMapping("/api")
+
 @Transactional
 public class LateArrivalResource {
 
@@ -48,7 +56,12 @@ public class LateArrivalResource {
     private String applicationName;
 
     private final LateArrivalRepository lateArrivalRepository;
-
+    @Autowired
+    UserExtraService userExSer;
+    @Autowired
+    UserService userSer;
+    @Autowired
+    UserExtraRepository userExtraRepo;
     public LateArrivalResource(LateArrivalRepository lateArrivalRepository) {
         this.lateArrivalRepository = lateArrivalRepository;
     }
@@ -63,15 +76,31 @@ public class LateArrivalResource {
     @PostMapping("/late-arrivals")
     public ResponseEntity<LateArrival> createLateArrival(@RequestBody LateDTO lateDTO) throws URISyntaxException
     {
-         LateArrival lateArrival = new LateArrival();
-        // System.out.print(" 555 LAte arrival userName 555 "+lateDTO.getName());
-        // System.out.print(" 555 LAte arrival dateTime 555 "+lateDTO.getReachedTime());
-      // lateArrival.setReachedTime(Instant.parse(lateDTO.getReachedTime()));
+        ArrayList<User> user=(ArrayList<User>) userSer.getAllUsers();
+        ArrayList<UserExtra> userExtra=(ArrayList<UserExtra>) userExSer.getAllExtraUsers();
+
+        String name = lateDTO.getName();
+        long id= 0;
+        for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+
+			if(name.equals(m))
+			{
+				 id=user.get(i).getId();
+
+			}
+        }
+
+        LateArrival lateArrival = new LateArrival();
+
       LocalDate localDate = LocalDate.now();
       LocalTime localtime = LocalTime.parse(lateDTO.getReachedTime());
       Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
 	lateArrival.setReachedTime(instant);
      lateArrival.setType(lateDTO.getType());
+     lateArrival.setUserExtra(userExtraRepo.findById(id).get());
     log.debug("REST request to save LateArrival : {}", lateArrival);
         if (lateArrival.getId() != null) {
             throw new BadRequestAlertException("A new lateArrival cannot already have an ID", ENTITY_NAME, "idexists");
