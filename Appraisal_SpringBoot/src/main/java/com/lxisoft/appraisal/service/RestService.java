@@ -50,7 +50,7 @@ public class RestService {
    	@Autowired
    	HackathonService hackServ;
 
-    public boolean addUser(UserViewDTO userDTO) throws IOException 
+    public boolean addUser(UserViewDTO userDTO) throws IOException
     {
         User user = new User();
         user.setFirstName(userDTO.getFirstName());
@@ -114,6 +114,7 @@ public class RestService {
         userEx.setUser(user);
         if(userDTO.getImage()!= null)
         {
+            log.info("get image from server ----------:{}", userDTO.getImage());
             byte[] bytes=userDTO.getImage().getBytes();
             userEx.setImage(bytes);
             userEx.setImageContentType(userDTO.getImage().getContentType());

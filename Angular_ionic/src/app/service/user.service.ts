@@ -24,7 +24,7 @@ export class UserService {
   }
   getImage(url:string): Observable<string>
   {
-    return  this.http.get<string>(url, { responseType: 'text' });
+    return  this.http.get<string>(url, { responseType: 'text' as 'json' });
   }
   setId(id)
   {
