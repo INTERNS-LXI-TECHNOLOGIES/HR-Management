@@ -9,6 +9,7 @@ import { type } from 'os';
   templateUrl: './leave.page.html',
   styleUrls: ['./leave.page.scss'],
 })
+
 export class LeavePage implements OnInit {
   model:leaveModel={
     name:"",  
@@ -16,6 +17,7 @@ export class LeavePage implements OnInit {
     leaveDate:"",
      
   }
+  
 
   user: Object;
   constructor(private http:HttpClient,
