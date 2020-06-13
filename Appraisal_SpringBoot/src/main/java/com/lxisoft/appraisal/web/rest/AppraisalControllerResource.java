@@ -22,12 +22,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lxisoft.appraisal.config.Constants;
 import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.UserExtraRepository;
+import com.lxisoft.appraisal.domain.Appraisal;
 import com.lxisoft.appraisal.domain.Git;
 import com.lxisoft.appraisal.domain.Hackathon;
 import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.ReportStatus;
 import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.service.AppraisalService;
 import com.lxisoft.appraisal.service.GitService;
 import com.lxisoft.appraisal.service.HackathonService;
 import com.lxisoft.appraisal.service.LateArrivalService;
@@ -69,8 +71,10 @@ public class AppraisalControllerResource {
     @Autowired
     RestService restService;
     @Autowired
-	UserExtraService userexService;
-   
+    UserExtraService userexService;
+    @Autowired
+    AppraisalService appraisalService;
+
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
     /**
@@ -83,7 +87,7 @@ public class AppraisalControllerResource {
         return userRes.getAllUsers(pageable);
     }
     /**
-     * for adding user 
+     * for adding user
      * @param userDTO
      * @return
      */
@@ -109,8 +113,9 @@ public class AppraisalControllerResource {
      */
     @GetMapping("/user-extras/{id}")
     @Transactional(readOnly = true)
-    public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id) 
+    public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id)
     {
+        appraisalService.setAppraisal(id);
     	Optional <User> user = userexService.findByid(id);
         log.debug("REST request to get UserExtra : {}", id);
         Optional<UserExtra> userExtra = userExtraRepository.findById(id);
@@ -154,7 +159,7 @@ public class AppraisalControllerResource {
     /**
      * to edit user
      * @param userView
-     * @return 
+     * @return
      */
     @Consumes("multipart/form-data")
     @PostMapping("/editUser")
@@ -168,6 +173,14 @@ public class AppraisalControllerResource {
             e.printStackTrace();
         }
         return true;
+    }
+    @GetMapping("/appraisal/{id}")
+    public Appraisal getAppraisal(@PathVariable Long id)
+    {
+        log.info("get id from server ----------:{}", id);
+
+        Appraisal details=appraisalService.getOneAppraisal(id);
+    	 return details;
     }
 
 
