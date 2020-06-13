@@ -115,13 +115,14 @@ public class AppraisalControllerResource {
     @Transactional(readOnly = true)
     public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id)
     {
-        appraisalService.setAppraisal(id);
-    	Optional <User> user = userexService.findByid(id);
+        Optional <User> user = userexService.findByid(id);
         log.debug("REST request to get UserExtra : {}", id);
         Optional<UserExtra> userExtra = userExtraRepository.findById(id);
         log.debug("REST  get UserExtra : {}", userExtra);
         UserExtraDTO u=new UserExtraDTO(user.get(),userExtra.get());
         Optional<UserExtraDTO> dto=Optional.of(u);
+
+        appraisalService.setAppraisal(id);
         return ResponseUtil.wrapOrNotFound(dto);
     }
     @GetMapping("/image/{id}")

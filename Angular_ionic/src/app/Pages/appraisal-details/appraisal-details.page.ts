@@ -11,6 +11,8 @@ export class AppraisalDetailsPage implements OnInit {
   id;
   user;
   image;
+  start = ' ';
+  end = '';
   constructor(private userService: UserService) { }
 
   ngOnInit() {
