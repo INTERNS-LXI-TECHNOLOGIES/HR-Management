@@ -24,12 +24,8 @@ export class UserService {
   }
   getImage(url:string): Observable<string>
   {
-    return  this.http.get<string>(url, { responseType: 'json' });
+    return  this.http.get<string>(url, { responseType: 'text' as 'json' });
   }
-  // getImage(url:string): Observable<any>
-  // {
-  //   return  this.http.get(url).map(rsp => this.sanitizer.bypassSecurityTrustUrl(rsp.text()));
-  // }
   setId(id)
   {
     this.id = id;

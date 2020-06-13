@@ -1,23 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import {FormControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import {leaveModel } from 'src/app/model/Leave';
 import { type } from 'os';
-
+import {Name } from 'src/app/model/Name';
 @Component({
   selector: 'app-leave',
   templateUrl: './leave.page.html',
   styleUrls: ['./leave.page.scss'],
 })
 
+
+
 export class LeavePage implements OnInit {
 
   isValidFormSubmitted = false;
- // leaveName: leaveName[];
+  name: Name[]=[
+    {id:1, name:'sarooj'},
+    {id:2, name:'meharu'},
+    {id:3, name:'ajith'},
+    {id:4, name:'jose'}
+  ];
 
   model:leaveModel={
-    name:"",  
+    name:"",
     type:"",
     leaveDate:"",
     
@@ -26,8 +34,7 @@ export class LeavePage implements OnInit {
   
 
   user: Object;
-  constructor(private http:HttpClient,
-              private router:Router) { }
+  constructor(private http: HttpClient , private router: Router) { }
 
   ngOnInit() {
   }
@@ -41,12 +48,9 @@ export class LeavePage implements OnInit {
       alert("Leave Updated successfully");
 
     },
-    err=> {
+    err => {
       alert("Leave Updation failed"+console.error() );
     });
-      
-
-    this.router.navigateByUrl('/menu/home');
-
+   this.router.navigateByUrl('/menu/home');
   }
 }

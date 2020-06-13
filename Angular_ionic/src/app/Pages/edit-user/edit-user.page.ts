@@ -33,8 +33,7 @@ export class EditUserPage implements OnInit {
       image: null,
       login: '',
       password: ''
-  
-    }
+    };
   ngOnInit() {
     this.route.params.subscribe(params => {
       // tslint:disable-next-line: no-string-literal
@@ -43,7 +42,6 @@ export class EditUserPage implements OnInit {
     .subscribe(model => this.model = model);
   }
   sendFeedback(){
-    alert('asadad');
     const formData = new FormData();
     // const data = JSON.stringify(this.model);
     formData.append( 'id', this.id );
@@ -54,13 +52,16 @@ export class EditUserPage implements OnInit {
     formData.append( 'position', this.model.position );
     formData.append( 'joiningDate', this.model.joiningDate );
     formData.append( 'dob', this.model.dob );
-    if(!this.image == null) {formData.append( 'image', this.image ); }
+    if (this.image == null){}
+    else{
+      //  alert('image added');
+       formData.append( 'image', this.image );
+     }
     this.userService.editUser(formData).subscribe(
       data => {
        alert('user details modified');
        this.userService.setId(this.id);
-       this.router.navigate(['/menu/home/user-info/user-detail', this.id]);
- 
+       this.router.navigate(['/menu/home/user-info/', this.id]);
       },
       err => {
        alert('error while modifying user details');
@@ -68,7 +69,7 @@ export class EditUserPage implements OnInit {
     );
   }
   setFile(event){
-
+    this.image = event.target.files[0];
   }
 
 }

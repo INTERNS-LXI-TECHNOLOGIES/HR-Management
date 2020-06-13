@@ -15,7 +15,7 @@ export class AppraisalService {
 
   public  getString(url:string): Observable<string>
   {
-    return this.http.get(url,{responseType: 'text'}).pipe(map(data => {
+    return this.http.get(url, {responseType: 'text'}).pipe(map(data => {
       console.log('accessing data from '+url+' is'+data);
         return data;}));
   }
