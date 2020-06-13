@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +35,7 @@ import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.service.AppraisalService;
 import com.lxisoft.appraisal.service.GitService;
 import com.lxisoft.appraisal.service.HackathonService;
+import com.lxisoft.appraisal.service.JasperService;
 import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
@@ -43,6 +47,8 @@ import com.lxisoft.appraisal.service.dto.UserExtraDTO;
 import com.lxisoft.appraisal.service.dto.UserViewDTO;
 
 import io.github.jhipster.web.util.ResponseUtil;
+import net.sf.jasperreports.engine.JRException;
+
 import java.util.stream.Collectors;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -74,6 +80,8 @@ public class AppraisalControllerResource {
     UserExtraService userexService;
     @Autowired
     AppraisalService appraisalService;
+    @Autowired
+	JasperService jasperService;
 
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
@@ -179,10 +187,58 @@ public class AppraisalControllerResource {
     public Appraisal getAppraisal(@PathVariable Long id)
     {
         log.info("get id from server ----------:{}", id);
-
+        appraisalService.setAppraisal(id);
         Appraisal details=appraisalService.getOneAppraisal(id);
     	 return details;
     }
+    @GetMapping("/sortAppraisal/{id}/{start}/{end}")
+    public Appraisal sortAppraisal(@PathVariable ("id") Long id,@PathVariable ("start") String start,@PathVariable ("end") String end)
+    {
+        log.info("get id from server ----------:{}", id);
+        appraisalService.setAppraisalByDate(id, LocalDate.parse(start),LocalDate.parse(end));
+        Appraisal details=appraisalService.getOneAppraisal(id);
+    	 return details;
+    }
+    @GetMapping("/getPdf/{id}/{start}/{end}/{joinDate}/{unSort}")
+	public ResponseEntity<byte[]>  getPdf(@PathVariable ("id")long id,
+            @PathVariable ("start")String start,@PathVariable ("end")String end,
+            @PathVariable ("joinDate")String joinDate,@PathVariable ("unSort") boolean sort)
 
+	{
+        if(sort)start=joinDate;
+        String[] time=end.split("T",2);
+        end=time[0];
+		Appraisal appraisal=null;
+		try{
+			appraisal=appraisalService.getOneAppraisal(id);
+		}catch(Exception e)
+		{
 
+		}
+		long attVal=appraisal.getAttendance();
+		long punVal=appraisal.getPunctuality();
+		long codeVal=appraisal.getCodeQuality();
+		long policyVal=appraisal.getCompanyPolicy();
+		long targetVal=appraisal.getMeetingTargets();
+		String att=restService.getComment(attVal);
+		String pun=restService.getComment(punVal);
+		String code=restService.getComment(codeVal);
+		String policy=restService.getComment(policyVal);
+		String target=restService.getComment(targetVal);
+
+		String month="Random Days";
+		byte[] pdfContents=null;
+		try {
+			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target,start,end,month);
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		HttpHeaders headers=new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		String fileName="Appraisal.pdf";
+		headers.add("content dis-position","attachment: filename="+fileName);
+		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
+		return response;
+	}
 }

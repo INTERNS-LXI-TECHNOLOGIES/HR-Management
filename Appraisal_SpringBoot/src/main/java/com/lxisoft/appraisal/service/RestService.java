@@ -236,5 +236,21 @@ public class RestService {
 		return num;
 
     }
+    public String getComment(long val)
+	{
+		String co=null;
+		int v=(int)val;
+		switch(v)
+		{
+			case 0: co="Very Poor"; break;
+			case 1: co="Poor"; break;
+			case 2: co="Below Average"; break;
+			case 3: co="Average"; break;
+			case 4: co="Good"; break;
+			case 5: co="Excellent"; break;
+
+		}
+		return co;
+	}
 
 }
