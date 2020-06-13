@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import {leaveModel } from 'src/app/model/Leave';
 import { type } from 'os';
+
 @Component({
   selector: 'app-leave',
   templateUrl: './leave.page.html',
@@ -11,10 +12,15 @@ import { type } from 'os';
 })
 
 export class LeavePage implements OnInit {
+
+  isValidFormSubmitted = false;
+ // leaveName: leaveName[];
+
   model:leaveModel={
     name:"",  
     type:"",
     leaveDate:"",
+    
      
   }
   
