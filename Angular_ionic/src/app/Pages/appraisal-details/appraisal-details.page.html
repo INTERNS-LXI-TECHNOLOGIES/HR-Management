@@ -1,9 +1,47 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>appraisal-details</ion-title>
+<ion-header translucent no-border>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button color="dark">
+        <ion-back-button defaultHref="/menu/home"></ion-back-button>
+        <ion-title>appraisal-details</ion-title>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen="true" slot="fixed" >
+  <div class="ion-padding">
+    <div class="card">
+      <div class="header">
+        <div class="avatar">
+          <img [src]="'data:image/jpeg;base64,'+image" alt="Image"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="user-meta ion-text-center"  *ngIf="(user)">
+      <h3 class="name">{{ user.firstName }} {{ user.lastName }}</h3>
+      <h5 class="info">{{user.position }} </h5>
+     </div>
 
-</ion-content>
+  <div class="user-meta ion-text-center"  *ngIf="(appraisal)">
+  
+  <ion-item no-padding>
+    <ion-label color="dark" stacked class="info">attendance:   {{ appraisal.attendance }}</ion-label>
+  </ion-item>
+  <ion-item no-padding>
+    <ion-label color="dark" stacked class="info">companyPolicy:   {{ appraisal.companyPolicy }}</ion-label>
+  </ion-item>
+  <ion-item no-padding>
+    <ion-label color="dark" stacked class="info">meetingTargets:   {{ appraisal.meetingTargets }}</ion-label>
+  </ion-item>
+  <ion-item no-padding>
+    <ion-label color="dark" stacked class="info">codeQuality:   {{ appraisal.codeQuality }}</ion-label>
+  </ion-item>
+  <ion-item no-padding>
+    <ion-label color="dark" stacked class="info">punctuality:   {{ appraisal.punctuality }}</ion-label>
+  </ion-item>
+  </div>
+  <ion-button expand="full" color="secondary" (click)="getPdf(user.id)">Get PDF</ion-button>
+  </div>

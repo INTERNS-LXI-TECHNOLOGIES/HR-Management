@@ -114,7 +114,7 @@ public class RestService {
         userEx.setUser(user);
         if(userDTO.getImage()!= null)
         {
-            log.info("get image from server ----------:{}", userDTO.getImage());
+            // log.info("get image from server ----------:{}", userDTO.getImage());
             byte[] bytes=userDTO.getImage().getBytes();
             userEx.setImage(bytes);
             userEx.setImageContentType(userDTO.getImage().getContentType());

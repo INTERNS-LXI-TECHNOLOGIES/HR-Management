@@ -9,6 +9,9 @@ import { DomSanitizer } from '@angular/platform-browser';
   providedIn: 'root'
 })
 export class UserService {
+  getAppraisal(url: string) {
+    return this.http.get(url);
+  }
   editUser(model: FormData) {
     return this.http.post('http://localhost:8080/api/appraisal-controller-resource/editUser', model);
   }
