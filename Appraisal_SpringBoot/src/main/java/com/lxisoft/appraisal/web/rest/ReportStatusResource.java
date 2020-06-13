@@ -1,7 +1,12 @@
 package com.lxisoft.appraisal.web.rest;
 
 import com.lxisoft.appraisal.domain.ReportStatus;
+import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.ReportStatusRepository;
+import com.lxisoft.appraisal.repository.UserExtraRepository;
+import com.lxisoft.appraisal.service.UserExtraService;
+import com.lxisoft.appraisal.service.UserService;
 import com.lxisoft.appraisal.service.dto.ReportDTO;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
@@ -9,6 +14,7 @@ import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +47,12 @@ public class ReportStatusResource {
     private String applicationName;
 
     private final ReportStatusRepository reportStatusRepository;
-
+    @Autowired
+    UserExtraService userExSer;
+    @Autowired
+    UserService userSer;
+    @Autowired
+    UserExtraRepository userExtraRepo;
     public ReportStatusResource(ReportStatusRepository reportStatusRepository) {
         this.reportStatusRepository = reportStatusRepository;
     }
@@ -56,6 +68,23 @@ public class ReportStatusResource {
     public ResponseEntity<ReportStatus> createReportStatus(@RequestBody ReportDTO reportDTO) throws URISyntaxException {
 
         ReportStatus reportStatus = new ReportStatus();
+        ArrayList<User> user=(ArrayList<User>) userSer.getAllUsers();
+        ArrayList<UserExtra> userExtra=(ArrayList<UserExtra>) userExSer.getAllExtraUsers();
+
+        String name = reportDTO.getName();
+        long id= 0;
+        for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+
+			if(name.equals(m))
+			{
+				 id=user.get(i).getId();
+
+			}
+        }
+        reportStatus.setUserExtra(userExtraRepo.findById(id).get());
         reportStatus.setType(reportDTO.getType());
         LocalDate localDate = LocalDate.now();
         LocalTime localTime = LocalTime.parse(reportDTO.getReportTime());
