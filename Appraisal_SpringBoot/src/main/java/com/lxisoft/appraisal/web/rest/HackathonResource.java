@@ -1,13 +1,20 @@
 package com.lxisoft.appraisal.web.rest;
 
 import com.lxisoft.appraisal.domain.Hackathon;
+import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.HackathonRepository;
+import com.lxisoft.appraisal.repository.UserExtraRepository;
+import com.lxisoft.appraisal.service.UserExtraService;
+import com.lxisoft.appraisal.service.UserService;
+import com.lxisoft.appraisal.service.dto.HackDTO;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +43,12 @@ public class HackathonResource {
     private String applicationName;
 
     private final HackathonRepository hackathonRepository;
-
+    @Autowired
+    UserExtraService userExSer;
+    @Autowired
+    UserService userSer;
+    @Autowired
+    UserExtraRepository userExtraRepo;
     public HackathonResource(HackathonRepository hackathonRepository) {
         this.hackathonRepository = hackathonRepository;
     }
@@ -47,7 +61,31 @@ public class HackathonResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/hackathons")
-    public ResponseEntity<Hackathon> createHackathon(@RequestBody Hackathon hackathon) throws URISyntaxException {
+    public ResponseEntity<Hackathon> createHackathon(@RequestBody HackDTO hackDTO) throws URISyntaxException {
+
+        Hackathon hackathon = new Hackathon();
+        ArrayList<User> user=(ArrayList<User>) userSer.getAllUsers();
+        ArrayList<UserExtra> userExtra=(ArrayList<UserExtra>) userExSer.getAllExtraUsers();
+
+        String name = hackDTO.getName();
+        long id= 0;
+        for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+
+			if(name.equals(m))
+			{
+				 id=user.get(i).getId();
+
+			}
+        }
+
+        LocalDate localDate = LocalDate.now();
+        hackathon.setDate(localDate);
+        hackathon.setUserExtra(userExtraRepo.findById(id).get());
+         Long mark = Long.parseLong(hackDTO.getMark());
+         hackathon.setMark(mark);
         log.debug("REST request to save Hackathon : {}", hackathon);
         if (hackathon.getId() != null) {
             throw new BadRequestAlertException("A new hackathon cannot already have an ID", ENTITY_NAME, "idexists");
