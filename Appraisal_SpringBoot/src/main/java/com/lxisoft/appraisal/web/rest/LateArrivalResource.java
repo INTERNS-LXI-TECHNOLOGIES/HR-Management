@@ -100,6 +100,7 @@ public class LateArrivalResource {
       Instant instant=LocalDateTime.of(localDate,localtime).atZone(ZoneId.systemDefault()).toInstant();
 	lateArrival.setReachedTime(instant);
      lateArrival.setType(lateDTO.getType());
+
      lateArrival.setUserExtra(userExtraRepo.findById(id).get());
     log.debug("REST request to save LateArrival : {}", lateArrival);
         if (lateArrival.getId() != null) {
