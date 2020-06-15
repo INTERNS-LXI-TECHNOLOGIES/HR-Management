@@ -19,14 +19,17 @@ export class MenuPage implements OnInit {
       url: '/menu/adduser',
       icon: 'add'
     },
-    
-    
+    {
+      title: 'Appraisal Report',
+      url: '/menu/employee-appraisal',
+      icon: 'book'
+    },
   ];
-  selectedPath='';
-  constructor(private router:Router) {
-     this.router.events.subscribe((event: RouterEvent)=>{
-       if(event&& event.url){
-         this.selectedPath= event.url;
+  selectedPath = '';
+  constructor(private router: Router) {
+     this.router.events.subscribe((event: RouterEvent) => {
+       if (event && event.url){
+         this.selectedPath = event.url;
 
        }
      });

@@ -77,7 +77,7 @@ public class UserDataBeanService {
         log.debug("Request to delete UserDataBean : {}", id);
         userDataBeanRepository.deleteById(id);
     }
-    public List<UserDataBean> getAllUserDataBeans() 
+    public List<UserDataBean> getAllUserDataBeans()
 	{
 		List<UserExtra> users=userExService.getAllExtraUsers();
 		List<UserDataBean> list=new ArrayList<UserDataBean>();
@@ -90,10 +90,10 @@ public class UserDataBeanService {
 					userEx.getPosition(),user.getEmail(),appraisal.getAttendance(),appraisal.getPunctuality(),
 					appraisal.getMeetingTargets(),appraisal.getCompanyPolicy(),appraisal.getCodeQuality());
 			list.add(bean);
-			
+
 		}
 		return list;
-		
+
 	}
     /**
 	 * get user data beans between two date
@@ -117,7 +117,7 @@ public class UserDataBeanService {
 		List<UserDataBean> list=new ArrayList<UserDataBean>();
 		for(UserExtra u:users)
 		{
-			
+
 			User user=userExService.findByid(u.getId()).get();
 			UserExtra userEx=userExService.findExtraByid(u.getId()).get();
 			appraisalService.setAppraisalByDate(u.getId(),first,second);
@@ -126,7 +126,7 @@ public class UserDataBeanService {
 					userEx.getPosition(),user.getEmail(),appraisal.getAttendance(),appraisal.getPunctuality(),
 					appraisal.getMeetingTargets(),appraisal.getCompanyPolicy(),appraisal.getCodeQuality());
 			list.add(bean);
-			
+
 		}
 		return list;
 	}

@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>employeeAppraisal</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item *ngFor=" let appraisal of ( appraisalList | async )" >
+    <ion-item>
+      <p>{{appraisal.id}} </p>
+    </ion-item> 
+
+  </ion-item >
+
+</ion-content>

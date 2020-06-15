@@ -9,35 +9,42 @@ import { userViewModel } from './model/User';
   providedIn: 'root'
 })
 export class AppraisalService {
+  constructor(private  http: HttpClient, private router: Router) { }
+  baseUrl = 'http://localhost:8080';
   private counter = 0;
 
-  baseUrl:string = "http://localhost:8080";
+  getAppraisalList() {
+    alert('enter method');
+    return this.http.get(this.baseUrl + '/api/user-data-beans').pipe(map(data => {
+      console.log('users ::' + data);
+      return data; }));
+  }
 
-  public  getString(url:string): Observable<string>
+
+  public  getString(url: string): Observable<string>
   {
     return this.http.get(url, {responseType: 'text'}).pipe(map(data => {
-      console.log('accessing data from '+url+' is'+data);
-        return data;}));
+      console.log('accessing data from ' + url + ' is' + data);
+      return data; }));
   }
-  public  getUsers(urlvalue:string)
+  public  getUsers(urlvalue: string)
   {
     return  this.http.get<userViewModel>(urlvalue).pipe(map(data => {
-      console.log('users ::'+data);
-        return data;}));
+      console.log('users ::' + data);
+      return data; }));
   }
-  deleteUser(id:string)
+  deleteUser(id: string)
   {
     this.counter += 1;
-    let url:string = "http://localhost:8080/api/user-extras/"+id;
-    this.http.delete(url).subscribe(data=>{
-      alert("User removed Succesfully..!" );
+    const url: string = 'http://localhost:8080/api/user-extras/'+ id;
+    this.http.delete(url).subscribe(data => {
+      alert('User removed Succesfully..!' );
       this.router.navigate(['/home']);
     },
-    err=> {
-      alert("something went wromg..!" ); 
+    err => {
+      alert('something went wromg..!' );
     });
-    
+
   }
-  constructor(private  http : HttpClient, private router:Router) { }
-    
+
 }

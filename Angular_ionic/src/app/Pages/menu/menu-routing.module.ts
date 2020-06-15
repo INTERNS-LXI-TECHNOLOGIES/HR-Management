@@ -1,3 +1,4 @@
+import { EmployeeAppraisalPageModule } from './../employee-appraisal/employee-appraisal.module';
 import { AppraisalDetailsPageModule } from './../appraisal-details/appraisal-details.module';
 import { AdduserPageModule } from './../adduser/adduser.module';
 import { NgModule } from '@angular/core';
@@ -57,6 +58,10 @@ const routes: Routes = [
       {
         path: 'appraisal',
         loadChildren: () => AppraisalDetailsPageModule
+      },
+      {
+        path: 'employee-appraisal',
+        loadChildren: () => EmployeeAppraisalPageModule
       },
     ]
   }

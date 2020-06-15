@@ -48,8 +48,8 @@ export class AppraisalDetailsPage implements OnInit {
   {
     // tslint:disable-next-line: max-line-length
     this.userService.sortAppraisal('http://localhost:8080/api/appraisal-controller-resource/sortAppraisal/' + this.id + '/' + this.start + '/' + this.end)
-                                .subscribe(data => {this.appraisal = data; 
-                                                    this.sort = false;},
+                                .subscribe(data => {this.appraisal = data;
+                                                    this.sort = false; },
                                   err => alert('select dates correctly'));
   }
 

@@ -17,6 +17,7 @@ export class HomePage implements OnInit {
               private userService: UserService, private route: ActivatedRoute){  }
   users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/users/');
   public deleteUser(id: string){
+    // tslint:disable-next-line: deprecation
     event.stopImmediatePropagation();
     this.appservice.deleteUser(id);
     setTimeout(() => {
@@ -24,6 +25,7 @@ export class HomePage implements OnInit {
     }, 2000);
   }
   public editUser(id: string){
+    // tslint:disable-next-line: deprecation
     event.stopImmediatePropagation();
     this.router.navigate(['menu/edit-user', id]);
   }
