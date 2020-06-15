@@ -1,15 +1,42 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>employeeAppraisal</ion-title>
+<ion-header translucent no-border>
+  <ion-toolbar color="primary">
+    <ion-title>Emplpoyee Appraisal Details</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <ion-item *ngFor=" let appraisal of ( appraisalList | async )" >
-    <ion-item>
-      <p>{{appraisal.id}} </p>
-    </ion-item> 
+  <div style="overflow-x: auto;">
+      <table>
+        <tr>
+          <th >s.no</th>
+          <th >firstName</th>
+          <th >lastName</th>
+          <th >company</th>
+          <th >position</th>
+          <th >email</th>
+          <th >attendance</th>
+          <th >punctuality</th>
+          <th >meetingTargets</th>
+          <th >companyPolicy</th>
+          <th >codeQuality</th>
+        </tr>
+        <tr *ngFor="let item of ( appraisalList |async ); let i=index">
+          <!-- <tr> -->
+            <td >{{ i+1 }}</td>
+            <td >{{ item.firstName }}</td>
+            <td >{{ item.lastName }}</td>
+            <td >{{ item.company }}</td>
+            <td >{{ item.position }}</td>
+            <td >{{ item.email }}</td>
+            <td >{{ item.attendance }}</td>
+            <td >{{ item.punctuality }}</td>
+            <td >{{ item.meetingTargets }}</td>
+            <td >{{ item.companyPolicy }}</td>
+            <td >{{ item.codeQuality }}</td>
+          </tr>
+        <!-- </ion-item> -->
+    </table>
+  </div>
 
-  </ion-item >
-
+  <ion-button expand="full" color="secondary" (click)="getPdf()">Get PDF</ion-button>
+  
 </ion-content>

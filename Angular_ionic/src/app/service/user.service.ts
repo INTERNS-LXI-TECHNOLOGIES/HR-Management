@@ -9,6 +9,12 @@ import { DomSanitizer } from '@angular/platform-browser';
   providedIn: 'root'
 })
 export class UserService {
+  getReport(url: string) {
+    const httpOptions = {
+      'responseType': 'arraybuffer' as 'json'
+    }
+    return this.http.get<BlobPart>(url, httpOptions);
+  }
   getPdf(url: string) {
     const httpOptions = {
       'responseType': 'arraybuffer' as 'json'

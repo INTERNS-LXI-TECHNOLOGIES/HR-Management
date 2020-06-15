@@ -32,6 +32,7 @@ import com.lxisoft.appraisal.domain.LateArrival;
 import com.lxisoft.appraisal.domain.Leave;
 import com.lxisoft.appraisal.domain.ReportStatus;
 import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.domain.UserDataBean;
 import com.lxisoft.appraisal.service.AppraisalService;
 import com.lxisoft.appraisal.service.GitService;
 import com.lxisoft.appraisal.service.HackathonService;
@@ -40,6 +41,7 @@ import com.lxisoft.appraisal.service.LateArrivalService;
 import com.lxisoft.appraisal.service.LeaveService;
 import com.lxisoft.appraisal.service.ReportStatusService;
 import com.lxisoft.appraisal.service.RestService;
+import com.lxisoft.appraisal.service.UserDataBeanService;
 import com.lxisoft.appraisal.service.UserExtraService;
 import com.lxisoft.appraisal.service.UserService;
 import com.lxisoft.appraisal.service.dto.UserDTO;
@@ -81,7 +83,9 @@ public class AppraisalControllerResource {
     @Autowired
     AppraisalService appraisalService;
     @Autowired
-	JasperService jasperService;
+    JasperService jasperService;
+    @Autowired
+    UserDataBeanService userDataBeanService;
 
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
@@ -230,6 +234,25 @@ public class AppraisalControllerResource {
 		byte[] pdfContents=null;
 		try {
 			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target,start,end,month);
+		} catch (JRException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		HttpHeaders headers=new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType("application/pdf"));
+		String fileName="Appraisal.pdf";
+		headers.add("content dis-position","attachment: filename="+fileName);
+		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
+		return response;
+    }
+    @GetMapping("/report")
+	public ResponseEntity<byte[]> report()
+	{
+        List<UserDataBean> reportList=userDataBeanService.getAllUserDataBeans();
+         String month = "Till date";
+		byte[] pdfContents=null;
+		try {
+			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(reportList,month);
 		} catch (JRException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

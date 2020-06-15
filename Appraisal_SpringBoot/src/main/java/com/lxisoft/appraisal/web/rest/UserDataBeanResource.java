@@ -85,7 +85,7 @@ public class UserDataBeanResource {
     @GetMapping("/user-data-beans")
     public List<UserDataBean> getAllUserDataBeans() {
         log.debug("REST request to get all UserDataBeans");
-        return userDataBeanService.findAll();
+        return userDataBeanService.getAllUserDataBeans();
     }
 
     /**

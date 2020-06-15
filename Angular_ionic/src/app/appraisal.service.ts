@@ -14,8 +14,7 @@ export class AppraisalService {
   private counter = 0;
 
   getAppraisalList() {
-    alert('enter method');
-    return this.http.get(this.baseUrl + '/api/user-data-beans').pipe(map(data => {
+      return this.http.get(this.baseUrl + '/api/user-data-beans').pipe(map(data => {
       console.log('users ::' + data);
       return data; }));
   }
