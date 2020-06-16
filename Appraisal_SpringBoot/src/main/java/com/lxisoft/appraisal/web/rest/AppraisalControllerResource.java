@@ -245,11 +245,22 @@ public class AppraisalControllerResource {
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
     }
-    @GetMapping("/report")
-	public ResponseEntity<byte[]> report()
+    @GetMapping("/report/{month}/{sort}/{start}/{end}")
+    public ResponseEntity<byte[]> report(@PathVariable ("sort") boolean sort,
+        @PathVariable (name="start", required = false) String start,@PathVariable(name="end", required = false) String end)
 	{
-        List<UserDataBean> reportList=userDataBeanService.getAllUserDataBeans();
-         String month = "Till date";
+        List<UserDataBean> reportList=null;
+        String month= null;
+        if(sort){
+            month = "Till Date";
+            reportList=userDataBeanService.getAllUserDataBeans();
+        }
+        else{
+            month = "from:"+start +" to:"+end;
+            LocalDate first=LocalDate.parse(start);
+            LocalDate second=LocalDate.parse(end);
+            reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
+        }
 		byte[] pdfContents=null;
 		try {
 			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(reportList,month);
@@ -263,5 +274,18 @@ public class AppraisalControllerResource {
 		headers.add("content dis-position","attachment: filename="+fileName);
 		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
 		return response;
+    }
+    @RequestMapping("/getReportBetweenTwoDate/{start}/{end}")
+	public void reportByDate(@PathVariable ("start") String start,@PathVariable("end") String end)
+	{
+		 List<UserDataBean> reportList=null;
+
+		 LocalDate first=LocalDate.parse(start);
+		 LocalDate second=LocalDate.parse(end);
+		 long days= ChronoUnit.DAYS.between(first,second);
+		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
+		 mv.addObject("list", reportList);
+		 mv.addObject("month","From :"+first.toString()+"   To:"+second.toString());
+			return ;
 	}
 }

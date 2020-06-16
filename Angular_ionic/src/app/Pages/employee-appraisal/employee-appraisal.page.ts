@@ -11,6 +11,9 @@ import { Observable } from 'rxjs';
 })
 export class EmployeeAppraisalPage implements OnInit {
   appraisalList;
+  start;
+  end;
+  month: string;
   users: Observable <userViewModel> = this.appService.getUsers('http://localhost:8080/api/users/');
 
   constructor(private appService: AppraisalService,
@@ -20,7 +23,7 @@ export class EmployeeAppraisalPage implements OnInit {
     this.appraisalList = this.appService.getAppraisalList();
   }
   getPdf(){
-    this.userService.getReport('http://localhost:8080/api/appraisal-controller-resource/report/')
+      this.userService.getReport('http://localhost:8080/api/appraisal-controller-resource/report/' + true )
                                 .subscribe(data =>
       {
         const file = new Blob([data], {type: 'application/pdf'});
@@ -28,6 +31,16 @@ export class EmployeeAppraisalPage implements OnInit {
         window.open(fileUrl);
       });
 
+  }
+  sortDetails(){
+      // tslint:disable-next-line: max-line-length
+      this.userService.getReport('http://localhost:8080/api/appraisal-controller-resource/report/' + false + '/' + this.start + '/' + this.end)
+                                .subscribe(data =>
+      {
+        const file = new Blob([data], {type: 'application/pdf'});
+        const fileUrl = URL.createObjectURL(file);
+        window.open(fileUrl);
+      });
   }
 
 }
