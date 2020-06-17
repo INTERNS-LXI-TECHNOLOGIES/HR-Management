@@ -2,11 +2,11 @@
     margin: 0 auto;
 
     .header {
-        height: 50px;
+        height: 30px;
 
         .avatar {
-            width: 150px;
-            height: 100px;
+            width: 100px;
+            height: 110px;
             position: relative;
             margin: 0 auto;
 
@@ -26,7 +26,7 @@
     background-color: #ffffff;
     padding: 30px;
     height: calc(100vh - (10px + 56px));
-    overflow: hidden;
+    // overflow: hidden;
 
     .user-meta {
         padding-top: 40px;
