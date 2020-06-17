@@ -9,11 +9,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -25,8 +26,8 @@ import java.util.Collection;
 public class AppraisalApp {
 
     private static final Logger log = LoggerFactory.getLogger(AppraisalApp.class);
-
-    private final Environment env;
+    @Autowired
+    Environment env;
 
     public AppraisalApp(Environment env) {
         this.env = env;
