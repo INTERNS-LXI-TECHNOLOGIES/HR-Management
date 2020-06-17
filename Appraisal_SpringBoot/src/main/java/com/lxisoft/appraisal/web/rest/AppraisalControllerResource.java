@@ -60,8 +60,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.io.IOException;
 import javax.ws.rs.Consumes;
-import java.util.Base64;
-
 
 /**
  * AppraisalControllerResource controller
@@ -87,10 +85,13 @@ public class AppraisalControllerResource {
     @Autowired
     UserDataBeanService userDataBeanService;
 
+    public static List<UserDataBean> reportList = null;
 
     private final Logger log = LoggerFactory.getLogger(AppraisalControllerResource.class);
+
     /**
      * to get all user info.
+     *
      * @return - list of user
      */
     @GetMapping("/all")
@@ -98,8 +99,10 @@ public class AppraisalControllerResource {
         Pageable pageable = null;
         return userRes.getAllUsers(pageable);
     }
+
     /**
      * for adding user
+     *
      * @param userDTO
      * @return
      */
@@ -116,68 +119,72 @@ public class AppraisalControllerResource {
             e.printStackTrace();
         }
 
-    	return isUsed;
+        return isUsed;
     }
-     /**
+
+    /**
      * to get single user details
+     *
      * @param id
      * @return
      */
     @GetMapping("/user-extras/{id}")
     @Transactional(readOnly = true)
-    public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id)
-    {
-        Optional <User> user = userexService.findByid(id);
+    public ResponseEntity<UserExtraDTO> getUserExtra(@PathVariable Long id) {
+        Optional<User> user = userexService.findByid(id);
         log.debug("REST request to get UserExtra : {}", id);
         Optional<UserExtra> userExtra = userExtraRepository.findById(id);
         log.debug("REST  get UserExtra : {}", userExtra);
-        UserExtraDTO u=new UserExtraDTO(user.get(),userExtra.get());
-        Optional<UserExtraDTO> dto=Optional.of(u);
+        UserExtraDTO u = new UserExtraDTO(user.get(), userExtra.get());
+        Optional<UserExtraDTO> dto = Optional.of(u);
 
         appraisalService.setAppraisal(id);
         return ResponseUtil.wrapOrNotFound(dto);
     }
+
     @GetMapping("/image/{id}")
-    public String getUserImage(@PathVariable Long id)
-    {
-    	Optional<UserExtra> userExtra = userExtraRepository.findById(id);
+    public String getUserImage(@PathVariable Long id) {
+        Optional<UserExtra> userExtra = userExtraRepository.findById(id);
         log.debug("REST  get UserExtra : {}", userExtra);
         byte[] encoded = Base64.getEncoder().encode(userExtra.get().getImage());
         return (new String(encoded));
     }
+
     /**
      * for setting leave
+     *
      * @param userDTO
      * @return
      */
     @PostMapping("/setLeave")
-    public ResponseEntity<List<UserDTO>> leaves(@RequestBody UserViewDTO userDTO)
-    {
-        Pageable pageable=null;
+    public ResponseEntity<List<UserDTO>> leaves(@RequestBody UserViewDTO userDTO) {
+        Pageable pageable = null;
         log.info("getn value from server----------");
-//        restService.setLeave(userDTO);
-    	return userRes.getAllUsers(pageable);
+        // restService.setLeave(userDTO);
+        return userRes.getAllUsers(pageable);
     }
+
     /**
      * to get user full work status
+     *
      * @param id
      * @return - full status of user
      */
     @GetMapping("/status/{id}")
-    public List<Integer> getWorkStatus(@PathVariable Long id)
-    {
-    	 List<Integer> status=restService.getUserStatus(id);
-    	 return status;
+    public List<Integer> getWorkStatus(@PathVariable Long id) {
+        List<Integer> status = restService.getUserStatus(id);
+        return status;
     }
+
     /**
      * to edit user
+     *
      * @param userView
      * @return
      */
     @Consumes("multipart/form-data")
     @PostMapping("/editUser")
-    public boolean editUser(@ModelAttribute UserViewDTO userView)
-    {
+    public boolean editUser(@ModelAttribute UserViewDTO userView) {
         log.info("get model from server ----------:{}", userView);
         try {
             restService.editUser(userView);
@@ -187,105 +194,106 @@ public class AppraisalControllerResource {
         }
         return true;
     }
+
     @GetMapping("/appraisal/{id}")
-    public Appraisal getAppraisal(@PathVariable Long id)
-    {
+    public Appraisal getAppraisal(@PathVariable Long id) {
         log.info("get id from server ----------:{}", id);
         appraisalService.setAppraisal(id);
-        Appraisal details=appraisalService.getOneAppraisal(id);
-    	 return details;
+        Appraisal details = appraisalService.getOneAppraisal(id);
+        return details;
     }
+
     @GetMapping("/sortAppraisal/{id}/{start}/{end}")
-    public Appraisal sortAppraisal(@PathVariable ("id") Long id,@PathVariable ("start") String start,@PathVariable ("end") String end)
-    {
+    public Appraisal sortAppraisal(@PathVariable("id") Long id, @PathVariable("start") String start,
+            @PathVariable("end") String end) {
         log.info("get id from server ----------:{}", id);
-        appraisalService.setAppraisalByDate(id, LocalDate.parse(start),LocalDate.parse(end));
-        Appraisal details=appraisalService.getOneAppraisal(id);
-    	 return details;
+        appraisalService.setAppraisalByDate(id, LocalDate.parse(start), LocalDate.parse(end));
+        Appraisal details = appraisalService.getOneAppraisal(id);
+        return details;
     }
+
     @GetMapping("/getPdf/{id}/{start}/{end}/{joinDate}/{unSort}")
-	public ResponseEntity<byte[]>  getPdf(@PathVariable ("id")long id,
-            @PathVariable ("start")String start,@PathVariable ("end")String end,
-            @PathVariable ("joinDate")String joinDate,@PathVariable ("unSort") boolean sort)
+    public ResponseEntity<byte[]> getPdf(@PathVariable("id") long id, @PathVariable("start") String start,
+            @PathVariable("end") String end, @PathVariable("joinDate") String joinDate,
+            @PathVariable("unSort") boolean sort)
 
-	{
-        if(sort)start=joinDate;
-        String[] time=end.split("T",2);
-        end=time[0];
-		Appraisal appraisal=null;
-		try{
-			appraisal=appraisalService.getOneAppraisal(id);
-		}catch(Exception e)
-		{
+    {
+        if (sort)
+            start = joinDate;
+        String[] time = end.split("T", 2);
+        end = time[0];
+        Appraisal appraisal = null;
+        try {
+            appraisal = appraisalService.getOneAppraisal(id);
+        } catch (Exception e) {
 
-		}
-		long attVal=appraisal.getAttendance();
-		long punVal=appraisal.getPunctuality();
-		long codeVal=appraisal.getCodeQuality();
-		long policyVal=appraisal.getCompanyPolicy();
-		long targetVal=appraisal.getMeetingTargets();
-		String att=restService.getComment(attVal);
-		String pun=restService.getComment(punVal);
-		String code=restService.getComment(codeVal);
-		String policy=restService.getComment(policyVal);
-		String target=restService.getComment(targetVal);
+        }
+        long attVal = appraisal.getAttendance();
+        long punVal = appraisal.getPunctuality();
+        long codeVal = appraisal.getCodeQuality();
+        long policyVal = appraisal.getCompanyPolicy();
+        long targetVal = appraisal.getMeetingTargets();
+        String att = restService.getComment(attVal);
+        String pun = restService.getComment(punVal);
+        String code = restService.getComment(codeVal);
+        String policy = restService.getComment(policyVal);
+        String target = restService.getComment(targetVal);
 
-		String month="Random Days";
-		byte[] pdfContents=null;
-		try {
-			pdfContents=jasperService.getReportAsPdfUsingDatabase(id,att,pun,code,policy,target,start,end,month);
-		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		HttpHeaders headers=new HttpHeaders();
-		headers.setContentType(MediaType.parseMediaType("application/pdf"));
-		String fileName="Appraisal.pdf";
-		headers.add("content dis-position","attachment: filename="+fileName);
-		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
-		return response;
+        String month = "Random Days";
+        byte[] pdfContents = null;
+        try {
+            pdfContents = jasperService.getReportAsPdfUsingDatabase(id, att, pun, code, policy, target, start, end,
+                    month);
+        } catch (JRException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        String fileName = "Appraisal.pdf";
+        headers.add("content dis-position", "attachment: filename=" + fileName);
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfContents, headers, HttpStatus.OK);
+        return response;
     }
-    @GetMapping("/report/{month}/{sort}/{start}/{end}")
-    public ResponseEntity<byte[]> report(@PathVariable ("sort") boolean sort,
-        @PathVariable (name="start", required = false) String start,@PathVariable(name="end", required = false) String end)
-	{
-        List<UserDataBean> reportList=null;
-        String month= null;
-        if(sort){
+
+    @GetMapping("/report/{sort}/{start}/{end}")
+    public ResponseEntity<byte[]> report(@PathVariable("sort") boolean sort,
+            @PathVariable(name = "start", required = false) String start,
+            @PathVariable(name = "end", required = false) String end) {
+
+        String month = null;
+        if (sort) {
             month = "Till Date";
-            reportList=userDataBeanService.getAllUserDataBeans();
+            reportList = userDataBeanService.getAllUserDataBeans();
+        } else {
+            month = "from:" + start + " to:" + end;
+            // LocalDate first = LocalDate.parse(start);
+            // LocalDate second = LocalDate.parse(end);
+            // reportList = userDataBeanService.findAllUserDataBeanByDate(first, second);
         }
-        else{
-            month = "from:"+start +" to:"+end;
-            LocalDate first=LocalDate.parse(start);
-            LocalDate second=LocalDate.parse(end);
-            reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
+        byte[] pdfContents = null;
+        try {
+            pdfContents = jasperService.getReportAsPdfUsingJavaBeans(reportList, month);
+        } catch (JRException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-		byte[] pdfContents=null;
-		try {
-			pdfContents=jasperService.getReportAsPdfUsingJavaBeans(reportList,month);
-		} catch (JRException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		HttpHeaders headers=new HttpHeaders();
-		headers.setContentType(MediaType.parseMediaType("application/pdf"));
-		String fileName="Appraisal.pdf";
-		headers.add("content dis-position","attachment: filename="+fileName);
-		ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(pdfContents,headers,HttpStatus.OK);
-		return response;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("application/pdf"));
+        String fileName = "Appraisal.pdf";
+        headers.add("content dis-position", "attachment: filename=" + fileName);
+        ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(pdfContents, headers, HttpStatus.OK);
+        return response;
     }
+
     @RequestMapping("/getReportBetweenTwoDate/{start}/{end}")
-	public void reportByDate(@PathVariable ("start") String start,@PathVariable("end") String end)
+    public List<UserDataBean> reportByDate(@PathVariable("start") String start, @PathVariable("end") String end)
 	{
-		 List<UserDataBean> reportList=null;
+
 
 		 LocalDate first=LocalDate.parse(start);
 		 LocalDate second=LocalDate.parse(end);
-		 long days= ChronoUnit.DAYS.between(first,second);
-		 reportList=userDataBeanService.findAllUserDataBeanByDate(first,second);
-		 mv.addObject("list", reportList);
-		 mv.addObject("month","From :"+first.toString()+"   To:"+second.toString());
-			return ;
+		 return userDataBeanService.findAllUserDataBeanByDate(first,second);
+
 	}
 }
