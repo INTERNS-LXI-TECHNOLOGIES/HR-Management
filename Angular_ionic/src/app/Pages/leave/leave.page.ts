@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {FormControl} from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {leaveModel } from 'src/app/model/Leave';
 import { type } from 'os';
 import {Name } from 'src/app/model/Name';
+import { AppraisalService } from 'src/app/appraisal.service';
+import { UserService } from 'src/app/service/user.service';
+import { userViewModel } from 'src/app/model/User';
 @Component({
   selector: 'app-leave',
   templateUrl: './leave.page.html',
@@ -18,10 +21,16 @@ export class LeavePage implements OnInit {
 
   isValidFormSubmitted = false;
   name: Name[]=[
-    {id:1, name:'sarooj'},
-    {id:2, name:'meharu'},
-    {id:3, name:'ajith'},
-    {id:4, name:'jose'}
+    { name:'sooraj'},
+    { name:'meharu'},
+    { name:'ajith'},
+    { name:'abhi'},
+    { name:'sanu'},
+    { name:'jose'},
+    { name:'mani'},
+    { name:'anju'},
+    { name:'gokhul'},
+    
   ];
 
   model:leaveModel={
@@ -34,7 +43,9 @@ export class LeavePage implements OnInit {
   
 
   user: Object;
-  constructor(private http: HttpClient , private router: Router) { }
+  constructor(private appservice: AppraisalService, private route: ActivatedRoute,private userService: UserService,private http: HttpClient , private router: Router) 
+  { }
+  users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/appraisal-controller-resource/userName');
 
   ngOnInit() {
   }

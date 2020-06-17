@@ -2,12 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import {lateArrival } from 'src/app/model/lateArrival';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Name } from 'src/app/model/Name';
 @Component({
   selector: 'app-late-arrival',
   templateUrl: './late-arrival.page.html',
   styleUrls: ['./late-arrival.page.scss'],
 })
 export class LateArrivalPage implements OnInit {
+  isValidFormSubmitted = false;
+  name: Name[]=[
+    { name:'sooraj'},
+    { name:'meharu'},
+    { name:'ajith'},
+    { name:'abhi'},
+    { name:'sanu'},
+    { name:'jose'},
+    { name:'mani'},
+    { name:'anju'},
+    { name:'gokhul'},
+    
+  ];
   model:lateArrival={
     name:"",
     type:"",
