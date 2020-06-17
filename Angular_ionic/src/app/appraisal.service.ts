@@ -18,6 +18,12 @@ export class AppraisalService {
       console.log('users ::' + data);
       return data; }));
   }
+  getAppraisalListBetweenDates(first: string , end: string){
+    // tslint:disable-next-line: max-line-length
+    return this.http.get('http://localhost:8080/api/appraisal-controller-resource/getReportBetweenTwoDate/' + first + '/' + end).pipe(map(data => {
+      console.log('users ::' + data);
+      return data; }));
+   }
 
 
   public  getString(url: string): Observable<string>

@@ -7,6 +7,24 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <br>
+  <div class="ion-text-center" >Select Two dates : &nbsp;
+    <input type="date" 
+          class="form-control"
+          name="start"
+          placeholder="Select a date"
+          [(ngModel)]="start"
+          required/>
+        <input type="date" 
+          class="form-control"
+          name="end"
+          placeholder="Select a date"
+          [(ngModel)]="end"
+          required/>
+  </div>
+  <div class="ion-text-center" >
+    <ion-button  (click)="sortDetails()">Sort Appraisal Details</ion-button>
+  </div>
   <div style="overflow-x: auto;">
       <table>
         <tr>
