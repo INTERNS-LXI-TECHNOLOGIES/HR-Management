@@ -8,8 +8,8 @@ import { HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-import { MenuPage } from './Pages/menu/menu.page';
 import { IonicStorageModule } from '@ionic/storage';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,6 +21,7 @@ import { IonicStorageModule } from '@ionic/storage';
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     FormsModule,
+    AuthModule
   ],
   providers: [
     StatusBar,

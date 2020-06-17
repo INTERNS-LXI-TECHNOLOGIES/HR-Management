@@ -1,4 +1,4 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
     <ion-title>APPRAISAL</ion-title>
   </ion-toolbar>
@@ -6,5 +6,42 @@
 
 <ion-content padding>
     <ion-button expand="block" routerLink="/menu/home">Login</ion-button>
+</ion-content> -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content class="ion-padding">
+  <form #form="ngForm" (ngSubmit)="login(form.value)" novalidate>
+    <!-- <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && login()" novalidate class="feedback-form"> -->
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Username</ion-label>
+        <ion-input type="text" name="username" ngModel required #username="ngModel"
+                   [class.invalid]="username.errors && username.dirty"></ion-input>
+      </ion-item>
+      <ion-item class="error-message" *ngIf="username.errors?.required && username.dirty">
+        <ion-label>
+          Username is required
+        </ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input type="password" name="password" ngModel required #password="ngModel"
+                   [class.invalid]="password.errors && password.dirty"></ion-input>
+      </ion-item>
+      <ion-item class="error-message" *ngIf="password.errors?.required && password.dirty">
+        <ion-label>
+          Password is required
+        </ion-label>
+      </ion-item>
+
+      <div class="ion-padding">
+        <ion-button color="primary" expand="block" type="submit" [disabled]="!form.valid">Login</ion-button>
+      </div>
+    </ion-list>
+  </form>
 </ion-content>
