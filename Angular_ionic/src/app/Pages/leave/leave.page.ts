@@ -19,7 +19,12 @@ import { userViewModel } from 'src/app/model/User';
 
 export class LeavePage implements OnInit {
 
-  isValidFormSubmitted = false;
+  users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/appraisal-controller-resource/userName');
+
+  naame: userViewModel[]=[
+
+   
+  ];
   name: Name[]=[
     { name:'sooraj'},
     { name:'meharu'},
@@ -45,7 +50,7 @@ export class LeavePage implements OnInit {
   user: Object;
   constructor(private appservice: AppraisalService, private route: ActivatedRoute,private userService: UserService,private http: HttpClient , private router: Router) 
   { }
-  users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/appraisal-controller-resource/userName');
+ 
 
   ngOnInit() {
   }
