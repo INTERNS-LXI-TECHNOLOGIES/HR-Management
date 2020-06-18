@@ -38,12 +38,13 @@
                     Name
                   </label>
                   <select id ="name" name="name"
-                    [(ngModel)] = "name" class="formControl">
-                  <option *ngFor="let n of name" [value]=n.id>
+                   class="form-control"
+                   [(ngModel)] = "model.name">
+                  <option *ngFor="let n of name" >
                     {{n.name}}
                   </option>
                   </select>
-                  </div>   -->
+                  </div>    -->
 
 
 

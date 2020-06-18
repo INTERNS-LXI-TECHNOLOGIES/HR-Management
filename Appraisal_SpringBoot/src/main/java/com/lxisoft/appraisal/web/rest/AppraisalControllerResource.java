@@ -151,17 +151,15 @@ public class AppraisalControllerResource {
     }
 
     /**
-     * for setting leave
+     * for get all  Users
      *
-     * @param userDTO
      * @return
      */
-    @PostMapping("/setLeave")
-    public ResponseEntity<List<UserDTO>> leaves(@RequestBody UserViewDTO userDTO) {
-        Pageable pageable = null;
-        log.info("getn value from server----------");
-        // restService.setLeave(userDTO);
-        return userRes.getAllUsers(pageable);
+    @GetMapping("/userName")
+    public ArrayList<User> userNames()
+    {
+
+    	return userService.getAllUsers();
     }
 
     /**

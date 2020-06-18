@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { reportStatus } from 'src/app/model/ReportStatus';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Name } from 'src/app/model/Name';
 
 @Component({
   selector: 'app-report-status',
@@ -9,6 +10,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./report-status.page.scss'],
 })
 export class ReportStatusPage implements OnInit {
+  isValidFormSubmitted = false;
+  name: Name[]=[
+    { name:'sooraj'},
+    { name:'meharu'},
+    { name:'ajith'},
+    { name:'abhi'},
+    { name:'sanu'},
+    { name:'jose'},
+    { name:'mani'},
+    { name:'anju'},
+    { name:'gokhul'},
+    
+  ];
   model:reportStatus={
     name:"",  
     type:"",

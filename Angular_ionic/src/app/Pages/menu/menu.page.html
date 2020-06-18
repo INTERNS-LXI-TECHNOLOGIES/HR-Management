@@ -20,7 +20,7 @@
       </ion-item>
       </ion-list>
         <ion-item lines="none" (click)="isRemainder === 1 ? isRemainder = 0 : isRemainder = 1">
-          <ion-icon name="notifications" slot="start"></ion-icon>
+          <ion-icon name="logo-twitch" slot="start"></ion-icon>
          Status
           <ion-icon slot="end" [name]="isRemainder? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
         </ion-item>
@@ -45,9 +45,14 @@
             </ion-item>
             <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/evaluation']"
             [queryParams]="{ type: 'Evaluation' }" menuClose class="sub-menu">
-            <ion-icon name="book" slot="start"></ion-icon>
+            <ion-icon name="trophy" slot="start"></ion-icon>
           Evaluation Updation
           </ion-item>
+          <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/jira']"
+          [queryParams]="{ type: 'Jira' }" menuClose class="sub-menu">
+          <ion-icon name="logo-github" slot="start"></ion-icon>
+        Jira Updation
+        </ion-item>
           </ion-list>
         </ion-menu-toggle>
     </ion-content>

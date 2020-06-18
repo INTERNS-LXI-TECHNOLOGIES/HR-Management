@@ -3,6 +3,7 @@ import { gitModel } from 'src/app/model/Git';
 import { hackModel } from 'src/app/model/Hack';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Name } from 'src/app/model/Name';
 
 @Component({
   selector: 'app-evaluation',
@@ -10,6 +11,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./evaluation.page.scss'],
 })
 export class EvaluationPage implements OnInit {
+  isValidFormSubmitted = false;
+  name: Name[]=[
+    { name:'sooraj'},
+    { name:'meharu'},
+    { name:'ajith'},
+    { name:'abhi'},
+    { name:'sanu'},
+    { name:'jose'},
+    { name:'mani'},
+    { name:'anju'},
+    { name:'gokhul'},
+    
+  ];
   modelGit : gitModel={
     name:"",
     mark:""
