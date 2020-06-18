@@ -13,6 +13,7 @@ import { EvaluationPageModule } from '../evaluation/evaluation.module';
 import { UserInfoPageModule } from '../user-info/user-info.module';
 import { WorkProfilePageModule } from '../work-profile/work-profile.module';
 import { EditUserPageModule } from '../edit-user/edit-user.module';
+import { JiraPageModule } from 'src/app/Pages/jira/jira.module';
 
 const routes: Routes = [
   {
@@ -63,6 +64,10 @@ const routes: Routes = [
         path: 'employee-appraisal',
         loadChildren: () => EmployeeAppraisalPageModule
       },
+      {
+        path: 'jira',loadChildren: () => JiraPageModule
+      },
+    
     ]
   }
 ];

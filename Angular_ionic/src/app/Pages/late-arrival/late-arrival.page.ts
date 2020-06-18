@@ -10,18 +10,7 @@ import { Name } from 'src/app/model/Name';
 })
 export class LateArrivalPage implements OnInit {
   isValidFormSubmitted = false;
-  name: Name[]=[
-    { name:'sooraj'},
-    { name:'meharu'},
-    { name:'ajith'},
-    { name:'abhi'},
-    { name:'sanu'},
-    { name:'jose'},
-    { name:'mani'},
-    { name:'anju'},
-    { name:'gokhul'},
-    
-  ];
+  
   model:lateArrival={
     name:"",
     type:"",
