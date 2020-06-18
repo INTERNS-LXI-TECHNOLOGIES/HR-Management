@@ -1,3 +1,4 @@
+import { User } from './../../auth/user';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -23,7 +24,7 @@ export class AdduserPage implements OnInit {
     image: null,
     login: '',
     password: ''
-  }
+  };
   user;
   file: File;
   files: FileList;
@@ -74,17 +75,24 @@ export class AdduserPage implements OnInit {
 
       // }
         this.router.navigateByUrl('/menu/home');
-
       }
 
     },
     err => {
       alert('something went wrong..!' + this.model.image.type+ ' nn  ' + this.model.company );
     });
+    this.sign();
   }
   setFile(event)
   {
     this.model.image = event.target.files[0];
   }
+  sign()
+  {
+    const formData = new FormData();
+    formData.append( 'login', this.model.login );
+    formData.append( 'password', this.model.password );
+  }
+
 }
 
