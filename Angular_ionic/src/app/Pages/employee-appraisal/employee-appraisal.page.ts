@@ -40,7 +40,6 @@ export class EmployeeAppraisalPage implements OnInit {
   sortDetails(){
     this.appraisalList = this.appService.getAppraisalListBetweenDates(this.start, this.end);
     this.sort = false;
-
   }
 
 }
