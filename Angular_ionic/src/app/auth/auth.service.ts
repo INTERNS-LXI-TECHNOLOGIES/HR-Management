@@ -13,7 +13,7 @@ export class AuthService {
 
   private authUser = new ReplaySubject<any>(1);
   public authUserObservable = this.authUser.asObservable();
-  
+
   constructor(private readonly httpClient: HttpClient,
               private readonly navCtrl: NavController,) {}
   login(values: any): Observable<string> {
@@ -23,6 +23,7 @@ export class AuthService {
   private handleJwtResponse(jwt: string): string {
     localStorage.setItem(this.jwtTokenName, jwt);
     this.authUser.next(jwt);
+    console.log(jwt);
     return jwt;
   }
 }
