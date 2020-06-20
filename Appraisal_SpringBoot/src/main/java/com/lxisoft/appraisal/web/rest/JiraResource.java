@@ -1,13 +1,20 @@
 package com.lxisoft.appraisal.web.rest;
 
 import com.lxisoft.appraisal.domain.Jira;
+import com.lxisoft.appraisal.domain.User;
+import com.lxisoft.appraisal.domain.UserExtra;
 import com.lxisoft.appraisal.repository.JiraRepository;
+import com.lxisoft.appraisal.repository.UserExtraRepository;
+import com.lxisoft.appraisal.service.UserExtraService;
+import com.lxisoft.appraisal.service.UserService;
+import com.lxisoft.appraisal.service.dto.JiraDTO;
 import com.lxisoft.appraisal.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +42,14 @@ public class JiraResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
+   // private final JiraRepository jiraRepository;
+    @Autowired
+    UserExtraService userExSer;
+    @Autowired
+    UserService userSer;
+    @Autowired
+    UserExtraRepository userExtraRepo;
+
     private final JiraRepository jiraRepository;
 
     public JiraResource(JiraRepository jiraRepository) {
@@ -47,7 +64,32 @@ public class JiraResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/jiras")
-    public ResponseEntity<Jira> createJira(@RequestBody Jira jira) throws URISyntaxException {
+    public ResponseEntity<Jira> createJira(@RequestBody JiraDTO jiraDTO) throws URISyntaxException {
+
+        Jira jira = new Jira();
+        ArrayList<User> user=(ArrayList<User>) userSer.getAllUsers();
+        ArrayList<UserExtra> userExtra=(ArrayList<UserExtra>) userExSer.getAllExtraUsers();
+
+        String name = jiraDTO.getName();
+        long id= 0;
+        for(int i=0;i<user.size();i++)
+		{
+			String m=user.get(i).getFirstName();
+			User u=user.get(i);
+
+			if(name.equals(m))
+			{
+				 id=user.get(i).getId();
+
+			}
+        }
+
+        LocalDate localDate = LocalDate.now();
+        jira.setDate(localDate);
+        jira.setUserExtra(userExtraRepo.findById(id).get());
+
+        Float hour = Float.parseFloat(jiraDTO.getHour());
+        jira.setHour(hour);
         log.debug("REST request to save Jira : {}", jira);
         if (jira.getId() != null) {
             throw new BadRequestAlertException("A new jira cannot already have an ID", ENTITY_NAME, "idexists");
@@ -68,7 +110,8 @@ public class JiraResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/jiras")
-    public ResponseEntity<Jira> updateJira(@RequestBody Jira jira) throws URISyntaxException {
+    public ResponseEntity<Jira> updateJira(@RequestBody JiraDTO jiraDTO) throws URISyntaxException {
+        Jira jira = new Jira();
         log.debug("REST request to update Jira : {}", jira);
         if (jira.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
