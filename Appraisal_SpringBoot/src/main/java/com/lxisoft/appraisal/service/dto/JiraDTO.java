@@ -28,19 +28,20 @@ public class JiraDTO {
         public void setHour(String hour) {
             this.hour = hour;
         }
-        // public String getDate() {
-        //     return date;
-        // }
+        public String getDate() {
+            return date;
+        }
 
-        // public void setDate(String date) {
-        //     this.date = date;
-        // }
+        public void setDate(String date) {
+            this.date = date;
+        }
 
         @Override
     public String toString() {
         return "JiraDTO{" +
             "name='" + name + '\'' +
             ", hour='" + hour + '\'' +
+
             "}";
     }
 
