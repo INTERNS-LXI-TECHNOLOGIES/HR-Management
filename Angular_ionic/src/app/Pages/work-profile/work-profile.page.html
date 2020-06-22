@@ -10,6 +10,25 @@
 <ion-content>
    
   <ion-card>
+ 
+    <div class="ion-text-center" >Select Two dates : &nbsp;
+      <input type="date" 
+            class="form-control"
+            name="start"
+            placeholder="Select a date"
+            [(ngModel)]="start"
+            >
+          <input type="date" 
+            class="form-control"
+            name="end"
+            placeholder="Select a date"
+            [(ngModel)]="end"
+            >
+     </div>
+     <div class="ion-text-center" >
+      <ion-button  (click)="sortDetails()">SORT BY DATE</ion-button>
+    </div>
+  
   <div no-padding *ngFor="let sta of status ; let i = index;"> 
     <ion-card-header *ngIf="i==0">
       <ion-card-title>Leaves</ion-card-title>

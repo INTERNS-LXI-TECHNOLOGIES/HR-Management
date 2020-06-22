@@ -1,0 +1,32 @@
+{
+  "fluentMethods": true,
+  "clientRootFolder": "",
+  "relationships": [
+    {
+      "relationshipName": "userExtra",
+      "otherEntityName": "userExtra",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "jira"
+    }
+  ],
+  "fields": [
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "hour",
+      "fieldType": "Float"
+    }
+  ],
+  "changelogDate": "20200620060059",
+  "dto": "no",
+  "searchEngine": false,
+  "service": "no",
+  "entityTableName": "jira",
+  "databaseType": "sql",
+  "readOnly": false,
+  "jpaMetamodelFiltering": false,
+  "pagination": "no"
+}

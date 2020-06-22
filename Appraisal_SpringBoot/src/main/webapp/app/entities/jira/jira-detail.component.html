@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="jira">
+            <h2><span jhiTranslate="appraisalApp.jira.detail.title">Jira</span> {{ jira.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="appraisalApp.jira.date">Date</span></dt>
+                <dd>
+                    <span>{{ jira.date }}</span>
+                </dd>
+                <dt><span jhiTranslate="appraisalApp.jira.hour">Hour</span></dt>
+                <dd>
+                    <span>{{ jira.hour }}</span>
+                </dd>
+                <dt><span jhiTranslate="appraisalApp.jira.userExtra">User Extra</span></dt>
+                <dd>
+                    <div *ngIf="jira.userExtra">
+                        <a [routerLink]="['/user-extra', jira.userExtra?.id, 'view']">{{ jira.userExtra?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/jira', jira.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -24,7 +24,7 @@ export class JiraPage implements OnInit {
 
     console.log("COnsole test for JIRA = "+" HOUR = "+this.model.hour+"NAme of user ="+this.model.name);
     
-    let Url:string = "http://localhost:8080/api/jira";
+    let Url:string = "http://localhost:8080/api/jiras";
    
     this.http.post(Url,this.model).subscribe(data => {
       alert("JIRA hours Updated successfully");
