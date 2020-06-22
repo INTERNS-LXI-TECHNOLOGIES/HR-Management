@@ -49,6 +49,10 @@ const routes: Routes = [
         loadChildren: () => UserInfoPageModule
       },
       {
+        path: 'user-info',
+        loadChildren: () => UserInfoPageModule
+      },
+      {
         path: 'edit-user',
         loadChildren: () => EditUserPageModule
       },
@@ -65,7 +69,8 @@ const routes: Routes = [
         loadChildren: () => EmployeeAppraisalPageModule
       },
       {
-        path: 'jira',loadChildren: () => JiraPageModule
+        path: 'jira',
+        loadChildren: () => JiraPageModule
       },
     
     ]
