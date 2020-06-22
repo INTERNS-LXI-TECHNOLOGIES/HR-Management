@@ -12,6 +12,8 @@ export class WorkProfilePage implements OnInit {
 
   status: any;
    id;
+   start: any;
+   end: any;
   constructor(private route: ActivatedRoute, private userService: UserService, private router: Router){}
 
   ngOnInit() {
@@ -21,4 +23,11 @@ export class WorkProfilePage implements OnInit {
                                .subscribe(status => this.status = status);
     });
   }
+  sortDetails()
+  {
+    this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/' + this.id)
+    .subscribe(status => this.status = status);
+
+  }
+
 }

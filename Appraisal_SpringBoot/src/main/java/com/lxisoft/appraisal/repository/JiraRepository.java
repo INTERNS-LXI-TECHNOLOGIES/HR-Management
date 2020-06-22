@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface JiraRepository extends JpaRepository<Jira, Long> {
+public interface JiraRepository extends JpaRepository<Jira, Long>
+{
+
 }
