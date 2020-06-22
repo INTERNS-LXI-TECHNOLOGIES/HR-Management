@@ -1175,10 +1175,7 @@ public class ControllerResource {
 		 Optional <UserExtra> userEx = userService.findExtraByid(id);
 		 List<Git> git=gitServ.findGitOfUserBetween(userEx.get(),start1,end1);
 		 List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userEx.get(),start1,end1);
-		// List<Git> mar=new ArrayList<Git>();
-		 //List<Hackathon> mark=new ArrayList<Hackathon>();
-		// int n=git.size()-1;
-		 //int m = hack.size()-1;
+
 		 if(git.size()!=0)
 		 {
 			 Iterator<Git> it=git.iterator();
