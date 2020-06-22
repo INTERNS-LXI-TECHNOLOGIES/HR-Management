@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { AppraisalService } from 'src/app/appraisal.service';
 import { userViewModel } from 'src/app/model/User';
 import { Observable } from 'rxjs';
-import { File } from '@ionic-native/file/ngx';
-import { FileTransfer } from '@ionic-native/file-transfer/ngx';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
+// import { File } from '@ionic-native/file/ngx';
+// import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+// import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 @Component({
   selector: 'app-employee-appraisal',
@@ -25,8 +25,8 @@ export class EmployeeAppraisalPage implements OnInit {
 
   constructor(private appService: AppraisalService,
               // private transfer: FileTransfer,
-              public fileOpener: FileOpener,
-              private file: File,
+              // public fileOpener: FileOpener,
+              // private file: File,
               private userService: UserService,
               ) { }
 

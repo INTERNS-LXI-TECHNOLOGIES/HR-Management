@@ -4,15 +4,15 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MenuPage } from './Pages/menu/menu.page';
 import { IonicStorageModule } from '@ionic/storage';
-import { File } from '@ionic-native/file/ngx';
-import { FileTransfer } from '@ionic-native/file-transfer/ngx';
-import { FileOpener } from '@ionic-native/file-opener/ngx';
+import { NgxWebstorageModule } from 'ngx-webstorage';
+import { AuthExpiredInterceptor } from './interceptors/auth-expired.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,17 +21,28 @@ import { FileOpener } from '@ionic-native/file-opener/ngx';
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(),
+    NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     FormsModule,
   ],
   providers: [
     StatusBar,
-    FileTransfer,
-    FileOpener,
+    // FileTransfer,
+    // FileOpener,
     File,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthExpiredInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent]
 })
