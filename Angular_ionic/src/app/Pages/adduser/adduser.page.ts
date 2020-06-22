@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { userViewModel } from '../../model/User';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-adduser',
@@ -28,7 +29,8 @@ export class AdduserPage implements OnInit {
   file: File;
   files: FileList;
   constructor(private http: HttpClient,
-              private router: Router ) { }
+              private router: Router,
+              private alert: AlertController, ) { }
 
   ngOnInit() {
   }
@@ -58,14 +60,21 @@ export class AdduserPage implements OnInit {
     // formData.append( 'firstName', this.model.firstName );
     // alert(this.model.name);
     console.log('formData: ', formData.getAll('data'));
-    this.http.post(url,  formData).subscribe(data => {
+    this.http.post(url,  formData).subscribe(async data => {
       this.user = data;
       if (this.user === true)
       {
         alert('login ID is already used' );
       }
       else{
-        alert('user added');
+        const alertPrompt = await this.alert.create({
+          cssClass: 'my-custom-class',
+          header: 'Success',
+          subHeader: 'Creation',
+          message: ' new User created successfully.',
+          buttons: ['OK']
+        });
+        await alertPrompt.present();
       //   if (this.file.size > 20)
       // {
       //   this.http.put(url, this.file, httpOptions).subscribe(data => {

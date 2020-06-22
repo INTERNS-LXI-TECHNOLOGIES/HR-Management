@@ -10,6 +10,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MenuPage } from './Pages/menu/menu.page';
 import { IonicStorageModule } from '@ionic/storage';
+import { File } from '@ionic-native/file/ngx';
+import { FileTransfer } from '@ionic-native/file-transfer/ngx';
+import { FileOpener } from '@ionic-native/file-opener/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +27,9 @@ import { IonicStorageModule } from '@ionic/storage';
   ],
   providers: [
     StatusBar,
+    FileTransfer,
+    FileOpener,
+    File,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
