@@ -30,7 +30,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     StatusBar,
     // FileTransfer,
     // FileOpener,
-    // File,
+   // File,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
