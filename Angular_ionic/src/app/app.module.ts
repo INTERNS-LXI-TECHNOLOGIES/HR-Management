@@ -31,7 +31,6 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     // Storage,
     // FileTransfer,
     // FileOpener,
-    // File,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
