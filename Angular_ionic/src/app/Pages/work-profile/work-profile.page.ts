@@ -30,7 +30,7 @@ export class WorkProfilePage implements OnInit {
   sortDetails()
   {
     this.route.params.subscribe(params => {
-      this.id = params['id'];
+      this.id = params['14'];
     this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/' + this.id)
                                .subscribe(status => this.status = status);
     });
