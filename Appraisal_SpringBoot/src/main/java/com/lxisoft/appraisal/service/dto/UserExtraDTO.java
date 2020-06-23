@@ -11,6 +11,7 @@ import javax.validation.constraints.Size;
 import com.lxisoft.appraisal.config.Constants;
 import com.lxisoft.appraisal.domain.User;
 import com.lxisoft.appraisal.domain.UserExtra;
+import com.lxisoft.appraisal.domain.Authority;
 
 public class UserExtraDTO {
 
@@ -31,7 +32,7 @@ public class UserExtraDTO {
     @Size(min = 5, max = 254)
     private String email;
 
-    private Set<String> authorities;
+    private Set<Authority> authorities;
 
     private String company;
 
@@ -54,6 +55,7 @@ public class UserExtraDTO {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
+        this.authorities=user.getAuthorities();
 		this.company = userExtra.getCompany();
 		this.position = userExtra.getPosition();
 		this.joiningDate = userExtra.getJoiningDate();
@@ -102,11 +104,11 @@ public class UserExtraDTO {
 		this.email = email;
 	}
 
-	public Set<String> getAuthorities() {
+	public Set<Authority> getAuthorities() {
 		return authorities;
 	}
 
-	public void setAuthorities(Set<String> authorities) {
+	public void setAuthorities(Set<Authority> authorities) {
 		this.authorities = authorities;
 	}
 

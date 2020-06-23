@@ -1,15 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Storage } from '@ionic/Storage';
 import { ApiService } from '../api/api.service';
 
+const TOKEN_KEY = 'user-access-token';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthServerProvider {
-  constructor(private http: HttpClient, private $localStorage: LocalStorageService, private $sessionStorage: SessionStorageService) {}
+ 
+  users: Observable<any>;
+  private authState = new BehaviorSubject(null);
+
+  constructor(private http: HttpClient,
+              private $localStorage: LocalStorageService,
+              private $sessionStorage: SessionStorageService,
+              private storage: Storage) { 
+                this.users = this.authState.asObservable();
+              }
 
   getToken() {
     return this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken');
@@ -21,7 +32,7 @@ export class AuthServerProvider {
       password: credentials.password,
       rememberMe: credentials.rememberMe,
     };
-
+  
     return this.http.post(ApiService.API_URL + '/authenticate', data, { observe: 'response' }).pipe(map(authenticateSuccess.bind(this)));
 
     function authenticateSuccess(resp) {
@@ -58,8 +69,13 @@ export class AuthServerProvider {
       observer.complete();
     });
   }
-  // getUser(username)
-  // {
-
-  // }
+  getRole(account): Observable<any>{
+    let users = null;
+    let username = (account.login);
+    users = { username, role:(account.authorities) };
+    this.authState.next(this.users);
+    this.storage.set(TOKEN_KEY, users);
+    return new Observable(users);
+  }
+ 
 }

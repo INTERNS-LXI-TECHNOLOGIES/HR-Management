@@ -41,8 +41,4 @@ export class LoginService {
     this.authServerProvider.logout().subscribe();
     this.accountService.authenticate(null);
   }
-  // getUser(username)
-  // {
-  //   return this.authServerProvider.getUser(username);
-  // }
 }

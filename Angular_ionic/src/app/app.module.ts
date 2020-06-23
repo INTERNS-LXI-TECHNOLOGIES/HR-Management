@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MenuPage } from './Pages/menu/menu.page';
-import { IonicStorageModule } from '@ionic/storage';
+import { IonicStorageModule, Storage } from '@ionic/Storage';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { AuthExpiredInterceptor } from './interceptors/auth-expired.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -28,9 +28,10 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
   ],
   providers: [
     StatusBar,
+    // Storage,
     // FileTransfer,
     // FileOpener,
-    File,
+    // File,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {

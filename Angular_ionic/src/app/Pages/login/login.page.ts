@@ -1,3 +1,4 @@
+import { AuthServerProvider } from './../../services/auth/auth-jwt.service';
 import { Router } from '@angular/router';
 import { Account } from 'src/model/account.model';
 import { Component, OnInit } from '@angular/core';
@@ -21,13 +22,14 @@ export class LoginPage implements OnInit {
 
   // Our translated text strings
   private loginErrorString: string;
-
+  
   constructor(
     public loginService: LoginService,
     public toastController: ToastController,
     public navController: NavController,
     private accountService: AccountService,
     private router: Router,
+    private authServerProvider: AuthServerProvider
   ) {}
 
   ngOnInit() {}
@@ -41,12 +43,12 @@ export class LoginPage implements OnInit {
             this.goBackToHomePage();
           } else {
             this.account = account;
-            if((account.authorities)==("ROLE_ADMIN"))
-            {this.navController.navigateRoot('/menu/home');}
+            if ((account.authorities) == ('ROLE_ADMIN'))
+            {this.navController.navigateRoot('/menu/home'); }
             else{
-            // this.navController.navigateRoot('/menu/user-info/',(account.id));
             this.router.navigate(['/menu/user-info', (account.id)]);
             }
+            // this.getRole(account);
           }
         });
       },
@@ -64,5 +66,11 @@ export class LoginPage implements OnInit {
   }
   private goBackToHomePage(): void {
     this.navController.navigateBack('/login');
+  }
+  getRole(account)
+  {
+    this.authServerProvider.getRole(account).subscribe( user => {
+      console.log('after login', user);
+    })
   }
 }
