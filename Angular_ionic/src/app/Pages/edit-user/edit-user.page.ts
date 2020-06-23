@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppraisalService } from 'src/app/appraisal.service';
 import { Component, OnInit } from '@angular/core';
 import { Route } from '@angular/compiler/src/core';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-edit-user',
@@ -17,6 +18,7 @@ export class EditUserPage implements OnInit {
               private userService: UserService,
               private httpClient: HttpClient,
               private router: Router,
+              private alert: AlertController,
     ) { }
   id;
   image: File;
@@ -58,10 +60,24 @@ export class EditUserPage implements OnInit {
        formData.append( 'image', this.image );
      }
     this.userService.editUser(formData).subscribe(
-      data => {
-       alert('user details modified');
-       this.userService.setId(this.id);
-       this.router.navigate(['/menu/home/user-info/', this.id]);
+      async data => {
+        const alertPrompt = await this.alert.create({
+          cssClass: 'my-custom-class',
+          header: 'Success',
+          subHeader: 'Modification',
+          message: 'User details modified successfully.',
+          buttons: [
+            {
+              text: 'Okay',
+              handler: () => {
+                this.userService.setId(this.id);
+                this.router.navigate(['/menu/home/user-info/', this.id]);
+              }
+            }
+          ]
+        });
+        await alertPrompt.present().then(() => {
+        });
       },
       err => {
        alert('error while modifying user details');
