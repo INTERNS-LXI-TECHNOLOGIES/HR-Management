@@ -208,7 +208,7 @@ public class RestService {
 		 number.add(a.size());
 		 number.add(un.size());
 		 List<Integer> num=getUserWorkingStatus(id,auth,unauth,number);
-		 List<Integer> value=getMarks(id,num);
+		 List<Integer> value=getMarks(id,num,first,second);
         return value;
     }
 
@@ -251,10 +251,11 @@ public class RestService {
      * @param num - list to store remaining work status
      * @return - list of work status.
      */
-    public List<Integer> getMarks(Long id,List<Integer> num)
+    public List<Integer> getMarks(Long id,List<Integer> num,LocalDate first, LocalDate second)
     {
-    	 List<Git> git=gitServ.findGit(userexService.findExtraByid(id).get().getId());
-		 List<Hackathon> hack=hackServ.findHack(userexService.findExtraByid(id).get().getId());
+         List<Git> git=gitServ.findGitOfUserBetween(userexService.findExtraByid(id).get(),first,second);
+
+		 List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userexService.findExtraByid(id).get(),first,second);
 		 if(git.size()!=0)
 		 {
 			Iterator it=git.iterator();
