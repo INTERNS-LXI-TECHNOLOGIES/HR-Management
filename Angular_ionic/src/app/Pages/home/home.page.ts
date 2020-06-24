@@ -5,6 +5,8 @@ import { UserService } from '../../service/user.service';
 import { HttpClient } from '@angular/common/http';
 import { userViewModel } from 'src/app/model/User';
 import { Observable } from 'rxjs';
+import { AppraisalControllerResourceService } from './../../api/services';
+import { UserDTO } from 'src/app/api/models';
 
 @Component({
   selector: 'app-home',
@@ -14,14 +16,15 @@ import { Observable } from 'rxjs';
 export class HomePage implements OnInit {
   id;
   constructor(private appservice: AppraisalService, private router: Router, private httpClient: HttpClient,
-              private userService: UserService, private route: ActivatedRoute){  }
-  users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/users/');
+              private userService: UserService, private route: ActivatedRoute,
+              private appCntl: AppraisalControllerResourceService, ){  }
+  users: Observable <UserDTO[]> = this.appCntl.getAllUserUsingGET();
   public deleteUser(id: string){
     // tslint:disable-next-line: deprecation
     event.stopImmediatePropagation();
     this.appservice.deleteUser(id);
     setTimeout(() => {
-      this.users = this.appservice.getUsers('http://localhost:8080/api/users/');
+      this.users = this.appCntl.getAllUserUsingGET();
     }, 2000);
   }
   public editUser(id: string){

@@ -47,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/app/**/*.{js,html}")
             .antMatchers("/i18n/**")
             .antMatchers("/content/**")
-            .antMatchers("/swagger-ui/**")
+            .antMatchers("/swagger-ui.html")
             .antMatchers("/test/**")
             .antMatchers("/v2/api-docs");
     }
@@ -83,12 +83,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/account/reset-password/init").permitAll()
             .antMatchers("/api/account/reset-password/finish").permitAll()
 //            .antMatchers("/api/users").hasAuthority(AuthoritiesConstants.ADMIN)
-//            .antMatchers("/api/**").authenticated()
+            .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/info").permitAll()
             .antMatchers("/management/prometheus").permitAll()
             .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
-            .anyRequest().authenticated()
+            // .anyRequest().authenticated()
         .and()
             .httpBasic()
         .and()

@@ -1,8 +1,10 @@
+import { UserDTO } from './../../api/models/user-dto';
 import { UserService } from './../../service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { AppraisalService } from 'src/app/appraisal.service';
 import { userViewModel } from 'src/app/model/User';
 import { Observable } from 'rxjs';
+import { AppraisalControllerResourceService } from './../../api/services';
 // import { File } from '@ionic-native/file/ngx';
 // import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 // import { FileOpener } from '@ionic-native/file-opener/ngx';
@@ -19,7 +21,7 @@ export class EmployeeAppraisalPage implements OnInit {
   start = 'no data';
   end = 'no data';
   month: string;
-  users: Observable <userViewModel> = this.appService.getUsers('http://localhost:8080/api/users/');
+  users: Observable <UserDTO[]> = this.appCntl.getAllUserUsingGET();
   // tslint:disable-next-line: align
   // private file: FileOpener<typeof FileOpener | null (null) >;
 
@@ -28,6 +30,7 @@ export class EmployeeAppraisalPage implements OnInit {
               // public fileOpener: FileOpener,
               // private file: File,
               private userService: UserService,
+              private appCntl: AppraisalControllerResourceService,
               ) { }
 
   ngOnInit() {
