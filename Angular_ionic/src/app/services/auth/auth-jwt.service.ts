@@ -1,7 +1,8 @@
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Storage } from '@ionic/Storage';
 import { ApiService } from '../api/api.service';
@@ -18,7 +19,8 @@ export class AuthServerProvider {
   constructor(private http: HttpClient,
               private $localStorage: LocalStorageService,
               private $sessionStorage: SessionStorageService,
-              private storage: Storage) { 
+              private storage: Storage,
+              private router: Router) {
                 this.users = this.authState.asObservable();
               }
 
@@ -72,10 +74,21 @@ export class AuthServerProvider {
   getRole(account): Observable<any>{
     let users = null;
     let username = (account.login);
-    users = { username, role:(account.authorities) };
+    if ((account.authorities) == ('ROLE_ADMIN'))
+    {
+      users = { username, role: 'ROLE_ADMIN'};
+    }
+    else{
+      users = { username, role: 'ROLE_USER'};
+    }
     this.authState.next(this.users);
     this.storage.set(TOKEN_KEY, users);
-    return new Observable(users);
+    return of(users);
   }
- 
+  signout()
+  {
+    this.storage.set(TOKEN_KEY, null);
+    this.authState.next(null);
+    this.router.navigateByUrl('/login');
+  }
 }
