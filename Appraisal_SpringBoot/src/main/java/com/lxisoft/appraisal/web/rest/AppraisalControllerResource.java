@@ -162,17 +162,6 @@ public class AppraisalControllerResource {
     	return userService.getAllUsers();
     }
 
-    /**
-     * to get user full work status
-     *
-     * @param id
-     * @return - full status of user
-     */
-    @GetMapping("/status/{id}")
-    public List<Integer> getWorkStatus(@PathVariable Long id) {
-        List<Integer> status = restService.getUserStatus(id);
-        return status;
-    }
 
     /**
      * to edit user
@@ -293,5 +282,27 @@ public class AppraisalControllerResource {
 		 LocalDate second=LocalDate.parse(end);
 		 return userDataBeanService.findAllUserDataBeanByDate(first,second);
 
-	}
+    }
+     /**
+     * to get user full work status
+     *
+     * @param id
+     * @return - full status of user
+     */
+    @GetMapping("/status/{id}")
+    public List<Integer> getWorkStatus(@PathVariable Long id) {
+        List<Integer> status = restService.getUserStatus(id);
+        return status;
+    }
+
+    @GetMapping("/sortBydate/{id}/{start}/{end}")
+    public List<Integer> sortBydate(@PathVariable Long id,@PathVariable("start") String start, @PathVariable("end") String end)
+     {
+        // LocalDate first=LocalDate.parse(start);
+        // LocalDate second=LocalDate.parse(end);
+        // List<Integer> status = restService.getBydate(id,first,second);
+        List<Integer> status = restService.getUserStatus(id);
+        return status;
+    }
+
 }

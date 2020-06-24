@@ -13,28 +13,33 @@ export class WorkProfilePage implements OnInit {
  
   status: any;
    id;
-   start: any;
-   end: any;
+   start:'no data';
+   end: 'no data';
   constructor(private route: ActivatedRoute,private router: Router,
     private appService: AppraisalService,private userService: UserService)
     {}
 
   ngOnInit() {
-    
+
     this.route.params.subscribe(params => {
-      this.id = params['id'];
+    this.id = params['id'];
+    this.start = params['start'];
+      this.end = params['end'];
     this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/' + this.id)
                                .subscribe(status => this.status = status);
+                          
     });
   }
   sortDetails()
   {
-    this.route.params.subscribe(params => {
-      this.id = params['14'];
-    this.userService.getStatus('http://localhost:8080/api/appraisal-controller-resource/status/' + this.id)
-                               .subscribe(status => this.status = status);
-    });
+    console.log("work profile test; date start ="+this.start+" date end = "+this.end+"user id ="+this.id)
 
+    // this.userService.getBydate('http://localhost:8080/api/appraisal-controller-resource/sortBydate/' + this.id)
+    // .subscribe(status => this.status = status);
+    this.userService.getBydate('http://localhost:8080/api/appraisal-controller-resource/sortBydate/' 
+    + this.id)
+    .subscribe(status => this.status = status);
+     //+ '/' + this.start +'/' +this.end
   }
 
 }

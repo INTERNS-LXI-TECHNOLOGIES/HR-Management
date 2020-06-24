@@ -168,6 +168,50 @@ public class RestService {
 		 List<Integer> value=getMarks(id,num);
         return value;
     }
+
+    public List<Integer> getBydate(Long id,LocalDate first, LocalDate second)
+    {
+        Optional <User> user = userexService.findByid(id);
+        Optional <UserExtra> userEx = userexService. findExtraByid(id);
+        log.debug("REST request to get UserExtra for status : {}", id);
+        List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),first,second);
+        List<Integer> number=new ArrayList<Integer>();
+		 List<LateArrival> late =lateServ.findLate(id);
+		 List<Leave> auth=new ArrayList<Leave>();
+		 List<Leave> unauth=new ArrayList<Leave>();
+		 for(int i=0;i<leave.size();i++)
+		 {
+			 if(leave.get(i).getType().equals("Authorized"))
+			 {
+				 auth.add(leave.get(i));
+			 }
+			 if(leave.get(i).getType().equals("NonAuthorized"))
+			 {
+				 unauth.add(leave.get(i));
+			 }
+		 }
+		 number.add(auth.size());
+		 number.add(unauth.size());
+		 List<LateArrival> a=new ArrayList<LateArrival>();
+		 List<LateArrival> un=new ArrayList<LateArrival>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 if(late.get(i).getType().equals("Authorized"))
+			 {
+				 a.add(late.get(i));
+			 }
+			 if(late.get(i).getType().equals("NonAuthorized"))
+			 {
+				 un.add(late.get(i));
+			 }
+		 }
+		 number.add(a.size());
+		 number.add(un.size());
+		 List<Integer> num=getUserWorkingStatus(id,auth,unauth,number);
+		 List<Integer> value=getMarks(id,num);
+        return value;
+    }
+
     /**
      * to get work profile of user
      * @param id  - id of user

@@ -1,6 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
+      
       <ion-back-button defaultHref="'/menu/home/user-info/'+id"></ion-back-button>
     </ion-buttons>
     <ion-title>Work Profile</ion-title>
@@ -17,13 +18,15 @@
             name="start"
             placeholder="Select a date"
             [(ngModel)]="start"
-            >
+            required
+            />
           <input type="date" 
             class="form-control"
             name="end"
             placeholder="Select a date"
             [(ngModel)]="end"
-            >
+            required
+            />
      </div>
      <div class="ion-text-center" >
       <ion-button  (click)="sortDetails()">SORT BY DATE</ion-button>
