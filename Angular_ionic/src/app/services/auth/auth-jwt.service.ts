@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Storage } from '@ionic/Storage';
 import { ApiService } from '../api/api.service';
@@ -72,10 +72,17 @@ export class AuthServerProvider {
   getRole(account): Observable<any>{
     let users = null;
     let username = (account.login);
-    users = { username, role:(account.authorities) };
+    let auth;
+    if ((account.authorities) == ('ROLE_ADMIN'))
+    {
+      auth = 'ROLE_ADMIN';
+    }
+    else{
+      auth = 'ROLE_USER';
+    }
+    users = { username, role: auth};
     this.authState.next(this.users);
     this.storage.set(TOKEN_KEY, users);
-    return new Observable(users);
+    return of(users);
   }
- 
 }

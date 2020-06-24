@@ -43,12 +43,12 @@ export class LoginPage implements OnInit {
             this.goBackToHomePage();
           } else {
             this.account = account;
+            this.getRole(account);
             if ((account.authorities) == ('ROLE_ADMIN'))
             {this.navController.navigateRoot('/menu/home'); }
             else{
             this.router.navigate(['/menu/user-info', (account.id)]);
             }
-            // this.getRole(account);
           }
         });
       },
@@ -71,6 +71,6 @@ export class LoginPage implements OnInit {
   {
     this.authServerProvider.getRole(account).subscribe( user => {
       console.log('after login', user);
-    })
+    } )
   }
 }
