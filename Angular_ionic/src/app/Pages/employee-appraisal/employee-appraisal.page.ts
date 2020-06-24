@@ -79,6 +79,7 @@ export class EmployeeAppraisalPage implements OnInit {
 
   }
 sortDetails(){
+     console.log("employee test   date start ="+this.start+" date end = "+this.end)
     this.appraisalList = this.appService.getAppraisalListBetweenDates(this.start, this.end);
     this.sort = false;
   }

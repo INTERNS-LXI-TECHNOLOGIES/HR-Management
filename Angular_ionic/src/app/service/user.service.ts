@@ -37,9 +37,19 @@ export class UserService {
     return  this.http.get<userViewModel>(url);
   }
   getStatus(url:string): Observable<any>
-  {
+  { 
+   
     return  this.http.get(url);
   }
+  
+  // getting details of user in give  two dates 
+
+  getBydate(url:string): Observable<any>
+  {
+  
+    return  this.http.get(url);   
+  }
+
   getImage(url:string): Observable<string>
   {
     return  this.http.get<string>(url, { responseType: 'text' as 'json' });
