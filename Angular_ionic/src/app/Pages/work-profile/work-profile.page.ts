@@ -36,9 +36,10 @@ export class WorkProfilePage implements OnInit {
 
     // this.userService.getBydate('http://localhost:8080/api/appraisal-controller-resource/sortBydate/' + this.id)
     // .subscribe(status => this.status = status);
-    this.userService.getBydate('http://localhost:8080/api/appraisal-controller-resource/sortBydate/' + this.id)
+    this.userService.getBydate('http://localhost:8080/api/appraisal-controller-resource/sortBydate/' 
+    + this.id)
     .subscribe(status => this.status = status);
-
+     //+ '/' + this.start +'/' +this.end
   }
 
 }
