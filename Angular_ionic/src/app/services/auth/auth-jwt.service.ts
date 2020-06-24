@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
@@ -18,7 +19,8 @@ export class AuthServerProvider {
   constructor(private http: HttpClient,
               private $localStorage: LocalStorageService,
               private $sessionStorage: SessionStorageService,
-              private storage: Storage) { 
+              private storage: Storage,
+              private router: Router) {
                 this.users = this.authState.asObservable();
               }
 
@@ -72,17 +74,21 @@ export class AuthServerProvider {
   getRole(account): Observable<any>{
     let users = null;
     let username = (account.login);
-    let auth;
     if ((account.authorities) == ('ROLE_ADMIN'))
     {
-      auth = 'ROLE_ADMIN';
+      users = { username, role: 'ROLE_ADMIN'};
     }
     else{
-      auth = 'ROLE_USER';
+      users = { username, role: 'ROLE_USER'};
     }
-    users = { username, role: auth};
     this.authState.next(this.users);
     this.storage.set(TOKEN_KEY, users);
     return of(users);
+  }
+  signout()
+  {
+    this.storage.set(TOKEN_KEY, null);
+    this.authState.next(null);
+    this.router.navigateByUrl('/login');
   }
 }

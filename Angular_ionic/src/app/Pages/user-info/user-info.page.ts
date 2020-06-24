@@ -1,3 +1,4 @@
+import { AuthServerProvider } from './../../services/auth/auth-jwt.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
@@ -11,7 +12,10 @@ export class UserInfoPage implements OnInit {
   public id;
   image;
   user;
-  constructor(private route: ActivatedRoute, private router: Router, private userService: UserService){}
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private userService: UserService,
+              private authServerProvider: AuthServerProvider){}
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -26,5 +30,9 @@ export class UserInfoPage implements OnInit {
   getWorkProfile(id: string)
   {
     this.router.navigate(['/menu/home/work-profile', id]);
+  }
+  signout()
+  {
+    this.authServerProvider.signout();
   }
 }

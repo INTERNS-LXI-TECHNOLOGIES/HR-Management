@@ -1,10 +1,15 @@
   <ion-header translucent no-border>
     <ion-toolbar color="primary">
-      <ion-buttons slot="start">
+      <ion-buttons slot="start" *ngIf="(user)">
         <ion-button color="dark">
-          <ion-back-button defaultHref="/menu/home"></ion-back-button>
+          <ion-back-button defaultHref="/menu/home" ng-if="(user.authorities)==('ROLE_ADMIN')" ></ion-back-button>
         </ion-button>
       </ion-buttons>
+      <ion-buttons slot="end">
+      <ion-button (click)="signout()">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     </ion-toolbar>
   </ion-header>
   

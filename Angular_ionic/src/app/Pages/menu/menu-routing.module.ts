@@ -49,10 +49,6 @@ const routes: Routes = [
         loadChildren: () => UserInfoPageModule
       },
       {
-        path: 'user-info',
-        loadChildren: () => UserInfoPageModule
-      },
-      {
         path: 'edit-user',
         loadChildren: () => EditUserPageModule
       },

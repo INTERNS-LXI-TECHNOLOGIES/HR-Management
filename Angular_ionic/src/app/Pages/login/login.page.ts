@@ -46,8 +46,8 @@ export class LoginPage implements OnInit {
             this.getRole(account);
             if ((account.authorities) == ('ROLE_ADMIN'))
             {this.navController.navigateRoot('/menu/home'); }
-            else{
-            this.router.navigate(['/menu/user-info', (account.id)]);
+            else if ((account.authorities) == ('ROLE_USER')){
+            this.router.navigate(['/user-info', (account.id)]);
             }
           }
         });
