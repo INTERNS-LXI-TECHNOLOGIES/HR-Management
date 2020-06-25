@@ -69,7 +69,7 @@ export class EvaluationPage implements OnInit {
    
     },
     err => {
-      alert('GitMark Updation failed' + console.error() );
+      alert('GIT scores not updated' + console.error() );
     });
     
     
@@ -99,7 +99,7 @@ export class EvaluationPage implements OnInit {
    
     },
     err => {
-      alert('HackaThon Mark Updation failed' + console.error() );
+      alert('HackaThon Mark Not updated' + console.error() );
     });
     
 
