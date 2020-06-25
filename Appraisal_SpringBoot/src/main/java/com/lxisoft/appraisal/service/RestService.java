@@ -208,7 +208,7 @@ public class RestService {
 		 number.add(a.size());
 		 number.add(un.size());
 		 List<Integer> num=getUserWorkingStatus(id,auth,unauth,number);
-		 List<Integer> value=getMarks(id,num);
+		 List<Integer> value=getMarkByDate(id,num,first,second);
         return value;
     }
 
@@ -293,9 +293,40 @@ public class RestService {
 			case 3: co="Average"; break;
 			case 4: co="Good"; break;
 			case 5: co="Excellent"; break;
-
+            default : co= "Good";
 		}
 		return co;
 	}
+    public List<Integer> getMarkByDate(Long id,List<Integer> num,LocalDate first, LocalDate secound)
+    {
+         List<Git> git=gitServ.findGitOfUserBetween(userexService.findExtraByid(id).get(),first,secound);
+
+		 List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userexService.findExtraByid(id).get(),first,secound);
+		 if(git.size()!=0)
+		 {
+			Iterator it=git.iterator();
+			while (it.hasNext())
+			{
+				Git object = (Git)it.next();
+				long gits= object.getMark();
+				num.add((int)gits);
+			 }
+		}
+		else { num.add(git.size());}
+		if(hack.size()!=0)
+		{
+			Iterator i=hack.iterator();
+			while (i.hasNext())
+			{
+				Hackathon object = (Hackathon)i.next();
+				long hacks= object.getMark();
+				num.add((int)hacks);
+			 }
+		}
+		else { num.add(git.size());}
+		return num;
+
+    }
+
 
 }
