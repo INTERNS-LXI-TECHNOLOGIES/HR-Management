@@ -338,7 +338,7 @@ public class RestService {
     }
     public List<Integer> getWorkingStatusByDate(Long id,List<Leave> auth,List<Leave> unauth,List<Integer> number,LocalDate first,LocalDate second)
     {
-    	Optional <UserExtra> userEx = userexService.findExtraByid(id);
+    	 Optional <UserExtra> userEx = userexService.findExtraByid(id);
     	 List<ReportStatus> status=reportServ.findReport(id);
 		 List<ReportStatus> unreportdays=new ArrayList<ReportStatus>();
 		 for(int i=0;i<status.size();i++)
