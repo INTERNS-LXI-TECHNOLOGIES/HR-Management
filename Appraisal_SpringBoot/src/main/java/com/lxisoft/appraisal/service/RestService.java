@@ -266,7 +266,7 @@ public class RestService {
         log.debug("REST request to get UserExtra for status : {}", id);
         List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),first,second);
         List<Integer> number=new ArrayList<Integer>();
-		 List<LateArrival> late =lateServ.findLate(id);
+
 		 List<Leave> auth=new ArrayList<Leave>();
 		 List<Leave> unauth=new ArrayList<Leave>();
 		 for(int i=0;i<leave.size();i++)

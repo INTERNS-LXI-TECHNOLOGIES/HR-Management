@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { jiraModel } from 'src/app/model/Jira';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-jira',
   templateUrl: './jira.page.html',
@@ -15,7 +15,8 @@ export class JiraPage implements OnInit {
     hour:"",
      
   }
-  constructor(private http:HttpClient,
+  user;
+  constructor(private alert: AlertController,private http:HttpClient,
     private router:Router) { }
 
   ngOnInit() {
@@ -26,16 +27,32 @@ export class JiraPage implements OnInit {
     
     let Url:string = "http://localhost:8080/api/jiras";
    
-    this.http.post(Url,this.model).subscribe(data => {
-      alert("JIRA hours Updated successfully");
+    this.http.post(Url,this.model).subscribe(async data => {
+      this.user=data;
+      if(this.user==true)
+      {
+        alert('Jira hours Already updated' );
+      }
+      else{
+        const alertPrompt = await this.alert.create({
+          cssClass: 'my-custom-class',
+          header: 'Jira Hour Updated successfully',
+          subHeader: '',
+          message: '',
+          buttons: ['OK']
+        });
+        await alertPrompt.present();
+     
+        this.router.navigateByUrl('/menu/home');
 
+      }
     },
     err=> {
       alert("JIRA hours Updation failed"+console.error() );
     });
       
 
-    this.router.navigateByUrl('/menu/home');
+    
 
   }
 }
