@@ -169,48 +169,7 @@ public class RestService {
         return value;
     }
 
-    public List<Integer> getBydate(Long id,LocalDate first, LocalDate second)
-    {
-        Optional <User> user = userexService.findByid(id);
-        Optional <UserExtra> userEx = userexService. findExtraByid(id);
-        log.debug("REST request to get UserExtra for status : {}", id);
-        List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),first,second);
-        List<Integer> number=new ArrayList<Integer>();
-		 List<LateArrival> late =lateServ.findLate(id);
-		 List<Leave> auth=new ArrayList<Leave>();
-		 List<Leave> unauth=new ArrayList<Leave>();
-		 for(int i=0;i<leave.size();i++)
-		 {
-			 if(leave.get(i).getType().equals("Authorized"))
-			 {
-				 auth.add(leave.get(i));
-			 }
-			 if(leave.get(i).getType().equals("NonAuthorized"))
-			 {
-				 unauth.add(leave.get(i));
-			 }
-		 }
-		 number.add(auth.size());
-		 number.add(unauth.size());
-		 List<LateArrival> a=new ArrayList<LateArrival>();
-		 List<LateArrival> un=new ArrayList<LateArrival>();
-		 for(int i=0;i<late.size();i++)
-		 {
-			 if(late.get(i).getType().equals("Authorized"))
-			 {
-				 a.add(late.get(i));
-			 }
-			 if(late.get(i).getType().equals("NonAuthorized"))
-			 {
-				 un.add(late.get(i));
-			 }
-		 }
-		 number.add(a.size());
-		 number.add(un.size());
-		 List<Integer> num=getUserWorkingStatus(id,auth,unauth,number);
-		 List<Integer> value=getMarkByDate(id,num,first,second);
-        return value;
-    }
+
 
     /**
      * to get work profile of user
@@ -296,7 +255,57 @@ public class RestService {
             default : co= "Good";
 		}
 		return co;
-	}
+    }
+    public List<Integer> getBydate(Long id,LocalDate first, LocalDate second)
+    {
+        Optional <User> user = userexService.findByid(id);
+        Optional <UserExtra> userEx = userexService. findExtraByid(id);
+        log.debug("REST request to get UserExtra for status : {}", id);
+        List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),first,second);
+        List<Integer> number=new ArrayList<Integer>();
+		 List<LateArrival> late =lateServ.findLate(id);
+		 List<Leave> auth=new ArrayList<Leave>();
+		 List<Leave> unauth=new ArrayList<Leave>();
+		 for(int i=0;i<leave.size();i++)
+		 {
+			 if(leave.get(i).getType().equals("Authorized"))
+			 {
+				 auth.add(leave.get(i));
+			 }
+			 if(leave.get(i).getType().equals("NonAuthorized"))
+			 {
+				 unauth.add(leave.get(i));
+			 }
+		 }
+		 number.add(auth.size());
+		 number.add(unauth.size());
+		 List<LateArrival> a=new ArrayList<LateArrival>();
+		 List<LateArrival> un=new ArrayList<LateArrival>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 if(late.get(i).getType().equals("Authorized"))
+			 {
+				 a.add(late.get(i));
+			 }
+			 if(late.get(i).getType().equals("NonAuthorized"))
+			 {
+				 un.add(late.get(i));
+			 }
+		 }
+		 number.add(a.size());
+		 number.add(un.size());
+		 List<Integer> num=getWorkingStatusByDate(id,auth,unauth,number,first,second);
+		 List<Integer> value=getMarkByDate(id,num,first,second);
+        return value;
+    }
+     /**
+     * to get git and hackathon mark in two dates
+     * @param id  - id of user
+     * @param num - list to store remaining work status
+     * @param first - selected date
+     * @param secound - selected date
+     * @return - list of work status.
+     */
     public List<Integer> getMarkByDate(Long id,List<Integer> num,LocalDate first, LocalDate secound)
     {
          List<Git> git=gitServ.findGitOfUserBetween(userexService.findExtraByid(id).get(),first,secound);
@@ -326,6 +335,30 @@ public class RestService {
 		else { num.add(git.size());}
 		return num;
 
+    }
+    public List<Integer> getWorkingStatusByDate(Long id,List<Leave> auth,List<Leave> unauth,List<Integer> number,LocalDate first,LocalDate second)
+    {
+    	Optional <UserExtra> userEx = userexService.findExtraByid(id);
+    	 List<ReportStatus> status=reportServ.findReport(id);
+		 List<ReportStatus> unreportdays=new ArrayList<ReportStatus>();
+		 for(int i=0;i<status.size();i++)
+		 {
+			unreportdays.add(status.get(i));
+		 }
+
+		 long workingDays= ChronoUnit.DAYS.between(first,second);
+		 int workingHour=(int)(workingDays*7);
+		 int leaveSize=((auth.size())+(unauth.size()));
+		 int absence=leaveSize*7;
+		 int workedHour=(workingHour-absence);
+		 int workedDays=((int)workingDays)-leaveSize;
+		 number.add((int)workingDays);
+		 number.add(workedDays);
+		 number.add(workingHour);
+		 number.add(workedHour);
+		 number.add(leaveSize);
+		 number.add(unreportdays.size());
+		 return number;
     }
 
 
