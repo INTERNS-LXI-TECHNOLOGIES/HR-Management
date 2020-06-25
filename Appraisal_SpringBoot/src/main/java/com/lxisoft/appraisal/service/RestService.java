@@ -1,7 +1,10 @@
 package com.lxisoft.appraisal.service;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -279,7 +282,25 @@ public class RestService {
 		 }
 		 number.add(auth.size());
 		 number.add(unauth.size());
-		 List<LateArrival> a=new ArrayList<LateArrival>();
+		 List<LateArrival> lateAll=lateServ.findAllLate(id);
+		 List<LateArrival> late = new ArrayList<LateArrival>();
+		 for(int i=0;i<lateAll.size();i++)
+		 {
+			 Instant insta =lateAll.get(i).getReachedTime();
+			 LocalDate localdate = insta.atZone(ZoneId.systemDefault()).toLocalDate();
+			if(isWithinRange(first,second,localdate)==true)
+			{
+				late.add(lateAll.get(i));
+			}
+         }
+         List<LocalDateTime> time=new ArrayList<LocalDateTime>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 Instant in=late.get(i).getReachedTime();
+			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
+			 time.add(t);
+		 }
+         List<LateArrival> a=new ArrayList<LateArrival>();
 		 List<LateArrival> un=new ArrayList<LateArrival>();
 		 for(int i=0;i<late.size();i++)
 		 {
@@ -360,6 +381,16 @@ public class RestService {
 		 number.add(unreportdays.size());
 		 return number;
     }
+    /**
+     * to check two dates range
 
-
+     * @param first - selected date
+     * @param second - selected date
+     * @param Localdate - selected date
+     * @return - boolean value
+     */
+    public boolean isWithinRange(LocalDate first,LocalDate second,LocalDate localDate)
+	{
+		return localDate.isAfter(first) && localDate.isBefore(second);
+	}
 }
