@@ -44,7 +44,7 @@ export class JiraPage implements OnInit {
         await alertPrompt.present();
      
         this.router.navigateByUrl('/menu/home');
-
+ 
       }
     },
     async err => {

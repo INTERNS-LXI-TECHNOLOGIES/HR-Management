@@ -68,8 +68,15 @@ export class EvaluationPage implements OnInit {
      
    
     },
-    err => {
-      alert('GIT scores not updated' + console.error() );
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        header: 'Git score Not updated',
+        subHeader: ' ',
+        message: '',
+        buttons: ['OK']
+      });
+      await alertPrompt.present();
     });
     
     
@@ -98,14 +105,18 @@ export class EvaluationPage implements OnInit {
       }
    
     },
-    err => {
-      alert('HackaThon Mark Not updated' + console.error() );
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        header: 'Hackathon Not updated',
+        subHeader: ' ',
+        message: '',
+        buttons: ['OK']
+      });
+      await alertPrompt.present();
+     
     });
     
-
-
   }   
-
-
 
 }
