@@ -64,8 +64,17 @@ export class ReportStatusPage implements OnInit {
      
     },
 
-    err => {
-      alert('ReportStatus Updation failed' + console.error() );
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        header: 'Report-Status updation Failed',
+        subHeader: ' please enter valid name',
+        message: '',
+        buttons: ['OK']
+      });
+      await alertPrompt.present();
+      
+      //alert("Leave Updation failed"+console.error() );
     });
    
   }   

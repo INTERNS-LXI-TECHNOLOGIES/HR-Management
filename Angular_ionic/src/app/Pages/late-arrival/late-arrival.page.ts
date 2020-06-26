@@ -53,10 +53,18 @@ export class LateArrivalPage implements OnInit {
 
 
     },
-    err=> {
-      alert("LateArrival Updation failed"+console.error() );
-    });
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        header: 'Late-Arrival updation Failed',
+        subHeader: ' please enter valid name',
+        message: '',
+        buttons: ['OK']
+      });
+      await alertPrompt.present();
       
+      //alert("Leave Updation failed"+console.error() );
+    });
 
     
   }

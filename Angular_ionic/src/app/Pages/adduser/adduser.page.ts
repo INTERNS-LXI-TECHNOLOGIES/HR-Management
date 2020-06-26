@@ -88,6 +88,7 @@ export class AdduserPage implements OnInit {
 
     },
     err => {
+      
       alert('something went wrong..!' + this.model.image.type+ ' nn  ' + this.model.company );
     });
   }
