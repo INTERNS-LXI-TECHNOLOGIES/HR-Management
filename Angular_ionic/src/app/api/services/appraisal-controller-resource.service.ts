@@ -35,6 +35,7 @@ class AppraisalControllerResourceService extends __BaseService {
   static readonly getUserImageUsingGETPath = '/api/appraisal-controller-resource/image/{id}';
   static readonly reportUsingGETPath = '/api/appraisal-controller-resource/report/{sort}/{start}/{end}';
   static readonly sortAppraisalUsingGETPath = '/api/appraisal-controller-resource/sortAppraisal/{id}/{start}/{end}';
+  static readonly sortBydateUsingGETPath = '/api/appraisal-controller-resource/sortBydate/{id}/{start}/{end}';
   static readonly getWorkStatusUsingGETPath = '/api/appraisal-controller-resource/status/{id}';
   static readonly getUserExtraUsingGETPath = '/api/appraisal-controller-resource/user-extras/{id}';
   static readonly userNamesUsingGETPath = '/api/appraisal-controller-resource/userName';
@@ -871,6 +872,60 @@ class AppraisalControllerResourceService extends __BaseService {
   }
 
   /**
+   * sortBydate
+   * @param params The `AppraisalControllerResourceService.SortBydateUsingGETParams` containing the following parameters:
+   *
+   * - `start`: start
+   *
+   * - `id`: id
+   *
+   * - `end`: end
+   *
+   * @return OK
+   */
+  sortBydateUsingGETResponse(params: AppraisalControllerResourceService.SortBydateUsingGETParams): __Observable<__StrictHttpResponse<Array<number>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/appraisal-controller-resource/sortBydate/${encodeURIComponent(params.id)}/${encodeURIComponent(params.start)}/${encodeURIComponent(params.end)}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<number>>;
+      })
+    );
+  }
+  /**
+   * sortBydate
+   * @param params The `AppraisalControllerResourceService.SortBydateUsingGETParams` containing the following parameters:
+   *
+   * - `start`: start
+   *
+   * - `id`: id
+   *
+   * - `end`: end
+   *
+   * @return OK
+   */
+  sortBydateUsingGET(params: AppraisalControllerResourceService.SortBydateUsingGETParams): __Observable<Array<number>> {
+    return this.sortBydateUsingGETResponse(params).pipe(
+      __map(_r => _r.body as Array<number>)
+    );
+  }
+
+  /**
    * getWorkStatus
    * @param id id
    * @return OK
@@ -993,7 +1048,7 @@ module AppraisalControllerResourceService {
     login?: string;
     lastName?: string;
     joiningDate?: string;
-    image?: Blob;
+    image?: string;
     id?: number;
     firstName?: string;
     email?: string;
@@ -1011,7 +1066,7 @@ module AppraisalControllerResourceService {
     login?: string;
     lastName?: string;
     joiningDate?: string;
-    image?: Blob;
+    image?: string;
     id?: number;
     firstName?: string;
     email?: string;
@@ -1188,6 +1243,27 @@ module AppraisalControllerResourceService {
    * Parameters for sortAppraisalUsingGET
    */
   export interface SortAppraisalUsingGETParams {
+
+    /**
+     * start
+     */
+    start: string;
+
+    /**
+     * id
+     */
+    id: number;
+
+    /**
+     * end
+     */
+    end: string;
+  }
+
+  /**
+   * Parameters for sortBydateUsingGET
+   */
+  export interface SortBydateUsingGETParams {
 
     /**
      * start

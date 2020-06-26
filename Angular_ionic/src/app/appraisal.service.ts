@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { userViewModel } from './model/User';
 import { AlertController } from '@ionic/angular';
+import { UserExtraResourceService } from './api/services';
 
 
 @Injectable({
@@ -12,7 +13,8 @@ import { AlertController } from '@ionic/angular';
 })
 export class AppraisalService {
   constructor(private  http: HttpClient, private router: Router,
-              private alert: AlertController, ) { }
+              private alert: AlertController,
+              private userExtraCntl: UserExtraResourceService ) { }
   baseUrl = 'http://localhost:8080';
   private counter = 0;
 
@@ -59,8 +61,8 @@ export class AppraisalService {
           }, {
             text: 'Okay',
             handler: () => {
-              const url: string = 'http://localhost:8080/api/user-extras/' + id;
-              this.http.delete(url).subscribe( data => {
+              // const url: string = 'http://localhost:8080/api/user-extras/' + id;
+              this.userExtraCntl.deleteUserExtraUsingDELETE(id).subscribe( data => {
               console.log('Confirm: user deletion');
               this.router.navigate(['/home']);
               },

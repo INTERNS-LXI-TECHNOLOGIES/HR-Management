@@ -111,7 +111,7 @@ public class AppraisalControllerResource {
     public boolean addUser(@ModelAttribute UserViewDTO userDTO) {
         boolean isUsed = false;
         log.info("get value from server ----------:{}", userDTO.getEmail());
-        log.info("get file from server ----------:{}", userDTO.getImage().getContentType());
+        // log.info("get file from server ----------:{}", userDTO.getImage().getContentType());
         try {
             isUsed = restService.addUser(userDTO);
         } catch (IOException e) {
@@ -298,10 +298,10 @@ public class AppraisalControllerResource {
     @GetMapping("/sortBydate/{id}/{start}/{end}")
     public List<Integer> sortBydate(@PathVariable Long id,@PathVariable("start") String start, @PathVariable("end") String end)
      {
-        // LocalDate first=LocalDate.parse(start);
-        // LocalDate second=LocalDate.parse(end);
-        // List<Integer> status = restService.getBydate(id,first,second);
-        List<Integer> status = restService.getUserStatus(id);
+        LocalDate first=LocalDate.parse(start);
+        LocalDate second=LocalDate.parse(end);
+        List<Integer> status = restService.getBydate(id,first,second);
+
         return status;
     }
 

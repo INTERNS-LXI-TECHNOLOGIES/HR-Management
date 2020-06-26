@@ -1,7 +1,10 @@
 package com.lxisoft.appraisal.service;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -66,9 +69,9 @@ public class RestService {
         userEx.setDob(LocalDate.parse(userDTO.getDob()));
         userEx.setJoiningDate(LocalDate.parse(userDTO.getJoiningDate()));
         userEx.setUser(user);
-        byte[] bytes=userDTO.getImage().getBytes();
+        byte[] bytes=userDTO.getImage();
         userEx.setImage(bytes);
-        userEx.setImageContentType(userDTO.getImage().getContentType());
+        userEx.setImageContentType("image/jpeg");
 
         Set<Authority> authorities = new HashSet<>();
 		String auth=userDTO.getAuthorities();
@@ -169,48 +172,7 @@ public class RestService {
         return value;
     }
 
-    public List<Integer> getBydate(Long id,LocalDate first, LocalDate second)
-    {
-        Optional <User> user = userexService.findByid(id);
-        Optional <UserExtra> userEx = userexService. findExtraByid(id);
-        log.debug("REST request to get UserExtra for status : {}", id);
-        List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),first,second);
-        List<Integer> number=new ArrayList<Integer>();
-		 List<LateArrival> late =lateServ.findLate(id);
-		 List<Leave> auth=new ArrayList<Leave>();
-		 List<Leave> unauth=new ArrayList<Leave>();
-		 for(int i=0;i<leave.size();i++)
-		 {
-			 if(leave.get(i).getType().equals("Authorized"))
-			 {
-				 auth.add(leave.get(i));
-			 }
-			 if(leave.get(i).getType().equals("NonAuthorized"))
-			 {
-				 unauth.add(leave.get(i));
-			 }
-		 }
-		 number.add(auth.size());
-		 number.add(unauth.size());
-		 List<LateArrival> a=new ArrayList<LateArrival>();
-		 List<LateArrival> un=new ArrayList<LateArrival>();
-		 for(int i=0;i<late.size();i++)
-		 {
-			 if(late.get(i).getType().equals("Authorized"))
-			 {
-				 a.add(late.get(i));
-			 }
-			 if(late.get(i).getType().equals("NonAuthorized"))
-			 {
-				 un.add(late.get(i));
-			 }
-		 }
-		 number.add(a.size());
-		 number.add(un.size());
-		 List<Integer> num=getUserWorkingStatus(id,auth,unauth,number);
-		 List<Integer> value=getMarks(id,num);
-        return value;
-    }
+
 
     /**
      * to get work profile of user
@@ -253,7 +215,8 @@ public class RestService {
      */
     public List<Integer> getMarks(Long id,List<Integer> num)
     {
-    	 List<Git> git=gitServ.findGit(userexService.findExtraByid(id).get().getId());
+         List<Git> git=gitServ.findGit(userexService.findExtraByid(id).get().getId());
+
 		 List<Hackathon> hack=hackServ.findHack(userexService.findExtraByid(id).get().getId());
 		 if(git.size()!=0)
 		 {
@@ -292,9 +255,142 @@ public class RestService {
 			case 3: co="Average"; break;
 			case 4: co="Good"; break;
 			case 5: co="Excellent"; break;
-
+            default : co= "Good";
 		}
 		return co;
-	}
+    }
+    public List<Integer> getBydate(Long id,LocalDate first, LocalDate second)
+    {
+        Optional <User> user = userexService.findByid(id);
+        Optional <UserExtra> userEx = userexService. findExtraByid(id);
+        log.debug("REST request to get UserExtra for status : {}", id);
+        List<Leave> leave = leaveSer.findLeavesOfUserBetween(userEx.get(),first,second);
+        List<Integer> number=new ArrayList<Integer>();
 
+		 List<Leave> auth=new ArrayList<Leave>();
+		 List<Leave> unauth=new ArrayList<Leave>();
+		 for(int i=0;i<leave.size();i++)
+		 {
+			 if(leave.get(i).getType().equals("Authorized"))
+			 {
+				 auth.add(leave.get(i));
+			 }
+			 if(leave.get(i).getType().equals("NonAuthorized"))
+			 {
+				 unauth.add(leave.get(i));
+			 }
+		 }
+		 number.add(auth.size());
+		 number.add(unauth.size());
+		 List<LateArrival> lateAll=lateServ.findAllLate(id);
+		 List<LateArrival> late = new ArrayList<LateArrival>();
+		 for(int i=0;i<lateAll.size();i++)
+		 {
+			 Instant insta =lateAll.get(i).getReachedTime();
+			 LocalDate localdate = insta.atZone(ZoneId.systemDefault()).toLocalDate();
+			if(isWithinRange(first,second,localdate)==true)
+			{
+				late.add(lateAll.get(i));
+			}
+         }
+         List<LocalDateTime> time=new ArrayList<LocalDateTime>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 Instant in=late.get(i).getReachedTime();
+			 LocalDateTime t= LocalDateTime.ofInstant(in,ZoneId.systemDefault());
+			 time.add(t);
+		 }
+         List<LateArrival> a=new ArrayList<LateArrival>();
+		 List<LateArrival> un=new ArrayList<LateArrival>();
+		 for(int i=0;i<late.size();i++)
+		 {
+			 if(late.get(i).getType().equals("Authorized"))
+			 {
+				 a.add(late.get(i));
+			 }
+			 if(late.get(i).getType().equals("NonAuthorized"))
+			 {
+				 un.add(late.get(i));
+			 }
+		 }
+		 number.add(a.size());
+		 number.add(un.size());
+		 List<Integer> num=getWorkingStatusByDate(id,auth,unauth,number,first,second);
+		 List<Integer> value=getMarkByDate(id,num,first,second);
+        return value;
+    }
+     /**
+     * to get git and hackathon mark in two dates
+     * @param id  - id of user
+     * @param num - list to store remaining work status
+     * @param first - selected date
+     * @param secound - selected date
+     * @return - list of work status.
+     */
+    public List<Integer> getMarkByDate(Long id,List<Integer> num,LocalDate first, LocalDate secound)
+    {
+         List<Git> git=gitServ.findGitOfUserBetween(userexService.findExtraByid(id).get(),first,secound);
+
+		 List<Hackathon> hack=hackServ.findHackathonOfUserBetween(userexService.findExtraByid(id).get(),first,secound);
+		 if(git.size()!=0)
+		 {
+			Iterator it=git.iterator();
+			while (it.hasNext())
+			{
+				Git object = (Git)it.next();
+				long gits= object.getMark();
+				num.add((int)gits);
+			 }
+		}
+		else { num.add(git.size());}
+		if(hack.size()!=0)
+		{
+			Iterator i=hack.iterator();
+			while (i.hasNext())
+			{
+				Hackathon object = (Hackathon)i.next();
+				long hacks= object.getMark();
+				num.add((int)hacks);
+			 }
+		}
+		else { num.add(git.size());}
+		return num;
+
+    }
+    public List<Integer> getWorkingStatusByDate(Long id,List<Leave> auth,List<Leave> unauth,List<Integer> number,LocalDate first,LocalDate second)
+    {
+    	 Optional <UserExtra> userEx = userexService.findExtraByid(id);
+    	 List<ReportStatus> status=reportServ.findReport(id);
+		 List<ReportStatus> unreportdays=new ArrayList<ReportStatus>();
+		 for(int i=0;i<status.size();i++)
+		 {
+			unreportdays.add(status.get(i));
+		 }
+
+		 long workingDays= ChronoUnit.DAYS.between(first,second);
+		 int workingHour=(int)(workingDays*7);
+		 int leaveSize=((auth.size())+(unauth.size()));
+		 int absence=leaveSize*7;
+		 int workedHour=(workingHour-absence);
+		 int workedDays=((int)workingDays)-leaveSize;
+		 number.add((int)workingDays);
+		 number.add(workedDays);
+		 number.add(workingHour);
+		 number.add(workedHour);
+		 number.add(leaveSize);
+		 number.add(unreportdays.size());
+		 return number;
+    }
+    /**
+     * to check two dates range
+
+     * @param first - selected date
+     * @param second - selected date
+     * @param Localdate - selected date
+     * @return - boolean value
+     */
+    public boolean isWithinRange(LocalDate first,LocalDate second,LocalDate localDate)
+	{
+		return localDate.isAfter(first) && localDate.isBefore(second);
+	}
 }

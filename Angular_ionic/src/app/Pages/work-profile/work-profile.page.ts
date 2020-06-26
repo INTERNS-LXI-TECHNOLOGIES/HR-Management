@@ -34,12 +34,11 @@ export class WorkProfilePage implements OnInit {
   {
     console.log("work profile test; date start ="+this.start+" date end = "+this.end+"user id ="+this.id)
 
-    // this.userService.getBydate('http://localhost:8080/api/appraisal-controller-resource/sortBydate/' + this.id)
-    // .subscribe(status => this.status = status);
+   
     this.userService.getBydate('http://localhost:8080/api/appraisal-controller-resource/sortBydate/' 
-    + this.id)
+    + this.id+ '/' + this.start +'/' +this.end)
     .subscribe(status => this.status = status);
-     //+ '/' + this.start +'/' +this.end
+    
   }
 
 }
