@@ -96,11 +96,16 @@ public class UserService {
                 return user;
             });
     }
-            public ArrayList<User> getAllUsers()
+            public ArrayList<String> getAllUsers()
             {
 
                 ArrayList<User> user = userRepository.findAll();
-                return user;
+                ArrayList<String> name = new ArrayList<String>();
+                for(User i : user)
+                {
+                     name.add (i.getFirstName());
+                }
+                return name;
             }
     public User registerUser(UserDTO userDTO, String password,String company,String position,LocalDate joiningDate,LocalDate dob,byte[] image,String imageContentType,String username)
     {

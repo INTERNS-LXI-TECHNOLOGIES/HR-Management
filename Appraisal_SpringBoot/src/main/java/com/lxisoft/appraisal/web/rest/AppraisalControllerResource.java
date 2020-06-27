@@ -156,7 +156,7 @@ public class AppraisalControllerResource {
      * @return
      */
     @GetMapping("/userName")
-    public ArrayList<User> userNames()
+    public ArrayList <String> userNames()
     {
 
     	return userService.getAllUsers();
