@@ -44,11 +44,20 @@ export class JiraPage implements OnInit {
         await alertPrompt.present();
      
         this.router.navigateByUrl('/menu/home');
-
+ 
       }
     },
-    err=> {
-      alert("JIRA hours Updation failed"+console.error() );
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        header: 'Jira-Hour updation Failed',
+        subHeader: ' please enter valid name',
+        message: '',
+        buttons: ['OK']
+      });
+      await alertPrompt.present();
+      
+      //alert("Leave Updation failed"+console.error() );
     });
       
 

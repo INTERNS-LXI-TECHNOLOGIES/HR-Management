@@ -83,9 +83,17 @@ export class LeavePage implements OnInit {
       }
 
     },
-    err => {
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        header: 'Leave updation Failed',
+        subHeader: ' please enter valid name',
+        message: '',
+        buttons: ['OK']
+      });
+      await alertPrompt.present();
       
-      alert("Leave Updation failed"+console.error() );
+      //alert("Leave Updation failed"+console.error() );
     });
   }
 }
