@@ -14,10 +14,9 @@ import { AccountService } from 'src/app/services/auth/account.service';
 export class LoginPage implements OnInit {
   // The account fields for the login form.
   account: Account;
-  user: { username: string; password: string; rememberMe: boolean } = {
+  user: { username: string; password: string} = {
     username: '',
     password: '',
-    rememberMe: false,
   };
 
   // Our translated text strings
@@ -43,7 +42,7 @@ export class LoginPage implements OnInit {
             this.goBackToHomePage();
           } else {
             this.account = account;
-            this.getRole(account);
+            this.getRole(this.account);
             if ((account.authorities) == ('ROLE_ADMIN'))
             {this.navController.navigateRoot('/menu/home'); }
             else if ((account.authorities) == ('ROLE_USER')){

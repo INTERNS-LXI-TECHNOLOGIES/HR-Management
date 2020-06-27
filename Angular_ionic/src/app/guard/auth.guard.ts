@@ -15,11 +15,21 @@ export class AuthGuard implements CanActivate {
               private alertCtrl: AlertController){}
   canActivate(route: ActivatedRouteSnapshot){
 
+    const expectedRole = route.data.role;
+    console.log('expected: ', expectedRole);
     return this.auth.users.pipe(
       take(1),
       map(users => {
         console.log('log: ', users);
         if (users){
+          // let role = users['role'];
+          // if(expectedRole == role){
+          //   return true;
+          // }
+          // else{
+          //   this.showAlert();
+          //   return this.router.parseUrl('/login');
+          // }
           return true;
         }
         else{

@@ -1,3 +1,4 @@
+import { AuthServerProvider } from './../../services/auth/auth-jwt.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 
@@ -26,7 +27,7 @@ export class MenuPage implements OnInit {
     },
   ];
   selectedPath = '';
-  constructor(private router: Router) {
+  constructor(private router: Router, private authServerProvider: AuthServerProvider) {
      this.router.events.subscribe((event: RouterEvent) => {
        if (event && event.url){
          this.selectedPath = event.url;
@@ -36,6 +37,10 @@ export class MenuPage implements OnInit {
    }
 
   ngOnInit() {
+  }
+  logout()
+  {
+    this.authServerProvider.logout();
   }
 
 }

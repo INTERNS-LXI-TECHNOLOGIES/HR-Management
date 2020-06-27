@@ -1,3 +1,4 @@
+import { LoginService } from './../../services/login/login.service';
 import { Component, OnInit } from '@angular/core';
 import { AppraisalService } from 'src/app/appraisal.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
@@ -5,6 +6,7 @@ import { UserService } from '../../service/user.service';
 import { HttpClient } from '@angular/common/http';
 import { userViewModel } from 'src/app/model/User';
 import { Observable } from 'rxjs';
+import { AuthServerProvider } from './../../services/auth/auth-jwt.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +16,8 @@ import { Observable } from 'rxjs';
 export class HomePage implements OnInit {
   id;
   constructor(private appservice: AppraisalService, private router: Router, private httpClient: HttpClient,
-              private userService: UserService, private route: ActivatedRoute){  }
+              private userService: UserService, private route: ActivatedRoute,
+              private loginService: LoginService){  }
   users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/users/');
   public deleteUser(id: string){
     // tslint:disable-next-line: deprecation
@@ -36,5 +39,9 @@ export class HomePage implements OnInit {
     this.userService.setId(id);
     this.router.navigate(['/menu/home/user-info', id]);
 
+  }
+  signout()
+  {
+    this.loginService.logout();
   }
 }
