@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {lateArrival } from 'src/app/model/lateArrival';
+import {lateArrival } from 'src/model/lateArrival';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+
 import { Name } from 'src/app/model/Name';
 @Component({
   selector: 'app-late-arrival',
@@ -17,8 +19,8 @@ export class LateArrivalPage implements OnInit {
     reachedTime:"",
      
   }
-  user: Object;
-  constructor(private http:HttpClient,
+  user;
+  constructor( private alert: AlertController,private http:HttpClient,
               private router:Router) { }
   ngOnInit() {
   }
@@ -28,17 +30,43 @@ export class LateArrivalPage implements OnInit {
     
     let Url:string = "http://localhost:8080/api/late-arrivals";
    
-    this.http.post(Url,this.model).subscribe(data => {
-      alert("LateArrival Updated successfully");
+    this.http.post(Url,this.model).subscribe(async data => {
+      //alert("LateArrival Updated successfully");
+      this.user=data;
+      if(this.user==true)
+      {
+        alert('LateArrival Already updated' );
+      }
+      else{
+        const alertPrompt = await this.alert.create({
+          cssClass: 'my-custom-class',
+          header: 'LateArrival Updated successfully',
+          subHeader: '',
+          message: '',
+          buttons: ['OK']
+        });
+        await alertPrompt.present();
+     
+        this.router.navigateByUrl('/menu/home');
+
+      }
+
 
     },
-    err=> {
-      alert("LateArrival Updation failed"+console.error() );
-    });
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        header: 'Late-Arrival updation Failed',
+        subHeader: ' please enter valid name',
+        message: '',
+        buttons: ['OK']
+      });
+      await alertPrompt.present();
       
+      //alert("Leave Updation failed"+console.error() );
+    });
 
-    this.router.navigateByUrl('/menu/home');
-
+    
   }
 
 }

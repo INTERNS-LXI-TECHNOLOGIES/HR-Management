@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { reportStatus } from 'src/app/model/ReportStatus';
+import { reportStatus } from 'src/model/ReportStatus';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Name } from 'src/app/model/Name';
-
+import { Name } from 'src/model/Name';
+import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-report-status',
   templateUrl: './report-status.page.html',
@@ -30,8 +30,8 @@ export class ReportStatusPage implements OnInit {
      
   }
 
-  user: object;
-  constructor(private http: HttpClient, private router: Router) { }
+  user;
+  constructor(private alert: AlertController,private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
   }
@@ -41,13 +41,41 @@ export class ReportStatusPage implements OnInit {
     
     let Url:string = "http://localhost:8080/api/report-statuses";
    
-    this.http.post(Url,this.model).subscribe(data => {
-      alert("ReportStatus Updated successfully");
-   
+    this.http.post(Url,this.model).subscribe(async data => {
+      this.user=data;
+      if(this.user==true)
+      {
+        alert('ReportStatus Already updated' );
+      }
+      else{
+        const alertPrompt = await this.alert.create({
+          cssClass: 'my-custom-class',
+          header: 'ReportStatus Updated successfully',
+          subHeader: '',
+          message: '',
+          buttons: ['OK']
+        });
+        await alertPrompt.present();
+     
+        this.router.navigateByUrl('/menu/home');
+
+      }
+
+     
     },
-    err => {
-      alert('ReportStatus Updation failed' + console.error() );
+
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        header: 'Report-Status updation Failed',
+        subHeader: ' please enter valid name',
+        message: '',
+        buttons: ['OK']
+      });
+      await alertPrompt.present();
+      
+      //alert("Leave Updation failed"+console.error() );
     });
-    this.router.navigateByUrl('/menu/home');
+   
   }   
 }

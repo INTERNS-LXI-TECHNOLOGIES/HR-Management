@@ -30,7 +30,7 @@ export class UserInfoPage implements OnInit {
   }
   getWorkProfile(id: string)
   {
-    this.router.navigate(['/menu/home/work-profile', id]);
+    this.router.navigate(['/user-info/work-profile', id]);
   }
   signout()
   {

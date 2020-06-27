@@ -45,20 +45,8 @@ const routes: Routes = [
         loadChildren:  () => EvaluationPageModule
       },
       {
-        path: 'home/user-info',
-        loadChildren: () => UserInfoPageModule
-      },
-      {
         path: 'edit-user',
         loadChildren: () => EditUserPageModule
-      },
-      {
-        path: 'home/work-profile',
-        loadChildren: () => WorkProfilePageModule
-      },
-      {
-        path: 'appraisal',
-        loadChildren: () => AppraisalDetailsPageModule
       },
       {
         path: 'employee-appraisal',
@@ -68,7 +56,6 @@ const routes: Routes = [
         path: 'jira',
         loadChildren: () => JiraPageModule
       },
-    
     ]
   }
 ];

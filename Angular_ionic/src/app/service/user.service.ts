@@ -1,9 +1,9 @@
 import { map } from 'rxjs/operators';
-import { userViewModel } from 'src/app/model/User';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { userViewModel } from 'src/model/User';
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +37,19 @@ export class UserService {
     return  this.http.get<userViewModel>(url);
   }
   getStatus(url:string): Observable<any>
-  {
+  { 
+   
     return  this.http.get(url);
   }
+  
+  // getting details of user in give  two dates 
+
+  getBydate(url:string): Observable<any>
+  {
+  
+    return  this.http.get(url);   
+  }
+
   getImage(url:string): Observable<string>
   {
     return  this.http.get<string>(url, { responseType: 'text' as 'json' });

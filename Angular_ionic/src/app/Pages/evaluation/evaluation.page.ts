@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { gitModel } from 'src/app/model/Git';
+import { gitModel } from 'src/model/Git';
 import { hackModel } from 'src/app/model/Hack';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Name } from 'src/app/model/Name';
-
+import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-evaluation',
   templateUrl: './evaluation.page.html',
@@ -34,8 +34,8 @@ export class EvaluationPage implements OnInit {
   }
 
 
-  user: object;
-  constructor(private http: HttpClient, private router: Router) { }
+  user;
+  constructor( private alert: AlertController,private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
   }
@@ -45,12 +45,38 @@ export class EvaluationPage implements OnInit {
 
     let Url:string = "http://localhost:8080/api/gits";
    
-    this.http.post(Url,this.modelGit).subscribe(data => {
-      alert("GitMark Updated successfully");
+    this.http.post(Url,this.modelGit).subscribe(async data => 
+      {
+        this.user=data;
+        if(this.user==true)
+        {
+          alert('Git score Already updated' );
+        }
+        else{
+          const alertPrompt = await this.alert.create({
+            cssClass: 'my-custom-class',
+            header: 'GitMark Updated successfully ',
+            subHeader: '',
+            message: '',
+            buttons: ['OK']
+          });
+          await alertPrompt.present();
+       
+          this.router.navigateByUrl('/menu/home');
+  
+        }
+     
    
     },
-    err => {
-      alert('GitMark Updation failed' + console.error() );
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        header: 'Git score Not updated',
+        subHeader: ' ',
+        message: '',
+        buttons: ['OK']
+      });
+      await alertPrompt.present();
     });
     
     
@@ -58,34 +84,39 @@ export class EvaluationPage implements OnInit {
 
     let Url1:string = "http://localhost:8080/api/hackathons";
    
-    this.http.post(Url1,this.modelHack).subscribe(data => {
-      alert("HackaThon Mark Updated successfully");
+    this.http.post(Url1,this.modelHack).subscribe( async data => {
+      this.user=data;
+      if(this.user==true)
+      {
+        alert('Hackathon score Already updated' );
+      }
+      else{
+        const alertPrompt = await this.alert.create({
+          cssClass: 'my-custom-class',
+          header: 'Hackathon Updated successfully ',
+          subHeader: '',
+          message: '',
+          buttons: ['OK']
+        });
+        await alertPrompt.present();
+     
+        this.router.navigateByUrl('/menu/home');
+
+      }
    
     },
-    err => {
-      alert('HackaThon Mark Updation failed' + console.error() );
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        header: 'Hackathon Not updated',
+        subHeader: ' ',
+        message: '',
+        buttons: ['OK']
+      });
+      await alertPrompt.present();
+     
     });
-    this.router.navigateByUrl('/menu/home');
-
-
+    
   }   
 
-
-
-  sendFeedbackk(): void{
-
-    console.log("COnsole test for Hack Model"+this.modelHack.name+"HACKATHON MARK = "+this.modelHack.mark);
-
-    let Url:string = "http://localhost:8080/api/hackathons";
-   
-    this.http.post(Url,this.modelGit).subscribe(data => {
-      alert("HackaThon Mark Updated successfully");
-   
-    },
-    err => {
-      alert('HackaThon Mark Updation failed' + console.error() );
-    });
-    this.router.navigateByUrl('/menu/home');
-  }   
-  
 }

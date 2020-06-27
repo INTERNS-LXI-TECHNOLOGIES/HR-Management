@@ -16,9 +16,6 @@ const routes: Routes = [
   {
     path: 'user-info', loadChildren: () => import('./Pages/user-info/user-info.module').then( m => m.UserInfoPageModule),
     canActivate: [AuthGuard],
-    data: {
-      role: 'ROLE_USER'
-    }
   },
 
 ];

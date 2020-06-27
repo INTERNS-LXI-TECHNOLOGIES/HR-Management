@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { userViewModel } from 'src/app/model/User';
+import { userViewModel } from 'src/model/User';
 import { UserService } from './../../service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppraisalService } from 'src/app/appraisal.service';
@@ -23,7 +23,6 @@ export class EditUserPage implements OnInit {
   id;
   image: File;
   model: userViewModel = {
-      id: '',
       firstName: '',
       lastName: '',
       company: '',

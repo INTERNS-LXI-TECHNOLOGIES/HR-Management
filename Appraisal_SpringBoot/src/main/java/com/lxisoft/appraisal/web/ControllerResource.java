@@ -1289,7 +1289,10 @@ public class ControllerResource {
 		 if(isAdmin)mv.addObject("isAdmin",true);
 		 if(isUser)mv.addObject("isUser",true);
 		 return mv ;
-	}
+    }
+
+        //************* */
+
 	public boolean isWithinRange(LocalDate start1,LocalDate end1,LocalDate Localdate)
 	{
 		return Localdate.isAfter(start1) && Localdate.isBefore(end1);

@@ -21,23 +21,24 @@ export class AuthServerProvider {
               private $sessionStorage: SessionStorageService,
               private storage: Storage,
               private router: Router) {
-                // this.loadUser();
-                this.users = this.authState.asObservable();
-                // this.users = this.authState.asObservable().pipe(
-                //   filter(response => response)
-                // )
+                this.loadUser();
+                // this.users = this.authState.asObservable();
+                this.users = this.authState.asObservable().pipe(
+                  filter(response => response)
+                )
               }
-  // loadUser() {
-  //   this.storage.get(TOKEN_KEY).then(data => {
-  //     console.log('Loaded user ', data);
-  //     if (data){
-  //       this.authState.next(data);
-  //     }
-  //     else{
-  //       this.authState.next(null);
-  //     }
-  //   })
-  // }
+  loadUser() {
+    const data = this.$localStorage.retrieve(TOKEN_KEY);
+    console.log('Loaded user ', data);
+    if (data){
+      this.authState.next(data);
+      // let role = data['role'];
+      // if()
+    }
+    else{
+      this.authState.next(null);
+    }
+  }
   getToken() {
     return this.$localStorage.retrieve('authenticationToken') || this.$sessionStorage.retrieve('authenticationToken');
   }
@@ -82,7 +83,7 @@ export class AuthServerProvider {
       this.$localStorage.clear('authenticationToken');
       this.$sessionStorage.clear('authenticationToken');
       this.storage.remove('authenticationToken');
-      this.storage.remove(TOKEN_KEY);
+      this.$sessionStorage.clear(TOKEN_KEY);
       this.authState.next(null);
       this.router.navigateByUrl('/login');
       observer.complete();
@@ -100,13 +101,14 @@ export class AuthServerProvider {
       users = { username, role: 'ROLE_USER'};
     }
     this.authState.next(this.users);
-    this.setValue(this.users);
+    this.$localStorage.store(TOKEN_KEY, (users));
+    // this.setValue(this.users);
     return of(users);
   }
-  setValue(users): Promise<any>
-  {
-    return this.storage.set(TOKEN_KEY,(users));
-  }
+  // setValue(users): Promise<any>
+  // {
+  //   return this.storage.set(TOKEN_KEY,(users));
+  // }
   signout()
   {
     this.storage.set(TOKEN_KEY, null);
