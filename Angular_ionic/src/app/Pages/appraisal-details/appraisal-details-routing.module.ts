@@ -5,7 +5,7 @@ import { AppraisalDetailsPage } from './appraisal-details.page';
 
 const routes: Routes = [
   {
-    path: ':id',
+    path: '',
     component: AppraisalDetailsPage
   }
 ];

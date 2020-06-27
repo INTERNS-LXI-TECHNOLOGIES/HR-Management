@@ -8,10 +8,6 @@ const routes: Routes = [
   {    path: 'login', loadChildren: () => import('./Pages/login/login.module').then( m => m.LoginPageModule) },
   {
     path: 'menu',  loadChildren: () => import('./Pages/menu/menu.module').then( m => m.MenuPageModule),
-    canActivate: [AuthGuard],
-    data: {
-      role: 'ROLE_ADMIN'
-    }
   },
   {
     path: 'user-info',
