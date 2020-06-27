@@ -8,16 +8,16 @@ const routes: Routes = [
   {
     path: ':id',
     component: UserInfoPage,
-    children: [
-      {
-        path: 'work-profile',
-        loadChildren:  () => WorkProfilePageModule
-      },
-      {
-        path: 'appraisal',
-        loadChildren:  () => WorkProfilePageModule
-      },
-    ]
+    // children: [
+    //   {
+    //     path: '/user-info/work-profile',
+    //     loadChildren:  () => WorkProfilePageModule
+    //   },
+    //   {
+    //     path: '/user-info/appraisal',
+    //     loadChildren:  () => WorkProfilePageModule
+    //   },
+    // ]
   }
 ];
 

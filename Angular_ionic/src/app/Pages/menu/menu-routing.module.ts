@@ -14,11 +14,16 @@ import { UserInfoPageModule } from '../user-info/user-info.module';
 import { WorkProfilePageModule } from '../work-profile/work-profile.module';
 import { EditUserPageModule } from '../edit-user/edit-user.module';
 import { JiraPageModule } from 'src/app/Pages/jira/jira.module';
+import { AuthGuard } from 'src/app/guard/auth.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: MenuPage,
+    canActivate: [AuthGuard],
+    data: {
+      role: 'ROLE_ADMIN'
+    },
     children: [
       {
         path: 'home',

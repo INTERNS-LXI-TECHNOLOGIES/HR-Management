@@ -14,8 +14,16 @@ const routes: Routes = [
     }
   },
   {
-    path: 'user-info', loadChildren: () => import('./Pages/user-info/user-info.module').then( m => m.UserInfoPageModule),
-    canActivate: [AuthGuard],
+    path: 'user-info',
+     loadChildren: () => import('./Pages/user-info/user-info.module').then( m => m.UserInfoPageModule),
+  },
+  {
+    path: 'work-profile',
+     loadChildren: () => import('./Pages/work-profile/work-profile.module').then( m => m.WorkProfilePageModule),
+  },
+  {
+    path: 'appraisal',
+     loadChildren: () => import('./Pages/appraisal-details/appraisal-details.module').then( m => m.AppraisalDetailsPageModule),
   },
 
 ];

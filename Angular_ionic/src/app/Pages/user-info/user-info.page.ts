@@ -30,7 +30,11 @@ export class UserInfoPage implements OnInit {
   }
   getWorkProfile(id: string)
   {
-    this.router.navigate(['/user-info/work-profile', id]);
+    this.router.navigate(['work-profile', id]);
+  }
+  getAppraisal(id: string)
+  {
+    this.router.navigate(['appraisal', id]);
   }
   signout()
   {
