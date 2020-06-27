@@ -125,7 +125,6 @@ export class AdduserPage implements OnInit {
     let blob = null;
     const reader = new FileReader();
     reader.onload = this.handleFile.bind(this);
-
     reader.readAsArrayBuffer(file);
     // tslint:disable-next-line: only-arrow-functions
     reader.onload = function() {
