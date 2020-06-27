@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { userViewModel } from '../../model/User';
 import { AlertController } from '@ionic/angular';
-import { AppraisalControllerResourceService } from './../../api/services';
+import { AppraisalControllerResourceService} from './../../api/appraisalControllerResource.service';
+import { userViewModel } from 'src/model/User';
+import { Base64 } from '@ionic-native/base64/ngx';
 
 
 @Component({
@@ -12,8 +12,9 @@ import { AppraisalControllerResourceService } from './../../api/services';
   templateUrl: './adduser.page.html',
   styleUrls: ['./adduser.page.scss'],
 })
+// tslint:disable-next-line: component-class-suffix
 export class AdduserPage implements OnInit {
-  model: AppraisalControllerResourceService.AddUserUsingPOSTParams = {
+  model: userViewModel = {
     firstName: '',
     lastName: '',
     company: '',
@@ -22,7 +23,7 @@ export class AdduserPage implements OnInit {
     authorities: '',
     joiningDate: '',
     dob: '',
-    image: '',
+    image: null,
     login: '',
     password: ''
   };
@@ -46,35 +47,36 @@ export class AdduserPage implements OnInit {
       'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT',
       'Access-Control-Allow-Headers': 'Authorization, Origin, Content-Type, X-CSRF-Token',
     };
-    const formData = new FormData();
-    // const data = JSON.stringify(this.model);
-    formData.append( 'firstName', this.model.firstName );
-    formData.append( 'lastName', this.model.lastName );
-    formData.append( 'company', this.model.company );
-    formData.append( 'email', this.model.email );
-    formData.append( 'position', this.model.position );
-    formData.append( 'authorities', this.model.authorities );
-    formData.append( 'joiningDate', this.model.joiningDate );
-    formData.append( 'dob', this.model.dob );
-    formData.append( 'image', this.model.image );
-    formData.append( 'login', this.model.login );
-    formData.append( 'password', this.model.password );
+    // const formData = new FormData();
+    // // const data = JSON.stringify(this.model);
     // formData.append( 'firstName', this.model.firstName );
-    // alert(this.model.name);
-    console.log('formData: ', formData.getAll('data'));
-    this.appCntl.addUserUsingPOST( {
-      position : this.model.position,
-      password : this.model.password,
-      login : this.model.login,
-      lastName : this.model.lastName,
-      joiningDate : this.model.joiningDate,
-      image : this.model.image,
-      firstName : this.model.firstName,
-      email : this.model.email,
-      dob : this.model.dob,
-      company : this.model.company,
-      authorities : this.model.authorities
-    })
+    // formData.append( 'lastName', this.model.lastName );
+    // formData.append( 'company', this.model.company );
+    // formData.append( 'email', this.model.email );
+    // formData.append( 'position', this.model.position );
+    // formData.append( 'authorities', this.model.authorities );
+    // formData.append( 'joiningDate', this.model.joiningDate );
+    // formData.append( 'dob', this.model.dob );
+    // // formData.append( 'image', this.model.image );
+    // formData.append( 'login', this.model.login );
+    // formData.append( 'password', this.model.password );
+    // // formData.append( 'firstName', this.model.firstName );
+    // // alert(this.model.name);
+    // console.log('formData: ', formData.getAll('data'));
+    this.appCntl.addUserUsingPOST(
+      this.model.authorities,
+      this.model.company,
+      this.model.dob,
+      this.model.email,
+      this.model.firstName,
+      null,
+      this.model.image,
+      this.model.joiningDate,
+      this.model.login,
+      this.model.lastName,
+      this.model.password,
+      this.model.position
+    )
     // this.http.post(url,  formData)
     .subscribe(async data => {
       this.user = data;
@@ -109,20 +111,49 @@ export class AdduserPage implements OnInit {
   }
   setFile(event)
   {
+  //   const file = event.target.files[0];
+  //   const type = file.type;
+  //   this.changeFile(file).then((base64: string): any => {
+  //           console.log(base64);
+  //           this.fileBlob = this.b64Blob([base64], type);
+  //           console.log(this.fileBlob)
+  //       });
+  //   console.log('file: ' + this.model.image.type);
+
     const file = event.target.files[0];
+    console.log(file);
+    let blob = null;
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-    this.model.image = reader.result;
+    reader.onload = this.handleFile.bind(this);
+
+    reader.readAsArrayBuffer(file);
     // tslint:disable-next-line: only-arrow-functions
     reader.onload = function() {
-     // me.modelvalue = reader.result;
-     console.log(reader.result);
-   };
+      const stringData = reader.result;
+      blob = new Blob([stringData], {type: 'image/jpeg'});
+      // me.modelvalue = reader.result;
+      console.log(file);
+      console.log(blob);
+      
+    };
+    setTimeout(() => {
+
+      console.log(blob);
+  
+      this.model.image = blob;
+    }, 2000);
     // tslint:disable-next-line: only-arrow-functions
     reader.onerror = function(error) {
      console.log('Error: ', error);
    };
-    // this.model.image = event.target.files[0];
+  }
+  handleFile(event) {
+    // tslint:disable-next-line: prefer-const
+    var binaryString = event.target.result;
+    const base64textString = btoa(binaryString);
+    console.log(btoa(binaryString));
+    console.log('Error: ');
+
   }
 }
 

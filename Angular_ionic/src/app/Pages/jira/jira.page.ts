@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { jiraModel } from 'src/app/model/Jira';
+import { jiraModel } from 'src/model/Jira';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';

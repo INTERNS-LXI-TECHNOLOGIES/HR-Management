@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {lateArrival } from 'src/app/model/lateArrival';
+import {lateArrival } from 'src/model/lateArrival';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';

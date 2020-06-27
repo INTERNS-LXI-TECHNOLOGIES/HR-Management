@@ -3,16 +3,17 @@ import { AppraisalService } from 'src/app/appraisal.service';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { HttpClient } from '@angular/common/http';
-import { userViewModel } from 'src/app/model/User';
 import { Observable } from 'rxjs';
-import { AppraisalControllerResourceService } from './../../api/services';
-import { UserDTO } from 'src/app/api/models';
+import { AppraisalControllerResourceService } from './../../api/appraisalControllerResource.service';
+import { UserDTO } from 'src/app/model/models';
+
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
+// tslint:disable-next-line: component-class-suffix
 export class HomePage implements OnInit {
   id;
   constructor(private appservice: AppraisalService, private router: Router, private httpClient: HttpClient,

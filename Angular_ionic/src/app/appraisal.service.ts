@@ -3,9 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { userViewModel } from './model/User';
 import { AlertController } from '@ionic/angular';
-import { UserExtraResourceService } from './api/services';
+import { UserExtraResourceService } from './api/userExtraResource.service';
+import { userViewModel } from 'src/model/User';
+
 
 
 @Injectable({
@@ -47,24 +48,25 @@ export class AppraisalService {
   {
     const alertPrompt = await this.alert.create({
       cssClass: 'my-custom-class',
-      header: 'Success',
-      subHeader: 'Modification',
-      message: 'User details modified successfully.',
+      header: 'Confirm',
+      subHeader: 'Deletion',
+      message: 'Click okay to Confirm',
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
-            console.log('Confirm Cancel: user deletion');
+            console.log('Cancel: user deletion');
             }
-          }, {
+          },
+          {
             text: 'Okay',
             handler: () => {
               // const url: string = 'http://localhost:8080/api/user-extras/' + id;
               this.userExtraCntl.deleteUserExtraUsingDELETE(id).subscribe( data => {
               console.log('Confirm: user deletion');
-              this.router.navigate(['/home']);
+              this.router.navigate(['/menu/home']);
               },
               err => {
               alert('something went wrong..!' );
