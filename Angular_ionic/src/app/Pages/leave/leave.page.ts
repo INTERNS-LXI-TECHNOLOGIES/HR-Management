@@ -20,22 +20,12 @@ import { AlertController } from '@ionic/angular';
 
 export class LeavePage implements OnInit {
 
-  users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/appraisal-controller-resource/userName');
+  users: any = this.appservice.getUsers('http://localhost:8080/api/appraisal-controller-resource/userName');
 
-  naame: userViewModel[]=[
-
-   
-  ];
+ 
   name: Name[]=[
-    { name:'sooraj'},
-    { name:'meharu'},
-    { name:'ajith'},
+    
     { name:'abhi'},
-    { name:'sanu'},
-    { name:'jose'},
-    { name:'mani'},
-    { name:'anju'},
-    { name:'gokhul'},
     
   ];
 

@@ -159,7 +159,7 @@ public class AppraisalControllerResource {
     public ArrayList <String> userNames()
     {
 
-    	return userService.getAllUsers();
+    	return userService.getAllNames();
     }
 
 

@@ -96,9 +96,16 @@ public class UserService {
                 return user;
             });
     }
-            public ArrayList<String> getAllUsers()
+            public ArrayList<User> getAllUsers()
             {
 
+                ArrayList<User> user = userRepository.findAll();
+
+                return user;
+            }
+
+            public ArrayList<String> getAllNames()
+            {
                 ArrayList<User> user = userRepository.findAll();
                 ArrayList<String> name = new ArrayList<String>();
                 for(User i : user)
@@ -107,6 +114,8 @@ public class UserService {
                 }
                 return name;
             }
+
+
     public User registerUser(UserDTO userDTO, String password,String company,String position,LocalDate joiningDate,LocalDate dob,byte[] image,String imageContentType,String username)
     {
         userRepository.findOneByLogin(userDTO.getLogin().toLowerCase()).ifPresent(existingUser -> {

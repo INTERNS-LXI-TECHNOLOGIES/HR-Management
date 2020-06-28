@@ -4,10 +4,5 @@ export class Name
     {
 
     }
-
-    // leaveName = [
-    //     new Name('1', 'abhi'),
-    //     new Name('2', 'sanu'),
-    //     new Name('3', 'sudu')
-    // ] 
+    
 }
