@@ -111,7 +111,7 @@ public class AppraisalControllerResource {
     public boolean addUser(@ModelAttribute UserViewDTO userDTO) {
         boolean isUsed = false;
         log.info("get value from server ----------:{}", userDTO.getEmail());
-        log.info("get file from server ----------:{}", userDTO.getImage().getContentType());
+        // log.info("get file from server ----------:{}", userDTO.getImage().getContentType());
         try {
             isUsed = restService.addUser(userDTO);
         } catch (IOException e) {

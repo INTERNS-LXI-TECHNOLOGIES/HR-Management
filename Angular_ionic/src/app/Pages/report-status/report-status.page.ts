@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { reportStatus } from 'src/app/model/ReportStatus';
+import { reportStatus } from 'src/model/ReportStatus';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Name } from 'src/app/model/Name';
+import { Name } from 'src/model/Name';
 import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-report-status',

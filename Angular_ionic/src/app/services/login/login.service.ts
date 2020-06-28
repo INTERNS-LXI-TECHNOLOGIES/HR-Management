@@ -33,8 +33,8 @@ export class LoginService {
     });
   }
 
-  loginWithToken(jwt, rememberMe) {
-    return this.authServerProvider.loginWithToken(jwt, rememberMe);
+  loginWithToken(jwt) {
+    return this.authServerProvider.loginWithToken(jwt);
   }
 
   logout() {

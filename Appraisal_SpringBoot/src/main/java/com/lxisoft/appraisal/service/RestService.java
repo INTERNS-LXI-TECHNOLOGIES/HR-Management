@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -69,9 +70,11 @@ public class RestService {
         userEx.setDob(LocalDate.parse(userDTO.getDob()));
         userEx.setJoiningDate(LocalDate.parse(userDTO.getJoiningDate()));
         userEx.setUser(user);
-        byte[] bytes=userDTO.getImage().getBytes();
-        userEx.setImage(bytes);
-        userEx.setImageContentType(userDTO.getImage().getContentType());
+        // byte[] bytes=userDTO.getImage().getBytes();
+		// byte[] bytes=Base64.getEncoder().encode(userDTO.getImage());
+		log.info("image from server  " + userDTO.getImage());
+        // userEx.setImage(bytes);
+        userEx.setImageContentType("image/jpeg");
 
         Set<Authority> authorities = new HashSet<>();
 		String auth=userDTO.getAuthorities();

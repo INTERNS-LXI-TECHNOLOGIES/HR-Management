@@ -1,9 +1,9 @@
 import { map } from 'rxjs/operators';
-import { userViewModel } from 'src/app/model/User';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { userViewModel } from 'src/model/User';
 
 @Injectable({
   providedIn: 'root'

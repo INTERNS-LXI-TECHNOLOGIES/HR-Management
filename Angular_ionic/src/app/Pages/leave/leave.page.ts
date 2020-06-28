@@ -3,12 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {FormControl} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import {leaveModel } from 'src/app/model/Leave';
+import {leaveModel } from 'src/model/Leave';
 import { type } from 'os';
-import {Name } from 'src/app/model/Name';
+import {Name } from 'src/model/Name';
 import { AppraisalService } from 'src/app/appraisal.service';
 import { UserService } from 'src/app/service/user.service';
-import { userViewModel } from 'src/app/model/User';
+import { userViewModel } from 'src/model/User';
 import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-leave',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { gitModel } from 'src/app/model/Git';
+import { gitModel } from 'src/model/Git';
 import { hackModel } from 'src/app/model/Hack';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
