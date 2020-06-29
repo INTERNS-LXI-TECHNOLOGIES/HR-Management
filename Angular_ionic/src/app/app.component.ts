@@ -5,6 +5,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppraisalService } from './appraisal.service';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { LanguageService } from './services/language/language.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -14,9 +15,10 @@ export class AppComponent implements OnInit {
 
 
   constructor(private appservice: AppraisalService,
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+              private platform: Platform,
+              private splashScreen: SplashScreen,
+              private statusBar: StatusBar,
+              private languageService: LanguageService
   ) {
     this.initializeApp();
   }
@@ -25,6 +27,8 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
     this.statusBar.styleDefault();
     this.splashScreen.hide();
+
+    this.languageService.setInitialAppLanguage();
     });
   }
 

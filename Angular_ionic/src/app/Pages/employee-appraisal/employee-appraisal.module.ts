@@ -4,13 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { EmployeeAppraisalPageRoutingModule } from './employee-appraisal-routing.module';
 import { EmployeeAppraisalPage } from './employee-appraisal.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    EmployeeAppraisalPageRoutingModule
+    EmployeeAppraisalPageRoutingModule,
+    TranslateModule
   ],
   declarations: [EmployeeAppraisalPage]
 })
