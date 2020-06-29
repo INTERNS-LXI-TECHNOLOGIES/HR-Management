@@ -31,6 +31,8 @@
     "@ionic/angular": "^5.0.0",
     "@ionic/storage": "^2.2.0",
     "@ng-select/ng-select": "^4.0.0",
+    "@ngx-translate/core": "^13.0.0",
+    "@ngx-translate/http-loader": "^6.0.0",
     "@syncfusion/ej2-angular-pdfviewer": "^18.1.57",
     "com-badrit-base64": "^0.2.0",
     "cordova-browser": "6.0.0",

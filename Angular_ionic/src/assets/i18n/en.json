@@ -1,0 +1,19 @@
+{
+    "HOME": {
+        "title": "Home",
+        "Users": "Users",
+        "Edit": "Edit",
+        "Delete": "Delete"
+    },
+    "SIDEMENU":{
+        "Home": "Home",
+        "Add User": "Add User",
+        "Appraisal": "Appraisal Report",
+        "Status Update": "Status Update",
+        "Leave": "Leave",
+        "Late Arrival": "Late Arrival",
+        "Report Status": "Report Status",
+        "Evaluation": "Evaluation",
+        "Jira": "Jira"
+    }
+}
