@@ -26,7 +26,7 @@ export class UserInfoPage implements OnInit {
                                 .subscribe(image => {this.image = image; },
                                   (error: any) => {console.log(error); } );
       console.log(this.image);
-      this.userService.setId(id);
+      this.userService.setId(this.id);
     });
   }
   getWorkProfile(id: string)

@@ -1,3 +1,4 @@
+import { LanguagePopoverPageModule } from './Pages/language-popover/language-popover.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -35,6 +36,7 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
+    LanguagePopoverPageModule,
     AppRoutingModule,
     FormsModule,
   ],
