@@ -70,10 +70,10 @@ public class RestService {
         userEx.setDob(LocalDate.parse(userDTO.getDob()));
         userEx.setJoiningDate(LocalDate.parse(userDTO.getJoiningDate()));
         userEx.setUser(user);
-        // byte[] bytes=userDTO.getImage().getBytes();
+        byte[] bytes=userDTO.getImage().getBytes();
 		// byte[] bytes=Base64.getEncoder().encode(userDTO.getImage());
 		log.info("image from server  " + userDTO.getImage());
-        // userEx.setImage(bytes);
+        userEx.setImage(bytes);
         userEx.setImageContentType("image/jpeg");
 
         Set<Authority> authorities = new HashSet<>();

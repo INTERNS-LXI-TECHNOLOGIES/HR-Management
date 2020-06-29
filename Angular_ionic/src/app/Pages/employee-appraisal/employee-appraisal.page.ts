@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppraisalService } from 'src/app/appraisal.service';
 import { userViewModel } from 'src/model/User';
 import { Observable } from 'rxjs';
-import { AppraisalControllerResourceService } from './../../api/appraisalControllerResource.service';
+import { AppraisalControllerResourceService } from './../../api/services';
 import { UserDTO } from 'src/app/model/models';
 // import { File } from '@ionic-native/file/ngx';
 // import { FileTransfer } from '@ionic-native/file-transfer/ngx';

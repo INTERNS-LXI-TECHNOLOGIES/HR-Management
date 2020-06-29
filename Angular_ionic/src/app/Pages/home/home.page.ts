@@ -6,7 +6,7 @@ import { UserService } from '../../service/user.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthServerProvider } from './../../services/auth/auth-jwt.service';
-import { AppraisalControllerResourceService } from './../../api/appraisalControllerResource.service';
+import { AppraisalControllerResourceService } from './../../api/services';
 import { UserDTO } from 'src/app/model/models';
 
 @Component({
