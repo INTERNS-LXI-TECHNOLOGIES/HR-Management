@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { UserExtraResourceService } from './api/userExtraResource.service';
+import { UserExtraResourceService } from './../app/api/services';
 import { userViewModel } from 'src/model/User';
 
 

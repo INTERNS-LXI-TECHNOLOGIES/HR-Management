@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { AppraisalControllerResourceService} from './../../api/appraisalControllerResource.service';
+import { AppraisalControllerResourceService} from './../../api/services';
 import { userViewModel } from 'src/model/User';
 import { Base64 } from '@ionic-native/base64/ngx';
 
@@ -14,7 +14,7 @@ import { Base64 } from '@ionic-native/base64/ngx';
 })
 // tslint:disable-next-line: component-class-suffix
 export class AdduserPage implements OnInit {
-  model: userViewModel = {
+  model: AppraisalControllerResourceService.AddUserUsingPOSTParams = {
     firstName: '',
     lastName: '',
     company: '',
@@ -23,7 +23,7 @@ export class AdduserPage implements OnInit {
     authorities: '',
     joiningDate: '',
     dob: '',
-    image: null,
+    image: '',
     login: '',
     password: ''
   };
@@ -64,18 +64,7 @@ export class AdduserPage implements OnInit {
     // // alert(this.model.name);
     // console.log('formData: ', formData.getAll('data'));
     this.appCntl.addUserUsingPOST(
-      this.model.authorities,
-      this.model.company,
-      this.model.dob,
-      this.model.email,
-      this.model.firstName,
-      null,
-      this.model.image,
-      this.model.joiningDate,
-      this.model.login,
-      this.model.lastName,
-      this.model.password,
-      this.model.position
+      this.model
     )
     // this.http.post(url,  formData)
     .subscribe(async data => {
@@ -123,12 +112,13 @@ export class AdduserPage implements OnInit {
     const file = event.target.files[0];
     console.log(file);
     let blob = null;
+    let stringData = null;
     const reader = new FileReader();
     reader.onload = this.handleFile.bind(this);
     reader.readAsArrayBuffer(file);
     // tslint:disable-next-line: only-arrow-functions
     reader.onload = function() {
-      const stringData = reader.result;
+      stringData = reader.result;
       blob = new Blob([stringData], {type: 'image/jpeg'});
       // me.modelvalue = reader.result;
       console.log(file);
@@ -139,7 +129,7 @@ export class AdduserPage implements OnInit {
 
       console.log(blob);
   
-      this.model.image = blob;
+      this.model.image = stringData;
     }, 2000);
     // tslint:disable-next-line: only-arrow-functions
     reader.onerror = function(error) {

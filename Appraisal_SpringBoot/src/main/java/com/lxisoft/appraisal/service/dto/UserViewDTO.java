@@ -9,6 +9,8 @@ import com.lxisoft.appraisal.config.Constants;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import liquibase.datatype.core.VarcharType;
+
 public class UserViewDTO {
 
     private Long id;
@@ -38,7 +40,7 @@ public class UserViewDTO {
 
     private String dob;
 
-    private MultipartFile image;
+    private String image;
 
     private String password;
 
@@ -114,11 +116,11 @@ public class UserViewDTO {
         this.dob = dob;
     }
 
-    public MultipartFile getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(MultipartFile image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

@@ -106,7 +106,7 @@ public class AppraisalControllerResource {
      * @param userDTO
      * @return
      */
-    @Consumes("multipart/form-data")
+    // @Consumes("multipart/form-data")
     @PostMapping("/addUser")
     public boolean addUser(@ModelAttribute UserViewDTO userDTO) {
         boolean isUsed = false;
