@@ -85,13 +85,21 @@
         "User": "User",
         "Authority is required": "Authority is required",
         "Create New User": "Create New User",
-        "Edit User Details": "Edit User Details"
+        "Edit User Details": "Edit User Details",
+        "Work Profile": "Work Profile",
+        "Appraisal Info": "Appraisal Info"
     },
     "APPRAISAL":{
         "Appraisal Details": "Appraisal Details",
         "Attendance": "Attendance",
         "Company Policy": "Company Policy",
         "Meeting Targets": "Meeting Targets",
-        "Code Quality": "Code Quality"
+        "Code Quality": "Code Quality",
+        "Punctuality": "Punctuality",
+        "Select Two dates": "Select Two dates",
+        "Sort Appraisal Details": "Sort Appraisal Details",
+        "Get PDF": "Get PDF",
+        "Employee Appraisal Details": "Employee Appraisal Details",
+        "S.NO": "S.NO"
     }
 }
