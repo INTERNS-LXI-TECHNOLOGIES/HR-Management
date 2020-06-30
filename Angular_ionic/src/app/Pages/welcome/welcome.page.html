@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ 'HOME.title' | translate }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openLanguagePopover($event)">
+       <ion-icon name="more" slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical" >
+       </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-button expand="full" color="secondary" [routerLink]="['/login/']" >Login</ion-button>
+</ion-content>

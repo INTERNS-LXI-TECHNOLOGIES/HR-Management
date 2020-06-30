@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  {    path: '', redirectTo: 'login', pathMatch: 'full'  },
+  {    path: '', redirectTo: 'welcome', pathMatch: 'full'  },
   {    path: 'login', loadChildren: () => import('./Pages/login/login.module').then( m => m.LoginPageModule) },
   {
     path: 'menu',  loadChildren: () => import('./Pages/menu/menu.module').then( m => m.MenuPageModule),
@@ -21,6 +21,15 @@ const routes: Routes = [
     path: 'appraisal',
      loadChildren: () => import('./Pages/appraisal-details/appraisal-details.module').then( m => m.AppraisalDetailsPageModule),
   },
+  {
+    path: 'welcome',
+    loadChildren: () => import('./Pages/welcome/welcome.module').then( m => m.WelcomePageModule)
+  },  {
+    path: 'language-popover',
+    loadChildren: () => import('./Pages/language-popover/language-popover.module').then( m => m.LanguagePopoverPageModule)
+  },
+
+
 
 ];
 @NgModule({

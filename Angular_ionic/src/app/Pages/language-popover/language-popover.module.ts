@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { ReportStatusPageRoutingModule } from './report-status-routing.module';
-import { ReportStatusPage } from './report-status.page';
+import { LanguagePopoverPageRoutingModule } from './language-popover-routing.module';
+import { LanguagePopoverPage } from './language-popover.page';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -11,9 +11,9 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     FormsModule,
     IonicModule,
-    ReportStatusPageRoutingModule,
+    LanguagePopoverPageRoutingModule,
     TranslateModule
   ],
-  declarations: [ReportStatusPage]
+  declarations: [LanguagePopoverPage]
 })
-export class ReportStatusPageModule {}
+export class LanguagePopoverPageModule {}

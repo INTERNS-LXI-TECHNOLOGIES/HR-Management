@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { Observable, BehaviorSubject, of } from 'rxjs';
 import { map , filter} from 'rxjs/operators';
-import { Storage } from '@ionic/Storage';
+import { Storage } from '@ionic/storage';
 import { ApiService } from '../api/api.service';
 import { stringify } from 'querystring';
 
