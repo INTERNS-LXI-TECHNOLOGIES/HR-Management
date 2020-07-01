@@ -147,8 +147,10 @@ public class AppraisalControllerResource {
     public String getUserImage(@PathVariable Long id) {
         Optional<UserExtra> userExtra = userExtraRepository.findById(id);
         log.debug("REST  get UserExtra : {}", userExtra);
-        // byte[] encoded = Base64.getEncoder().encode();
-        return userExtra.get().getImage().toString();
+//        byte[] image = userExtra.get().getImage();
+        byte[] encoded = Base64.getEncoder().encode(userExtra.get().getImage());
+        return (new String(encoded));
+//        return (new String(image));
     }
 
     /**

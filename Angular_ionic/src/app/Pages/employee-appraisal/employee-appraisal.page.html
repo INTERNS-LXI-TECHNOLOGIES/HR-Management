@@ -3,12 +3,12 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Emplpoyee Appraisal Details</ion-title>
+    <ion-title>{{ 'APPRAISAL.Employee Appraisal Details' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <br>
-  <div class="ion-text-center" >Select Two dates : &nbsp;
+  <div class="ion-text-center" >{{ 'APPRAISAL.Select Two dates' | translate }}: &nbsp;
     <input type="date" 
           class="form-control"
           name="start"
@@ -23,22 +23,22 @@
           required/>
   </div>
   <div class="ion-text-center" >
-    <ion-button  (click)="sortDetails()">Sort Appraisal Details</ion-button>
+    <ion-button  (click)="sortDetails()">{{ 'APPRAISAL.Sort Appraisal Details' | translate }}</ion-button>
   </div>
   <div style="overflow-x: auto;">
       <table>
         <tr>
-          <th >s.no</th>
-          <th >firstName</th>
-          <th >lastName</th>
-          <th >company</th>
-          <th >position</th>
-          <th >email</th>
-          <th >attendance</th>
-          <th >punctuality</th>
-          <th >meetingTargets</th>
-          <th >companyPolicy</th>
-          <th >codeQuality</th>
+          <th >{{ 'APPRAISAL.S.NO' | translate }}</th>
+          <th >{{ 'USER INFO.First Name' | translate }}</th>
+          <th >{{ 'USER INFO.Last Name' | translate }}</th>
+          <th >{{ 'USER INFO.Company' | translate }}</th>
+          <th >{{ 'USER INFO.Position' | translate }}</th>
+          <th >{{ 'USER INFO.Email' | translate }}</th>
+          <th >{{ 'APPRAISAL.Attendance' | translate }}</th>
+          <th >{{ 'APPRAISAL.Punctuality' | translate }}</th>
+          <th >{{ 'APPRAISAL.Meeting Targets' | translate }}</th>
+          <th >{{ 'APPRAISAL.Company Policy' | translate }}</th>
+          <th >{{ 'APPRAISAL.Code Quality' | translate }}</th>
         </tr>
         <tr *ngFor="let item of ( appraisalList |async ); let i=index">
           <!-- <tr> -->
@@ -58,6 +58,6 @@
     </table>
   </div>
 
-  <ion-button expand="full" color="secondary" (click)="getPdf()">Get PDF</ion-button>
+  <ion-button expand="full" color="secondary" (click)="getPdf()">{{ 'APPRAISAL.Get PDF' | translate }}</ion-button>
   
 </ion-content>

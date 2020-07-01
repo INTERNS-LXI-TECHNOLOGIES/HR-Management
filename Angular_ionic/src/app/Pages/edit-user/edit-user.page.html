@@ -2,13 +2,13 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
   <ion-toolbar>
-    <ion-title>editUser</ion-title>
+    <ion-title>{{ 'USER INFO.Edit User Info' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card >
-    <ion-card-header  style="text-align: center; color: chocolate; ">User Information</ion-card-header>
+    <ion-card-header  style="text-align: center; color: chocolate; ">{{ 'USER INFO.User Information' | translate }}</ion-card-header>
     <div class="container">
       <div class="row">
         <div class="offset-3"></div>
@@ -16,12 +16,12 @@
           <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendFeedback()" novalidate class="feedback-form">
             <!-- FirstName -->
             <div class="form-group">
-              <label for="firstName">First Name</label>
+              <label for="firstName">{{ 'USER INFO.First Name' | translate }}</label>
               <input type="text"
                     id="firstName"
                     class="form-control"
                     name="firstName"
-                    placeholder="Your First name"
+                    placeholder="{{ 'PLACE HOLDER.Your First name' | translate }}"
                     [(ngModel)]="model.firstName"
                     #firstName="ngModel"
                     [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }"
@@ -29,17 +29,17 @@
                     <!-- input validation group -->
                   <div *ngIf="f.submitted && firstName.invalid" class="invalid-input">
                     <!-- individual validation errors -->
-                    <div *ngIf="firstName.errors?.required">FirstName is required</div>
+                    <div *ngIf="firstName.errors?.required">{{ 'VALIDATIONS.FirstName is required' | translate }}</div>
                   </div>
             </div>
             <!-- LastName -->
             <div class="form-group">
-              <label for="lastName">Last Name</label>
+              <label for="lastName">{{ 'USER INFO.Last Name' | translate }}</label>
               <input type="text"
                     id="lastName"
                     class="form-control"
                     name="lastName"
-                    placeholder="Your Last name"
+                    placeholder="{{ 'PLACE HOLDER.Your Last name' | translate }}"
                     [(ngModel)]="model.lastName"
                     #lastName="ngModel"
                     [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }"
@@ -47,17 +47,17 @@
                     <!-- input validation group -->
                   <div *ngIf="f.submitted && lastName.invalid" class="invalid-input">
                     <!-- individual validation errors -->
-                    <div *ngIf="lastName.errors?.required">lastName is required</div>
+                    <div *ngIf="lastName.errors?.required">{{ 'VALIDATIONS.LastName is required' | translate }}</div>
                   </div>
             </div>
             <!-- Email -->
             <div class="form-group">
-              <label for="email">Email</label>
+              <label for="email">{{ 'USER INFO.Email' | translate }}</label>
               <input type="text"
                     id="email"
                     class="form-control"
                     name="email"
-                    placeholder="Your email"
+                    placeholder="{{ 'PLACE HOLDER.Your email' | translate }}"
                     [(ngModel)]="model.email"
                     #email="ngModel"
                     [ngClass]="{ 'is-invalid': f.submitted && email.invalid }"
@@ -65,13 +65,13 @@
                     <!-- input validation group -->
                   <div *ngIf="f.submitted && email.invalid" class="invalid-input">
                     <!-- individual validation errors -->
-                    <div *ngIf="email.errors?.required">email is required</div>
-                    <div *ngIf="email.errors?.email">email is not valid</div>
+                    <div *ngIf="email.errors?.required">{{ 'VALIDATIONS.email is required' | translate }}</div>
+                    <div *ngIf="email.errors?.email">{{ 'VALIDATIONS.email is not valid' | translate }}</div>
                   </div>
             </div>
               <!-- company -->
             <div class="form-group">
-              <label for="company">company</label>
+              <label for="company">{{ 'USER INFO.Company' | translate }}</label>
                   <select 
                     id="company"
                     class="form-control"
@@ -81,22 +81,22 @@
                     #company="ngModel"
                     [ngClass]="{ 'is-invalid': f.submitted && company.invalid }"
                     required>
-                     <option value="" disabled>choose your company</option>
-                     <option value="Lxisoft" >Lxisoft</option>
-                    <option value="Bytatech">Bytatech</option>
-                    <option value="Divixo" >Divixo</option>
-                    <option value="Felixo" >Felixo</option>
-                    <option value="Illude">Illude</option>
+                     <option value="" disabled>{{ 'PLACE HOLDER.Choose your company' | translate }}</option>
+                     <option value="Lxisoft" >{{ 'PLACE HOLDER.Lxisoft' | translate }}</option>
+                    <option value="Bytatech">{{ 'PLACE HOLDER.Bytatech' | translate }}</option>
+                    <option value="Diviso" >{{ 'PLACE HOLDER.Diviso' | translate }}</option>
+                    <option value="Felixo" >{{ 'PLACE HOLDER.Felixo' | translate }}</option>
+                    <option value="Illude">{{ 'PLACE HOLDER.Illude' | translate }}</option>
                     </select>
                     <!-- input validation group -->
                   <div *ngIf="f.submitted && company.invalid" class="invalid-input">
                     <!-- individual validation errors -->
-                    <div *ngIf="company.errors?.required">company is required</div>
+                    <div *ngIf="company.errors?.required">{{ 'VALIDATIONS.Company is required' | translate }}</div>
                   </div>
             </div>      
               <!-- position -->
               <div class="form-group">
-                <label for="position">position</label>
+                <label for="position">{{ 'USER INFO.Position' | translate }}</label>
                 <select
                       id="position"
                       class="form-control"
@@ -106,21 +106,21 @@
                       #position="ngModel"
                     [ngClass]="{ 'is-invalid': f.submitted && position.invalid }"
                     required>
-                    <option value="" disabled>choose your position</option>
-                    <option value="intern">intern</option>
-                    <option value="employee">employee </option>
-                    <option value="co-founder">co-founder</option>
-                    <option value="admin" >admin </option>
+                    <option value="" disabled>{{ 'PLACE HOLDER.Choose your position' | translate }}</option>
+                    <option value="intern">{{ 'PLACE HOLDER.Intern' | translate }}</option>
+                    <option value="employee">{{ 'PLACE HOLDER.Employee' | translate }}</option>
+                    <option value="co-founder">{{ 'PLACE HOLDER.Co-founder' | translate }}</option>
+                    <option value="admin" >{{ 'PLACE HOLDER.Admin' | translate }}</option>
                     </select>
                     <!-- input validation group -->
                   <div *ngIf="f.submitted && position.invalid" class="invalid-input">
                     <!-- individual validation errors -->
-                    <div *ngIf="position.errors?.required">position is required</div>
+                    <div *ngIf="position.errors?.required">{{ 'VALIDATIONS.Position is required' | translate }}</div>
                   </div>
               </div>  
                 <!-- joiningDate -->
             <div class="form-group">
-              <label for="joiningDate">joiningDate</label>
+              <label for="joiningDate">{{ 'USER INFO.Joined Date' | translate }}</label>
               <input type="date"
                     id="joiningDate"
                     class="form-control"
@@ -133,12 +133,12 @@
                     <!-- input validation group -->
                   <div *ngIf="f.submitted && joiningDate.invalid" class="invalid-input">
                     <!-- individual validation errors -->
-                    <div *ngIf="joiningDate.errors?.required">joiningDate is required</div>
+                    <div *ngIf="joiningDate.errors?.required">{{ 'VALIDATIONS.Joined Date is required' | translate }}</div>
                   </div>
             </div>  
               <!-- dob -->
               <div class="form-group">
-                <label for="dob">date of Birth</label>
+                <label for="dob">{{ 'USER INFO.Date of Birth' | translate }}</label>
                 <input type="date"
                       id="dob"
                       class="form-control"
@@ -151,12 +151,12 @@
                     <!-- input validation group -->
                   <div *ngIf="f.submitted && dob.invalid" class="invalid-input">
                     <!-- individual validation errors -->
-                    <div *ngIf="dob.errors?.required">Date of Birth is required</div>
+                    <div *ngIf="dob.errors?.required">{{ 'VALIDATIONS.Date of Birth is required' | translate }}</div>
                   </div>
               </div>  
               <!-- image-->
             <div class="form-group">
-              <label for="image">image</label>
+              <label for="image">{{ 'USER INFO.Profile Pic' | translate }}</label>
               <input type="file"
                     id="image"
                     class="form-control"
@@ -171,7 +171,7 @@
             
             <button type="submit" class="btn btn-info pull-right">
               <i class="fa fa-envelope-o"></i>
-              <span> edit use details</span>
+              <span>{{ 'USER INFO.Edit User Details' | translate }}</span>
             </button>
           </form>
         </div>

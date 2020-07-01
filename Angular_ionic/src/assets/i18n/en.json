@@ -5,7 +5,7 @@
         "Edit": "Edit",
         "Delete": "Delete"
     },
-    "SIDEMENU":{
+    "SIDE-MENU":{
         "Home": "Home",
         "Add User": "Add User",
         "Appraisal": "Appraisal Report",
@@ -14,6 +14,106 @@
         "Late Arrival": "Late Arrival",
         "Report Status": "Report Status",
         "Evaluation": "Evaluation",
-        "Jira": "Jira"
+        "Jira": "Jira",
+        "Logout": "Logout"
+    },
+    "LOGIN":{
+        "Welcome": "Welcome",
+        "Username": "Username",
+        "Password": "Password",
+        "Login": "Login",
+        "Login Page": "Login Page"
+    },
+    "STATUS":{
+        "Name of Employee": "Name of Employee",
+        "Date of Absent": "Date of Absent",
+        "Update Leave": "Update Leave",
+        "Arrival Time": "Arrival Time",
+        "Update Late Arrival": "Update Late Arrival",
+        "Git": "Git",
+        "Hackathon": "Hackathon",
+        "Update Scores": "Update Scores",
+        "Jira Hours": "Jira Hours",
+        "Update Jira Hours": "Update Jira Hours",
+        "Reporting Time": "Reporting Time",
+        "Update Report Status": "Update Jira Hours"
+    },
+    "USER INFO":{
+        "User Information": "User Information",
+        "First Name": "First Name",
+        "Last Name": "Last Name",
+        "Email": "Email",
+        "Company": "Company", 
+        "Position": "Position",
+        "Joined Date": "Joined Date",
+        "Date of Birth": "Date of Birth",
+        "Profile Pic": "Profile Pic",
+        "Login ID": "Login ID",
+        "Password": "Password",
+        "Authority": "Authority",
+        "Create New User": "Create New User",
+        "Edit User Info": "Edit User Info",
+        "Edit User Details": "Edit User Details",
+        "Work Profile": "Work Profile",
+        "Appraisal Info": "Appraisal Info"
+    },
+    "PLACE HOLDER":{
+        "Your First name": "Your First name",
+        "Your Last name": "Your Last name",
+        "Your email": "Your email",
+        "Choose your company": "Choose your company",
+        "Lxisoft": "Lxisoft",
+        "Bytatech": "Bytatech",
+        "Diviso": "Diviso",
+        "Felixo": "Felixo",
+        "Illude": "Illude",
+        "Choose your position": "Choose your position",
+        "Intern": "Intern",
+        "Employee": "Employee",
+        "Co-founder": "Co-founder",
+        "Admin": "Admin",
+        "Your login ID": "Your login ID",
+        "Your password": "Your password",
+        "Choose your authority": "Choose your authority",
+        "User": "User"
+    },
+    "VALIDATIONS":{
+        "FirstName is required": "FirstName is required",
+        "LastName is required": "LastName is required",
+        "email is required": "email is required",
+        "email is not valid": "email is not valid",
+        "Company is required": "Company is required",
+        "Position is required": "Position is required",
+        "JoinedDate is required": "JoinedDate is required",
+        "Date of Birth is required": "Date of Birth is required",
+        "Login ID is required": "Login ID is required",
+        "Password is required": "Password is required",
+        "Password must have min 4 char": "Password must have min 4 char",
+        "Authority is required": "Authority is required"
+    },
+    "APPRAISAL":{
+        "Appraisal Details": "Appraisal Details",
+        "Attendance": "Attendance",
+        "Company Policy": "Company Policy",
+        "Meeting Targets": "Meeting Targets",
+        "Code Quality": "Code Quality",
+        "Punctuality": "Punctuality",
+        "Select Two dates": "Select Two dates",
+        "Sort Appraisal Details": "Sort Appraisal Details",
+        "Get PDF": "Get PDF",
+        "Employee Appraisal Details": "Employee Appraisal Details",
+        "S.NO": "S.NO"
+    },
+    "WORK PROFILE":{
+        "Authorized": "Authorized",
+        "Un Authorized": "Un Authorized",
+        "Work Status": "Work Status",
+        "Working Hours": "Working Hours",
+        "Worked Hours": "Worked Hours",
+        "Attendance": "Attendance",
+        "Total Working days": "Total Working days",
+        "Absence": "Absence",
+        "Total Worked days": "Total Worked days",
+        "UnReported days": "UnReported days"
     }
 }

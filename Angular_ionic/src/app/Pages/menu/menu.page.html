@@ -19,12 +19,12 @@
       </ion-button> -->
       <ion-item tappable routerLink="/login" routerDirection="root">
         <ion-icon name="log-out" slot="start"></ion-icon>
-        Logout
+        {{ 'SIDE-MENU.Logout' | translate }}
       </ion-item>
       </ion-list>
         <ion-item lines="none" (click)="isRemainder === 1 ? isRemainder = 0 : isRemainder = 1">
           <ion-icon name="logo-twitch" slot="start"></ion-icon>
-         Status
+          {{ 'SIDE-MENU.Status Update' | translate }}
           <ion-icon slot="end" [name]="isRemainder? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon>
         </ion-item>
   
@@ -33,28 +33,28 @@
             <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/leave']"
               [queryParams]="{ type: 'Leave' }" menuClose class="sub-menu">
               <ion-icon name="calendar" slot="start"></ion-icon>
-             Leave Updation
+              {{ 'SIDE-MENU.Leave' | translate }}
             </ion-item>
            
             <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/late-arrival']"
               [queryParams]="{ type: 'LateArrival' }" menuClose class="sub-menu">
               <ion-icon name="alarm" slot="start"></ion-icon>
-           LateArrival
+              {{ 'SIDE-MENU.Late Arrival' | translate }}
             </ion-item>
             <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/report-status']"
               [queryParams]="{ type: 'ReportStatus' }" menuClose class="sub-menu">
               <ion-icon name="clipboard-outline" slot="start"></ion-icon>
-           ReportStatus
+              {{ 'SIDE-MENU.Report Status' | translate }}
             </ion-item>
             <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/evaluation']"
             [queryParams]="{ type: 'Evaluation' }" menuClose class="sub-menu">
             <ion-icon name="trophy" slot="start"></ion-icon>
-          Evaluation Updation
+            {{ 'SIDE-MENU.Evaluation' | translate }}
           </ion-item>
           <ion-item menuclose [hidden]="!isRemainder" [routerLink]="['/menu/jira']"
           [queryParams]="{ type: 'Jira' }" menuClose class="sub-menu">
           <ion-icon name="logo-github" slot="start"></ion-icon>
-        Jira Updation
+          {{ 'SIDE-MENU.Jira' | translate }}
         </ion-item>
           </ion-list>
         </ion-menu-toggle>

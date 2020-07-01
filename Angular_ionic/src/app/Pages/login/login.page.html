@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Login</ion-title>
+    <ion-title>{{ 'LOGIN.Login Page' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,16 +11,16 @@
   <form (submit)="doLogin()">
     <ion-list>
       <ion-item>
-        <ion-label position="floating">Username</ion-label>
+        <ion-label position="floating">{{ 'LOGIN.Username' | translate }}</ion-label>
         <ion-input type="string" [(ngModel)]="user.username" name="username"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="floating">Password</ion-label>
+        <ion-label position="floating">{{ 'LOGIN.Password' | translate }}</ion-label>
         <ion-input type="password" [(ngModel)]="user.password" name="password"></ion-input>
       </ion-item>
       <ion-row class="ion-padding">
         <ion-col>
-          <ion-button expand="block" type="submit" color="primary" id="login">login</ion-button>
+          <ion-button expand="block" type="submit" color="primary" id="login">{{ 'LOGIN.Login' | translate }}</ion-button>
         </ion-col>
       </ion-row>
     </ion-list>
