@@ -66,7 +66,7 @@ import javax.ws.rs.Consumes;
  */
 @RestController
 @RequestMapping("/api/appraisal-controller-resource")
-@CrossOrigin("*")
+@CrossOrigin
 public class AppraisalControllerResource {
     @Autowired
     UserResource userRes;
@@ -107,6 +107,7 @@ public class AppraisalControllerResource {
      * @return
      */
     // @Consumes("multipart/form-data")
+    @CrossOrigin
     @PostMapping("/addUser")
     public boolean addUser(@ModelAttribute UserViewDTO userDTO) {
         boolean isUsed = false;
@@ -146,8 +147,8 @@ public class AppraisalControllerResource {
     public String getUserImage(@PathVariable Long id) {
         Optional<UserExtra> userExtra = userExtraRepository.findById(id);
         log.debug("REST  get UserExtra : {}", userExtra);
-        byte[] encoded = Base64.getEncoder().encode(userExtra.get().getImage());
-        return (new String(encoded));
+        // byte[] encoded = Base64.getEncoder().encode();
+        return userExtra.get().getImage().toString();
     }
 
     /**

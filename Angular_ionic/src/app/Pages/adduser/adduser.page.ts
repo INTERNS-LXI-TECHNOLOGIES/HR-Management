@@ -112,22 +112,22 @@ export class AdduserPage implements OnInit {
     const file = event.target.files[0];
     console.log(file);
     let blob = null;
-    let stringData = null;
+    // let stringData = btoa(file);
     const reader = new FileReader();
+    reader.readAsDataURL(file);
     reader.onload = this.handleFile.bind(this);
-    reader.readAsArrayBuffer(file);
     // tslint:disable-next-line: only-arrow-functions
     reader.onload = function() {
-      stringData = reader.result;
-      blob = new Blob([stringData], {type: 'image/jpeg'});
+      // blob = new Blob([stringData], {type: 'image/jpeg'});
       // me.modelvalue = reader.result;
       console.log(file);
-      console.log(blob);
+      // console.log(blob);
       
     };
     setTimeout(() => {
+      let stringData = reader.result.toString();
 
-      console.log(blob);
+      console.log(stringData);
   
       this.model.image = stringData;
     }, 2000);
