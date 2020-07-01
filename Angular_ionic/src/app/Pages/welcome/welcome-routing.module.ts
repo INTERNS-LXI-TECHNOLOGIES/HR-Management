@@ -6,7 +6,13 @@ import { WelcomePage } from './welcome.page';
 const routes: Routes = [
   {
     path: '',
-    component: WelcomePage
+    component: WelcomePage,
+    children: [
+      {
+        path: 'language-popover',
+        loadChildren: () => import('src/app/Pages/language-popover/language-popover.module').then( m => m.LanguagePopoverPageModule)
+      }
+    ]
   }
 ];
 
