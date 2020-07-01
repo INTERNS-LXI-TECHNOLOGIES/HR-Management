@@ -6,13 +6,13 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title color="red">Leave</ion-title>
+    <ion-title color="red">{{ 'SIDE-MENU.Leave' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card >
-    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">Leave updation</ion-card-header>
+    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">{{ 'SIDE-MENU.Leave' | translate }}</ion-card-header>
     <div class="container">
       <div class="row">
         <div class="offset-3"></div>
@@ -20,7 +20,7 @@
           <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendFeedback()" novalidate class="feedback-form">
            
             <div class="form-group">
-              <label for="firstName">Name of Employee</label>
+              <label for="firstName">{{ 'STATUS.Name of User' | translate }}</label>
               <input type="text"
                     id="firstName"
                     class="form-control"
@@ -50,7 +50,7 @@
 
 
               <div class="form-group">
-                <label for="leaveDate">date of absent</label>
+                <label for="leaveDate">{{ 'STATUS.Date of Leave' | translate }}</label>
                 <input type="date"
                       id="leaveDate"
                       class="form-control"
@@ -61,12 +61,12 @@
               </div>  
              <br><br>
              <div>
-              <input value="Authorized"  name="Authorized" class="auth" type="radio" id="Authorized"  [(ngModel)]="model.type">Authorized &nbsp;        
-              <input value="NonAuthorized" name="NonAuthorized" class="unauth" type="radio" id="NonAuthorized" [(ngModel)]="model.type">Non Authorized <br><br>
+              <input value="Authorized"  name="Authorized" class="auth" type="radio" id="Authorized"  [(ngModel)]="model.type">{{ 'WORK PROFILE.Authorized' | translate }} &nbsp;        
+              <input value="NonAuthorized" name="NonAuthorized" class="unauth" type="radio" id="NonAuthorized" [(ngModel)]="model.type">{{ 'WORK PROFILE.Un Authorized' | translate }} <br><br>
          </div>
             <button type="submit" class="btn btn-info pull-right">
               <em class="fa fa-envelope-o"></em>
-              <span>UPDATE LEAVE</span>
+              <span>{{ 'STATUS.Update Leave' | translate }}</span>
             </button>
           </form>
         </div>
