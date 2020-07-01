@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, RendererFactory2 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {FormControl} from '@angular/forms';
@@ -39,7 +39,7 @@ export class LeavePage implements OnInit {
   
 
   user;
-  constructor( private alert: AlertController,private appservice: AppraisalService, private route: ActivatedRoute,private userService: UserService,private http: HttpClient , private router: Router) 
+  constructor(rendererFactory: RendererFactory2, private alert: AlertController,private appservice: AppraisalService, private route: ActivatedRoute,private userService: UserService,private http: HttpClient , private router: Router) 
   { }
  
 

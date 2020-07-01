@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { AuthServerProvider } from './../../services/auth/auth-jwt.service';
 import { AppraisalControllerResourceService } from './../../api/services';
 import { UserDTO } from 'src/app/model/models';
+import { ThemeService } from 'src/app/theme.service';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class HomePage implements OnInit {
   id;
   constructor(private appservice: AppraisalService, private router: Router, private httpClient: HttpClient,
               private userService: UserService, private route: ActivatedRoute,
+              private themeService: ThemeService,
               private loginService: LoginService, private appCntl: AppraisalControllerResourceService, ){  }
   // users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/users/');
   users: Observable <UserDTO[]> = this.appCntl.getAllUserUsingGET();
@@ -37,6 +39,8 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+
+   
   }
   select(id: string){
     this.userService.setId(id);
@@ -46,5 +50,9 @@ export class HomePage implements OnInit {
   signout()
   {
     this.loginService.logout();
+  }
+
+  onChangeToggle(ev: CustomEvent) {
+    this.themeService.enableDarkMode(ev.detail.checked)
   }
 }
