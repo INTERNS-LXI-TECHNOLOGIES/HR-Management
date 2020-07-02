@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 import { Route } from '@angular/compiler/src/core';
 import { AlertController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.page.html',
@@ -70,7 +71,7 @@ export class EditUserPage implements OnInit {
               text: 'Okay',
               handler: () => {
                 this.userService.setId(this.id);
-                this.router.navigate(['/menu/home/user-info/', this.id]);
+                this.router.navigate(['/user-info/', this.id]);
               }
             }
           ]
@@ -78,8 +79,15 @@ export class EditUserPage implements OnInit {
         await alertPrompt.present().then(() => {
         });
       },
-      err => {
-       alert('error while modifying user details');
+      async err => {
+        const alertPro = await this.alert.create({
+          cssClass: 'my-custom-class',
+          header: 'Error',
+          subHeader: 'Unsuccessful',
+          message: 'Something went Wrong, try again..!',
+          buttons: ['okay']
+        });
+        await alertPro.present();
       }
     );
   }
