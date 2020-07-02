@@ -9,7 +9,21 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-<ion-button expand="full" color="secondary" [routerLink]="['/login/']" >Login</ion-button>
+<ion-content padding id="welcome">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h1>Welcome to Hr Management</h1>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid >
+    <ion-row>
+      <ion-col center text-center>
+        <!-- <button ion-button full color="success" [routerLink]="['/login/']" >Login</button> -->
+        <ion-button expand="full" color="secondary" [routerLink]="['/login/']" >Login</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+

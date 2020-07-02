@@ -11,18 +11,16 @@ import { Location } from "@angular/common";
   styleUrls: ['./work-profile.page.scss'],
 })
 export class WorkProfilePage implements OnInit {
-  
   status: any;
    id;
    start:'no data';
    end: 'no data';
-  constructor(private route: ActivatedRoute,private router: Router,
-    private appService: AppraisalService,private userService: UserService,
-    private location: Location)
-    {}
-
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private appService: AppraisalService,
+              private userService: UserService,
+              private location: Location){}
   ngOnInit() {
-
     this.route.params.subscribe(params => {
     this.id = params['id'];
     this.start = params['start'];

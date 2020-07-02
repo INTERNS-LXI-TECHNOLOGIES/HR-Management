@@ -1,6 +1,8 @@
 import { UserService } from 'src/app/service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-appraisal-details',
@@ -17,7 +19,9 @@ export class AppraisalDetailsPage implements OnInit {
   today = new Date();
   end = this.today.toISOString();
   sort = true;
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService,
+              private alert: AlertController,
+              private translate: TranslateService) { }
 
   ngOnInit() {
     this.id = this.userService.getId();
@@ -50,7 +54,14 @@ export class AppraisalDetailsPage implements OnInit {
     this.userService.sortAppraisal('http://localhost:8080/api/appraisal-controller-resource/sortAppraisal/' + this.id + '/' + this.start + '/' + this.end)
                                 .subscribe(data => {this.appraisal = data;
                                                     this.sort = false; },
-                                  err => alert('select dates correctly'));
+    async err => {
+    const alertPrompt = await this.alert.create({
+      cssClass: 'my-custom-class',
+      message:  this.translate.instant('APPRAISAL-ALERT.message'),
+      buttons: [this.translate.instant('ALERT.OK')]
+    });
+    await alertPrompt.present();
+  });
   }
 
 }

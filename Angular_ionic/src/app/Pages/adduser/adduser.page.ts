@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 import { AppraisalControllerResourceService} from './../../api/services';
 import { userViewModel } from 'src/model/User';
 import { Base64 } from '@ionic-native/base64/ngx';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class AdduserPage implements OnInit {
   constructor(private http: HttpClient,
               private router: Router,
               private alert: AlertController,
-              private appCntl: AppraisalControllerResourceService, ) { }
+              private appCntl: AppraisalControllerResourceService,
+              private translate: TranslateService ) { }
 
   ngOnInit() {
   }
@@ -76,10 +78,9 @@ export class AdduserPage implements OnInit {
       else{
         const alertPrompt = await this.alert.create({
           cssClass: 'my-custom-class',
-          header: 'Success',
-          subHeader: 'Creation',
-          message: ' new User created successfully.',
-          buttons: ['OK']
+          header: this.translate.instant('ADD-ALERT.header'),
+          message:  this.translate.instant('ADD-ALERT.message'),
+          buttons: [this.translate.instant('ALERT.OK')]
         });
         await alertPrompt.present();
       //   if (this.file.size > 20)
@@ -94,8 +95,13 @@ export class AdduserPage implements OnInit {
       }
 
     },
-    err => {
-      alert('something went wrong..!' );
+    async err => {
+      const alertPrompt = await this.alert.create({
+        cssClass: 'my-custom-class',
+        message:  this.translate.instant('ADD_ERROR-ALERT.message'),
+        buttons: [this.translate.instant('ALERT.OK')]
+      });
+      await alertPrompt.present();
     });
   }
   setFile(event)

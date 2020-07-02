@@ -28,20 +28,20 @@
         <h3 class="name">{{ user.firstName }} {{ user.lastName }}</h3>
         <h5 class="info">{{user.position }} </h5>
         <ion-item no-padding>
-          <ion-label color="dark" stacked class="info">Email:   {{ user.email }}</ion-label>
+          <ion-label color="dark" stacked class="info">{{ 'USER INFO.Email' | translate }}:   {{ user.email }}</ion-label>
         </ion-item>
         <ion-item no-padding>
-          <ion-label color="dark" stacked class="info">Company:   {{user.company }}</ion-label>
+          <ion-label color="dark" stacked class="info">{{ 'USER INFO.Company' | translate }}:   {{user.company }}</ion-label>
         </ion-item>
         <ion-item no-padding>
-          <ion-label color="dark" stacked class="info">DOB:   {{ user.dob }}</ion-label>
+          <ion-label color="dark" stacked class="info">{{ 'USER INFO.Date of Birth' | translate }}:   {{ user.dob }}</ion-label>
         </ion-item>
         <ion-item no-padding>
-          <ion-label color="dark" stacked class="info">Joining Date:   {{ user.joiningDate }}</ion-label>
+          <ion-label color="dark" stacked class="info">{{ 'USER INFO.Joined Date' | translate }}:   {{ user.joiningDate }}</ion-label>
         </ion-item>
        
       </div>
-      <ion-button expand="full" color="secondary" (click)="getWorkProfile(user.id)">Work Profile</ion-button>
+      <ion-button expand="full" color="secondary" (click)="getWorkProfile(user.id)">{{ 'USER INFO.Work Profile' | translate }}</ion-button>
       &nbsp;&nbsp;
-      <ion-button expand="full" color="secondary" [routerLink]="['/appraisal/']" >Appraisal Info</ion-button>
+      <ion-button expand="full" color="secondary" [routerLink]="['/appraisal/']" >{{ 'USER INFO.Appraisal Info' | translate }}</ion-button>
       </div>

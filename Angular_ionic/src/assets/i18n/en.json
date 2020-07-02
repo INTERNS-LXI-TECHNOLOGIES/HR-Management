@@ -75,7 +75,12 @@
         "Your login ID": "Your login ID",
         "Your password": "Your password",
         "Choose your authority": "Choose your authority",
-        "User": "User"
+        "User": "User",
+        "enter valid name": "enter valid name",
+        "insert time": "insert time",
+        "insert hackathon score": "insert hackathon score",
+        "insert git score": "insert git score",
+        "insert worked hours": "insert worked hours"
     },
     "VALIDATIONS":{
         "FirstName is required": "FirstName is required",
@@ -115,5 +120,68 @@
         "Absence": "Absence",
         "Total Worked days": "Total Worked days",
         "UnReported days": "UnReported days"
+    },
+    "ALERT":{
+        "OK": "OK"
+    },
+    "ADD-ALERT":{
+        "header": "Success",
+        "message": "addition of new user completed successfully"
+    },
+    "ADD_ERROR-ALERT":{
+        "message": "error happen while adding user"
+    },
+    "EDIT-ALERT":{
+        "header": "Success",
+        "message": "User details modified successfully."
+    },
+    "EDIT_ERROR-ALERT":{
+        "message": "error happen while modifying user details"
+    },
+    "APPRAISAL-ALERT":{
+        "message": "select dates correctly"
+    },
+    "GIT-ALERT":{
+        "header": "GitMark Updated successfully"
+    },
+    "GIT_ERROR-ALERT":{
+        "header": "Git score not updated"
+    },
+    "HACK-ALERT":{
+        "header": "Hackathon Updated successfully"
+    },
+    "HACK_ERROR-ALERT":{
+        "header": "Hackathon not updated"
+    },
+    "JIRA-ALERT":{
+        "header": "Jira Hour Updated successfully"
+    },
+    "JIRA_ERROR-ALERT":{
+        "header": "updating of Jira-Hour Failed",
+        "subHeader": "please enter valid name"
+    },
+    "LATE-ALERT":{
+        "header": "LateArrival Updated successfully"
+    },
+    "LATE_ERROR-ALERT":
+    {
+        "header": "updating of Late-Arrival failed",
+        "subHeader": "please enter valid name"
+    },
+    "LEAVE-ALERT":{
+        "header": "Updating of leave completed successfully"
+    },
+    "LEAVE_ERROR-ALERT":
+    {
+        "header": "updating of Leave failed",
+        "subHeader": "please enter valid name"
+    },
+    "REPORT-ALERT":{
+        "header": "Report status Updated successfully"
+    },
+    "REPORT_ERROR-ALERT":
+    {
+        "header": "updating of Report Status failed",
+        "subHeader": "please enter valid name"
     }
 }

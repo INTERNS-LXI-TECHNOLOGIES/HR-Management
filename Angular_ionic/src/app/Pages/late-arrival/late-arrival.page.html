@@ -25,7 +25,7 @@
                     id="firstName"
                     class="form-control"
                     name="firstName"
-                    placeholder="enter valid name"
+                    placeholder="{{ 'PLACE HOLDER.enter valid name' | translate }}"
                     [(ngModel)]="model.name" />
             </div> 
 
@@ -50,14 +50,14 @@
                       id="lateArrival"
                       class="form-control"
                       name="lateArrival"
-                      placeholder="insert time"
+                      placeholder="{{ 'PLACE HOLDER.insert time' | translate }}"
                       [(ngModel)]="model.reachedTime"
                       required/>
               </div>  
              <br><br>
              <div>
               <input value="Authorized"  name="Authorized" class="auth" type="radio" id="Authorized"  [(ngModel)]="model.type">{{ 'WORK PROFILE.Authorized' | translate }} &nbsp;        
-              <input value="NonAuthorized" name="NonAuthorized" class="unauth" type="radio" id="NonAuthorized" [(ngModel)]="model.type">{{ 'WORK PROFILE. Un Authorized' | translate }} <br><br>
+              <input value="NonAuthorized" name="NonAuthorized" class="unauth" type="radio" id="NonAuthorized" [(ngModel)]="model.type">{{ 'WORK PROFILE.Un Authorized' | translate }} <br><br>
          </div>
             <button type="submit" class="btn btn-info pull-right">
               <em class="fa fa-envelope-o"></em>

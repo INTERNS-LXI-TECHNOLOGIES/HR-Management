@@ -6,6 +6,7 @@ import { AppraisalService } from 'src/app/appraisal.service';
 import { Component, OnInit } from '@angular/core';
 import { Route } from '@angular/compiler/src/core';
 import { AlertController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-edit-user',
@@ -19,7 +20,7 @@ export class EditUserPage implements OnInit {
               private httpClient: HttpClient,
               private router: Router,
               private alert: AlertController,
-    ) { }
+              private translate: TranslateService) { }
   id;
   image: File;
   model: userViewModel = {
@@ -62,12 +63,11 @@ export class EditUserPage implements OnInit {
       async data => {
         const alertPrompt = await this.alert.create({
           cssClass: 'my-custom-class',
-          header: 'Success',
-          subHeader: 'Modification',
-          message: 'User details modified successfully.',
+          header: this.translate.instant('EDIT-ALERT.header'),
+          message:  this.translate.instant('EDIT-ALERT.message'),
           buttons: [
             {
-              text: 'Okay',
+              text: this.translate.instant('ALERT.OK'),
               handler: () => {
                 this.userService.setId(this.id);
                 this.router.navigate(['/menu/home/user-info/', this.id]);
@@ -78,8 +78,13 @@ export class EditUserPage implements OnInit {
         await alertPrompt.present().then(() => {
         });
       },
-      err => {
-       alert('error while modifying user details');
+      async err => {
+        const alertPrompt = await this.alert.create({
+          cssClass: 'my-custom-class',
+          message: this.translate.instant('EDIT_ERROR-ALERT.message'),
+          buttons: [this.translate.instant('ALERT.OK')]
+        });
+        await alertPrompt.present();
       }
     );
   }

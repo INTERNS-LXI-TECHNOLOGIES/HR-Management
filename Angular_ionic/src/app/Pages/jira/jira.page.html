@@ -25,7 +25,7 @@
                     id="firstName"
                     class="form-control"
                     name="firstName"
-                    placeholder="enter valid name"
+                    placeholder="{{ 'PLACE HOLDER.enter valid name' | translate }}"
                     [(ngModel)]="model.name" />
             </div> 
 
@@ -50,7 +50,7 @@
                       id="Jira"
                       class="form-control"
                       name="Jira"
-                      placeholder="insert worked hours"
+                      placeholder="{{ 'PLACE HOLDER.insert worked hours' | translate }}"
                       [(ngModel)]="model.hour"
                       required/>
               </div>  

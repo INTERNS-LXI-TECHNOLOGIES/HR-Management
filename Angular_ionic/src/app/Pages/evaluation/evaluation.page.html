@@ -26,7 +26,7 @@
                     id="firstName"
                     class="form-control"
                     name="firstName"
-                    placeholder="enter valid name"
+                    placeholder="{{ 'PLACE HOLDER.enter valid name' | translate }}"
                     [(ngModel)]="modelGit.name"
                     [(ngModel)]="modelHack.name"
                     required />
@@ -37,7 +37,7 @@
                       id="hack"
                       class="form-control"
                       name="hack"
-                      placeholder="insert Hackathon score"
+                      placeholder="{{ 'PLACE HOLDER.insert hackathon score' | translate }}"
                       [(ngModel)]="modelHack.mark"
                      />
            </div>
@@ -49,7 +49,7 @@
                       id="git"
                       class="form-control"
                       name="git"
-                      placeholder="insert git score"
+                      placeholder="{{ 'PLACE HOLDER.insert git score' | translate }}"
                       [(ngModel)]="modelGit.mark"
                       />
               </div>  
