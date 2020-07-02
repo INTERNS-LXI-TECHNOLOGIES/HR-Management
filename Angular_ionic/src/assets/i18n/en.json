@@ -110,6 +110,7 @@
         "S.NO": "S.NO"
     },
     "WORK PROFILE":{
+        "Sort By Date": "Sort By Date",
         "Authorized": "Authorized",
         "Un Authorized": "Un Authorized",
         "Work Status": "Work Status",

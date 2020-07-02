@@ -111,6 +111,7 @@
         "S.NO": "നമ്പർ"
     },
     "WORK PROFILE":{
+        "Sort By Date": "തീയതി പ്രകാരം അടുക്കുക",
         "Authorized": "അംഗീകൃതം",
         "Un Authorized": "അനധികൃതം",
         "Work Status": "ജോലി നില",
@@ -119,7 +120,7 @@
         "Attendance": "ഹാജർ",
         "Total Working days": "ആകെ പ്രവൃത്തി ദിവസങ്ങൾ",
         "Absence": "അഭാവം",
-        "Total Worked days": "ആകെ ജോലി ചെയ്ത ദിവസങ്ങൾ",
+        "Total Worked days": "ജോലി ചെയ്ത ദിവസങ്ങൾ",
         "UnReported days": "റിപ്പോർട്ട് ചെയ്യാത്ത ദിവസങ്ങൾ"
     },
     "ALERT":{
@@ -184,5 +185,8 @@
     {
         "header": "റിപ്പോർട്ട് നില അപ്‌ഡേറ്റുചെയ്യുന്നത് പരാജയപ്പെട്ടു",
         "subHeader": "സാധുവായ പേര് നൽകുക"
+    },
+    "AUTH-ALERT":{
+
     }
 }

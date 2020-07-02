@@ -91,9 +91,7 @@ export class AdduserPage implements OnInit {
 
       // }
         this.router.navigateByUrl('/menu/home');
-
       }
-
     },
     async err => {
       const alertPrompt = await this.alert.create({
