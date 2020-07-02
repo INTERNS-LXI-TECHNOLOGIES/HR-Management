@@ -40,6 +40,7 @@
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-file-opener2": "^3.0.2",
     "cordova-sqlite-storage": "^5.0.0",
+    "cors": "^2.8.5",
     "ng2-validation": "^4.2.0",
     "ngx-webstorage": "^5.0.0",
     "node-sass": "^4.14.1",

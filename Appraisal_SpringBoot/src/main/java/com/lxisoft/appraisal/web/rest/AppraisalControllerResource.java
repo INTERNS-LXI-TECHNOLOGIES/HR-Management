@@ -66,7 +66,7 @@ import javax.ws.rs.Consumes;
  */
 @RestController
 @RequestMapping("/api/appraisal-controller-resource")
-@CrossOrigin("*")
+@CrossOrigin
 public class AppraisalControllerResource {
     @Autowired
     UserResource userRes;
@@ -107,6 +107,7 @@ public class AppraisalControllerResource {
      * @return
      */
     // @Consumes("multipart/form-data")
+    @CrossOrigin
     @PostMapping("/addUser")
     public boolean addUser(@ModelAttribute UserViewDTO userDTO) {
         boolean isUsed = false;
