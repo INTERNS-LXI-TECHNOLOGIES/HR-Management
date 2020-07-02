@@ -46,39 +46,11 @@ export class AppraisalService {
   }
   async deleteUser(id: string)
   {
-    const alertPrompt = await this.alert.create({
-      cssClass: 'my-custom-class',
-      header: 'Confirm',
-      subHeader: 'Deletion',
-      message: 'Click okay to Confirm',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Cancel: user deletion');
-            }
-          },
-          {
-            text: 'Okay',
-            handler: () => {
-              // const url: string = 'http://localhost:8080/api/user-extras/' + id;
-              this.userExtraCntl.deleteUserExtraUsingDELETE(id).subscribe( data => {
-              console.log('Confirm: user deletion');
-              this.router.navigate(['/menu/home']);
-              },
-              err => {
-              alert('something went wrong..!' );
-              });
-            }
-          }
-        ]
-      });
-      // alert('User removed Succesfully..!' );
-    await alertPrompt.present();
-
-
+    // const url: string = 'http://localhost:8080/api/user-extras/' + id;
+    this.userExtraCntl.deleteUserExtraUsingDELETE(id).subscribe( data => {
+      console.log('Confirm: user deletion');
+      this.router.navigate(['/menu/home']);
+    });
   }
 
 }
