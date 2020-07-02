@@ -6,13 +6,13 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title style="color: white;">Jira-Updation</ion-title>
+    <ion-title>{{ 'SIDE-MENU.Jira' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card >
-    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">Jira updation</ion-card-header>
+    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">{{ 'SIDE-MENU.Jira' | translate }}</ion-card-header>
     <div class="container">
       <div class="row">
         <div class="offset-3"></div>
@@ -20,7 +20,7 @@
           <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && sendFeedback()" novalidate class="feedback-form">
            
             <div class="form-group">
-              <label for="firstName">Name of Employee</label>
+              <label for="firstName">{{ 'STATUS.Name of User' | translate }}</label>
               <input type="text"
                     id="firstName"
                     class="form-control"
@@ -45,7 +45,7 @@
            -->
             
               <div class="form-group">
-                <label for="Jira">Jira Hours</label>
+                <label for="Jira">{{ 'STATUS.Jira Hours' | translate }}</label>
                 <input type="number" class="without_ampm" min="2" max="10"
                       id="Jira"
                       class="form-control"
@@ -58,7 +58,7 @@
             
             <button type="submit" class="btn btn-info pull-right">
               <em class="fa fa-envelope-o"></em>
-              <span>UPDATE JIRA HOURS</span>
+              <span>{{ 'STATUS.Update Jira Hours' | translate }}</span>
             </button>
           </form>
         </div>

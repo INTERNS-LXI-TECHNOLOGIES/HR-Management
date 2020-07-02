@@ -6,13 +6,13 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title style="color: white;">Evaluation</ion-title>
+    <ion-title>{{ 'SIDE-MENU.Evaluation' | translate }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-card >
-    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">Evaluation updation</ion-card-header>
+    <ion-card-header  style="text-align: center; color: rgb(240, 14, 14); ">{{ 'SIDE-MENU.Evaluation' | translate }}</ion-card-header>
     <div class="container">
       <div class="row">
         <div class="offset-3"></div>
@@ -21,7 +21,7 @@
           <form name="form" #f="ngForm" (ngSubmit)="f.form.valid &&  sendFeedback()" novalidate class="feedback-form">
             
               <div class="form-group">
-              <label for="firstName">Name of Employee</label>
+              <label for="firstName">{{ 'STATUS.Name of User' | translate }}</label>
               <input type="text"
                     id="firstName"
                     class="form-control"
@@ -32,7 +32,7 @@
                     required />
             </div>
            <div class="form-group">
-                <label for="hack">Hackathon</label>
+                <label for="hack">{{ 'STATUS.Hackathon' | translate }}</label>
                 <input type="number"
                       id="hack"
                       class="form-control"
@@ -44,7 +44,7 @@
           
             
               <div class="form-group">
-                <label for="git">Git</label>
+                <label for="git">{{ 'STATUS.Git' | translate }}</label>
                 <input type="number"
                       id="git"
                       class="form-control"
@@ -61,7 +61,7 @@
            
             <button type="submit" class="btn btn-info pull-right">
               <em class="fa fa-envelope-o"></em>
-              <span>UPDATE SCORES</span>
+              <span>{{ 'STATUS.Update Scores' | translate }}</span>
             </button>
           
           </form>

@@ -4,7 +4,7 @@
       <ion-button color="dark">
         <ion-back-button defaultHref="/menu/home"></ion-back-button>
       </ion-button>
-      <ion-title>Appraisal Details</ion-title>
+      <ion-title>{{ 'APPRAISAL.Appraisal Details' | translate }}</ion-title>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -28,23 +28,23 @@
     <div class="user-meta ion-text-center"  *ngIf="(appraisal)">
   
       <ion-item no-padding>
-        <ion-label color="dark" stacked class="info">attendance:   {{ appraisal.attendance }}</ion-label>
+        <ion-label color="dark" stacked class="info">{{ 'APPRAISAL.Attendance' | translate }}: {{ appraisal.attendance }}</ion-label>
       </ion-item>
       <ion-item no-padding>
-        <ion-label color="dark" stacked class="info">companyPolicy:   {{ appraisal.companyPolicy }}</ion-label>
+        <ion-label color="dark" stacked class="info">{{ 'APPRAISAL.Company Policy' | translate }}:  {{ appraisal.companyPolicy }}</ion-label>
       </ion-item>
       <ion-item no-padding>
-        <ion-label color="dark" stacked class="info">meetingTargets:   {{ appraisal.meetingTargets }}</ion-label>
+        <ion-label color="dark" stacked class="info">{{ 'APPRAISAL.Meeting Targets' | translate }}:  {{ appraisal.meetingTargets }}</ion-label>
       </ion-item>
       <ion-item no-padding>
-        <ion-label color="dark" stacked class="info">codeQuality:   {{ appraisal.codeQuality }}</ion-label>
+        <ion-label color="dark" stacked class="info">{{ 'APPRAISAL.Code Quality' | translate }}:  {{ appraisal.codeQuality }}</ion-label>
       </ion-item>
       <ion-item no-padding>
-        <ion-label color="dark" stacked class="info">punctuality:   {{ appraisal.punctuality }}</ion-label>
+        <ion-label color="dark" stacked class="info">{{ 'APPRAISAL.Punctuality' | translate }}: {{ appraisal.punctuality }}</ion-label>
       </ion-item>
     </div>
     &nbsp;&nbsp;
-    <div class="ion-text-center" >Select Two dates : &nbsp;
+    <div class="ion-text-center" >{{ 'APPRAISAL.Select TWo dates ' | translate }}:  &nbsp;
       <input type="date" 
             class="form-control"
             name="start"
@@ -59,10 +59,10 @@
             required/>
     </div>
     <div class="ion-text-center" >
-      <ion-button  (click)="sortDetails()">Sort Appraisal Details</ion-button>
+      <ion-button  (click)="sortDetails()">{{ 'APPRAISAL.Sort Appraisal Details ' | translate }}</ion-button>
     </div>
 
    
-  <ion-button expand="full" color="secondary" (click)="getPdf(user.id)">Get PDF</ion-button>
+  <ion-button expand="full" color="secondary" (click)="getPdf(user.id)">{{ 'APPRAISAL.Get PDF ' | translate }}</ion-button>
   </div>
 </ion-content>
