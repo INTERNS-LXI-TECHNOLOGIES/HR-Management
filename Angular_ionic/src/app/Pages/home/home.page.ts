@@ -27,6 +27,8 @@ export class HomePage implements OnInit {
   // users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/users/');
   users: Observable <UserDTO[]> = this.appCntl.getAllUserUsingGET();
   public async deleteUser(id: string){
+    // tslint:disable-next-line: deprecation
+    event.stopImmediatePropagation();
     const alertPrompt = await this.alert.create({
       cssClass: 'my-custom-class',
       header: 'Warning',
@@ -37,7 +39,9 @@ export class HomePage implements OnInit {
           text: 'Okay',
             handler: () => {
               this.appservice.deleteUser(id);
-              this.users = this.appCntl.getAllUserUsingGET();
+              setTimeout(() => {
+                this.users = this.appCntl.getAllUserUsingGET();
+              }, 1000);
             }
         },
         {
@@ -48,11 +52,11 @@ export class HomePage implements OnInit {
          }
       ]
     });
-
+    alertPrompt.present();
   }
+  
   // userDelete(id){
   //   // tslint:disable-next-line: deprecation
-  //   event.stopImmediatePropagation();
   //   // tslint:disable-next-line: only-arrow-functions
   //   const promise = new Promise((resolve, reject) => {
 
