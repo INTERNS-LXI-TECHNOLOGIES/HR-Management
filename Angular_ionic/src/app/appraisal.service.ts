@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { UserExtraResourceService } from './../app/api/services';
 import { userViewModel } from 'src/model/User';
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -15,7 +16,8 @@ import { userViewModel } from 'src/model/User';
 export class AppraisalService {
   constructor(private  http: HttpClient, private router: Router,
               private alert: AlertController,
-              private userExtraCntl: UserExtraResourceService ) { }
+              private userExtraCntl: UserExtraResourceService,
+              private translate: TranslateService) { }
   baseUrl = 'http://localhost:8080';
   private counter = 0;
 
@@ -48,12 +50,11 @@ export class AppraisalService {
   {
     const alertPrompt = await this.alert.create({
       cssClass: 'my-custom-class',
-      header: 'Confirm',
-      subHeader: 'Deletion',
-      message: 'Click okay to Confirm',
+      header: this.translate.instant('DELETE-ALERT.header'),
+      message: this.translate.instant('DELETE-ALERT.message'),
       buttons: [
         {
-          text: 'Cancel',
+          text: this.translate.instant('ALERT.Cancel'),
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
@@ -61,15 +62,21 @@ export class AppraisalService {
             }
           },
           {
-            text: 'Okay',
+            text: this.translate.instant('ALERT.OK'),
             handler: () => {
               // const url: string = 'http://localhost:8080/api/user-extras/' + id;
               this.userExtraCntl.deleteUserExtraUsingDELETE(id).subscribe( data => {
               console.log('Confirm: user deletion');
               this.router.navigate(['/menu/home']);
               },
-              err => {
-              alert('something went wrong..!' );
+              async err => {
+                const alertPrompt = await this.alert.create({
+                  cssClass: 'my-custom-class',
+                  header: this.translate.instant('DELETE_ERROR-ALERT.header'),
+                  buttons: [this.translate.instant('ALERT.OK')]
+                });
+                await alertPrompt.present();
+                //alert("Leave Updation failed"+console.error() );
               });
             }
           }

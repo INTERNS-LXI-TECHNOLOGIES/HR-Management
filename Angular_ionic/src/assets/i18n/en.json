@@ -1,9 +1,15 @@
 {
+    "WELCOME":
+    {
+        "title": "Welcome to Hr-Management",
+        "Menu": "Menu"
+    },
     "HOME": {
         "title": "Home",
         "Users": "Users",
         "Edit": "Edit",
-        "Delete": "Delete"
+        "Delete": "Delete",
+        "Dark Mode": "Dark Mode"
     },
     "SIDE-MENU":{
         "Home": "Home",
@@ -123,7 +129,8 @@
         "UnReported days": "UnReported days"
     },
     "ALERT":{
-        "OK": "OK"
+        "OK": "OK",
+        "Cancel": "Cancel"
     },
     "ADD-ALERT":{
         "header": "Success",
@@ -184,5 +191,16 @@
     {
         "header": "updating of Report Status failed",
         "subHeader": "please enter valid name"
+    },
+    "AUTH-ALERT":{
+        "header": "Unauthorized request",
+        "message": "you are not authorized to visit that page"
+    },
+    "DELETE-ALERT":{
+        "header": "Confirm Deletion",
+        "message": "Click okay to Confirm"
+    },
+    "DELETE_ERROR-ALERT":{
+        "message": "error happen while deleting user"
     }
 }

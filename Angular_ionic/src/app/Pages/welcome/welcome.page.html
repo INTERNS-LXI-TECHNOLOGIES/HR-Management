@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{ 'HOME.title' | translate }}</ion-title>
+    <ion-title></ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="openLanguagePopover($event)">
        <ion-icon name="more" slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
@@ -13,7 +13,7 @@
   <ion-grid>
     <ion-row>
       <ion-col>
-        <h1>Welcome to Hr Management</h1>
+        <h1>{{ 'WELCOME.title' | translate }}</h1>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -21,7 +21,7 @@
     <ion-row>
       <ion-col center text-center>
         <!-- <button ion-button full color="success" [routerLink]="['/login/']" >Login</button> -->
-        <ion-button expand="full" color="secondary" [routerLink]="['/login/']" >Login</ion-button>
+        <ion-button expand="full" color="secondary" [routerLink]="['/login/']" >{{ 'LOGIN.Login' | translate }}</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
