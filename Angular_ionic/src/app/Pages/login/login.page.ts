@@ -5,7 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import { NavController, ToastController } from '@ionic/angular';
 import { LoginService } from 'src/app/services/login/login.service';
 import { AccountService } from 'src/app/services/auth/account.service';
-
+import { LanguagePopoverPage } from './../language-popover/language-popover.page';
+import { PopoverController } from '@ionic/angular';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -28,7 +29,8 @@ export class LoginPage implements OnInit {
     public navController: NavController,
     private accountService: AccountService,
     private router: Router,
-    private authServerProvider: AuthServerProvider
+    private authServerProvider: AuthServerProvider,
+    private popoverCtrl: PopoverController
   ) {}
 
   ngOnInit() {}
@@ -71,5 +73,12 @@ export class LoginPage implements OnInit {
     this.authServerProvider.getRole(account).subscribe( user => {
       console.log('after login', user);
     } )
+  }
+  async openLanguagePopover(ev) {
+    const popover = await this.popoverCtrl.create({
+      component: LanguagePopoverPage,
+      event: ev
+    });
+    await popover.present();
   }
 }
