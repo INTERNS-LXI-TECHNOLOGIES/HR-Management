@@ -8,6 +8,7 @@ import { Route } from '@angular/compiler/src/core';
 import { AlertController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 
+
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.page.html',
@@ -70,7 +71,7 @@ export class EditUserPage implements OnInit {
               text: this.translate.instant('ALERT.OK'),
               handler: () => {
                 this.userService.setId(this.id);
-                this.router.navigate(['/menu/home/user-info/', this.id]);
+                this.router.navigate(['/user-info/', this.id]);
               }
             }
           ]

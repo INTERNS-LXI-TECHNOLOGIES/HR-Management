@@ -73,7 +73,14 @@ export class AdduserPage implements OnInit {
       this.user = data;
       if (this.user === true)
       {
-        alert('login ID is already used' );
+          const alertPro = await this.alert.create({
+            cssClass: 'my-custom-class',
+            header: 'Error',
+            subHeader: 'Unsuccessful',
+            message: 'Login ID is already user, try another..!',
+            buttons: ['okay']
+          });
+          await alertPro.present();
       }
       else{
         const alertPrompt = await this.alert.create({
@@ -104,22 +111,12 @@ export class AdduserPage implements OnInit {
   }
   setFile(event)
   {
-  //   const file = event.target.files[0];
-  //   const type = file.type;
-  //   this.changeFile(file).then((base64: string): any => {
-  //           console.log(base64);
-  //           this.fileBlob = this.b64Blob([base64], type);
-  //           console.log(this.fileBlob)
-  //       });
-  //   console.log('file: ' + this.model.image.type);
-
     const file = event.target.files[0];
     console.log(file);
     let blob = null;
     // let stringData = btoa(file);
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = this.handleFile.bind(this);
     // tslint:disable-next-line: only-arrow-functions
     reader.onload = function() {
       // blob = new Blob([stringData], {type: 'image/jpeg'});
@@ -133,20 +130,13 @@ export class AdduserPage implements OnInit {
 
       console.log(stringData);
   
-      this.model.image = stringData;
+      // this.model.image = stringData;
     }, 2000);
     // tslint:disable-next-line: only-arrow-functions
     reader.onerror = function(error) {
      console.log('Error: ', error);
    };
   }
-  handleFile(event) {
-    // tslint:disable-next-line: prefer-const
-    var binaryString = event.target.result;
-    const base64textString = btoa(binaryString);
-    console.log(btoa(binaryString));
-    console.log('Error: ');
 
-  }
 }
 
