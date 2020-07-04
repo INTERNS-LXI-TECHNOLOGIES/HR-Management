@@ -47,10 +47,8 @@ import com.lxisoft.appraisal.service.UserService;
 import com.lxisoft.appraisal.service.dto.UserDTO;
 import com.lxisoft.appraisal.service.dto.UserExtraDTO;
 import com.lxisoft.appraisal.service.dto.UserViewDTO;
-
 import io.github.jhipster.web.util.ResponseUtil;
 import net.sf.jasperreports.engine.JRException;
-
 import java.util.stream.Collectors;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -97,6 +95,8 @@ public class AppraisalControllerResource {
     @GetMapping("/all")
     public ResponseEntity<List<UserDTO>> getAllUser() {
         Pageable pageable = null;
+//        List<User> user=userexService.getAllUsers();
+//        List<UserExtra> userEx=userexService.getAllExtraUsers();
         return userRes.getAllUsers(pageable);
     }
 

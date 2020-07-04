@@ -6,9 +6,10 @@
         </ion-button>
       </ion-buttons>
       <ion-buttons slot="end">
-      <ion-button (click)="signout()">
-        <ion-icon name="log-out"></ion-icon>
-      </ion-button>
+        <ion-button (click)="openPopover($event)">
+          <ion-icon name="more" slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical">
+          </ion-icon>
+         </ion-button>
     </ion-buttons>
     </ion-toolbar>
   </ion-header>
@@ -41,7 +42,4 @@
         </ion-item>
        
       </div>
-      <ion-button expand="full" color="secondary" (click)="getWorkProfile(user.id)">{{ 'USER INFO.Work Profile' | translate }}</ion-button>
-      &nbsp;&nbsp;
-      <ion-button expand="full" color="secondary" [routerLink]="['/appraisal/']" >{{ 'USER INFO.Appraisal Info' | translate }}</ion-button>
       </div>

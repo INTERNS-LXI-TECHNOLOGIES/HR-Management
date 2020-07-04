@@ -3,6 +3,8 @@ import { AuthServerProvider } from './../../services/auth/auth-jwt.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/service/user.service';
+import { PopoverComponentPage } from '../popover-component/popover-component.page';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-user-info',
@@ -16,7 +18,8 @@ export class UserInfoPage implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private userService: UserService,
-              private loginService: LoginService){}
+              private loginService: LoginService,
+              private popoverCtrl: PopoverController){}
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.id = params['id'];
@@ -29,16 +32,11 @@ export class UserInfoPage implements OnInit {
       this.userService.setId(this.id);
     });
   }
-  getWorkProfile(id: string)
-  {
-    this.router.navigate(['work-profile', id]);
-  }
-  getAppraisal(id: string)
-  {
-    this.router.navigate(['appraisal', id]);
-  }
-  signout()
-  {
-    this.loginService.logout();
+  async openPopover(ev) {
+    const popover = await this.popoverCtrl.create({
+      component: PopoverComponentPage,
+      event: ev
+    });
+    await popover.present();
   }
 }

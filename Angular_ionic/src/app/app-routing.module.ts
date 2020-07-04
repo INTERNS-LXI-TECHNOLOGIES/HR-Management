@@ -20,7 +20,11 @@ const routes: Routes = [
   {
     path: 'appraisal',
      loadChildren: () => import('./Pages/appraisal-details/appraisal-details.module').then( m => m.AppraisalDetailsPageModule),
+  },  {
+    path: 'popover-component',
+    loadChildren: () => import('./Pages/popover-component/popover-component.module').then( m => m.PopoverComponentPageModule)
   },
+
 ];
 @NgModule({
   imports: [

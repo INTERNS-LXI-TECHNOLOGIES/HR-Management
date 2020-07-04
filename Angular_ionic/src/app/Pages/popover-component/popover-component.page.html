@@ -1,0 +1,10 @@
+<ion-content padding>
+  <ion-list>
+  <ion-list-header>
+    <!-- <ion-label> </ion-label> -->
+  </ion-list-header>
+  <ion-item button (click)="getWorkProfile()" lines="none" detail="true">{{ 'USER INFO.Work Profile' | translate }}</ion-item>  
+  <ion-item button [routerLink]="['/appraisal/']" lines="none" detail="true">{{ 'USER INFO.Appraisal Info' | translate }}</ion-item>
+  <ion-item button (click)="logout()" lines="none" detail="true"> {{ 'SIDE-MENU.Logout' | translate }}</ion-item>
+</ion-list>
+</ion-content> 
