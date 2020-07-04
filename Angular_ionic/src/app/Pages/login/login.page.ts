@@ -2,11 +2,12 @@ import { AuthServerProvider } from './../../services/auth/auth-jwt.service';
 import { Router } from '@angular/router';
 import { Account } from 'src/model/account.model';
 import { Component, OnInit } from '@angular/core';
-import { NavController, ToastController } from '@ionic/angular';
+import { NavController, ToastController, AlertController } from '@ionic/angular';
 import { LoginService } from 'src/app/services/login/login.service';
 import { AccountService } from 'src/app/services/auth/account.service';
 import { LanguagePopoverPage } from './../language-popover/language-popover.page';
 import { PopoverController } from '@ionic/angular';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -19,10 +20,6 @@ export class LoginPage implements OnInit {
     username: '',
     password: '',
   };
-
-  // Our translated text strings
-  private loginErrorString: string;
-  
   constructor(
     public loginService: LoginService,
     public toastController: ToastController,
@@ -30,7 +27,9 @@ export class LoginPage implements OnInit {
     private accountService: AccountService,
     private router: Router,
     private authServerProvider: AuthServerProvider,
-    private popoverCtrl: PopoverController
+    private popoverCtrl: PopoverController,
+    public translate: TranslateService,
+    private alert: AlertController
   ) {}
 
   ngOnInit() {}
@@ -54,18 +53,24 @@ export class LoginPage implements OnInit {
         });
       },
       async (err) => {
-        // Unable to log in
-        this.user.password = '';
-        const toast = await this.toastController.create({
-          message: this.loginErrorString,
-          duration: 3000,
-          position: 'top',
+        const alertPrompt = await this.alert.create({
+          cssClass: 'my-custom-class',
+          header: this.translate.instant('LOGIN-ALERT.header'),
+          message: this.translate.instant('LOGIN-ALERT.message'),
+          buttons: [this.translate.instant('ALERT.OK')]
         });
-        toast.present();
-      }
-    );
+        await alertPrompt.present();
+      });
   }
-  private goBackToHomePage(): void {
+  private async goBackToHomePage(): Promise<any>
+  {
+    const alertPrompt = await this.alert.create({
+      cssClass: 'my-custom-class',
+      header: this.translate.instant('LOGIN-ALERT.header'),
+      message: this.translate.instant('LOGIN-ALERT.message'),
+      buttons: [this.translate.instant('ALERT.OK')]
+    });
+    await alertPrompt.present();
     this.navController.navigateBack('/login');
   }
   getRole(account)

@@ -3,6 +3,7 @@ import { AuthServerProvider } from './../../services/auth/auth-jwt.service';
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { LoginService } from 'src/app/services/login/login.service';
 
 @Component({
   selector: 'app-menu',
@@ -29,8 +30,11 @@ export class MenuPage implements OnInit {
     },
   ];
   selectedPath = '';
-  constructor(private router: Router, private authServerProvider: AuthServerProvider,
-              private popoverCtrl: PopoverController, private translate: TranslateService) {
+  constructor(private router: Router,
+              private authServerProvider: AuthServerProvider,
+              private popoverCtrl: PopoverController,
+              private translate: TranslateService,
+              private loginService: LoginService) {
      this.router.events.subscribe((event: RouterEvent) => {
        if (event && event.url){
          this.selectedPath = event.url;
@@ -43,7 +47,7 @@ export class MenuPage implements OnInit {
   }
   logout()
   {
-    this.authServerProvider.logout();
+    this.loginService.logout();
   }
 
 }

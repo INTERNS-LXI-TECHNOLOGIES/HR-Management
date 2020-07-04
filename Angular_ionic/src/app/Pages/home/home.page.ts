@@ -19,10 +19,14 @@ import { AlertController } from '@ionic/angular';
 // tslint:disable-next-line: component-class-suffix
 export class HomePage implements OnInit {
   id;
-  constructor(private appservice: AppraisalService, private router: Router, private httpClient: HttpClient,
-              private userService: UserService, private route: ActivatedRoute,
+  constructor(private appservice: AppraisalService,
+              private router: Router,
+              private httpClient: HttpClient,
+              private userService: UserService,
+              private route: ActivatedRoute,
               private themeService: ThemeService,
-              private loginService: LoginService, private appCntl: AppraisalControllerResourceService,
+              private loginService: LoginService,
+              private appCntl: AppraisalControllerResourceService,
               private alert: AlertController, ){  }
   // users: Observable <userViewModel> = this.appservice.getUsers('http://localhost:8080/api/users/');
   users: Observable <UserDTO[]> = this.appCntl.getAllUserUsingGET();
@@ -82,11 +86,6 @@ export class HomePage implements OnInit {
     this.router.navigate(['user-info', id]);
 
   }
-  signout()
-  {
-    this.loginService.logout();
-  }
-
   onChangeToggle(ev: CustomEvent) {
     this.themeService.enableDarkMode(ev.detail.checked);
   }

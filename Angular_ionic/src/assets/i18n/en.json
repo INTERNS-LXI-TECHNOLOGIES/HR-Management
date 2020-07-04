@@ -132,6 +132,10 @@
         "OK": "OK",
         "Cancel": "Cancel"
     },
+    "LOGIN-ALERT":{
+        "header": "Error in login",
+        "message": "Username or password is incorrect"
+    },
     "ADD-ALERT":{
         "header": "Success",
         "message": "addition of new user completed successfully"

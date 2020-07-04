@@ -66,7 +66,6 @@ export class LeavePage implements OnInit {
         buttons: [this.translate.instant('ALERT.OK')]
       });
       await alertPrompt.present();
-      //alert("Leave Updation failed"+console.error() );
     });
   }
 }
